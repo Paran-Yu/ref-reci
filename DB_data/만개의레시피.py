@@ -1,0 +1,210 @@
+import time
+from bs4 import BeautifulSoup
+from konlpy.tag import Twitter
+import os
+import pymysql
+from selenium import webdriver
+import pandas as pd
+from selenium.webdriver.common.keys import Keys
+
+
+class recipe_craw():
+    def __init__(self, detail_ingre=True, step_image=False):
+        self.detail_ingre = detail_ingre
+        self.step_image = step_image
+        self.recipe_list = dict()
+        self.img_num = 0
+        self.db = pymysql.connect(
+            user='root',
+            passwd='1234',
+            host='127.0.0.1',
+            db='refrigerator',
+            charset='utf8'
+        )
+
+    def Add_recipe(self, element):
+        self.img_num += 0.001
+        # title로 dict생성 및 클릭
+        title = element.text
+        print(title)
+        self.recipe_list[title] = dict()
+        element.click()
+
+        # 대표 이미지 url저장
+        #noti:--> url 말고 다운 받는걸로 갈까요? DB에 저장하기에 편한게 url일거같아서 이렇게 했는데 다른 의견주시면 그대로 하겠습니다.
+        self.recipe_list[title]['title_image'] = driver.find_element_by_css_selector('#main_thumbs').get_attribute('src')
+
+        # 재료 부분 (옵션으로 재료 세부사항 저장 가능함)
+        self.recipe_list[title]['ingredient'] = dict()
+
+        tmp = driver.find_elements_by_css_selector('#divConfirmedMaterialArea > ul')
+        if self.detail_ingre:
+            self.recipe_list[title]['ingredient']['필수재료'] = dict()
+            self.recipe_list[title]['ingredient']['선택재료'] = dict()
+
+        for t in tmp:
+            d_ingre_title = t.find_element_by_css_selector('b').text
+
+            de_ingre = []
+            try:
+                de_ingre += t.find_elements_by_css_selector('li')
+            except:
+                pass
+
+            try:
+                de_ingre += t.find_elements_by_css_selector('a > li')
+            except:
+                pass
+
+            if self.detail_ingre:  # 구조 : 재료 :{필수재료:{닭:2마리, 대파:1대...}, 선택재료:{...}}
+                if d_ingre_title[1:-1] == '필수재료':
+                    cate = '필수재료'
+                else:
+                    cate = '선택재료'
+
+                for d in de_ingre:
+                    dl = d.text.split('\n')
+                    self.recipe_list[title]['ingredient'][cate][dl[0]] = dl[1]
+
+            else:  # 구조 재료 : {닭:2마리, 대파:1대, 마늘:3개...}
+                for d in de_ingre:
+                    dl = d.text.split('\n')
+                    self.recipe_list[title]['ingredient'][dl[0]] = dl[1]
+
+
+        # servings(0인분), time(걸리는 시간)
+        summary = driver.find_elements_by_css_selector('#contents_area > div.view2_summary.st3 > div.view2_summary_info > span')
+        self.recipe_list[title]['servings'] = summary[0].text[:-2]
+        self.recipe_list[title]['time'] = summary[1].text
+
+        # 단계 (옵션으로 단계별 이미지 url 저장할 수 있음)
+        if self.step_image:
+            self.recipe_list[title]['step'] = dict() # 구조 step: {1:["~~한다.", url1], 2:["~~한다.", url2], ...}
+            pass
+        else:
+            self.recipe_list[title]['step'] = []  # 구조 step: ["~~한다.", "~~한다.", ...]
+            steps = 1
+            while True:
+                try:
+                    tmp = driver.find_element_by_css_selector('#stepdescr{}'.format(steps))
+                    step_str = tmp.text
+                    self.recipe_list[title]['step'].append(step_str)
+                    self.recipe_list[title]['title_image'] = driver.find_element_by_css_selector(
+                        '#stepimg{} > img'.format(steps)).get_attribute('src')
+
+                    self.recipe_list[title]['sub_title'] = driver.find_element_by_css_selector('#recipeIntro').text[:-16]
+                    steps += 1
+                except:
+                    break
+
+        # 이미지 저장
+        image_name = "{}.jpg".format(str(self.img_num).replace(".",""))
+        os.system("curl " + self.recipe_list[title]['title_image'] + " > " + image_name)
+        self.change_save_sql(title, image_name)
+        print(self.recipe_list[title]['title_image'])
+        print(self.recipe_list[title]['ingredient'])
+        print(self.recipe_list[title]['step'])
+
+        return element
+
+    def change_save_sql(self, title, image_name):
+        # text에 넣을 SQL문 작성
+        f = open('recipe_sql.txt','a')
+        cursor = self.db.cursor(pymysql.cursors.DictCursor)
+        recipe_sql = ("INSERT INTO recipe(rID, recipeName, recipeIntroduce, recipeType, recipeAmount, recipeImage, recipeTime) " +
+                "VALUES('{}', '{}', {}, {}, '{}', '{}');".format(title, self.recipe_list[title]['sub_title'],
+                        '', self.recipe_list[title]['servings'], image_name, self.recipe_list[title]['time']))
+        cursor.execute(recipe_sql)
+
+        recipeID_sql = "SELECT rID FROM `recipe` WHERE recipeName={};".format(title)
+        cursor.execute(recipeID_sql)
+
+        result = cursor.fetchall()
+
+        ingredient_sql = "SELECT iID FROM `ingredient` WHERE ingredientName={};".format(title)
+        for k, v in self.recipe_list[title]['ingredient']['필수재료'].items():
+            # 재료에 이미 있는지 확인
+            f.write("INSERT " +
+                    "INTO Ingredient(ingredientName, ingredientImage) " +
+                    "VALUES('{}', '{}');"
+                    .format(k, ''))
+            f.write("INSERT " +
+                    "INTO recipeIngredient(rID, iID, ingredientAmount) " +
+                    "VALUES({}, '{}', '{}');"
+                    .format(1, 1, v))
+
+        for k,v in self.recipe_list[title]['ingredient']['선택재료'].items():
+            f.write("INSERT " +
+                    "INTO Ingredient(ingredientName, ingredientImage) " +
+                    "VALUES('{}', '{}');"
+                    .format(k, ''))
+            f.write("INSERT " +
+                    "INTO recipeIngredient(rID, iID, ingredientAmount) " +
+                    "VALUES({}, '{}', '{}');"
+                    .format(1, 1, v))
+        # INSERT INTO testtable(name, phone) VALUES('Andy', '010-1234-5678');
+        pass
+
+if __name__=='__main__':
+    # 파일 초기화
+    f = open('recipe_sql.txt','w')
+    f.close()
+
+    # 크롤링할 url 주소
+    bookname = "레시피"
+    url = "https://www.10000recipe.com/index.html/"
+    # 다운로드 받은 driver 주소
+    DRIVER_DIR = 'C:/Ddrive/chromedriver/chromedriver'
+    # 크롬 드라이버를 이용해 임의로 크롬 브라우저를 실행시켜 조작한다.
+    driver = webdriver.Chrome(DRIVER_DIR)
+    # 암묵적으로 웹 자원을 (최대) 5초 기다리기
+    driver.implicitly_wait(2)
+    # 크롬 브라우저가 실행되며 해당 url로 이동한다.
+    driver.get(url)
+
+    # 하이퍼 파라미터 정의
+    # min_page : 시작 페이지     max_page : 끝 페이지(크롤링 범위) 적어도 2이상
+    min_page = 1
+    max_page = 3
+
+    # 들어갈려는 카테고리
+    cate = driver.find_element_by_css_selector('#CarrouselBox2 > dt > h3 > a').text
+    print("test:", cate)
+
+    # 더보기 들어가기
+    driver.find_element_by_css_selector('#CarrouselBox2 > dt > div > a').click()
+
+    recipes = recipe_craw()
+
+    for i in range(min_page, max_page):
+        cur_url = driver.current_url
+        # tmp_list = driver.find_elements_by_css_selector('#contents_area_full > div.chef_cont > div > div > a')
+        # #contents_area_full > div.chef_cont > div > div > a:nth-child(2)
+        for big in range(1, 17):
+            t = driver.find_element_by_css_selector('#contents_area_full > div.chef_cont > div > div > a:nth-child({})'.format(big))
+            t.click()
+            count = 1
+            while True:
+                try:
+                    element = driver.find_element_by_css_selector('#stepdescr{} > p > a'.format(count))
+                    element = recipes.Add_recipe(element)
+                    driver.back()
+                    driver.back()
+                    driver.back()
+                    print('back')
+                    time.sleep(2)
+                    count += 1
+                except:
+                    break
+
+            driver.get(cur_url)
+            print('back2')
+            time.sleep(3)
+            print("ok")
+        next_page = '#contents_area_full > div.chef_cont > div > div > nav > ul > li:nth-child({}) > a'.format(i + 1)
+        driver.find_element_by_css_selector(next_page).click()
+
+    print("완성")
+    # 드라이버를 종료한다.
+    driver.close()
+    # file1.close()
