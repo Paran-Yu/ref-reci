@@ -13,9 +13,9 @@
 
 ## 디바이스 구조
 ### 세로형
-![세로형](./img/vertical.jpg)
+![세로형](./img/vertical.JPG)
 ### 가로형
-![기로형](./img/horizontal.jpg)
+![기로형](./img/horizontal.JPG)
 
 ## GUI 설계
 ### 자료 분석 및 와이어 프레임
