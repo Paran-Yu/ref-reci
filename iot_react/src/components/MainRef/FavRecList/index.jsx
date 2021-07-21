@@ -1,22 +1,52 @@
 import React, { useState, useEffect, } from 'react';
-import { Grid, GridList } from '@material-ui/core';
+import { Grid, GridList, makeStyles } from '@material-ui/core';
 import FavDt from './dump.json';
-const useGetdata = (value) => {
+import FavItem from '../FavItem';
+
+const useGetdata = () => {
     const [favItemDatas, setFavItemDatas] = useState([]);
     const getDatas = async () => {
         setFavItemDatas(FavDt);
     }
     useEffect(() => {
         getDatas();
-    }, [value]);
+    }, []);
+    return favItemDatas;
 }
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    control: {
+        padding: theme.spacing(2),
+    },
+}));
+
+
+
+
 const FavRecList = () => {
+    const Favs = useGetdata();
+    const classes = useStyles();
+    const len = Favs.length;
+    console.log(len)
     return (
-        <Grid container>
+        <Grid container
+            className={classes.root}
+            justifyContent="center" >
             <GridList
-                cols={3}
-                cellHeight={'auto'}>
-                <p>sdf</p>
+                cellHeight={'auto'}
+                cols={len}
+                spacing={2}
+            >
+                {Favs.map((dt, idx) => (
+                    <Grid key={idx} item>
+                        <FavItem
+                            dt={dt}
+                            idx={idx}
+                        />
+                    </Grid>
+                ))}
             </GridList>
         </Grid>
     )
