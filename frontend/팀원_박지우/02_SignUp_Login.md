@@ -4,7 +4,7 @@
 
 ### 미리보기
 
-![preview](./02_SignUp_Login.assets/screenshot.png)
+![preview](./02_SignUp&Login.assets/screenshot.png)
 
 (냉장고 이미지는 샘플입니다.)
 
