@@ -4,7 +4,7 @@
 
 ### 미리보기
 
-![Screen Shot 2021-07-21 at 23.29.24](./02_SignUp&Login.assets/Screen Shot 2021-07-21 at 23.29.24.png)
+![Screen Shot 2021-07-21 at 23.29.24](./02_SignUp&Login.assets/screenshot.png)
 
 (냉장고 이미지는 샘플입니다.)
 
