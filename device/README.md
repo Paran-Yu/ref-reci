@@ -25,6 +25,11 @@
 <br>
 
 ### 디자인 시안
+
+#### Adobe XD 프로젝트 링크
+[링크](https://xd.adobe.com/view/8ab65ba3-8177-4c12-ba21-b48995c79959-dfe5/)
+<br>
+
 #### 세로형
 ![세로형메인1](./img/v-start1.png)
 ![세로형메인2](./img/v-start2.png)
