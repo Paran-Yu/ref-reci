@@ -5,6 +5,7 @@ from PIL import Image
 import os
 import pymysql
 from selenium import webdriver
+from math import floor
 import pandas as pd
 from selenium.webdriver.common.keys import Keys
 
@@ -16,15 +17,19 @@ class recipe_craw():
         self.recipe_list = dict()
         self.img_num = 0
         self.db = pymysql.connect(
-            user='root',
-            passwd='1234',
-            host='127.0.0.1',
-            db='refrigerator',
-            charset='utf8'
+            user='user',
+            passwd='a203!',
+            host='i5a203.p.ssafy.io',
+            db='project',
+            charset='utf8',
+            port=3306
         )
 
     def Add_recipe(self, element, count):
-        self.img_num += 0.001
+        self.img_num += 1
+        image_num = str(self.img_num)
+        while len(image_num) != 4:
+            image_num = "0" + image_num
         # title로 dict생성 및 클릭
         title = element.text
         print(title)
@@ -94,7 +99,7 @@ class recipe_craw():
                         'src')
 
                     # 이미지 저장
-                    image_name = "images/{}.jpg".format(str(int(self.img_num*10000)) + "_" + str(steps))
+                    image_name = "images/{}.jpg".format(image_num + "_" + str(steps))
                     os.system("curl " + phase_img + " > " + image_name)
 
                     im = Image.open(image_name)  # 이미지 불러오기
@@ -119,35 +124,35 @@ class recipe_craw():
                     break
 
         # 이미지 저장
-        image_name = "images/{}.jpg".format(str(int(self.img_num*10000)))
+        image_name = "images/{}.jpg".format(image_num)
         os.system("curl " + self.recipe_list[title]['title_image'] + " > " + image_name)
 
         im = Image.open(image_name)  # 이미지 불러오기
         im = im.crop((100, 0, 1300, 744))
         im.save(image_name)  # 이미지 다른 이름으로 저장
         # im.show()  # 이미지 보여주기
-        self.change_save_sql(title, image_name)
+        self.change_save_sql(title, image_num)
         print(self.recipe_list[title]['title_image'])
         print(self.recipe_list[title]['ingredient'])
         print(self.recipe_list[title]['step'])
 
         return element
 
-    def change_save_sql(self, title, image_name):
+    def change_save_sql(self, title, image_num):
         print("DB insert start")
         cursor = self.db.cursor()
 
         # 레시피 기본 DB입력
         self.recipe_list[title]['sub_title'] = self.recipe_list[title]['sub_title'].replace("\n", "")
-        recipe_sql = "INSERT INTO recipe(recipeName, recipeIntroduce, recipeAmount, recipeImage, recipeTime) " \
+        recipe_sql = "INSERT INTO Recipe(recipeName, recipeIntroduce, recipeAmount, recipeImage, recipeTime) " \
                      "VALUES(%s, %s, %s, %s, %s);"
 
         cursor.execute(recipe_sql, (title, self.recipe_list[title]['sub_title'],
-                                    int(self.recipe_list[title]['servings']), image_name.split("/")[1],
+                                    int(self.recipe_list[title]['servings']), image_num+".jpg",
                                     self.recipe_list[title]['time']))
         self.db.commit()
 
-        recipeID_sql = "SELECT rID FROM `recipe` WHERE recipeName=%s;"
+        recipeID_sql = "SELECT rID FROM Recipe WHERE recipeName=%s;"
         cursor.execute(recipeID_sql, title)
 
         result = cursor.fetchall()
@@ -159,7 +164,7 @@ class recipe_craw():
         while True:
             try:
                 self.recipe_list[title]['step'][steps][0].replace("\n", "")
-                phase_sql = ("INSERT INTO recipephase(rID, recipephaseIntroduce, recipephaseImage) " +
+                phase_sql = ("INSERT INTO RecipePhase(rID, recipephaseIntroduce, recipephaseImage) " +
                              "VALUES({}, '{}', '{}');".format(recipeID, self.recipe_list[title]['step'][steps][0],
                                                               self.recipe_list[title]['step'][steps][1]))
                 cursor.execute(phase_sql)
@@ -172,7 +177,7 @@ class recipe_craw():
         for k, v in self.recipe_list[title]['ingredient']['필수재료'].items():
             print(k,v)
             # 재료에 이미 있는지 확인
-            ingredient_check = "SELECT COUNT(*) FROM ingredient WHERE ingredientName='{}';".format(k)
+            ingredient_check = "SELECT COUNT(*) FROM Ingredient WHERE ingredientName='{}';".format(k)
             cursor.execute(ingredient_check)
 
             if cursor.fetchall()[0][0] == 0:
@@ -181,17 +186,17 @@ class recipe_craw():
                 self.db.commit()
 
             # 재료 iID검색
-            ingredient_sql = "SELECT iID FROM ingredient WHERE ingredientName='{}';".format(k)
+            ingredient_sql = "SELECT iID FROM Ingredient WHERE ingredientName='{}';".format(k)
             cursor.execute(ingredient_sql)
             ingredient_id = cursor.fetchall()[0][0]
 
-            cursor.execute("INSERT INTO recipeIngredient(rID, iID, ingredientAmount) VALUES({}, {}, '{}');"
+            cursor.execute("INSERT INTO RecipeIngredient(rID, iID, ingredientAmount) VALUES({}, {}, '{}');"
                            .format(recipeID, ingredient_id, v))
             self.db.commit()
 
         for k, v in self.recipe_list[title]['ingredient']['선택재료'].items():
             # 재료에 이미 있는지 확인
-            ingredient_check = "SELECT COUNT(*) FROM ingredient WHERE ingredientName='{}';".format(k)
+            ingredient_check = "SELECT COUNT(*) FROM Ingredient WHERE ingredientName='{}';".format(k)
             cursor.execute(ingredient_check)
 
             if cursor.fetchall()[0][0] == 0:
@@ -200,11 +205,11 @@ class recipe_craw():
                 self.db.commit()
 
             # 재료 iID검색
-            ingredient_sql = "SELECT iID FROM ingredient WHERE ingredientName='{}';".format(k)
+            ingredient_sql = "SELECT iID FROM Ingredient WHERE ingredientName='{}';".format(k)
             cursor.execute(ingredient_sql)
             ingredient_id = cursor.fetchall()[0][0]
 
-            cursor.execute("INSERT INTO recipeIngredient(rID, iID, ingredientAmount) VALUES({}, {}, '{}');"
+            cursor.execute("INSERT INTO RecipeIngredient(rID, iID, ingredientAmount) VALUES({}, {}, '{}');"
                            .format(recipeID, ingredient_id, v))
         self.db.commit()
 
@@ -240,11 +245,14 @@ if __name__ == '__main__':
 
     recipes = recipe_craw(detail_ingre=True, step_image=True)
 
-    for i in range(min_page, max_page):
+    for i in range(min_page, max_page + 1):
         cur_url = driver.current_url
+        if i!=1:
+            next_page = '#contents_area_full > div.chef_cont > div > div > nav > ul > li:nth-child({}) > a'.format(i)
+            driver.find_element_by_css_selector(next_page).click()
         # tmp_list = driver.find_elements_by_css_selector('#contents_area_full > div.chef_cont > div > div > a')
         # #contents_area_full > div.chef_cont > div > div > a:nth-child(2)
-        for big in range(1, 17):
+        for big in range(1, 21):
             t = driver.find_element_by_css_selector(
                 '#contents_area_full > div.chef_cont > div > div > a:nth-child({})'.format(big))
             t.click()
@@ -257,7 +265,7 @@ if __name__ == '__main__':
 
                     driver.get(cur_detail_url)
                     print('back')
-                    time.sleep(2)
+                    time.sleep(3)
                     count += 1
                 except Exception:
                     print(Exception)
@@ -267,8 +275,7 @@ if __name__ == '__main__':
             print('back2')
             time.sleep(3)
             print("ok")
-        next_page = '#contents_area_full > div.chef_cont > div > div > nav > ul > li:nth-child({}) > a'.format(i + 1)
-        driver.find_element_by_css_selector(next_page).click()
+
 
     recipes.db.close()
     print("완성")
