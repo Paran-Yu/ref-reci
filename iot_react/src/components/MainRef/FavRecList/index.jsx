@@ -1,7 +1,8 @@
 import React, { useState, useEffect, } from 'react';
-import { Grid, GridList, makeStyles } from '@material-ui/core';
+import { GridList, makeStyles, GridListTile } from '@material-ui/core';
 import FavDt from './dump.json';
 import FavItem from '../FavItem';
+import { useNowCols } from '../../../common/MediaQueryHooks';
 
 const useGetdata = () => {
     const [favItemDatas, setFavItemDatas] = useState([]);
@@ -15,11 +16,18 @@ const useGetdata = () => {
 }
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        display: 'flex',
+        wrap: 'nowrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
     },
-    control: {
-        padding: theme.spacing(2),
+    gridList: {
+        flexWrap: 'nowrap',
+        padding: 20
     },
+    grid: {
+        width: '30wh'
+    }
 }));
 
 
@@ -28,27 +36,21 @@ const useStyles = makeStyles((theme) => ({
 const FavRecList = () => {
     const Favs = useGetdata();
     const classes = useStyles();
-    const len = Favs.length;
-    console.log(len)
+    const len = useNowCols();
     return (
-        <Grid container
-            className={classes.root}
-            justifyContent="center" >
-            <GridList
-                cellHeight={'auto'}
-                cols={len}
-                spacing={2}
-            >
+        <div className={classes.root}>
+            <GridList className={classes.gridList} cols={Number.isInteger(len) ? len : 1}>
                 {Favs.map((dt, idx) => (
-                    <Grid key={idx} item>
+                    <GridListTile key={idx} className={classes.grid}>
                         <FavItem
                             dt={dt}
                             idx={idx}
                         />
-                    </Grid>
+                    </GridListTile>
                 ))}
             </GridList>
-        </Grid>
+
+        </div>
     )
 }
 
