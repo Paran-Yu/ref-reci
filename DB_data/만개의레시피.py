@@ -15,7 +15,7 @@ class recipe_craw():
         self.detail_ingre = detail_ingre
         self.step_image = step_image
         self.recipe_list = dict()
-        self.img_num = 0
+        self.img_num = 408
         self.db = pymysql.connect(
             user='user',
             passwd='a203!',
@@ -139,9 +139,17 @@ class recipe_craw():
         return element
 
     def change_save_sql(self, title, image_num):
-        print("DB insert start")
-        cursor = self.db.cursor()
 
+        cursor = self.db.cursor()
+        title_sql = "SELECT recipeName FROM Recipe WHERE recipeName=%s;"
+        cursor.execute(title_sql, title)
+        result = cursor.fetchall()
+        try:
+            if title == result[0][0]:
+                print("DB exist")
+                return 0
+        except:
+            print("DB insert start")
         # 레시피 기본 DB입력
         self.recipe_list[title]['sub_title'] = self.recipe_list[title]['sub_title'].replace("\n", "")
         recipe_sql = "INSERT INTO Recipe(recipeName, recipeIntroduce, recipeAmount, recipeImage, recipeTime) " \
@@ -233,8 +241,8 @@ if __name__ == '__main__':
 
     # 하이퍼 파라미터 정의
     # min_page : 시작 페이지     max_page : 끝 페이지(크롤링 범위) 적어도 2이상
-    min_page = 1
-    max_page = 3
+    min_page = 2
+    max_page = 8
 
     # 들어갈려는 카테고리
     cate = driver.find_element_by_css_selector('#CarrouselBox2 > dt > h3 > a').text
@@ -244,10 +252,13 @@ if __name__ == '__main__':
     driver.find_element_by_css_selector('#CarrouselBox2 > dt > div > a').click()
 
     recipes = recipe_craw(detail_ingre=True, step_image=True)
-
+    # noti: 이거 지우면 기존 코드
+    # driver.get("https://www.10000recipe.com/issue/view.html?cid=9999scrap&types=issue")
+    # time.sleep(3)
     for i in range(min_page, max_page + 1):
         cur_url = driver.current_url
-        if i!=1:
+        if i != 1:
+            # #contents_area_full > div.chef_cont > div > div > nav > ul > li:nth-child(2) > a
             next_page = '#contents_area_full > div.chef_cont > div > div > nav > ul > li:nth-child({}) > a'.format(i)
             driver.find_element_by_css_selector(next_page).click()
         # tmp_list = driver.find_elements_by_css_selector('#contents_area_full > div.chef_cont > div > div > a')
@@ -264,15 +275,15 @@ if __name__ == '__main__':
                     element = recipes.Add_recipe(element, count)
 
                     driver.get(cur_detail_url)
-                    print('back')
+                    print("back",cur_detail_url)
                     time.sleep(3)
                     count += 1
                 except Exception:
                     print(Exception)
                     break
 
-            driver.get(cur_url)
-            print('back2')
+            driver.get(cur_url+"&page=" + str(i))
+            print(cur_url+"&page=" + str(i))
             time.sleep(3)
             print("ok")
 

@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,react,node
 ###제외 파일
 DB_data/images/
+DB_data/data/
 
 ### Node ###
 # Logs
