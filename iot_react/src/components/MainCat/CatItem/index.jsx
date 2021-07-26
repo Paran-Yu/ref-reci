@@ -5,18 +5,22 @@ const useStyles = makeStyles((theme) => ({
     catIt: {
         width: '100%',
         height: '100%',
-        color: "red",
-        textUnderlineOffset: ""
+        color: 'black'
     }
 
 }))
-
 
 const CatItem = (props) => {
     const { dt, idx } = props;
     const st = useStyles();
     return (
-        <Link to="/stuff" className="links">
+        <Link to={{
+            pathname: '/stuff',
+            state: {
+                catName: dt.CatName
+            }
+        }}
+            style={{ textDecoration: "none" }}>
             <ButtonBase className={st.catIt}>
                 {dt.CatName}
             </ButtonBase>
