@@ -62,7 +62,7 @@ app.post("/add", async (req, res) => {
   }
 });
 
-app.get("/callback", async (req, res) => {
+app.get("/callback/github", async (req, res) => {
   const requestToken = req.query.code;
 
   try {
