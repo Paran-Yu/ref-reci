@@ -1,0 +1,1384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>725</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#ffffff;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>0</y>
+      <width>1289</width>
+      <height>94</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 40pt &quot;MunhwajaeDolbom Bold&quot;;
+color: #F19920;
+background-color: rgba(0,0,0,00)</string>
+    </property>
+    <property name="text">
+     <string>재료 선택</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>32</x>
+      <y>8</y>
+      <width>81</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #ffffff;
+border: 0px;
+border-radius: 27px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normalon>img/search.png</normalon>
+     </iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>42</width>
+      <height>42</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>112</y>
+      <width>192</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #F19920;
+background-color: rgba(0,0,0,0);
+border: 2px solid #F19920;
+border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string>전체</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>232</x>
+      <y>112</y>
+      <width>192</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #A29D97;
+background-color: rgba(0,0,0,0);
+border: 2px solid #A29D97;
+border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string>채소</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>112</y>
+      <width>192</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #A29D97;
+background-color: rgba(0,0,0,0);
+border: 2px solid #A29D97;
+border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string>육류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_6">
+    <property name="geometry">
+     <rect>
+      <x>648</x>
+      <y>112</y>
+      <width>192</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #A29D97;
+background-color: rgba(0,0,0,0);
+border: 2px solid #A29D97;
+border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string>어패류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_7">
+    <property name="geometry">
+     <rect>
+      <x>856</x>
+      <y>112</y>
+      <width>192</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #A29D97;
+background-color: rgba(0,0,0,0);
+border: 2px solid #A29D97;
+border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string>계란·유제품</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>1064</x>
+      <y>112</y>
+      <width>192</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #A29D97;
+background-color: rgba(0,0,0,0);
+border: 2px solid #A29D97;
+border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string>기타</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_10">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>272</y>
+      <width>248</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(img/onion.png);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>336</y>
+      <width>73</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>채소류</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>504</x>
+      <y>344</y>
+      <width>73</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>288</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+background-color: rgba(0,0,0,0);
+color: #45423C;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>408</y>
+      <width>105</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #ffffff;
+text-align: center;
+width: 120px;
+height: 40px;
+padding-top: 2px;
+background-color: #8DB554;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>D+3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_11">
+    <property name="geometry">
+     <rect>
+      <x>464</x>
+      <y>352</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_12">
+    <property name="geometry">
+     <rect>
+      <x>576</x>
+      <y>352</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_13">
+    <property name="geometry">
+     <rect>
+      <x>272</x>
+      <y>272</y>
+      <width>360</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #F2EDE7;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_14">
+    <property name="geometry">
+     <rect>
+      <x>32</x>
+      <y>280</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>616</y>
+      <width>105</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #ffffff;
+text-align: center;
+width: 120px;
+height: 40px;
+padding-top: 2px;
+background-color: #8DB554;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>D+3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>544</y>
+      <width>73</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>채소류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_15">
+    <property name="geometry">
+     <rect>
+      <x>272</x>
+      <y>480</y>
+      <width>360</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #F2EDE7;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_16">
+    <property name="geometry">
+     <rect>
+      <x>464</x>
+      <y>560</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>504</x>
+      <y>552</y>
+      <width>73</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_17">
+    <property name="geometry">
+     <rect>
+      <x>32</x>
+      <y>488</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_18">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>480</y>
+      <width>248</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(img/onion.png);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>496</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+background-color: rgba(0,0,0,0);
+color: #45423C;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_19">
+    <property name="geometry">
+     <rect>
+      <x>576</x>
+      <y>560</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>408</y>
+      <width>105</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #ffffff;
+text-align: center;
+width: 120px;
+height: 40px;
+padding-top: 2px;
+background-color: #8DB554;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>D+3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>336</y>
+      <width>73</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>채소류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_20">
+    <property name="geometry">
+     <rect>
+      <x>896</x>
+      <y>272</y>
+      <width>360</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #F2EDE7;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_21">
+    <property name="geometry">
+     <rect>
+      <x>1088</x>
+      <y>352</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>1128</x>
+      <y>344</y>
+      <width>73</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_22">
+    <property name="geometry">
+     <rect>
+      <x>656</x>
+      <y>280</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_23">
+    <property name="geometry">
+     <rect>
+      <x>648</x>
+      <y>272</y>
+      <width>248</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(img/onion.png);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>288</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+background-color: rgba(0,0,0,0);
+color: #45423C;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_24">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>352</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>616</y>
+      <width>105</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #ffffff;
+text-align: center;
+width: 120px;
+height: 40px;
+padding-top: 2px;
+background-color: #8DB554;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>D+3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>544</y>
+      <width>73</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>채소류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_25">
+    <property name="geometry">
+     <rect>
+      <x>896</x>
+      <y>480</y>
+      <width>360</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #F2EDE7;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_26">
+    <property name="geometry">
+     <rect>
+      <x>1088</x>
+      <y>560</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_17">
+    <property name="geometry">
+     <rect>
+      <x>1128</x>
+      <y>552</y>
+      <width>73</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_27">
+    <property name="geometry">
+     <rect>
+      <x>656</x>
+      <y>488</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_28">
+    <property name="geometry">
+     <rect>
+      <x>648</x>
+      <y>480</y>
+      <width>248</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(img/onion.png);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_18">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>496</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+background-color: rgba(0,0,0,0);
+color: #45423C;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_29">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>560</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_30">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>768</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_31">
+    <property name="geometry">
+     <rect>
+      <x>1088</x>
+      <y>768</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>824</y>
+      <width>105</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #ffffff;
+text-align: center;
+width: 120px;
+height: 40px;
+padding-top: 2px;
+background-color: #8DB554;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>D+3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_20">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>752</y>
+      <width>73</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>채소류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_32">
+    <property name="geometry">
+     <rect>
+      <x>896</x>
+      <y>688</y>
+      <width>360</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #F2EDE7;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_33">
+    <property name="geometry">
+     <rect>
+      <x>656</x>
+      <y>696</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_21">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>704</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+background-color: rgba(0,0,0,0);
+color: #45423C;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_34">
+    <property name="geometry">
+     <rect>
+      <x>648</x>
+      <y>688</y>
+      <width>248</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(img/onion.png);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_22">
+    <property name="geometry">
+     <rect>
+      <x>1128</x>
+      <y>760</y>
+      <width>73</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_35">
+    <property name="geometry">
+     <rect>
+      <x>576</x>
+      <y>768</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_36">
+    <property name="geometry">
+     <rect>
+      <x>464</x>
+      <y>768</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_23">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>824</y>
+      <width>105</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #ffffff;
+text-align: center;
+width: 120px;
+height: 40px;
+padding-top: 2px;
+background-color: #8DB554;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>D+3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_24">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>752</y>
+      <width>73</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>채소류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_37">
+    <property name="geometry">
+     <rect>
+      <x>272</x>
+      <y>688</y>
+      <width>360</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #F2EDE7;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_38">
+    <property name="geometry">
+     <rect>
+      <x>32</x>
+      <y>696</y>
+      <width>33</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_25">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>704</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+background-color: rgba(0,0,0,0);
+color: #45423C;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_39">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>688</y>
+      <width>248</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(img/onion.png);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_26">
+    <property name="geometry">
+     <rect>
+      <x>504</x>
+      <y>760</y>
+      <width>73</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 32pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_40">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>24</y>
+      <width>134</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 2px solid #F9BC15;
+border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string>레시피</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_41">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>192</y>
+      <width>120</width>
+      <height>56</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #8DB554;
+background-color: #FFFFFF;
+border: 2px solid #8DB554;
+border-radius: 26px;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_42">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>192</y>
+      <width>120</width>
+      <height>56</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #8DB554;
+background-color: #FFFFFF;
+border: 2px solid #8DB554;
+border-radius: 26px;</string>
+    </property>
+    <property name="text">
+     <string>마늘</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_43">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>192</y>
+      <width>160</width>
+      <height>56</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #8DB554;
+background-color: #FFFFFF;
+border: 2px solid #8DB554;
+border-radius: 26px;</string>
+    </property>
+    <property name="text">
+     <string>닭가슴살</string>
+    </property>
+   </widget>
+   <zorder>pushButton_37</zorder>
+   <zorder>pushButton_39</zorder>
+   <zorder>pushButton_32</zorder>
+   <zorder>pushButton_34</zorder>
+   <zorder>pushButton_25</zorder>
+   <zorder>label_18</zorder>
+   <zorder>pushButton_28</zorder>
+   <zorder>label_17</zorder>
+   <zorder>pushButton_27</zorder>
+   <zorder>label_16</zorder>
+   <zorder>label_15</zorder>
+   <zorder>pushButton_26</zorder>
+   <zorder>pushButton_29</zorder>
+   <zorder>pushButton_20</zorder>
+   <zorder>pushButton_23</zorder>
+   <zorder>pushButton_18</zorder>
+   <zorder>pushButton_15</zorder>
+   <zorder>pushButton_13</zorder>
+   <zorder>label</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>pushButton_3</zorder>
+   <zorder>pushButton_4</zorder>
+   <zorder>pushButton_5</zorder>
+   <zorder>pushButton_6</zorder>
+   <zorder>pushButton_7</zorder>
+   <zorder>pushButton_8</zorder>
+   <zorder>pushButton_10</zorder>
+   <zorder>label_4</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_3</zorder>
+   <zorder>label_5</zorder>
+   <zorder>pushButton_11</zorder>
+   <zorder>pushButton_12</zorder>
+   <zorder>pushButton_14</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
+   <zorder>pushButton_16</zorder>
+   <zorder>label_9</zorder>
+   <zorder>pushButton_17</zorder>
+   <zorder>label_10</zorder>
+   <zorder>pushButton_19</zorder>
+   <zorder>label_11</zorder>
+   <zorder>label_12</zorder>
+   <zorder>pushButton_21</zorder>
+   <zorder>label_13</zorder>
+   <zorder>pushButton_22</zorder>
+   <zorder>label_14</zorder>
+   <zorder>pushButton_24</zorder>
+   <zorder>pushButton_30</zorder>
+   <zorder>pushButton_31</zorder>
+   <zorder>label_19</zorder>
+   <zorder>label_20</zorder>
+   <zorder>pushButton_33</zorder>
+   <zorder>label_21</zorder>
+   <zorder>label_22</zorder>
+   <zorder>pushButton_35</zorder>
+   <zorder>pushButton_36</zorder>
+   <zorder>label_23</zorder>
+   <zorder>label_24</zorder>
+   <zorder>pushButton_38</zorder>
+   <zorder>label_25</zorder>
+   <zorder>label_26</zorder>
+   <zorder>pushButton_40</zorder>
+   <zorder>pushButton_41</zorder>
+   <zorder>pushButton_42</zorder>
+   <zorder>pushButton_43</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
