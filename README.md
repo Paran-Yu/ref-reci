@@ -1,4 +1,4 @@
-# 냉장고를 부탁해 :rice: (가제)
+# ref-reci[리프레시] :rice:
 
 ## 목차
 
@@ -11,7 +11,7 @@
 <br>
 
 ## 프로젝트 소개
-식재료의 바코드를 인식하여 간단하게 리스트에 등록! 유통기한이 임박한 상품을 알려주니 더이상 낭비할 필요도 없죠! 게다가 레시피 추천까지?! 당신의 식재료를 끝까지 사용하도록 우리 냉장고 지킴이가 책임집니다.
+식재료의 바코드를 인식하여 간단하게 리스트에 등록! 유통기한이 임박한 상품을 알려주니 더이상 낭비할 필요도 없죠! 게다가 레시피 추천까지?! 당신의 식재료를 끝까지 사용하도록 우리 ref-reci가 책임집니다.
 <br>
 
 ## 프로젝트 명세
@@ -44,26 +44,17 @@
 
 #### Design
 - __Framework 사용__ : X
-- __Design Tool 사용__ : Figma, Photoshop, Illustrator
+- __Design Tool 사용__ : Adobe XD, Photoshop, Illustrator
 - __담당자__ : 강리정, 강지은, 박지우
-<br>
-
-### Design Resources
-__외부 템플릿 또는 에셋__ (이미지 또는 링크 첨부)
-- 무료 이미지, 아이콘, 폰트 등은 제외
-- [Vue Argon Design System](https://www.creative-tim.com/product/vue-argon-design-system?affiliate_id=116187) (무료)
-  - __사용 기능__ : 디자인 전반 적용
-- [Vue Black Dashboard Pro](https://www.creative-tim.com/product/vue-black-dashboard-pro?affiliate_id=116187) (유료)
-  - __사용 기능__ : 캘린더 컴포넌트 사용
 <br>
 
 __자체 제작 산출물__
 - 디자인 컨셉
-![디자인 컨셉](./img/design_concept.png)
+![디자인 컨셉1](./img/컨셉최종1.png)
+![디자인 컨셉2](./img/컨셉최종2.png)
+
 - LOGO
-- CardView
-- Button
-- Calendar
+
 <br>
 
 ### 핵심 라이브러리
