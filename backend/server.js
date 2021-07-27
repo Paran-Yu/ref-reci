@@ -62,24 +62,43 @@ app.post("/add", async (req, res) => {
   }
 });
 
-app.get("/callback", async (req, res) => {
+app.get("/callback/github", async (req, res) => {
   const requestToken = req.query.code;
 
-  axios({
-    method: 'post',
-    url: `http://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}`,
-    headers: {
-      accept: 'application/json',
-    },
-  }).then((response) => {
-    const accessToken = response.data.access_token //Github가 access_token을 응답으로 줄 것이다.
-    console.log(accessToken)
-    //res.redirect(`/welcome?access_token=${accessToken}`) //그리고 이렇게 accessToken을 받은 사용자에 한해서만 welcome 페이지로 리다이렉트 된다. 
-    //그리고 welcome 페이지를 구성하는 client에서 get fetch를 통해 token및 데이터를 받아오게 된다.
-  }).catch((err) => {
-    console.error(err);
-  })
+  try {
+    const access_token = await axios({
+      method: 'post',
+      url: `http://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}`,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+
+    console.log('response.data');
+    console.log(access_token.data);
+    console.log('access_token');
+    console.log(access_token.data.access_token);
+
+    const userResponse = await axios({
+      method: 'get',
+      url: 'https://api.github.com/user',
+      headers: {
+        Authorization: `token ${access_token.data.access_token}`,
+      },
+    });
+
+    console.log('social login result:', userResponse.data);
+    console.log(`${userResponse.data.name}님 환영합니다.`)
+
+    res.redirect('/');
+  }
+
+  catch (err) {
+    console.log(err);
+  }
 });
+
+
 
 //----------------------------------
 //
