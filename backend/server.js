@@ -13,12 +13,6 @@ const axios = require('axios');
 const envJson = require(`${__dirname}/env/env.json`);
 const uploadFilePath = envJson.uploadFilePath;
 const port = envJson.port ? envJson.port : 3001;
-require('dotenv').config();
-
-const githubClientID = process.env.githubClientID;
-const githubClientSecret = process.env.githubClientSecret;
-const googleClientID = process.env.googleClientID;
-const googleClientSecret = process.env.googleClientSecret;
 
 //----------------------------------
 // middleware
@@ -41,6 +35,8 @@ const { pool } = require(`${__dirname}/mysql`)
 app.use(uploadFilePath, express.static(path.join(__dirname + uploadFilePath)));
 app.use("/base", require(`${__dirname}/routes/base/base`));
 app.use("/base/auth", require(`${__dirname}/routes/base/auth`));
+app.use("/callback", require(`${__dirname}/routes/callback/callback`));
+
 
 app.get("/", function (req, res) {
   res.send("Hello node.js");
@@ -64,8 +60,7 @@ app.post("/add", async (req, res) => {
   }
 });
 
-//----------------------------------
-//
+
 app.listen(port, () => {
   console.log(`{init : ${port}}`);
 });
