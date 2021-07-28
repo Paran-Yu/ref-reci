@@ -16,11 +16,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 const IngTask = () => {
     const [chipData, setChipData] = React.useState([
-        { key: 0, label: 'Angular' },
-        { key: 1, label: 'jQuery' },
-        { key: 2, label: 'Polymer' },
-        { key: 3, label: 'React' },
-        { key: 4, label: 'Vue.js' },
+        { key: 0, label: '2021.07.21' },
+        { key: 1, label: '2021.07.15' },
+        { key: 2, label: '2021.07.3' },
     ]);
     const handleDelete = (chipToDelete) => () => {
         setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
@@ -28,7 +26,7 @@ const IngTask = () => {
     const classes = useStyles();
     return (
         <div>
-            <p>sdfsdf</p>
+
             <Paper component="ul" className={classes.root}>
                 {chipData.map((data) => {
                     let icon;
@@ -37,7 +35,7 @@ const IngTask = () => {
                             <Chip
                                 icon={icon}
                                 label={data.label}
-                                onDelete={data.label === 'React' ? undefined : handleDelete(data)}
+                                onDelete={handleDelete(data)}
                                 className={classes.chip}
                             />
                         </li>

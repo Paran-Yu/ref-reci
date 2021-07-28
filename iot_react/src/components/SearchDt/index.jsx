@@ -3,7 +3,7 @@ import {
     Grid, IconButton, InputBase, Paper, MenuItem,
     List, ListItem, ListItemText, Menu, makeStyles
     , Radio, RadioGroup, FormControlLabel, FormLabel,
-    FormControl
+    FormControl, Button
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { FormatAlignJustify } from '@material-ui/icons';
@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    top: {
+        width: '100%',
+        alignItems: 'flex-start'
     }
 }));
 const options = [
@@ -56,42 +60,45 @@ const SearchDt = (props) => {
     };
     return (
         <Grid container>
-            <Paper className={classes.root}>
-                <List component="nav" aria-label="Device settings">
-                    <ListItem
-                        button
-                        aria-haspopup="true"
-                        aria-controls="lock-menu"
-                        onClick={handleClickListItem}
-                    >
-                        <ListItemText primary={catName} secondary={options[selectedIndex]} />
-                    </ListItem>
-                </List>
-                <Menu
-                    id="lock-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    {options.map((option, index) => (
-                        <MenuItem
-                            key={option}
-                            selected={index === selectedIndex}
-                            onClick={(event) => handleMenuItemClick(event, index)}
+            <Grid className={classes.top} >
+                <Paper className={classes.root}>
+                    <List component="nav" aria-label="Device settings">
+                        <ListItem
+                            button
+                            aria-haspopup="true"
+                            aria-controls="lock-menu"
+                            onClick={handleClickListItem}
                         >
-                            {option}
-                        </MenuItem>
-                    ))}
-                </Menu>
-                <InputBase
-                    className={classes.input}
-                    placeholder="검색어를 입력하세요"
-                />
-                <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                    <SearchIcon />
-                </IconButton>
-            </Paper>
+                            <ListItemText primary={catName} secondary={options[selectedIndex]} />
+                        </ListItem>
+                    </List>
+                    <Menu
+                        id="lock-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        {options.map((option, index) => (
+                            <MenuItem
+                                key={option}
+                                selected={index === selectedIndex}
+                                onClick={(event) => handleMenuItemClick(event, index)}
+                            >
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                    <InputBase
+                        className={classes.input}
+                        placeholder="검색어를 입력하세요"
+                    />
+                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                        <SearchIcon />
+                    </IconButton>
+
+                </Paper>
+            </Grid>
             <Grid className={classes.radi}>
                 <FormLabel component="legend">정렬 방식</FormLabel>
                 <FormControl component="fieldset"  >

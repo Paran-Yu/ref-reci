@@ -32,7 +32,10 @@ const useStyles = makeStyles((theme) => (
         },
         card: {
             height: '100%',
-            border: theme.palette.type(theme.flag) ? "1px solid black" : "2px solid red",
+        },
+        card2: {
+            height: '100%',
+            border: "2px solid red"
         }
     }))
 
@@ -49,10 +52,23 @@ const IngItem = (props) => {
         setOpen(false);
     };
 
-
+    const addDt = () => {
+        handleOpen();
+        const ex = {
+            "cnt": 0,
+            "arr": [],
+        }
+        if (flag) {
+            // props.arr.showA(props.arr.concat(dt.CatName))
+            props.showDt(props.cnt - 1);
+        } else {
+            props.showDt(props.cnt + 1);
+        }
+    }
     return (
         <div className={classes.btn}>
-            <Card onClick={handleOpen} className={classes.card}>
+            <Card onClick={addDt}
+                className={(!flag ? classes.card : classes.card2)}>
                 <CardActionArea className={classes.card}>
                     {dt.CatName}
                 </CardActionArea>
