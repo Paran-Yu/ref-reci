@@ -31,7 +31,7 @@
 <br>
 
 #### Back-end
-- __Framework__ : Node.js
+- __Framework__ : express.js
 - __Database__ : MySQL
 - __담당자__ : 맹창영, 윤익선, 이지훈
 <br>
