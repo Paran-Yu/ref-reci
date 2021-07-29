@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #ffffff;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1289</width>
+      <height>94</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 40pt &quot;MunhwajaeDolbom Bold&quot;;
+color: #F19920;
+background-color: rgba(0,0,0,00)</string>
+    </property>
+    <property name="text">
+     <string>재료 추가하기</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>144</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 28pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>채소류</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_11">
+    <property name="geometry">
+     <rect>
+      <x>784</x>
+      <y>400</y>
+      <width>80</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 56pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>928</x>
+      <y>408</y>
+      <width>73</width>
+      <height>73</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 56pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);
+</string>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>648</x>
+      <y>112</y>
+      <width>145</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 56pt &quot;KoPubWorld돋움체 Bold&quot;;
+background-color: rgba(0,0,0,0);
+color: #45423C;</string>
+    </property>
+    <property name="text">
+     <string>양파</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_12">
+    <property name="geometry">
+     <rect>
+      <x>1072</x>
+      <y>400</y>
+      <width>80</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 56pt &quot;KoPubWorld돋움체 Bold&quot;;
+color: #F9BC15;
+background-color: rgba(0,0,0,0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>656</x>
+      <y>216</y>
+      <width>97</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #A29D97;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>구매일</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>656</x>
+      <y>264</y>
+      <width>296</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 34pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>2021-07-15</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>976</x>
+      <y>216</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 24pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #A29D97;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>유통기한</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>976</x>
+      <y>264</y>
+      <width>296</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 34pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+background-color: rgba(0,0,0,0);</string>
+    </property>
+    <property name="text">
+     <string>2021-07-20</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_14">
+    <property name="geometry">
+     <rect>
+      <x>1008</x>
+      <y>616</y>
+      <width>242</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 28pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #ffffff;
+text-align: center;
+width: 120px;
+height: 40px;
+padding-top: 2px;
+background-color: #8DB554;
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string>다음</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>112</y>
+      <width>592</width>
+      <height>400</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #F2EDE7;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
