@@ -26,9 +26,9 @@
 
 ### 디자인 시안
 
-<-- #### Adobe XD 프로젝트 링크
+<!-- #### Adobe XD 프로젝트 링크
 [링크](https://xd.adobe.com/view/8ab65ba3-8177-4c12-ba21-b48995c79959-dfe5/)
-<br> -->
+ -->
 
 #### 가로형
 ![메인](./img/start.png)
