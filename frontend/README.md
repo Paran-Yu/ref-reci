@@ -1,109 +1,70 @@
-### SSAFY-WEB
+# Getting Started with Create React App
 
-###
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-#### 스켈레톤
+## Available Scripts
 
-```
-React를 사용하여 냉장고 내 물품을 쉽게 보여주기 및 관리를 하며,
-이를 활용한 레시피를 추천해주는 서비스
-```
+In the project directory, you can run:
 
-#### directory
+### `yarn start`
 
-```
-/public
-	/images
-	-Vo_icon.png
--favicon.ico
--index.html
--logo192.png
--logo512.png
--manifest.json
--index.html
-```
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-```
-/src
-	/common
-	- CommonHooks.jsx                -> key press, local storage state
-	- InfiniteScroll.jsx             -> handle infinite scroll
-	- MediaQueryHooks.jsx            -> material-ui useMediaQuery hooks
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-	/components
-		/Auth
-			/SignResponsiveDialog        -> sigin in, sigin up, recover pw
-		/Create
-			/CreateVoteComponent         -> create a vote
-			/DialogActionsComponet       -> create a vote
-			/RadioButtonsGroup           -> create a vote
-		/Feed                            -> vote feed
-		/Grid
-			/VoteGridItem                -> vote item
-			/VoteGridList                -> vote root
-			/VoteGridTitle               -> vote title
-		/Main
-			/ButtonBases                 -> category head
-			/CheckBoxButtonsGroup        -> vote options
-			/HorizontalBar               -> perceantage chart
-			/VoteDetailResponsiveDialog  -> vote result
-		/Search
-			/SearchComponent             -> search vote
-		/User
-			/ChangePassword              -> change pw
-			/MyInfo                      -> user info
-			/UserResponsiveDialog        -> user dialog root
-			/VerticalTabs                -> user dialog side nav
+### `yarn test`
 
-	/context                         -> create context
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-	/css                             -> reset css
+### `yarn build`
 
-	/layout
-		/Drawer                        -> side nav
-		/Footer                        -> footer
-		/Header                        -> head nav
-		/Layout                        -> layout root
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-	/pages
-	- Auth                       -> user
-	- AboutMe                    -> about me
-	- ContactUs                  -> contact us
-	- CreateVote                 -> create vote
-	- MainVote                   -> vote
-	- MyVote                     -> my vote
-	- NotFound                   -> 404 page
-	- SearchVote                 -> search
-	- Terms                 	 -> terms
-```
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-```
-App.js
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-```
-index.css
-```
+### `yarn eject`
 
-```
-index.js
-```
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-```
-serviceWorker.js
-```
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```
-package.json
-```
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-```
-README.md
-```
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-#### run
+## Learn More
 
-```
-npm install
-npm start
-```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `yarn build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
