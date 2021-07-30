@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# Front-End
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### 반응형 SPA Website & Web App
 
-## Available Scripts
+> 작성자: 박지우
 
-In the project directory, you can run:
+### 기능
 
-### `yarn start`
+- 회원가입 및 로그인
+- 냉장고 DB 조회 및 갱신
+  - 식품 유통기한 달력 UI로 확인
+  - 기기로 입력한 수량, 유통기한 수정 및 식재료 삭제
+  - 식재료 바구니 담기
+- 레시피 DB 조회 및 즐겨찾기
+  - 바구니에 담은 식재료를 바탕으로 한 레시피 조회
+  - 최신 순, 즐겨찾기 많은 순 레시피 조회
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
+### Wireframe & Design
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Web 1920 – 7](README.assets/Web 1920 – 7.png)
 
-### `yarn build`
+![- – 1](README.assets/- – 1.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![-reci – 4](README.assets/-reci – 4.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![-reci – 5](README.assets/-reci – 5.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![-reci – 1](README.assets/-reci – 1.png)
 
-### `yarn eject`
+![iPhone 12, 12 Pro – 2](README.assets/iPhone 12, 12 Pro – 2.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Main – 1](README.assets/Main – 1-7612687.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![iPhone 12, 12 Pro – 7](README.assets/iPhone 12, 12 Pro – 7.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 폴더 구조
 
-### Code Splitting
+```
+/public
+	favicon.io
+	index.html
+	manifest.json
+	/images (Empty)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+/src
+	/common
+	/componenents
+		/Auth
+			Signin  << 작업중
+	/context
+	/layout
+	/pages
+	App.js
+	index.js
+	index.css
+	serviceworker.js
+```
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+### 개발 Log
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+##### - 1주차 (2021-07-12 ~ 2021-07-16)
 
-### Advanced Configuration
+서비스 기획 및 컬러 세팅
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+흑백 레이아웃 목업 작성
 
-### Deployment
+담당자: 강지은, 박지우
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+![Screen Shot 2021-07-30 at 11.44.02](README.assets/Screen Shot 2021-07-30 at 11.44.02.png) 
 
-### `yarn build` fails to minify
+![Screen Shot 2021-07-30 at 11.44.15](README.assets/Screen Shot 2021-07-30 at 11.44.15.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![Screen Shot 2021-07-30 at 11.44.43](README.assets/Screen Shot 2021-07-30 at 11.44.43.png)
+
+
+
+
+
+##### - 2주차 (2021-07-19 ~ 2021-07-23)
+
+서비스 기획 수정 및 DB 일부 수정으로 인해 프론트 작업 다소 미뤄짐
+
+수정사항 반영 기간 동안 로그인, 회원가입 React 코드 작성
+
+담당자: 강지은, 박지우
+
+![Screen Shot 2021-07-30 at 11.47.41](README.assets/Screen Shot 2021-07-30 at 11.47.41.png)
+
+
+
+##### - 3주차 (2021-07-25 ~ 2021-07-30)
+
+정확한 React 코드 작성 및 PPT 발표를 위해 상세 Wireframe & Design의 필요성 대두
+
+상기 Wireframe 작성 및 PPT 제작
+
+담당자: 박지우, 강리정
+
+
+
