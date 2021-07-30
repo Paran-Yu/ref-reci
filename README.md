@@ -70,7 +70,8 @@ __자체 제작 산출물__
   - __사용 기능__ : 메인 페이지 진입 시 애니메이션 사용
   - __담당자__ : 
 
-- __google cloud API__의 speech_to_text
+
+- **google cloud API**의 speech_to_text
   - __링크__ : https://cloud.google.com/
   - __소개__ : 음성인식 라이브러리
   - __사용 기능__ : 음성인식을 하여 text로 변환
