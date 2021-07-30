@@ -54,7 +54,7 @@ __자체 제작 산출물__
 ![디자인 컨셉2](./img/최종컨셉2.png)
 
 - LOGO
-![로고](./img/logo.png)
+![로고](./img/refreci_logo.png)
 
 <br>
 
