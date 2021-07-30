@@ -10,8 +10,7 @@ python의 selenium 라이브러리를 이용해 www.10000recipe.com에서 레시
 
 #### Database
 
-![image.png](./image.png)
-
+![DB_img](/uploads/d961524c8f1a8f9134fa3ca5d3045094/DB_img.JPG)
 
 
 
