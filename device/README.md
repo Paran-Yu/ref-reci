@@ -30,18 +30,6 @@
 [링크](https://xd.adobe.com/view/8ab65ba3-8177-4c12-ba21-b48995c79959-dfe5/)
 <br>
 
-#### 세로형
-![세로형메인1](./img/v-start1.png)
-![세로형메인2](./img/v-start2.png)
-![세로형리스트1](./img/v-my refrigerator – 1.png)
-![세로형리스트2](./img/v-my refrigerator – 2.png)
-![세로형리스트3](./img/v-my refrigerator – 3.png)
-![세로형리스트4](./img/v-my refrigerator – 4.png)
-![세로형리스트5](./img/v-my refrigerator – 5.png)
-![세로형리스트6](./img/v-my refrigerator – 6.png)
-
-<br>
-
 #### 가로형
 ![가로형메인1](./img/h-start1.png)
 ![가로형메인2](./img/h-start2.png)
