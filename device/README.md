@@ -1,5 +1,5 @@
-# 냉장고를 부탁해(가제) - Device
-> 냉장고를 부탁해(가제)의 디바이스 측 소스코드
+# Ref:Reci - Device
+> Ref:Reci의 디바이스 측 소스코드
 
 
 ## 목차
@@ -26,17 +26,16 @@
 
 ### 디자인 시안
 
-#### Adobe XD 프로젝트 링크
+<-- #### Adobe XD 프로젝트 링크
 [링크](https://xd.adobe.com/view/8ab65ba3-8177-4c12-ba21-b48995c79959-dfe5/)
-<br>
+<br> -->
 
 #### 가로형
-![가로형메인1](./img/h-start1.png)
-![가로형메인2](./img/h-start2.png)
-![가로형리스트1](./img/h-my refrigerator – 1.png)
-![가로형리스트2](./img/h-my refrigerator – 2.png)
-![가로형리스트3](./img/h-my refrigerator – 3.png)
-![가로형리스트4](./img/h-my refrigerator – 4.png)
+![메인](./img/start.png)
+![리스트](./img/ref-list.png)
+![재료 추가](./img/ref-add.png)
+![선택화면](./img/ref-select.png)
+![레시피 검색](./img/recipe-list.png)
 <br>
 
 ## 폴더구조
