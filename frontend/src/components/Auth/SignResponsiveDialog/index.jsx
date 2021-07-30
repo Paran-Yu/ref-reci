@@ -50,6 +50,8 @@ const SignInSection01 = () => {
     setSignInUserData({ ...signInUserData, [name]: e.target.value });
   };
 
+
+  //로그인 버튼 눌렸을 때
   const onClickHandler = () => {
     setIsSignUp('ForgotPw');
   };
@@ -72,15 +74,12 @@ const SignInSection01 = () => {
     let respone = [];
     let hashPassword = '';
     try {
-      hashPassword = crypto
-        .createHash('sha512')
-        .update(password)
-        .digest('hex');
+      hashPassword = crypto.createHash('sha512').update(password).digest('hex');
     } catch (error) {
       return;
     }
 
-    setUser({ ...userData });
+    setUser({ ...userData }); //객체에 속한 '값'만을 들고온다
     setSignDialogOpen(false);
     setIsSignUp('SignIn');
 

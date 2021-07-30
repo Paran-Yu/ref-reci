@@ -1,14 +1,19 @@
-### SSAFY-SERVER
+### BACKEND
 
 ###
 
-#### 스켈레톤
+#### ref : reci
 
 ```
-"실시간 선호도 조사"은 투표를 통해 유저들끼리의 커뮤니티를 형성 할 수있는 가상의
-주제로써 이 프로젝트를 통해 React, Node.js, Mysql, Hw등 다양한 기술을
-접하는것을 목표로한다.
+python의 selenium 라이브러리를 이용해 www.10000recipe.com에서 레시피 데이터를 크롤링하여 DB에 저장한다. 사용자 로그인, 냉장고 안 재료의 정보를 조회, 수정을 하게 하고 냉장고 안 재료에 대한 분류별 조회를 가능하게 한다. 재료에 따른 레시피를 제공한다.
 ```
+
+#### Database
+
+![image.png](./image.png)
+
+
+
 
 #### directory
 
@@ -22,6 +27,8 @@
     /base
 	    - auth.js
         - base.js
+    /callback
+        - callback.js
 /sql
     /base
 	    - base.xml
@@ -46,11 +53,7 @@ express에서 제공되는 기능으로
 - https://expressjs.com/en/resources/middleware.html
 
 
-추가로 DB와 연동하기위해 Sequelize라이브러리를 사용하며
-추가로 mybatis-mapper라는 라이브러리를 통해 XML로 된 SQL를 분리하여 사용한다.
-
-- https://sequelize.org/master/
-- https://github.com/OldBlackJoe/mybatis-mapper#readme
+추가로 DB와 연동하기위해 mysql2라이브러리를 사용한다.
 
 ```
 
