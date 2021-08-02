@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route } from "react-router";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,12 +15,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+                Ref:reci
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -31,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundImage: '{process.env.PUBLIC_URL + `/images/authimg.png`}',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -108,6 +112,32 @@ export default function SignInSide() {
                         >
                             Sign In
                         </Button>
+                        <Button
+                            component={RouterLink}
+                            to="/#"
+                            fullWidth
+                            variant="contained"
+                            color="danger"
+                        >
+                            Kakao
+                        </Button>
+                        <Button
+                            component={RouterLink}
+                            to="/#"
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                        >
+                            Google
+                        </Button><Button
+                            component={RouterLink}
+                            to="/#"
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                        >
+                            GitHub
+                        </Button>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
@@ -115,7 +145,7 @@ export default function SignInSide() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link component={RouterLink} to="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route } from "react-router";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,7 +20,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+                Ref:reci
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -61,7 +63,7 @@ export default function SignUp() {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={9}>
                             <TextField
                                 autoComplete="fname"
                                 name="firstName"
@@ -69,31 +71,41 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 id="firstName"
-                                label="First Name"
+                                label="닉네임"
                                 autoFocus
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
+                        <Grid item xs={3}>
+                            <Button
+                                component={RouterLink}
+                                to="/#"
                                 variant="outlined"
-                                required
                                 fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
-                            />
+                            >
+                            중복확인
+                            </Button>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={9}>
                             <TextField
                                 variant="outlined"
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label="아이디(E-mail)"
                                 name="email"
                                 autoComplete="email"
                             />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button
+                                component={RouterLink}
+                                to="/#"
+                                variant="outlined"
+                                fullWidth
+                                fullHeight
+                            >
+                            인증
+                            </Button>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
@@ -101,16 +113,28 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="비밀번호"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
                             />
                         </Grid>
                         <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="passwordcheck"
+                                label="비밀번호확인"
+                                type="passwordcheck"
+                                id="passwordcheck"
+                                autoComplete="current-password-check"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
+                                label="이메일로 소식을 받겠습니다."
                             />
                         </Grid>
                     </Grid>
@@ -125,7 +149,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link component={RouterLink} to="/signin" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
