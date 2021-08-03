@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import SaveIcon from '@material-ui/icons/Save'
 
 function Copyright() {
     return (
@@ -139,8 +140,12 @@ export default function SignUp() {
                         </Grid>
                     </Grid>
                     <Button
+                        onClick = {() => alert('hello')}
                         type="submit"
                         fullWidth
+                        // style={{
+                        //     fontSize: 6
+                        // }}
                         variant="contained"
                         color="primary"
                         className={classes.submit}
