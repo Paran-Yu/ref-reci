@@ -94,7 +94,17 @@ app.put("/", async (req, res) =>{
 })
 
 app.delete('/', async (req, res) => {
-    
+    const uID = req.body.uID
+    const upID = req.body.upID
+    await pool.query('DELETE FROM project.UserProduct WHERE uID = ? and upID = ?;',[uID,upID])
+    // 테스트를 위한 냉장고 DB 호출 코드
+
+    console.log('Call Updated DB')
+    const [rows, fields] = await pool.query('SELECT * FROM project.UserProduct WHERE uID = 1')
+        
+    for (let i = 0; i < rows.length; i++){
+        console.log(rows[i])
+    }
 })
 
 
