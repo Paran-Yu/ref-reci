@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
@@ -14,8 +14,31 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import server from '../../../server.json';
 
-
+let postDatas = async (url, userID, userPW) => {
+    try{
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+                userPW: userPW
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        console.log(`url: ${url}`);
+        console.log(`data.data: ${data.data}`);
+        return data.data;
+    }
+    catch(err){
+        console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
 
 function Copyright() {
     return (
@@ -64,6 +87,10 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
     const classes = useStyles();
 
+    const [logIn, setLogIn] = useState(false);
+    const [userID, setUserID] = useState('');
+    const [password, setPassword] = useState('');
+
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
@@ -87,6 +114,9 @@ export default function SignInSide() {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            onChange={async (event) => {
+                                await setUserID(event.target.value);
+                            }}
                         />
                         <TextField
                             variant="outlined"
@@ -98,17 +128,23 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onChange={async (event) => {
+                                await setPassword(event.target.value);
+                            }}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
                         <Button
-                            type="submit"
+                            //type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={async()=>{
+                                const userDatas = await postDatas(`${server.ip}/user/login`,userID,password);
+                            }}
                         >
                             Sign In
                         </Button>
