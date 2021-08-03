@@ -5,8 +5,8 @@ import './App.css';
 import MainRef from './pages/MainRef/';
 import SecComp from './pages/SecComp/';
 import Recipe from './pages/Recipe';
-import SignIn from './pages/Sign/SignIn';
-import SignUp from './pages/Sign/SignUp';
+import SignIn from './components/Auth/SignIn';
+import SignUp from './components/Auth/SignUp';
 function App() {
   return (
     <div className="App">
