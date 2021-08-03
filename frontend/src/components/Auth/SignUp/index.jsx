@@ -14,9 +14,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios';
 import server from '../../../server.json';
-
 
 let postDatas = async (url, userName, userID, userPW) => {
     try {
@@ -186,6 +186,9 @@ export default function SignUp() {
                         //type="submit"
                         component={RouterLink} to="/"
                         fullWidth
+                        // style={{
+                        //     fontSize: 6
+                        // }}
                         variant="contained"
                         color="primary"
                         className={classes.submit}

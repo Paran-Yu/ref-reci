@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import {useState, React} from 'react';
 import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: '{process.env.PUBLIC_URL + `/images/authimg.png`}',
+        backgroundImage: 'url{process.env.PUBLIC_URL + `/images/authimg.png`}',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -84,8 +85,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 export default function SignInSide() {
     const classes = useStyles();
+    const [checked, setChecked] = useState(true)
 
     const [logIn, setLogIn] = useState(false);
     const [userID, setUserID] = useState('');
@@ -133,7 +136,14 @@ export default function SignInSide() {
                             }}
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={
+                            <Checkbox 
+                                checked={checked}
+                                onChange={(e) => setChecked(e.target.checked)}
+                                value="remember"
+                                color="primary" 
+                            />
+                            }
                             label="Remember me"
                         />
                         <Button
@@ -148,32 +158,34 @@ export default function SignInSide() {
                         >
                             Sign In
                         </Button>
-                        <Button
-                            component={RouterLink}
-                            to="/#"
-                            fullWidth
+                        <ButtonGroup
                             variant="contained"
-                            color="danger"
                         >
-                            Kakao
-                        </Button>
-                        <Button
-                            component={RouterLink}
-                            to="/#"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                        >
-                            Google
-                        </Button><Button
-                            component={RouterLink}
-                            to="/#"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                        >
-                            GitHub
-                        </Button>
+                            <Button
+                                xs={12}
+                                component={RouterLink}
+                                to="/#"
+                                color="yellow"
+                            >
+                                Kakao
+                            </Button>
+                            <Button
+                                xs={12}
+                                component={RouterLink}
+                                to="/#"
+                                color="blue"
+                            >
+                                Google
+                            </Button>
+                            <Button
+                                xs={12}
+                                component={RouterLink}
+                                to="/#"
+                                color="white"
+                            >
+                                GitHub
+                            </Button>
+                        </ButtonGroup>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
