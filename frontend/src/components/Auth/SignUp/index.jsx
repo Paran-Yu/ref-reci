@@ -279,7 +279,7 @@ export default function SignUp() {
                     </Grid>
                     <Button
                         //type="submit"
-                        //component={RouterLink} to="/"
+                        component={RouterLink} to="/main"
                         fullWidth
                         // style={{
                         //     fontSize: 6
