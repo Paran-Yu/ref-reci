@@ -1,7 +1,6 @@
 import pymysql
 import datetime
 
-
 # get : read
 # set : update
 # add : add
@@ -60,6 +59,7 @@ class DB:
         ex: [{item_name: 고추장, item_category1: 장류, ...}]
         item_name: 재료이름         item_category1: 대분류
         item_category2: 소분류      item_expDay: 재료 유통기한 (D-day식으로 표기 예정)        item_count: 재료 수량
+        item_image: 제품이미지(소분류 이미지)
 
         :return 1: 성공 0: 실패
         '''
@@ -69,12 +69,12 @@ class DB:
         now = now.strftime('%Y-%m-%d')
         for d in data:
             sql = "INSERT INTO UserProduct(productName, productCount, creadtedDate, productClassification1," \
-                  " Classification2, productShelfLife, isDeleted) " \
-                  "VALUES(%s, %s, %s, %s, %s, %s, 0);"
+                  " Classification2, productShelfLife, productImage, isDeleted) " \
+                  "VALUES(%s, %s, %s, %s, %s, %s, %s, 0);"
             try:
-                cursor.execute(sql, (d['name'], d['count'], now, d['category1'], d['category2'], d['expDay']))
+                cursor.execute(sql, (d['item_name'], d['item_count'], now, d['item_category1'], d['item_category2'], d['item_expDay'], d['item_image']))
             except:
-                print(d['name'] + "을 DB에 정상적으로 추가되지 못했습니다.")
+                print(d['name'] + "를(을) DB에 정상적으로 추가되지 못했습니다.")
                 return 0
 
         return 1
@@ -88,16 +88,18 @@ class DB:
         ex: [{item_name: 고추장, item_category1: 장류, ...}...]
         item_name: 재료이름         item_category1: 대분류     item_createDay: 재료 등록일
         item_expDay: 재료 유통기한 (D-day식으로 표기 예정)        item_count: 재료 수량
+        item_image
         '''
         data = []
-        dict_keys = ['upID', 'item_name', 'item_count', 'item_createDay', 'item_category1', 'item_expDay']
+        dict_keys = ['upID', 'item_name', 'item_count', 'item_createDay', 'item_category1', 'item_expDay', 'item_image']
         cursor = self.db.cursor()
-        sql = "SELECT upID, productName, productCount, createdDate, productClassification1, productShelfLife " \
+        sql = "SELECT upID, productName, productCount, createdDate, productClassification1, productShelfLife, productImage " \
               "FROM UserProduct WHERE uID=%s;"
         cursor.execute(sql, user_id)
         result = cursor.fetchall()
-        tmp = dict()
+
         for r in result:
+            tmp = dict()
             for d in range(5):
                 tmp[dict_keys[d]] = r[d]
             data.append(tmp)
@@ -105,7 +107,20 @@ class DB:
         return data
 
     def del_UserProducts(self, id):
-        return 1
+        '''
+        제품을 삭제함
+        :param id: userproduct id
+
+        :return 1:성공 0:실패
+        '''
+        cursor = self.db.cursor()
+        try:
+            sql = "DELETE FROM UserProduct WHERE upID=%s"
+            cursor.execute(sql, id)
+            return 1
+        except:
+            print("삭제에 실패 하였습니다.")
+            return 0
 
     def set_UserProducts(self, type, data, ProductID):
         '''
@@ -127,7 +142,38 @@ class DB:
             print("변경에 실패 하였습니다.")
             return 0
 
-db = DB()
-print(db.get_Classifi1_To_Classifi2(classifi1_category='육류'))
+    def get_User(self):
+        '''
+        1
+        :return:
+        '''
 
-print()
+        pass
+
+    def search_recipe(self):
+        '''
+        2
+        :return:
+        '''
+        pass
+
+    def get_detail_recipe(self):
+        '''
+        3
+        :return:
+        '''
+        pass
+
+    def get_favo_reicpe(self):
+        '''
+        (4)
+        :return:
+        '''
+        pass
+
+    def del_favo_recipe(self):
+        '''
+        (4)
+        :return:
+        '''
+        pass
