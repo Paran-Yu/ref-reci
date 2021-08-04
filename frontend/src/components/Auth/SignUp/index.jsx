@@ -143,9 +143,7 @@ export default function SignUp() {
     const [checkDuplicate, setCheckDuplicate] = useState(false);
     const [emailAuth, setEmailAuth] = useState(false);
     const [passwordSame, setPasswordSame] = useState(false);
-    
     const [hiddenAuth, setHiddenAuth] = useState(true);
-
 
     useEffect(()=>{
         if(password === passwordCheck){
