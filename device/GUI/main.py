@@ -48,9 +48,14 @@ class RefListWindow(QMainWindow):
         loadUi("h_ref_list.ui", self)
         # USER_NAME의 냉장고 리스트
         self.title.setText("{}의 냉장고".format(USER_NAME))
+        # 리스트 모드 -> 0 / 선택 모드 -> 1
+        self.mode = 0
         # 선택모드는 숨김
         self.title_back.hide()
         self.title_recipe.hide()
+        # 재료 선택 리스트
+        self.selected_item = []
+        self.selected_item_name = []
         # 카테고리 pushbutton 리스트화
         self.title_category_list = (self.category_all, self.category_vegi, self.category_meat, self.category_fish, self.category_egg, self.category_other)
         self.title_category_index = 0
@@ -151,6 +156,7 @@ class RefListWindow(QMainWindow):
 
     # 리스트 모드 - Search 버튼 클릭 시
     def clicked_title_search(self):
+        self.mode = 1
         ## 화면설정
         # 기존 위젯 숨김
         self.title_search.hide()
@@ -168,10 +174,34 @@ class RefListWindow(QMainWindow):
         sender = self.sender()
         print(sender)
 
-        #self.scroll.setGeometry(16, 272, 1248, 528)
+        # 리스트 모드 -> 다이얼로 수량 조정 가능
+
+        QPushButton(self)
+        # 선택 모드 -> 뱃지 생성
+        if self.mode == 1:
+            # 클릭한 재료가 무엇인지 판별 -> 기존 선택 목록에 없으면 추가
+            for i in range(self.count):
+                if sender == self.ref_item_list[i].ref_item_container or sender == self.ref_item_list[i].ref_item_picture:
+                    if self.ref_item_list[i].ref_item_name.text() not in self.selected_item_name:
+                        self.selected_item_name.append(self.ref_item_list[i].ref_item_name.text())
+                        # 버튼 생성
+                        selected = QPushButton(self)
+                        selected.setText(self.ref_item_list[i].ref_item_name.text())
+                        selected.setGeometry(24, 192, 120, 56)
+                        selected.setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
+                                               "color: #8DB554;\n"
+                                               "background-color: #FFFFFF;\n"
+                                               "border: 2px solid #8DB554;\n"
+                                               "border-radius: 26px;")
+                        self.selected_item.append(selected)
+
+
+        print(self.selected_item_name)
+
 
     # 선택 모드 - 뒤로가기 클릭 시 =>
     def clicked_back(self):
+        self.mode = 0
         # 선택화면 용 위젯 숨김
         self.title_back.hide()
         self.title_recipe.hide()
