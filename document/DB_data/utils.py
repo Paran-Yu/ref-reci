@@ -1,7 +1,6 @@
 import pymysql
 import datetime
 
-
 # get : read
 # set : update
 # add : add
@@ -105,7 +104,20 @@ class DB:
         return data
 
     def del_UserProducts(self, id):
-        return 1
+        '''
+        제품을 삭제함
+        :param id: userproduct id
+
+        :return 1:성공 0:실패
+        '''
+        cursor = self.db.cursor()
+        try:
+            sql = "DELETE FROM UserProduct WHERE upID=%s"
+            cursor.execute(sql, id)
+            return 1
+        except:
+            print("삭제에 실패 하였습니다.")
+            return 0
 
     def set_UserProducts(self, type, data, ProductID):
         '''
