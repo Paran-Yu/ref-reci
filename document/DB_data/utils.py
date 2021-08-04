@@ -100,7 +100,7 @@ class DB:
 
         for r in result:
             tmp = dict()
-            for d in range(5):
+            for d in range(7):
                 tmp[dict_keys[d]] = r[d]
             data.append(tmp)
 
@@ -142,13 +142,17 @@ class DB:
             print("변경에 실패 하였습니다.")
             return 0
 
-    def get_User(self):
+    def get_User_Name(self, id):
         '''
-        1
-        :return:
+        유저 정보 반환
+        :param: id: userID
+        :return: name: string 형
         '''
-
-        pass
+        cursor = self.db.cursor()
+        sql = "SELECT userName FROM User WHERE uID=%s"
+        cursor.execute(sql, id)
+        result = cursor.fetchall()
+        return result[0][0]
 
     def search_recipe(self):
         '''
@@ -177,3 +181,6 @@ class DB:
         :return:
         '''
         pass
+
+# db = DB()
+# print(type(db.get_UserProducts(1)[1]['item_createDay']))
