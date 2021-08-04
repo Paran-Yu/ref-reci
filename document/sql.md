@@ -86,26 +86,26 @@ ORDER BY ASC;
 
 ### 레시피 + 즐겨찾기 부분 추가
 
-1. 속재료의 c2ID를 활용하여 선택재료가 포함되는 레시피 ID반환
+1. 속재료의 c2ID를 활용하여 선택재료가 포함되는 레시피 정보 반환
 
 ```sql
-SELECT DISTINCT ri.rID
+SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime, rid.count
+FROM Recipe r, (SELECT DISTINCT ri.rID, count(*) count
 FROM RecipeIngredient ri, Ingredient i
 WHERE ri.iID=i.iID and i.ingredientName REGEXP (
-		SELECT REPLACE(GROUP_CONCAT(classification2Name, ',' , '|') AS NAME
-		FROM (SELECT classification2Name FROM classification2 WHERE c2ID in (전달받은 냉장고 속재료의 c2ID))
-
-<!-- 아직 미정 (정렬 부분) 
-Group by ri.rID
-Order by count(*) DESC;
+		SELECT REPLACE(GROUP_CONCAT(a.classification2Name), ',' , '|') AS NAME
+		FROM (SELECT c2.classification2Name FROM Classification2 c2 WHERE c2.c2ID in (1)) a)
+Group by ri.rID) rid
+WHERE r.rID=rid.rID
+Order by rid.count DESC;
 -->
 ```
 
-2. 레시피 ID를 가지고 레시피 정보 가져오기
+2. 레시피 ID를 가지고 재료 정보 가져오기
 ```sql
-SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime, iID, count(*)
-FROM recipe r
-WHERE r.rID in (1번 결과)
+SELECT i.iID, i.ingredientName, ri.ingredientAmount
+FROM Recipe r, Ingredient i, RecipeIngredient ri
+WHERE r.rID in (1) and r.rID=ri.rID and ri.iID=i.iID;
 ```
 
 레시피 단계<br>
