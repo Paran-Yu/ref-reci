@@ -9,7 +9,7 @@ import SecComp from './pages/SecComp/';
 import Recipe from './pages/Recipe';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
-import Main from './components/Main';
+import FloatingActionButton from './components/Main/FloatingActionButton';
 
 
 function App() {
@@ -17,12 +17,13 @@ function App() {
     <div className="App">
       <Router>
         {/* <Route exact path='/' component={MainRef} /> */}
-        <Route exact path='/' component={SignIn} />
+        <Route exact path='/' component={MainRef} />
         <Route path='/stuff' component={SecComp} />
         <Route path='/reci' component={Recipe} />
         <Route path="/signIn" component={SignIn} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/main" component={Main} />
+        <Route path="/main" component={FloatingActionButton} />
+        <Route path="/mainref" component={MainRef} />
       </Router>
     </div>
   );

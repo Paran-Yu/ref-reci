@@ -67,6 +67,7 @@ class DB:
 
         :return 1: 성공 0: 실패
         '''
+
         cursor = self.db.cursor()
         now = datetime.datetime.now()
         now = now.strftime('%Y-%m-%d')
@@ -191,112 +192,42 @@ class DB:
             print("유저정보를 가져오는데 실패하였습니다.")
             return 0
 
-    def get_recipe(self, ingredientID_tuple):
+    def search_recipe(self, ingredientID_tuple):
         '''
-        :param ingredientID_tuple: (id1, id2 ...)
-        :return: data: 2차원 list, 리스트 안에는 dict형식
-
-        ex: [{recipe_id: 1, recipe_name: 한방삼계탕, ...}...]
-        recipe_id: 레시피 아이디          recipe_name: 레시피 이름         recipe_intro: 레시피 요약설명
-        recipe_amount: 레시피 양(단위: 00인분)      recipe_image: 레시피 대표 이미지        recipe_time: 레시피 조리시간(00분)
+        2
+        :return:
         '''
         data = []
         cursor = self.db.cursor()
         try:
             sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime, rid.count " \
-                  "FROM Recipe r, (SELECT DISTINCT ri.rID, count(*) count " \
-                      "FROM RecipeIngredient ri, Ingredient i " \
-                      "WHERE ri.iID=i.iID and i.ingredientName REGEXP ( " \
-                                                    "SELECT REPLACE(GROUP_CONCAT(a.classification2Name), ',' , '|') AS NAME " \
-                                                    "FROM (SELECT c2.classification2Name FROM Classification2 c2 WHERE c2.c2ID in {}) a) " \
-                                                    "Group by ri.rID) rid " \
-                  "WHERE r.rID=rid.rID " \
-                  "Order by rid.count DESC;".format(str(ingredientID_tuple))
+                  "FROM Recipe r, (SELECT DISTINCT ri.rID, count(*) count FROM RecipeIngredient ri, Ingredient i " \
+                  "WHERE ri.iID=i.iID and i.ingredientName REGEXP ( SELECT REPLACE(GROUP_CONCAT(a.classification2Name), ',' , '|') AS NAME " \
+                  "FROM (SELECT c2.classification2Name FROM Classification2 c2 WHERE c2.c2ID in (%s)) a) Group by ri.rID) rid " \
+                  "WHERE r.rID=rid.rID Order by rid.count DESC;"
 
-            dict_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
-            cursor.execute(sql)
+            cursor.execute(sql, id)
             result = cursor.fetchall()
-            for r in result:
-                tmp = dict()
-                for d in range(6):
-                    tmp[dict_keys[d]] = r[d]
-                data.append(tmp)
-
-            return data
+            return result[0][0]
         except:
-            print("레시피 정보를 가져오는데 실패하였습니다.")
+            print("유저정보를 가져오는데 실패하였습니다.")
             return 0
-
-    def get_detail_recipe(self, rid):
-        '''
-        :param rid: 레시피 id
-
-        :return: data
-        recipe_id: 레시피 아이디          recipe_name: 레시피 이름         recipe_intro: 레시피 요약설명
-        recipe_amount: 레시피 양(단위: 00인분)      recipe_image: 레시피 대표 이미지        recipe_time: 레시피 조리시간(00분)
-        recipe_ingredient: 2차원 list 형식 내부 구조 [{'ingre_id':재료 아이디, 'ingredient_name':재료이름, 'ingredient_amount': 재료양} ...]
-        recipe_phase: 2차원 list 형식 내부 구조 [{'phase_id':단계 아이디, 'phase_intro':단계 설명, 'phase_img': 단계 이미지} ...]
-        '''
-        data = dict()
-        recipe_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
-        cursor = self.db.cursor()
-
-        recipe_sql = "SELECT r.ID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime "\
-                "FROM Recipe r "\
-                "WHERE r.rID=%s;"
-
-        cursor.execute(recipe_sql, rid)
-        result = cursor.fetchall()[0]
-        for d in range(6):
-            data[recipe_keys[d]] = result[d]
-
-        ingredient_sql = "SELECT i.iID, i.ingredientName, ri.ingredientAmount "\
-                "FROM Recipe r, Ingredient i, RecipeIngredient ri "\
-                "WHERE r.rID=%s and r.rID=ri.rID and ri.iID=i.iID;"
-        ingredient_keys = ['ingre_id', 'ingredient_name', 'ingredient_amount']
-        cursor.execute(ingredient_sql, rid)
-        result = cursor.fetchall()[0]
-        for d in range(3):
-            data[ingredient_keys[d]] = result[d]
-
-        phase_sql ="SELECT rp.fdID, rp.recipephaseIntroduce, rp.recipephaseImage FROM RecipePhase rp "\
-                    "WHERE rp.rID=%s;"
-        phase_keys = ['phase_id', 'phase_intro', 'phase_img']
-        cursor.execute(phase_sql, rid)
-        result = cursor.fetchall()[0]
-        for d in range(3):
-            data[phase_keys[d]] = result[d]
 
         return data
 
-
-    def get_favo_reicpe(self, user_id):
+    def get_detail_recipe(self):
         '''
-        :param: user_id: 유저 아이디
-        :return: data: 2차원 list, 리스트 안에는 dict형식
+        3
+        :return:
+        '''
+        pass
 
-        ex: [{recipe_id: 1, recipe_name: 한방삼계탕, ...}...]
-        recipe_id: 레시피 아이디          recipe_name: 레시피 이름         recipe_intro: 레시피 요약설명
-        recipe_amount: 레시피 양(단위: 00인분)      recipe_image: 레시피 대표 이미지        recipe_time: 레시피 조리시간(00분)
-       '''
-        data = []
-        cursor = self.db.cursor()
-        try:
-            sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
-                  "FROM Favorites f, Recipe r, User u WHERE uID=%s and u.uID=f.uID and r.rID=f.rID;"
-            cursor.execute(sql, user_id)
-            dict_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
-            result = cursor.fetchall()
-            for r in result:
-                tmp = dict()
-                for d in range(6):
-                    tmp[dict_keys[d]] = r[d]
-                data.append(tmp)
-
-            return data
-        except:
-            print("레시피 정보를 가져오는데 실패하였습니다.")
-            return 0
+    def get_favo_reicpe(self):
+        '''
+        (4)
+        :return:
+        '''
+        pass
 
     def del_favo_recipe(self):
         '''
@@ -306,4 +237,4 @@ class DB:
         pass
 
 # db = DB()
-# print(db.get_recipe((1, 241)))
+# print(type(db.get_UserProducts(1)[1]['item_createDay']))

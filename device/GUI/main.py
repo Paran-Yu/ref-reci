@@ -3,9 +3,22 @@ from PyQt5.uic import *
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
 from ref_item import RefItem
+from db import DB
 import sys
 import datetime
 
+
+## 전역변수
+# 유저정보
+# USER_ID - 나중에 텍스트로 빼든지 할 것
+USER_ID = 1
+
+# 대분류 튜플
+category_list = ('육류', '채소류', '해물류', '달걀/유제품', '가공식품류', '곡류', '밀가루', '건어물류', '버섯류', '향신료/조미료류', '과일류', '소스류', '발효식품', '기타')
+
+# 오늘 날짜
+today = datetime.date.today()
+print(today)
 
 # 0 start
 class StartWindow(QMainWindow):
@@ -13,6 +26,7 @@ class StartWindow(QMainWindow):
         super().__init__()
         loadUi("h_start.ui", self)
         self.main()
+
 
     def main(self):
         pass
@@ -32,12 +46,14 @@ class RefListWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         loadUi("h_ref_list.ui", self)
+        # USER_NAME의 냉장고 리스트
+        self.title.setText("{}의 냉장고".format(USER_NAME))
         # 선택모드는 숨김
         self.title_back.hide()
         self.title_recipe.hide()
         # 카테고리 pushbutton 리스트화
-        self.category_list = (self.category_all, self.category_vegi, self.category_meat, self.category_fish, self.category_egg, self.category_other)
-        self.category_index = 0
+        self.title_category_list = (self.category_all, self.category_vegi, self.category_meat, self.category_fish, self.category_egg, self.category_other)
+        self.title_category_index = 0
         self.main()
 
     def main(self):
@@ -45,14 +61,14 @@ class RefListWindow(QMainWindow):
     
     # DB에서 사용자의 냉장고 리스트를 불러오기
     def read_ref_list(self):
-        ref_list_list = []
-        # DB 쿼리문 날리기
+        # DB에서 제품 목록 리스트로 가져오기
+        # item_name, item_count, item_createDay, item_category1
+        self.ref_list_list = refDB.get_UserProducts(USER_ID)
+        print(self.ref_list_list)
 
-        # 받아온 목록 리스트에 저장
-        # 제품명 대분류 수량 등록일 유통기한 사진
-        # [더미 데이터] - 나중에 지울 것!!
+        # [더미 데이터]
         # self.ref_list_list = []
-        self.ref_list_list = [['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png']]
+        # self.ref_list_list = [['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png']]
 
         self.count = len(self.ref_list_list)
         self.ref_list_count.setText('총 %d개' % self.count)
@@ -79,11 +95,15 @@ class RefListWindow(QMainWindow):
         self.ref_item_list = []
         for i in range(self.count):
             self.ref_item_list.append(RefItem())
-            # 더미데이터 - 수정 필요
-            self.ref_item_list[i].set_ref_item_name("양파")
-            self.ref_item_list[i].set_ref_item_category("채소류")
-            self.ref_item_list[i].set_ref_item_day("D-3")
-            self.ref_item_list[i].set_ref_item_count(str(i))
+            # 데이터 플로팅
+            self.ref_item_list[i].set_ref_item_name(self.ref_list_list[i]['item_name'])
+            self.ref_item_list[i].set_ref_item_category(category_list[self.ref_list_list[i]['item_category1']-1])
+
+            self.dday = self.ref_list_list[i]['item_expDay'] - today
+            print(self.dday)
+            print(self.dday.days)
+            self.ref_item_list[i].set_ref_item_day("D-{}".format(self.dday.days))
+            self.ref_item_list[i].set_ref_item_count(str(self.ref_list_list[i]['item_count']))
             # click event slot 추가
             self.ref_item_list[i].ref_item_container.clicked.connect(self.clicked_ref_items)
             self.ref_item_list[i].ref_item_picture.clicked.connect(self.clicked_ref_items)
@@ -97,23 +117,23 @@ class RefListWindow(QMainWindow):
         self.scroll.setStyleSheet("border: 0px;")
         self.scroll.setWidget(ref_list_groupBox)
         self.scroll.setWidgetResizable(False)
-        #scroll.setFixedWidth(1200)
-        #scroll.setFixedHeight(500)
+        # scroll.setFixedWidth(1200)
+        # scroll.setFixedHeight(500)
 
 
     def clicked_category(self):
         selected_category = self.sender()
         # print(selected_category)
         # print(self.category_list.index(selected_category))
-        new_category_index = self.category_list.index(selected_category)
+        new_title_category_index = self.title_category_list.index(selected_category)
 
         # style sheet 변경
-        self.category_list[self.category_index].setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
+        self.title_category_list[self.title_category_index].setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
                                                               "color: #A29D97;\n"
                                                               "background-color: rgba(0,0,0,0);\n"
                                                               "border: 2px solid #A29D97;\n"
                                                               "border-radius: 8px;")
-        self.category_list[new_category_index].setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
+        self.title_category_list[new_title_category_index].setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
                                                               "color: #F19920;\n"
                                                               "background-color: rgba(0,0,0,0);\n"
                                                               "border: 2px solid #F19920;\n"
@@ -122,7 +142,7 @@ class RefListWindow(QMainWindow):
         # 표시 변경
         ##작성하세요~##
 
-        self.category_index = new_category_index
+        self.title_category_index = new_title_category_index
 
 
     # 리스트 모드 - Add 버튼 클릭 시
@@ -174,60 +194,122 @@ class AddWindow(QMainWindow):
         super().__init__()
         loadUi("h_ref_add.ui", self)
 
+        # 추가 화면 초기화
         self.count = int(self.add_item_count.text())
-        self.category_index = 0
-        self.category_list = ('육류', '채소류', '해물류', '달걀/유제품', '가공식품류', '곡류', '밀가루', '건어물류', '버섯류', '조미료류', '과일류', '소스류', '발효식품', '기타')
-        now = datetime.datetime.now()
-        self.nowDate = now.strftime('%Y-%m-%d')
-        self.add_item_createDay.setText(self.nowDate)
-        self.add_item_expDay.setText(self.nowDate)
+        self.category_index = -1
+        self.today_str = today.strftime('%Y-%m-%d')
+        self.add_item_createDay.setText(self.today_str)
+        self.add_item_expDay.setText(self.today_str)
+        # 소분류 리스트 초기화
+        self.name_list = []
+        self.name_list_index = 0
         self.main()
+        # 수량 단위 버튼 리스트
+        self.btn_num_list = (self.add_item_1, self.add_item_10, self.add_item_100)
+        self.count_unit = (1, 10, 100)
+        self.btn_num_index = 0
 
     def main(self):
         pass
 
+    # 냉장고 리스트로 돌아가기
     def clicked_back(self):
         self.reset_all()
         mainWidget.setCurrentIndex(mainWidget.currentIndex() - 1)
 
+    # 화면에 표시된 내용을 DB에 추가
     def clicked_next(self):
         # 저장된 내용을 DB에 넣는 쿼리문 추가
         self.reset_all()
 
+    # 음성인식 입력 모드
+    def clicked_voice(self):
+        pass
+
+    # 바코드 입력 모드
+    def clicked_barcode(self):
+        pass
+
+    # 뒤로가기, 다음 버튼 클릭 시 모든 값 초기화
     def reset_all(self):
         self.add_item_category.setText("제품분류")
         self.add_item_name.setText("제품명")
-        self.add_item_createDay.setText(self.nowDate)
-        self.add_item_expDay.setText(self.nowDate)
+        self.add_item_createDay.setText(self.today_str)
+        self.add_item_expDay.setText(self.today_str)
         self.add_item_count.setText("0")
+        self.category_index = -1
+        self.name_list_index = 0
+        self.count = 0
 
-
+    # 제품분류 클릭시 대분류 이동
     def clicked_category(self):
-        self.add_item_category.setText(self.category_list[self.category_index])
-        print(len(self.category_list))
-        if self.category_index == len(self.category_list) - 1:
+        if self.category_index == len(category_list) - 1:
             self.category_index = 0
         else:
             self.category_index += 1
 
-    def clicked_name(self):
-        pass
+        # 대분류 안의 소분류 불러오기
+        self.name_list = refDB.get_Classifi1_To_Classifi2(category_list[self.category_index])
+        print(self.name_list)
+        # 소분류 인덱스 초기화 - 대분류가 바뀔 때 마다 인덱스 초기화!
+        self.name_list_index = 0
+        # 대분류 화면에 표시
+        self.add_item_category.setText(category_list[self.category_index])
 
+    # 제품명 클릭시 소분류 이동
+    def clicked_name(self):
+        print(self.name_list)
+        print(self.name_list_index)
+        if self.category_index > -1:
+            self.add_item_name.setText(self.name_list[self.name_list_index][0])
+
+        if self.name_list_index == len(self.name_list) - 1:
+            self.name_list_index = 0
+        else:
+            self.name_list_index += 1
+
+    # 제품 등록일 변경
     def clicked_create(self):
         pass
 
+    # 제품 유통기한 변경
     def clicked_exp(self):
         pass
 
+    # 수량 마이너스 - 선택된 단위에 따라
     def clicked_minus(self):
-        if self.count > 0:
-            self.count -= 1
-            self.add_item_count.setText(str(self.count))
+        self.count -= self.count_unit[self.btn_num_index]
+        if self.count < 0:
+            self.count = 0
+        self.add_item_count.setText(str(self.count))
 
+    # 수량 플러스 - 선택된 단위에 따라
     def clicked_plus(self):
-        if self.count < 100:
-            self.count += 1
-            self.add_item_count.setText(str(self.count))
+        self.count += self.count_unit[self.btn_num_index]
+        if self.count > 1000:
+            self.count = 1000
+        self.add_item_count.setText(str(self.count))
+
+    # 수량 단위 선택 - 1, 10, 100
+    def clicked_num(self):
+        btn_num = self.sender()
+        # print(btn_num)
+        new_btn_num_index = self.btn_num_list.index(btn_num)
+        # print(new_btn_num_index)
+
+        # 선택되면 스타일시트 변경
+        self.btn_num_list[self.btn_num_index].setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\"; \n"
+                                                            "color:  #F9BC15;\n"
+                                                            "background-color:  #FFFFFF;\n"
+                                                            "border: 2px solid #F9BC15;\n"
+                                                            "border-radius: 26px;")
+        self.btn_num_list[new_btn_num_index].setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\"; \n"
+                                                            "color:  #FFFFFF;\n"
+                                                            "background-color:  #F9BC15;\n"
+                                                            "border: 2px solid #F9BC15;\n"
+                                                            "border-radius: 26px;")
+
+        self.btn_num_index = new_btn_num_index
 
 
 # 3 select items
@@ -276,6 +358,13 @@ class RecipeDetailWindow(QMainWindow):
 
 # main
 if __name__ == "__main__":
+    # DB connect
+    refDB = DB()
+
+    # 유저 정보 불러오기
+    global USER_NAME
+    USER_NAME = refDB.get_User_Name(USER_ID)
+
     # main class
     app = QApplication(sys.argv)
     mainWidget = QtWidgets.QStackedWidget()
