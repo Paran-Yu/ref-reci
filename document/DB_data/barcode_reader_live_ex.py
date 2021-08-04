@@ -13,9 +13,12 @@ def barcode_API(barcodenum):
   print(json_object)
 
   print(len(json_object['C005']['row']))
+  return json_object
+
 
 def barcode_recognition():
   cap = cv2.VideoCapture(0)
+  product_info = ''
 
   i = 0
   while(cap.isOpened()):
@@ -27,7 +30,7 @@ def barcode_recognition():
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     decoded = pyzbar.decode(gray)
-
+    # [[barcode]]
     for d in decoded:
       x, y, w, h = d.rect
 
@@ -38,16 +41,28 @@ def barcode_recognition():
 
       text = '%s (%s)' % (barcode_data, barcode_type)
       cv2.putText(img, text, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_AA)
-      barcode_API(barcode_data)
+      product_info = barcode_API(barcode_data)
+      if product_info:
+        if product_info['C005']['RESULT']['MSG'] == '정상처리되었습니다.':
+          print(product_info)
+        else:
+          print("데이터가 없습니다.")
 
-    cv2.imshow('img', img)
-
+    # 여기에 while 종료 조건
     key = cv2.waitKey(1)
     if key == ord('q'):
       break
-    elif key == ord('s'):
-      i += 1
-      cv2.imwrite('testdata/c_%03d.jpg' % i, img)
 
   cap.release()
   cv2.destroyAllWindows()
+    # return product_info
+    # cv2.imshow('img', img)
+    #
+    # key = cv2.waitKey(1)
+    # if key == ord('q'):
+    #   break
+    # elif key == ord('s'):
+    #   i += 1
+    #   cv2.imwrite('testdata/c_%03d.jpg' % i, img)
+
+barcode_recognition()
