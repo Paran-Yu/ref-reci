@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
@@ -18,7 +18,7 @@ import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios';
 import server from '../../../server.json';
 
-let postDatas = async (url, userName, userID, userPW) => {
+const postRegister = async (url, userName, userID, userPW) => {
     try {
         const data = await axios({
             method: 'post',
@@ -38,6 +38,63 @@ let postDatas = async (url, userName, userID, userPW) => {
     }
     catch (err) {
         console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postSearchName = async (url, userName) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userName: userName,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postSearchID = async (url, userID) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postEmailAuth = async (url, userID) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
         console.log(`ERROR: ${err}`);
     }
 }
@@ -82,6 +139,23 @@ export default function SignUp() {
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
+    
+    const [checkDuplicate, setCheckDuplicate] = useState(false);
+    const [emailAuth, setEmailAuth] = useState(false);
+    const [passwordSame, setPasswordSame] = useState(false);
+    const [hiddenAuth, setHiddenAuth] = useState(true);
+
+    useEffect(()=>{
+        if(password === passwordCheck){
+            console.log('비밀번호가 일치함');
+            setPasswordSame(true);
+        }
+        else{
+            console.log('비밀번호가 일치하지 않음');
+            setPasswordSame(false);
+        }
+    }, [passwordCheck])
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -105,17 +179,27 @@ export default function SignUp() {
                                 id="firstName"
                                 label="닉네임"
                                 autoFocus
-                                onChange={async (event) => {
-                                    await setUserName(event.target.value);
+                                onChange={(event) => {
+                                    setUserName(event.target.value);
+                                    setCheckDuplicate(false);
                                 }}
                             />
                         </Grid>
                         <Grid item xs={3}>
                             <Button
-                                component={RouterLink}
-                                to="/#"
                                 variant="outlined"
                                 fullWidth
+                                onClick={async()=>{
+                                    const userDatas = await postSearchName(`${server.ip}/user/searchName`, userName);
+                                    if(userDatas === true){
+                                        setCheckDuplicate(true);
+                                        console.log('중복 닉네임 없음');
+                                    }
+                                    else{
+                                        setCheckDuplicate(false);
+                                        console.log('중복 닉네임 존재');
+                                    }
+                                }}
                             >
                             중복확인
                             </Button>
@@ -129,20 +213,68 @@ export default function SignUp() {
                                 label="아이디(E-mail)"
                                 name="email"
                                 autoComplete="email"
-                                onChange={async (event) => {
-                                    await setUserID(event.target.value);
+                                onChange={(event) => {
+                                    setUserID(event.target.value);
+                                    //변화시 인증 초기화
                                 }}
                             />
                         </Grid>
                         <Grid item xs={3}>
                             <Button
-                                component={RouterLink}
-                                to="/#"
                                 variant="outlined"
                                 fullWidth
                                 fullHeight
+                                onClick={async () => {
+                                    const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+                                    if (userDatas === true) {
+                                        console.log('중복 이메일 없음');
+                                        //이메일 인증 시작
+                                        const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                        setHiddenAuth(false)
+                                    }
+                                    else {
+                                        console.log('중복 닉네임 존재');
+                                    }
+                
+                                }}
                             >
                             인증
+                            </Button>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <TextField
+                                disabled={hiddenAuth}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="verification"
+                                label="인증번호"
+                                name="verification"
+                                autoComplete="verification"
+                                onChange={(event) => {
+                                    setUserID(event.target.value);
+                                    //변화시 인증 초기화
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button
+                                variant="outlined"
+                                disabled={hiddenAuth}
+                                fullWidth
+                                onClick={async () => {
+                                    const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+                                    if (userDatas === true) {
+                                        console.log('중복 이메일 없음');
+                                        //이메일 인증 시작
+                                        const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                    }
+                                    else {
+                                        console.log('중복 닉네임 존재');
+                                    }
+                                }}
+                            >
+                            확인
                             </Button>
                         </Grid>
                         <Grid item xs={12}>
@@ -155,8 +287,8 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                                onChange={async (event) => {
-                                    await setPassword(event.target.value);
+                                onChange={(event) => {
+                                    setPassword(event.target.value);
                                 }}
                             />
                         </Grid>
@@ -167,11 +299,11 @@ export default function SignUp() {
                                 fullWidth
                                 name="passwordcheck"
                                 label="비밀번호확인"
-                                type="passwordcheck"
+                                type="password"
                                 id="passwordcheck"
                                 autoComplete="current-password-check"
-                                onChange={async (event) => {
-                                    await setPasswordCheck(event.target.value);
+                                onChange={(event) => {
+                                    setPasswordCheck(event.target.value);
                                 }}
                             />
                         </Grid>
@@ -184,20 +316,28 @@ export default function SignUp() {
                     </Grid>
                     <Button
                         //type="submit"
-                        component={RouterLink} to="/"
+                        //component={RouterLink} to="/main"
                         fullWidth
-                        // style={{
-                        //     fontSize: 6
-                        // }}
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={async () => {
-                            if(password === passwordCheck){
-                                const userDatas = await postDatas(`${server.ip}/user/register`, userName, userID, password);
+                        onClick={() => {
+                            if(passwordSame && checkDuplicate){
+                                //const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                alert('로그인 성공');
+                            }
+                            else if (passwordSame){
+                                alert('닉네임 중복을 확인해주세요.');
+                            }
+                            else if (checkDuplicate){
+                                alert('비밀번호와 비밀번호 확인이 다릅니다.');
+                                alert(`비밀번호: ${password}`);
+                                alert(`비밀번호 확인: ${passwordCheck}`);
                             }
                             else{
-                                alert('비밀번호와 비밀번호 확인이 다릅니다.');
+                                alert('닉네임 중복을 확인하고 비밀번호 확인도 확인해주세요.');
+                                alert(`비밀번호: ${password}`);
+                                alert(`비밀번호 확인: ${passwordCheck}`);
                             }
                         }}
                     >
