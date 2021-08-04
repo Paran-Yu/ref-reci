@@ -5,8 +5,18 @@ const crypto = require('crypto');
 
 require('dotenv').config();
 
-//const { pool } = require(`${__dirname}/../../mysql`)
 const { pool } = require(`./../../mysql`);
+
+const smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: "",
+        pass: ""
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
 
 app.post("/register", async (req, res) => {
     const userName = req.body.userName;
@@ -64,6 +74,81 @@ app.post("/login", async (req, res) => {
         }
         
         res.redirect('/');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+app.post("/searchName", async (req, res) => {
+    const userName = req.body.userName;
+
+    console.log(userName);
+
+    try {
+        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userName = ?", [
+            userName
+        ]);
+
+        if(rows.length === 0){
+            res.send(true);
+        }
+        else{
+            res.send(false);
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+app.post("/searchID", async (req, res) => {
+    const userID = req.body.userID;
+
+    console.log(userID);
+
+    try {
+        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
+            userID
+        ]);
+
+        if (rows.length === 0) {
+            res.send(true);
+        }
+        else {
+            res.send(false);
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+app.post("/emailAuth", async (req, res) => {
+    const userID = req.body.userID;
+    const randomNumber = Math.floor((Math.random() * (100 - 1) + 1));
+
+    console.log(userID);
+
+    const mailOptions = {
+        from: "",
+        to: userID,
+        subject: "Ref:Reci 이메일 인증",
+        text: "화면에서 다음 숫자를 입력해주세요." + randomNumber
+    };
+    console.log(userID);
+    console.log(randomNumber);
+    res.send(JSON.stringify(randomNumber));
+
+    try {
+        await smtpTransport.sendMail(mailOptions, (error, responses) => {
+            if (error) {
+                res.json({ msg: 'err' });
+            } else {
+                res.json({ msg: 'sucess' });
+            }
+            smtpTransport.close();
+        });
     }
     catch (err) {
         console.log(err);
