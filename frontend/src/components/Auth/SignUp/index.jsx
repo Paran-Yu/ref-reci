@@ -139,9 +139,11 @@ export default function SignUp() {
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
+    
     const [checkDuplicate, setCheckDuplicate] = useState(false);
     const [emailAuth, setEmailAuth] = useState(false);
     const [passwordSame, setPasswordSame] = useState(false);
+    const [hiddenAuth, setHiddenAuth] = useState(true);
 
     useEffect(()=>{
         if(password === passwordCheck){
@@ -153,6 +155,7 @@ export default function SignUp() {
             setPasswordSame(false);
         }
     }, [passwordCheck])
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -184,8 +187,6 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={3}>
                             <Button
-                                //component={RouterLink}
-                                to="/#"
                                 variant="outlined"
                                 fullWidth
                                 onClick={async()=>{
@@ -220,11 +221,47 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={3}>
                             <Button
-                                //component={RouterLink}
-                                //to="/#"
                                 variant="outlined"
                                 fullWidth
                                 fullHeight
+                                onClick={async () => {
+                                    const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+                                    if (userDatas === true) {
+                                        console.log('중복 이메일 없음');
+                                        //이메일 인증 시작
+                                        const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                        setHiddenAuth(false)
+                                    }
+                                    else {
+                                        console.log('중복 닉네임 존재');
+                                    }
+                
+                                }}
+                            >
+                            인증
+                            </Button>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <TextField
+                                disabled={hiddenAuth}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="verification"
+                                label="인증번호"
+                                name="verification"
+                                autoComplete="verification"
+                                onChange={(event) => {
+                                    setUserID(event.target.value);
+                                    //변화시 인증 초기화
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button
+                                variant="outlined"
+                                disabled={hiddenAuth}
+                                fullWidth
                                 onClick={async () => {
                                     const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
                                     if (userDatas === true) {
@@ -237,7 +274,7 @@ export default function SignUp() {
                                     }
                                 }}
                             >
-                            인증
+                            확인
                             </Button>
                         </Grid>
                         <Grid item xs={12}>
@@ -279,11 +316,8 @@ export default function SignUp() {
                     </Grid>
                     <Button
                         //type="submit"
-                        component={RouterLink} to="/main"
+                        //component={RouterLink} to="/main"
                         fullWidth
-                        // style={{
-                        //     fontSize: 6
-                        // }}
                         variant="contained"
                         color="primary"
                         className={classes.submit}
