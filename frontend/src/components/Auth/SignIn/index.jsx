@@ -1,5 +1,8 @@
-import React from 'react';
+import {useState, React} from 'react';
+import { Route } from "react-router";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -12,13 +15,38 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import server from '../../../server.json';
+
+let postDatas = async (url, userID, userPW) => {
+    try{
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+                userPW: userPW
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        console.log(`url: ${url}`);
+        console.log(`data.data: ${data.data}`);
+        return data.data;
+    }
+    catch(err){
+        console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+                Ref:reci
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -31,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundImage: 'url{process.env.PUBLIC_URL + `/images/authimg.png`}',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -57,8 +85,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 export default function SignInSide() {
     const classes = useStyles();
+    const [checked, setChecked] = useState(true)
+
+    const [logIn, setLogIn] = useState(false);
+    const [userID, setUserID] = useState('');
+    const [password, setPassword] = useState('');
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -83,6 +117,9 @@ export default function SignInSide() {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            onChange={async (event) => {
+                                await setUserID(event.target.value);
+                            }}
                         />
                         <TextField
                             variant="outlined"
@@ -94,20 +131,61 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onChange={async (event) => {
+                                await setPassword(event.target.value);
+                            }}
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={
+                            <Checkbox 
+                                checked={checked}
+                                onChange={(e) => setChecked(e.target.checked)}
+                                value="remember"
+                                color="primary" 
+                            />
+                            }
                             label="Remember me"
                         />
                         <Button
-                            type="submit"
+                            //type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={async()=>{
+                                const userDatas = await postDatas(`${server.ip}/user/login`,userID,password);
+                            }}
                         >
                             Sign In
                         </Button>
+                        <ButtonGroup
+                            variant="contained"
+                        >
+                            <Button
+                                xs={12}
+                                component={RouterLink}
+                                to="/#"
+                                color="yellow"
+                            >
+                                Kakao
+                            </Button>
+                            <Button
+                                xs={12}
+                                component={RouterLink}
+                                to="/#"
+                                color="blue"
+                            >
+                                Google
+                            </Button>
+                            <Button
+                                xs={12}
+                                component={RouterLink}
+                                to="/#"
+                                color="white"
+                            >
+                                GitHub
+                            </Button>
+                        </ButtonGroup>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
@@ -115,7 +193,7 @@ export default function SignInSide() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link component={RouterLink} to="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

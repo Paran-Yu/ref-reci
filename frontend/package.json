@@ -6,10 +6,15 @@
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
+<<<<<<< HEAD
     "@material-ui/styles": "^4.11.4",
+=======
+    "@material/fab": "^12.0.0",
+>>>>>>> 39eb96bd992e9d4445b582387bf681d002a2e288
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
