@@ -167,7 +167,7 @@ export default function SignUp() {
                                 fullWidth
                                 name="passwordcheck"
                                 label="비밀번호확인"
-                                type="passwordcheck"
+                                type="password"
                                 id="passwordcheck"
                                 autoComplete="current-password-check"
                                 onChange={async (event) => {
@@ -184,7 +184,7 @@ export default function SignUp() {
                     </Grid>
                     <Button
                         //type="submit"
-                        component={RouterLink} to="/"
+                        component={RouterLink} to="/main"
                         fullWidth
                         // style={{
                         //     fontSize: 6
