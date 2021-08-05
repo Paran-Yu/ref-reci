@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 // Core
+import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -17,6 +18,8 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+// import { ThemeProvider } from '@material-ui/styles'
 
 // Icons
 import Background from '../../../images/main.png';
@@ -25,6 +28,39 @@ import Background from '../../../images/main.png';
 import axios from 'axios';
 import server from '../../../server.json';
 
+// const kakao = createTheme({
+//     palette: {
+//         primary: {
+//             light: '#f2ede7',
+//             main: '#fee500',
+//             dark: '#191600',
+//             contrastText: '#191600',
+//         },
+//     },
+// });
+
+const mytheme = createTheme({
+    palette: {
+        primary: {
+            light: '#f2da9e',
+            main: '#f9bc15',
+            dark: '#f19920',
+            contrastText: '#fff',
+        },
+        secondary: {
+            light: '#f2ede7',
+            main: '#a29d97',
+            dark: '#45423c',
+            contrastText: '#fff',
+        },
+        success: {
+            light: '#f2ede7',
+            main: '#fee500',
+            dark: '#45423c',
+            contrastText: '#191600',
+        },
+    },
+});
 
 const postLogin = async (url, userID, userPW) => {
     try{
@@ -112,7 +148,9 @@ export default function SignInSide({history}) {
                     <Typography component="h1" variant="h5">
                         로그인
                     </Typography>
+                    
                     <form className={classes.form}>
+                    <ThemeProvider theme={mytheme}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -142,23 +180,25 @@ export default function SignInSide({history}) {
                                 setPassword(event.target.value);
                             }}
                         />
+                        
                         <FormControlLabel
                             control={
                             <Checkbox 
                                 checked={checked}
                                 onChange={(e) => setChecked(e.target.checked)}
                                 value="remember"
-                                color="primary" 
+                                color="primary"
                             />
                             }
                             label="아이디 / 비밀번호 저장"
                         />
+                        
                         <Button
                             //type="submit"
                             fullWidth
                             sizeLarge
                             variant="contained"
-                            color="primary"
+                            color= "primary"
                             className={classes.submit}
                             onClick={async()=>{
                                 if(4 <= password.length && password.length <= 20){
@@ -199,18 +239,21 @@ export default function SignInSide({history}) {
                             mt={2}
                             component={RouterLink}
                             to="/#"
-                            color="yellow"
+                            color="success"
                             variant="contained"
+                            padding-bottom="10"
                             fullWidth
-                        >
+
+                            >
                             Kakao
                         </Button>
+                        
                         <Button
                             xs={12}
                             m={2}
                             component={RouterLink}
                             to="/#"
-
+                            color="primary"
                             variant="contained"
                             fullWidth
                         >
@@ -221,12 +264,13 @@ export default function SignInSide({history}) {
                             m={2}
                             component={RouterLink}
                             to="/#"
-                            color="white"
+                            color="secondary"
                             variant="contained"
                             fullWidth
                         >
                             GitHub
                         </Button>
+                        </ThemeProvider>
                         <Box mt={5}>
                             <Copyright />
                         </Box>
