@@ -5,7 +5,7 @@ const pool = mysql.createPool({
     host: 'i5a203.p.ssafy.io',
     user: 'user',
     password: process.env.dbPassword,
-    database: 'project',
+    database: 'refreci',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,

@@ -1,8 +1,13 @@
+// React, Router
 import {useState, React} from 'react';
-import { Route } from "react-router";
+// import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
-import Avatar from '@material-ui/core/Avatar';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+
+// Style
+import { makeStyles } from '@material-ui/core/styles';
+
+// Core
+import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -12,13 +17,71 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+// import { ThemeProvider } from '@material-ui/styles'
+
+// Icons
+import Background from '../../../images/main.png';
+
+// Server 
 import axios from 'axios';
 import server from '../../../server.json';
 
-let postDatas = async (url, userID, userPW) => {
+// const kakao = createTheme({
+//     palette: {
+//         primary: {
+//             light: '#f2ede7',
+//             main: '#fee500',
+//             dark: '#191600',
+//             contrastText: '#191600',
+//         },
+//     },
+// });
+
+const mytheme = createTheme({
+    palette: {
+        primary: {
+            light: '#f2da9e',
+            main: '#f9bc15',
+            dark: '#f19920',
+            contrastText: '#fff',
+        },
+        secondary: {
+            light: '#f2ede7',
+            main: '#a29d97',
+            dark: '#45423c',
+            contrastText: '#fff',
+        },
+        success: {
+            light: '#f2ede7',
+            main: '#fee500',
+            dark: '#45423c',
+            contrastText: '#191600',
+        },
+    },
+});
+
+const postSearchID = async (url, userID) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postLogin = async (url, userID, userPW) => {
     try{
         const data = await axios({
             method: 'post',
@@ -41,6 +104,7 @@ let postDatas = async (url, userID, userPW) => {
     }
 }
 
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -54,15 +118,16 @@ function Copyright() {
     );
 }
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url{process.env.PUBLIC_URL + `/images/authimg.png`}',
+        backgroundImage: "url(" + Background + ")",
         backgroundRepeat: 'no-repeat',
-        backgroundColor:
-            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        // backgroundColor: 
+        //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
     },
@@ -70,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(8, 4),
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     avatar: {
         margin: theme.spacing(1),
@@ -86,27 +151,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SignInSide() {
+export default function SignInSide({history}) {
     const classes = useStyles();
     const [checked, setChecked] = useState(true)
 
-    const [logIn, setLogIn] = useState(false);
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
 
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <Grid item sm={false} md={7} className={classes.image} />
-            <Grid item sm={12} md={5} component={Paper} elevation={6} square>
+            <Grid item xs={false} sm={6} className={classes.image} />
+            <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        로그인
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    
+                    <form className={classes.form}>
+                    <ThemeProvider theme={mytheme}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -115,10 +178,11 @@ export default function SignInSide() {
                             id="email"
                             label="아이디(E-mail)"
                             name="email"
+                            type="email"
                             autoComplete="email"
                             autoFocus
-                            onChange={async (event) => {
-                                await setUserID(event.target.value);
+                            onChange={(event) => {
+                                setUserID(event.target.value);
                             }}
                         />
                         <TextField
@@ -131,73 +195,116 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={async (event) => {
-                                await setPassword(event.target.value);
+                            onChange={(event) => {
+                                setPassword(event.target.value);
+                                if (event.target.value.length > 20) {
+                                    alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                                    event.target.value = event.target.value.slice(0, -1);
+                                }
                             }}
                         />
+                        
                         <FormControlLabel
                             control={
                             <Checkbox 
                                 checked={checked}
                                 onChange={(e) => setChecked(e.target.checked)}
                                 value="remember"
-                                color="primary" 
+                                color="primary"
                             />
                             }
-                            label="Remember me"
+                            label="아이디 / 비밀번호 저장"
                         />
+                        
                         <Button
                             //type="submit"
                             fullWidth
+                            sizeLarge
                             variant="contained"
-                            color="primary"
+                            color= "primary"
                             className={classes.submit}
                             onClick={async()=>{
-                                const userDatas = await postDatas(`${server.ip}/user/login`,userID,password);
+                                if(4 <= password.length && password.length <= 20){
+                                    const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+
+                                    if (userDatas.value === 'Duplicate Email') {
+                                        console.log('가입된 이메일입니다.');
+                                        const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+                                        if (userDatas === true) {
+                                            console.log('로그인 성공');
+                                            history.push("/");
+                                        }
+                                        else {
+                                            alert('비밀번호가 틀렸습니다.');
+                                        }
+                                    }
+                                    else {
+                                        alert('가입되지 않은 이메일입니다.');
+                                    }
+
+                                    
+
+                                    
+                                }
+                                else{
+                                    alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
+                                    console.log(`현재 비밀번호 자릿수: ${password.length}`)
+                                }
+                                
                             }}
                         >
-                            Sign In
+                            로그인
                         </Button>
-                        <ButtonGroup
-                            variant="contained"
-                        >
-                            <Button
-                                xs={12}
-                                component={RouterLink}
-                                to="/#"
-                                color="yellow"
-                            >
-                                Kakao
-                            </Button>
-                            <Button
-                                xs={12}
-                                component={RouterLink}
-                                to="/#"
-                                color="blue"
-                            >
-                                Google
-                            </Button>
-                            <Button
-                                xs={12}
-                                component={RouterLink}
-                                to="/#"
-                                color="white"
-                            >
-                                GitHub
-                            </Button>
-                        </ButtonGroup>
                         <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
+                            <Grid item xs={12} sm={6}>
+                                <Link component={RouterLink} to="/changepassword" variant="body2">
+                                    비밀번호 찾기
                                 </Link>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={12} sm={6}>
                                 <Link component={RouterLink} to="/signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    회원가입
                                 </Link>
                             </Grid>
                         </Grid>
+                        <hr></hr>
+                        <Button
+                            xs={12}
+                            mt={2}
+                            component={RouterLink}
+                            to="/#"
+                            color="success"
+                            variant="contained"
+                            padding-bottom="10"
+                            fullWidth
+
+                            >
+                            Kakao
+                        </Button>
+                        
+                        <Button
+                            xs={12}
+                            m={2}
+                            component={RouterLink}
+                            to="/#"
+                            color="primary"
+                            variant="contained"
+                            fullWidth
+                        >
+                            Google
+                        </Button>
+                        <Button
+                            xs={12}
+                            m={2}
+                            component={RouterLink}
+                            to="/#"
+                            color="secondary"
+                            variant="contained"
+                            fullWidth
+                        >
+                            GitHub
+                        </Button>
+                        </ThemeProvider>
                         <Box mt={5}>
                             <Copyright />
                         </Box>
