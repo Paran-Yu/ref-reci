@@ -26,23 +26,6 @@ import axios from 'axios';
 import server from '../../../server.json';
 
 
-const theme = createTheme({
-    palette: {
-      primary: {
-        light: '#f2da9e',
-        main: '#f9bc15',
-        dark: '#f19920',
-        contrastText: '#fff',
-      },
-      secondary: {
-        light: '#f2ede7',
-        main: '#a29d97',
-        dark: '#45423c',
-        contrastText: '#fff',
-      },
-    },
-  });
-
 const postLogin = async (url, userID, userPW) => {
     try{
         const data = await axios({
@@ -189,7 +172,7 @@ export default function SignInSide() {
                         </Button>
                         <Grid container>
                             <Grid item xs={12} sm={6}>
-                                <Link href="#" variant="body2">
+                                <Link component={RouterLink} to="/changepassword" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
