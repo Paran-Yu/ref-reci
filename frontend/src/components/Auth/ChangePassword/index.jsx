@@ -18,6 +18,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 // Icons 
@@ -214,93 +215,103 @@ export default function ChangePassword({history}) {
                 alignItems="center"
             >
                 <ThemeProvider theme={mytheme}>
-                <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
-                        비밀번호 변경
-                    </Typography>
-                    <form className={classes.form}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={9}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="아이디(E-mail)"
-                                    name="email"
-                                    autoComplete="email"
-                                    onChange={(event) => {
-                                        setUserID(event.target.value);
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Button
-                                    variant="outlined"
-                                    fullWidth
-                                    fullHeight
-                                    onClick={async () => {
-                                        
-                                        const data = await postSearchID(`${server.ip}/user/searchID`, userID);
+                    <div className={classes.paper}>
+                        <Typography component="h1" variant="h5">
+                            비밀번호 변경
+                        </Typography>
+                        <form className={classes.form}>
+                            <Container maxWidth="md">
+                                <Grid container spacing={1} alignItems="center">
+                                    <Grid item xs={9}>
+                                        <TextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            margin="normal"
+                                            autoFocus
+                                            label="아이디(E-mail)"
+                                            name="email"
+                                            autoComplete="email"
+                                            onChange={(event) => {
+                                                setUserID(event.target.value);
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button
+                                            variant="outlined"
+                                            fullWidth
+                                            size="large"
+                                            onClick={async () => {
+                                                
+                                                const data = await postSearchID(`${server.ip}/user/searchID`, userID);
 
-                                        if (data.value === 'Success') {
-                                            alert('가입되지 않은 이메일입니다.');
-                                        }
-                                        else if (data.value === 'Duplicate Email'){
-                                            console.log('회원 정보 있음');
-                                            //이메일 인증 시작
-                                            const data = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
-                                            setHiddenAuth(false);
-                                            setEmailAuthData(data);
-                                            console.log(data);
-                                        }
-                                        else if(data.value === 'Wrong Email'){
-                                            alert('이메일 형식이 잘못되었습니다.');
-                                        }
-                                    }}
-                                >
-                                인증
-                                </Button>
-                            </Grid>
-                            <Grid item xs={9}>
+                                                if (data.value === 'Success') {
+                                                    alert('가입되지 않은 이메일입니다.');
+                                                }
+                                                else if (data.value === 'Duplicate Email'){
+                                                    console.log('회원 정보 있음');
+                                                    //이메일 인증 시작
+                                                    const data = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                                    setHiddenAuth(false);
+                                                    setEmailAuthData(data);
+                                                    console.log(data);
+                                                }
+                                                else if(data.value === 'Wrong Email'){
+                                                    alert('이메일 형식이 잘못되었습니다.');
+                                                }
+                                            }}
+                                        >
+                                        인증
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={1} alignItems="center">
+                                    <Grid item xs={9}>
+                                        <TextField
+                                            disabled={hiddenAuth}
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            margin="normal"
+                                            autoFocus
+                                            id="verification"
+                                            label="인증번호"
+                                            name="verification"
+                                            autoComplete="verification"
+                                            onChange={(event) => {
+                                                setVerification(event.target.value);
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button
+                                            variant="outlined"
+                                            disabled={hiddenAuth}
+                                            fullWidth
+                                            size="large"
+                                            onClick={async () => {
+                                                if(verification == emailAuthData){
+                                                    console.log('인증번호 일치');
+                                                    setEmailAuth(true);
+                                                }
+                                                else{
+                                                    alert('잘못된 인증번호입니다.');
+                                                    setEmailAuth(false);
+                                                }
+                                            }}
+                                        >
+                                        확인
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                                 <TextField
-                                    disabled={hiddenAuth}
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="verification"
-                                    label="인증번호"
-                                    name="verification"
-                                    autoComplete="verification"
-                                    onChange={(event) => {
-                                        setVerification(event.target.value);
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Button
-                                    variant="outlined"
-                                    disabled={hiddenAuth}
-                                    fullWidth
-                                    onClick={async () => {
-                                        if(verification == emailAuthData){
-                                            console.log('인증번호 일치');
-                                            setEmailAuth(true);
-                                        }
-                                        else{
-                                            alert('잘못된 인증번호입니다.');
-                                            setEmailAuth(false);
-                                        }
-                                    }}
-                                >
-                                확인
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
+                                    margin="normal"
+                                    autoFocus
                                     name="password"
                                     label="비밀번호"
                                     type="password"
@@ -314,11 +325,11 @@ export default function ChangePassword({history}) {
                                         }
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12}>
                                 <TextField
                                     variant="outlined"
                                     required
+                                    margin="normal"
+                                    autoFocus
                                     fullWidth
                                     name="passwordcheck"
                                     label="비밀번호확인"
@@ -329,41 +340,39 @@ export default function ChangePassword({history}) {
                                         setPasswordCheck(event.target.value);
                                     }}
                                 />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            //type="submit"
-                            disabled={signUpInactive}
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            className={classes.submit}
-                            onClick={async () => {
-                                const data = await postChangePassword(`${server.ip}/user/changePassword`, userID, password);
+                                <Button
+                                    disabled={signUpInactive}
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    className={classes.submit}
+                                    onClick={async () => {
+                                        const data = await postChangePassword(`${server.ip}/user/changePassword`, userID, password);
 
-                                if(data.value === 'Success'){
-                                    history.push("/signin");
-                                }
-                                else if (data.value === 'Short password'){
-                                    alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
-                                }
-                            }}
-                        >
-                            비밀번호 변경
-                        </Button>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item>
-                                <Link component={RouterLink} to="/signin" variant="body2">
-                                    로그인 화면으로 돌아가기
-                                </Link>
-                            </Grid>
-                        </Grid>
-                        <Box mt={5}>
-                            <Copyright />
-                        </Box>
-                    </form>
-                </div>
+                                        if(data.value === 'Success'){
+                                            history.push("/signin");
+                                        }
+                                        else if (data.value === 'Short password'){
+                                            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                                        }
+                                    }}
+                                >
+                                    비밀번호 변경
+                                </Button>
+                                <Grid container justifyContent="flex-end">
+                                    <Grid item>
+                                        <Link component={RouterLink} to="/signin" variant="body2">
+                                            로그인 화면으로 돌아가기
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                                <Box mt={5}>
+                                    <Copyright />
+                                </Box>
+                            </Container>
+                        </form>
+                    </div>
                 </ThemeProvider>
             </Grid>
         </Grid>

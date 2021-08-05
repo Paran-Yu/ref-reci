@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+// import { ThemeProvider } from '@material-ui/styles'
 
 // Core
 import createTheme from '@material-ui/core/styles/createTheme';
@@ -18,26 +20,16 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-// import { ThemeProvider } from '@material-ui/styles'
+import IconButton from '@material-ui/core/IconButton';
 
 // Icons
 import Background from '../../../images/main.png';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 // Server 
 import axios from 'axios';
 import server from '../../../server.json';
 
-// const kakao = createTheme({
-//     palette: {
-//         primary: {
-//             light: '#f2ede7',
-//             main: '#fee500',
-//             dark: '#191600',
-//             contrastText: '#191600',
-//         },
-//     },
-// });
 
 const mytheme = createTheme({
     palette: {
@@ -102,12 +94,11 @@ const postLogin = async (url, userID, userPW) => {
     }
 }
 
-
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="http://i5a203.p.ssafy.io/signin">
                 Ref:reci
             </Link>{' '}
             {new Date().getFullYear()}
@@ -115,7 +106,6 @@ function Copyright() {
         </Typography>
     );
 }
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -221,7 +211,6 @@ export default function SignInSide({history}) {
                             label="아이디 / 비밀번호 저장"
                         /> */}
                         <Button
-                            type="submit"
                             fullWidth
                             size="large"
                             variant="contained"
@@ -230,7 +219,6 @@ export default function SignInSide({history}) {
                             onClick={async()=>{
                                 if(4 <= password.length && password.length <= 20){
                                     const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
-
                                     if (userDatas.value === 'Duplicate Email') {
                                         console.log('가입된 이메일입니다.');
                                         const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
@@ -245,16 +233,11 @@ export default function SignInSide({history}) {
                                     else {
                                         alert('가입되지 않은 이메일입니다.');
                                     }
-
-                                    
-
-                                    
                                 }
                                 else{
                                     alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
                                     console.log(`현재 비밀번호 자릿수: ${password.length}`)
                                 }
-                                
                             }}
                         >
                             로그인
@@ -271,37 +254,22 @@ export default function SignInSide({history}) {
                                 </Link>
                             </Grid>
                         </Grid>
-                        <hr></hr>
-                        <Button
-                            xs={12}
-                            color="success"
-                            variant="contained"
-                            padding-bottom="10"
-                            fullWidth
-                            href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
-                            >
-                            Kakao
-                        </Button>
                         <br></br>
-                        <Button
-                            xs={12}
-                            color="primary"
-                            variant="contained"
-                            fullWidth
+                        <IconButton
                             href={"https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
                         >
                             Google
-                        </Button>
-                        <br></br>
-                        <Button
-                            xs={12}
-                            color="secondary"
-                            variant="contained"
-                            fullWidth
+                        </IconButton>
+                        <IconButton
                             href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
                         >
-                            GitHub
-                        </Button>
+                            <GitHubIcon />
+                        </IconButton>
+                        <IconButton
+                            href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
+                            >
+                            Kakao
+                        </IconButton>
                         <br></br>
                         <Box mt={5}>
                             <Copyright />
