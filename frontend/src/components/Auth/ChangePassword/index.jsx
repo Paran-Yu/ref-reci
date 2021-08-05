@@ -7,22 +7,37 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 // Core
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
-// Icons & Images
+// Icons 
 import Background from '../../../images/main.png';
 
 // Server
 import axios from 'axios';
 import server from '../../../server.json';
+import { Label } from '@material-ui/icons';
+
+function Copyright() {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href="https://material-ui.com/">
+                Ref:reci
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
 
 const postRegister = async (url, userName, userID, userPW) => {
     try {
@@ -84,19 +99,6 @@ const postEmailAuth = async (url, userID) => {
     }
 }
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Ref:reci
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
@@ -128,11 +130,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignUpSide({history}) {
+export default function ChangePassword({history}) {
     const classes = useStyles();
 
     //form 데이터
-    const [userName, setUserName] = useState('');
     const [userID, setUserID] = useState('');
     const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
@@ -172,7 +173,6 @@ export default function SignUpSide({history}) {
         }
     }, [emailAuth, passwordSame])
 
-
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
@@ -180,30 +180,10 @@ export default function SignUpSide({history}) {
             <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        비밀번호 변경
                     </Typography>
                     <form className={classes.form}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="닉네임"
-                                    autoFocus
-                                    onChange={(event) => {
-                                        setUserName(event.target.value);
-                                        console.log(event.target.value.length);
-                                        if (event.target.value.length > 20){
-                                            alert('20자 이하로 해주세요');
-                                            event.target.value = event.target.value.slice(0, -1);
-                                        }
-                                    }}
-                                />
-                            </Grid>
                             <Grid item xs={9}>
                                 <TextField
                                     variant="outlined"
@@ -215,7 +195,6 @@ export default function SignUpSide({history}) {
                                     autoComplete="email"
                                     onChange={(event) => {
                                         setUserID(event.target.value);
-                                        setEmailAuth(false);
                                     }}
                                 />
                             </Grid>
@@ -225,21 +204,22 @@ export default function SignUpSide({history}) {
                                     fullWidth
                                     fullHeight
                                     onClick={async () => {
+                                        
                                         const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
 
                                         if (userDatas.value === 'Success') {
-                                            console.log('중복 이메일 없음');
+                                            alert('가입되지 않은 이메일입니다.');
+                                        }
+                                        else if (userDatas.value === 'Duplicate Email'){
+                                            console.log('회원 정보 있음');
                                             //이메일 인증 시작
                                             const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
                                             setHiddenAuth(false);
                                             setEmailAuthData(userDatas);
                                             console.log(userDatas);
                                         }
-                                        else if (userDatas.value === 'Duplicate Email'){
-                                            alert('이미 가입된 계정입니다.');
-                                        }
                                         else if(userDatas.value === 'Wrong Email'){
-                                            alert('이메일 형식이 잘못되었습니다.');
+                                            console.log('이메일 형식이 잘못되었습니다.');
                                         }
                                     }}
                                 >
@@ -273,6 +253,7 @@ export default function SignUpSide({history}) {
                                         }
                                         else{
                                             alert('인증번호 불일치');
+                                            setEmailAuth(false);
                                         }
                                     }}
                                 >
@@ -317,32 +298,22 @@ export default function SignUpSide({history}) {
                         <Button
                             //type="submit"
                             disabled={signUpInactive}
-                            //component={RouterLink} to="/main"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
                             onClick={async () => {
-                                const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                //비밀번호 변경하는 post 함수
                                 
-                                if(userDatas.value === 'Success'){
-                                    alert('회원가입 완료');
-                                    history.push("/");
-                                }
-                                else if (userDatas.value === 'Short userName'){
-                                    alert('닉네임은 2자 이상 20자 이하로 입력해주세요.');
-                                }
-                                else if (userDatas.value === 'Short password') {
-                                    alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
-                                }
+                                history.push("/signin");
                             }}
                         >
-                            Sign Up
+                            비밀번호 변경
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link component={RouterLink} to="/signin" variant="body2">
-                                    Already have an account? Sign in
+                                    로그인 화면으로 돌아가기
                                 </Link>
                             </Grid>
                         </Grid>

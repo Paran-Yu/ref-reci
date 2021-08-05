@@ -82,6 +82,96 @@ class DB:
 
         return 1
 
+    def get_UserProducts_NameReverse_sort(self, user_id):
+        '''
+        제품을 이름 역순으로 보여줄 때 사용
+        :param user_id: user의 id를 받아서 DB에 저장된 제품을 보여준다.
+
+        :return data: 2차원리스트, 리스트 안에는 dict형
+        ex: [{item_name: 고추장, item_category1: 장류, ...}...]
+        item_name: 재료이름         item_category1: 대분류     item_createDay: 재료 등록일
+        item_expDay: 재료 유통기한 (D-day식으로 표기 예정)        item_count: 재료 수량
+        item_image: 제품 이미지          item_category2: 소분류
+        '''
+        data = []
+        dict_keys = ['upID', 'item_name', 'item_count', 'item_createDay',
+                     'item_category1', 'item_expDay', 'item_image', 'item_category2']
+        cursor = self.db.cursor()
+        sql = "SELECT upID, productName, productCount, createdDate, " \
+              "productClassification1, productShelfLife, productImage, productClassification2 " \
+              "FROM UserProduct WHERE uID=%s " \
+              "ORDER BY productName DESC;"
+        cursor.execute(sql, user_id)
+        result = cursor.fetchall()
+
+        for r in result:
+            tmp = dict()
+            for d in range(8):
+                tmp[dict_keys[d]] = r[d]
+            data.append(tmp)
+
+        return data
+
+    def get_UserProducts_Name_sort(self, user_id):
+        '''
+        제품을 이름순으로 정렬해서 보여줄 때 사용
+        :param user_id: user의 id를 받아서 DB에 저장된 제품을 보여준다.
+
+        :return data: 2차원리스트, 리스트 안에는 dict형
+        ex: [{item_name: 고추장, item_category1: 장류, ...}...]
+        item_name: 재료이름         item_category1: 대분류     item_createDay: 재료 등록일
+        item_expDay: 재료 유통기한 (D-day식으로 표기 예정)        item_count: 재료 수량
+        item_image: 제품 이미지          item_category2: 소분류
+        '''
+        data = []
+        dict_keys = ['upID', 'item_name', 'item_count', 'item_createDay',
+                     'item_category1', 'item_expDay', 'item_image', 'item_category2']
+        cursor = self.db.cursor()
+        sql = "SELECT upID, productName, productCount, createdDate, " \
+              "productClassification1, productShelfLife, productImage, productClassification2 " \
+              "FROM UserProduct WHERE uID=%s " \
+              "ORDER BY productName;"
+        cursor.execute(sql, user_id)
+        result = cursor.fetchall()
+
+        for r in result:
+            tmp = dict()
+            for d in range(8):
+                tmp[dict_keys[d]] = r[d]
+            data.append(tmp)
+
+        return data
+
+    def get_UserProducts_ShelfLife_sort(self, user_id):
+        '''
+        제품을 유통기한 순으로 보여줄 때 사용
+        :param user_id: user의 id를 받아서 DB에 저장된 제품을 보여준다.
+
+        :return data: 2차원리스트, 리스트 안에는 dict형
+        ex: [{item_name: 고추장, item_category1: 장류, ...}...]
+        item_name: 재료이름         item_category1: 대분류     item_createDay: 재료 등록일
+        item_expDay: 재료 유통기한 (D-day식으로 표기 예정)        item_count: 재료 수량
+        item_image: 제품 이미지          item_category2: 소분류
+        '''
+        data = []
+        dict_keys = ['upID', 'item_name', 'item_count', 'item_createDay',
+                     'item_category1', 'item_expDay', 'item_image', 'item_category2']
+        cursor = self.db.cursor()
+        sql = "SELECT upID, productName, productCount, createdDate, " \
+              "productClassification1, productShelfLife, productImage, productClassification2 " \
+              "FROM UserProduct WHERE uID=%s " \
+              "ORDER BY productShelfLife;"
+        cursor.execute(sql, user_id)
+        result = cursor.fetchall()
+
+        for r in result:
+            tmp = dict()
+            for d in range(8):
+                tmp[dict_keys[d]] = r[d]
+            data.append(tmp)
+
+        return data
+
     def get_UserProducts(self, user_id):
         '''
         제품을 보여줄 때 사용
@@ -283,7 +373,7 @@ class DB:
         cursor = self.db.cursor()
         try:
             sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
-                  "FROM Favorites f, Recipe r, User u WHERE uID=%s and u.uID=f.uID and r.rID=f.rID;"
+                  "FROM Favorites f, Recipe r, User u WHERE f.uID=%s and u.uID=f.uID and r.rID=f.rID;"
             cursor.execute(sql, user_id)
             dict_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
             result = cursor.fetchall()
