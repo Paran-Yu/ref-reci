@@ -26,6 +26,23 @@ import axios from 'axios';
 import server from '../../../server.json';
 
 
+const theme = createTheme({
+    palette: {
+      primary: {
+        light: '#f2da9e',
+        main: '#f9bc15',
+        dark: '#f19920',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#f2ede7',
+        main: '#a29d97',
+        dark: '#45423c',
+        contrastText: '#fff',
+      },
+    },
+  });
+
 const postLogin = async (url, userID, userPW) => {
     try{
         const data = await axios({
@@ -199,7 +216,7 @@ export default function SignInSide() {
                             m={2}
                             component={RouterLink}
                             to="/#"
-                            color="blue"
+
                             variant="contained"
                             fullWidth
                         >
