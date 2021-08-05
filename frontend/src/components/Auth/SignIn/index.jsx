@@ -1,14 +1,12 @@
 // React, Router
 import {useState, React} from 'react';
-import { Route } from "react-router";
+// import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
 
 // Core
-import Avatar from '@material-ui/core/Avatar';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -21,12 +19,12 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 // Icons
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Background from '../../../images/authimg.png';
+import Background from '../../../images/main.png';
 
 // Server 
 import axios from 'axios';
 import server from '../../../server.json';
+
 
 const postLogin = async (url, userID, userPW) => {
     try{
@@ -50,6 +48,7 @@ const postLogin = async (url, userID, userPW) => {
         console.log(`ERROR: ${err}`);
     }
 }
+
 
 function Copyright() {
     return (
@@ -112,13 +111,10 @@ export default function SignInSide() {
             <Grid item xs={false} sm={6} className={classes.image} />
             <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        로그인
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className={classes.form}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -127,6 +123,7 @@ export default function SignInSide() {
                             id="email"
                             label="아이디(E-mail)"
                             name="email"
+                            type="email"
                             autoComplete="email"
                             autoFocus
                             onChange={(event) => {
@@ -156,11 +153,12 @@ export default function SignInSide() {
                                 color="primary" 
                             />
                             }
-                            label="Remember me"
+                            label="아이디 / 비밀번호 저장"
                         />
                         <Button
                             //type="submit"
                             fullWidth
+                            sizeLarge
                             variant="contained"
                             color="primary"
                             className={classes.submit}
@@ -172,6 +170,7 @@ export default function SignInSide() {
                         >
                             Sign In
                         </Button>
+<<<<<<< HEAD
                         <ButtonGroup
                             variant="contained"
                         >
@@ -200,18 +199,54 @@ export default function SignInSide() {
                                 GitHub
                             </Button>
                         </ButtonGroup>
+=======
+>>>>>>> 44b0a5fbcb617fbaf53804e89bc56129cd1eb377
                         <Grid container>
-                            <Grid item xs>
+                            <Grid item xs={12} sm={6}>
                                 <Link href="#" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={12} sm={6}>
                                 <Link component={RouterLink} to="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
                         </Grid>
+                        <hr></hr>
+                        <Button
+                            xs={12}
+                            mt={2}
+                            component={RouterLink}
+                            to="/#"
+                            color="yellow"
+                            variant="contained"
+                            fullWidth
+                        >
+                            Kakao
+                        </Button>
+                        <Button
+                            xs={12}
+                            m={2}
+                            component={RouterLink}
+                            to="/#"
+                            color="blue"
+                            variant="contained"
+                            fullWidth
+                        >
+                            Google
+                        </Button>
+                        <Button
+                            xs={12}
+                            m={2}
+                            component={RouterLink}
+                            to="/#"
+                            color="white"
+                            variant="contained"
+                            fullWidth
+                        >
+                            GitHub
+                        </Button>
                         <Box mt={5}>
                             <Copyright />
                         </Box>
