@@ -62,6 +62,25 @@ const mytheme = createTheme({
     },
 });
 
+const postSearchID = async (url, userID) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
+
 const postLogin = async (url, userID, userPW) => {
     try{
         const data = await axios({
@@ -178,6 +197,10 @@ export default function SignInSide({history}) {
                             autoComplete="current-password"
                             onChange={(event) => {
                                 setPassword(event.target.value);
+                                if (event.target.value.length > 20) {
+                                    alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                                    event.target.value = event.target.value.slice(0, -1);
+                                }
                             }}
                         />
                         
@@ -202,15 +225,26 @@ export default function SignInSide({history}) {
                             className={classes.submit}
                             onClick={async()=>{
                                 if(4 <= password.length && password.length <= 20){
-                                    const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+                                    const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
 
-                                    if (userDatas === true) {
-                                        console.log('로그인 성공');
-                                        history.push("/");
+                                    if (userDatas.value === 'Duplicate Email') {
+                                        console.log('가입된 이메일입니다.');
+                                        const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+                                        if (userDatas === true) {
+                                            console.log('로그인 성공');
+                                            history.push("/");
+                                        }
+                                        else {
+                                            alert('비밀번호가 틀렸습니다.');
+                                        }
                                     }
                                     else {
-                                        console.log('로그인 실패');
+                                        alert('가입되지 않은 이메일입니다.');
                                     }
+
+                                    
+
+                                    
                                 }
                                 else{
                                     alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
