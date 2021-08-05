@@ -87,28 +87,6 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.post("/searchName", async (req, res) => {
-    const userName = req.body.userName;
-
-    console.log(userName);
-
-    try {
-        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userName = ?", [
-            userName
-        ]);
-
-        if(rows.length === 0){
-            res.send(true);
-        }
-        else{
-            res.send(false);
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
-
 app.post("/searchID", async (req, res) => {
     const userID = req.body.userID;
 
