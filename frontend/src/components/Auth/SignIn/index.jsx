@@ -69,9 +69,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        // backgroundImage: `${authimg}`,
         backgroundImage: "url(" + Background + ")",
-        // backgroundImage: 'url(https://source.unsplash.com/random)',
         backgroundRepeat: 'no-repeat',
         // backgroundColor: 
         //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -168,17 +166,17 @@ export default function SignInSide() {
                                 console.log(userDatas);
                             }}
                         >
-                            Sign In
+                            로그인
                         </Button>
                         <Grid container>
                             <Grid item xs={12} sm={6}>
                                 <Link component={RouterLink} to="/changepassword" variant="body2">
-                                    Forgot password?
+                                    비밀번호 찾기
                                 </Link>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Link component={RouterLink} to="/signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    회원가입
                                 </Link>
                             </Grid>
                         </Grid>

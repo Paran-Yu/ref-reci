@@ -11,17 +11,14 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 
-// Icons 
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// Icons & Images
+import Background from '../../../images/main.png';
 
 // Server
 import axios from 'axios';
@@ -105,8 +102,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        // backgroundImage: `${authimg}`,
-        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundImage: "url(" + Background + ")",
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -183,13 +179,10 @@ export default function SignUpSide() {
             <Grid item xs={false} sm={6} className={classes.image} />
             <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className={classes.form}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
