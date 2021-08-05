@@ -187,37 +187,6 @@ export default function SignInSide() {
                         >
                             Sign In
                         </Button>
-<<<<<<< HEAD
-                        <ButtonGroup
-                            variant="contained"
-                        >
-                            <Button
-                                xs={12}
-                                component={RouterLink}
-                                to="/#"
-                                color="yellow"
-                            >
-                                Kakao
-                            </Button>
-                            <Button
-                                xs={12}
-                                component={RouterLink}
-                                to="/#"
-                                color="blue"
-                            >
-                                Google
-                            </Button>
-                            <Button
-                                xs={12}
-                                component={RouterLink}
-                                to="/#"
-                                Backgroundcolor="black"
-                            >
-                                GitHub
-                            </Button>
-                        </ButtonGroup>
-=======
->>>>>>> 44b0a5fbcb617fbaf53804e89bc56129cd1eb377
                         <Grid container>
                             <Grid item xs={12} sm={6}>
                                 <Link href="#" variant="body2">
