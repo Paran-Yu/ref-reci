@@ -71,13 +71,11 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         // backgroundImage: `${authimg}`,
-        width: "100%",
-        height: "100%",
         backgroundImage: "url(" + Background + ")",
         // backgroundImage: 'url(https://source.unsplash.com/random)',
         backgroundRepeat: 'no-repeat',
-        backgroundColor:
-            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        // backgroundColor: 
+        //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
     },
@@ -85,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(8, 4),
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     avatar: {
         margin: theme.spacing(1),
@@ -197,7 +195,7 @@ export default function SignInSide() {
                                 xs={12}
                                 component={RouterLink}
                                 to="/#"
-                                color="white"
+                                Backgroundcolor="black"
                             >
                                 GitHub
                             </Button>
