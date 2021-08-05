@@ -312,6 +312,7 @@ export default function SignUpSide() {
                         </Grid>
                         <Button
                             //type="submit"
+                            disabled={signUpInactive}
                             component={RouterLink} to="/main"
                             fullWidth
                             variant="contained"
