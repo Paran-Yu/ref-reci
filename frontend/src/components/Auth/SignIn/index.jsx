@@ -274,31 +274,17 @@ export default function SignInSide({history}) {
                         <hr></hr>
                         <Button
                             xs={12}
-<<<<<<< HEAD
-                            mt={2}
-                            to="/#"
-=======
->>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             color="success"
                             variant="contained"
                             padding-bottom="10"
                             fullWidth
-<<<<<<< HEAD
                             href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
-=======
->>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             >
                             Kakao
                         </Button>
                         <br></br>
                         <Button
                             xs={12}
-<<<<<<< HEAD
-                            m={2}
-=======
-                            component={RouterLink}
-                            to="/#"
->>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             color="primary"
                             variant="contained"
                             fullWidth
@@ -309,12 +295,6 @@ export default function SignInSide({history}) {
                         <br></br>
                         <Button
                             xs={12}
-<<<<<<< HEAD
-                            m={2}
-=======
-                            component={RouterLink}
-                            to="/#"
->>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             color="secondary"
                             variant="contained"
                             fullWidth
