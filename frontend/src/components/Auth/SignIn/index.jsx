@@ -22,6 +22,7 @@ import Typography from '@material-ui/core/Typography';
 
 // Icons
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Background from '../../../images/authimg.png';
 
 // Server 
 import axios from 'axios';
@@ -70,7 +71,10 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         // backgroundImage: `${authimg}`,
-        backgroundImage: 'url(https://source.unsplash.com/random)',
+        width: "100%",
+        height: "100%",
+        backgroundImage: "url(" + Background + ")",
+        // backgroundImage: 'url(https://source.unsplash.com/random)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],

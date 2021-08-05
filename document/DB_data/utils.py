@@ -283,7 +283,7 @@ class DB:
         cursor = self.db.cursor()
         try:
             sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
-                  "FROM Favorites f, Recipe r, User u WHERE uID=%s and u.uID=f.uID and r.rID=f.rID;"
+                  "FROM Favorites f, Recipe r, User u WHERE f.uID=%s and u.uID=f.uID and r.rID=f.rID;"
             cursor.execute(sql, user_id)
             dict_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
             result = cursor.fetchall()
