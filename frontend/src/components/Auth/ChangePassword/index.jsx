@@ -39,29 +39,6 @@ function Copyright() {
     );
 }
 
-const postLogin = async (url, userID, userPW) => {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userID: userID,
-                userPW: userPW
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        console.log(`url: ${url}`);
-        console.log(`data.data: ${data.data}`);
-        return data.data;
-    }
-    catch (err) {
-        console.log(url);
-        console.log(`ERROR: ${err}`);
-    }
-}
-
 const postRegister = async (url, userName, userID, userPW) => {
     try {
         const data = await axios({
@@ -153,11 +130,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ChangePassword() {
+export default function ChangePassword({history}) {
     const classes = useStyles();
 
     //form 데이터
-    const [userName, setUserName] = useState('');
     const [userID, setUserID] = useState('');
     const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
@@ -219,7 +195,6 @@ export default function ChangePassword() {
                                     autoComplete="email"
                                     onChange={(event) => {
                                         setUserID(event.target.value);
-                                        setEmailAuth(false);
                                     }}
                                 />
                             </Grid>
@@ -233,7 +208,7 @@ export default function ChangePassword() {
                                         const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
 
                                         if (userDatas.value === 'Success') {
-                                            console.log('회원 정보 없음');
+                                            alert('가입되지 않은 이메일입니다.');
                                         }
                                         else if (userDatas.value === 'Duplicate Email'){
                                             console.log('회원 정보 있음');
@@ -277,7 +252,8 @@ export default function ChangePassword() {
                                             setEmailAuth(true);
                                         }
                                         else{
-                                            console.log('인증번호 불일치');
+                                            alert('인증번호 불일치');
+                                            setEmailAuth(false);
                                         }
                                     }}
                                 >
@@ -296,6 +272,10 @@ export default function ChangePassword() {
                                     autoComplete="current-password"
                                     onChange={(event) => {
                                         setPassword(event.target.value);
+                                        if (event.target.value.length > 20) {
+                                            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                                            event.target.value = event.target.value.slice(0, -1);
+                                        }
                                     }}
                                 />
                             </Grid>
@@ -318,13 +298,14 @@ export default function ChangePassword() {
                         <Button
                             //type="submit"
                             disabled={signUpInactive}
-                            component={RouterLink} to="/main"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
                             onClick={async () => {
-                                const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                //비밀번호 변경하는 post 함수
+                                
+                                history.push("/signin");
                             }}
                         >
                             비밀번호 변경

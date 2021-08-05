@@ -197,8 +197,8 @@ export default function SignUpSide({history}) {
                                     onChange={(event) => {
                                         setUserName(event.target.value);
                                         console.log(event.target.value.length);
-                                        if (event.target.value.length >= 20){
-                                            alert('20자 미만으로 해주세요');
+                                        if (event.target.value.length > 20){
+                                            alert('20자 이하로 해주세요');
                                             event.target.value = event.target.value.slice(0, -1);
                                         }
                                     }}
@@ -225,8 +225,6 @@ export default function SignUpSide({history}) {
                                     fullWidth
                                     fullHeight
                                     onClick={async () => {
-                                        
-                                        
                                         const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
 
                                         if (userDatas.value === 'Success') {
@@ -274,7 +272,7 @@ export default function SignUpSide({history}) {
                                             setEmailAuth(true);
                                         }
                                         else{
-                                            console.log('인증번호 불일치');
+                                            alert('인증번호 불일치');
                                         }
                                     }}
                                 >
@@ -293,6 +291,10 @@ export default function SignUpSide({history}) {
                                     autoComplete="current-password"
                                     onChange={(event) => {
                                         setPassword(event.target.value);
+                                        if (event.target.value.length > 20) {
+                                            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                                            event.target.value = event.target.value.slice(0, -1);
+                                        }
                                     }}
                                 />
                             </Grid>
@@ -321,13 +323,17 @@ export default function SignUpSide({history}) {
                             color="primary"
                             className={classes.submit}
                             onClick={async () => {
-                                if (4 <= password.length && password.length <= 20) {
-                                    const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                
+                                if(userDatas.value === 'Success'){
+                                    alert('회원가입 완료');
                                     history.push("/");
                                 }
-                                else {
-                                    alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
-                                    console.log(`현재 비밀번호 자릿수: ${password.length}`)
+                                else if (userDatas.value === 'Short userName'){
+                                    alert('닉네임은 2자 이상 20자 이하로 입력해주세요.');
+                                }
+                                else if (userDatas.value === 'Short password') {
+                                    alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
                                 }
                             }}
                         >
