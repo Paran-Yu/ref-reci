@@ -211,8 +211,8 @@ export default function SignInSide() {
                             Sign In
                         </Button>
                         <Grid container>
-                            <Grid item xs={12} sm={6} color="secondary.dark">
-                                <Link href="#" variant="body2">
+                            <Grid item xs={12} sm={6}>
+                                <Link component={RouterLink} to="/changepassword" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
