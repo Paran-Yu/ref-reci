@@ -93,17 +93,22 @@ app.post("/searchID", async (req, res) => {
     console.log(userID);
 
     try {
+        const reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
-
-        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
-            userID
-        ]);
-
-        if (rows.length === 0) {
-            res.send({value: 'Success'});
+        if (!reg_email.test(userID)) {
+            res.send({ value: 'Wrong Email' });
         }
         else {
-            res.send({ value: 'Duplicate Email' });
+            const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
+                userID
+            ]);
+
+            if (rows.length === 0) {
+                res.send({ value: 'Success' });
+            }
+            else {
+                res.send({ value: 'Duplicate Email' });
+            }
         }
     }
     catch (err) {
