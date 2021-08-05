@@ -94,8 +94,6 @@ const postLogin = async (url, userID, userPW) => {
                 accept: 'application/json',
             },
         });
-        console.log(`url: ${url}`);
-        console.log(`data.data: ${data.data}`);
         return data.data;
     }
     catch(err){
@@ -271,13 +269,12 @@ export default function SignInSide({history}) {
                         <Button
                             xs={12}
                             mt={2}
-                            component={RouterLink}
                             to="/#"
                             color="success"
                             variant="contained"
                             padding-bottom="10"
                             fullWidth
-
+                            href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
                             >
                             Kakao
                         </Button>
@@ -285,22 +282,20 @@ export default function SignInSide({history}) {
                         <Button
                             xs={12}
                             m={2}
-                            component={RouterLink}
-                            to="/#"
                             color="primary"
                             variant="contained"
                             fullWidth
+                            href={"https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
                         >
                             Google
                         </Button>
                         <Button
                             xs={12}
                             m={2}
-                            component={RouterLink}
-                            to="/#"
                             color="secondary"
                             variant="contained"
                             fullWidth
+                            href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
                         >
                             GitHub
                         </Button>

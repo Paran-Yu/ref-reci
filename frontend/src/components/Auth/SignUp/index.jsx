@@ -41,7 +41,6 @@ const postRegister = async (url, userName, userID, userPW) => {
         return data.data;
     }
     catch (err) {
-        console.log(url);
         console.log(`ERROR: ${err}`);
     }
 }
@@ -227,6 +226,8 @@ export default function SignUpSide({history}) {
                                     onClick={async () => {
                                         const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
 
+                                        
+
                                         if (userDatas.value === 'Success') {
                                             console.log('중복 이메일 없음');
                                             //이메일 인증 시작
@@ -272,7 +273,7 @@ export default function SignUpSide({history}) {
                                             setEmailAuth(true);
                                         }
                                         else{
-                                            alert('인증번호 불일치');
+                                            alert('잘못된 인증번호입니다.');
                                         }
                                     }}
                                 >

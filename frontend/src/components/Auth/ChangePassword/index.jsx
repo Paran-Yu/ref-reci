@@ -39,13 +39,12 @@ function Copyright() {
     );
 }
 
-const postRegister = async (url, userName, userID, userPW) => {
+const postChangePassword = async (url, userID, userPW) => {
     try {
         const data = await axios({
             method: 'post',
             url: url,
             data: {
-                userName: userName,
                 userID: userID,
                 userPW: userPW
             },
@@ -205,21 +204,21 @@ export default function ChangePassword({history}) {
                                     fullHeight
                                     onClick={async () => {
                                         
-                                        const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+                                        const data = await postSearchID(`${server.ip}/user/searchID`, userID);
 
-                                        if (userDatas.value === 'Success') {
+                                        if (data.value === 'Success') {
                                             alert('가입되지 않은 이메일입니다.');
                                         }
-                                        else if (userDatas.value === 'Duplicate Email'){
+                                        else if (data.value === 'Duplicate Email'){
                                             console.log('회원 정보 있음');
                                             //이메일 인증 시작
-                                            const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                            const data = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
                                             setHiddenAuth(false);
-                                            setEmailAuthData(userDatas);
-                                            console.log(userDatas);
+                                            setEmailAuthData(data);
+                                            console.log(data);
                                         }
-                                        else if(userDatas.value === 'Wrong Email'){
-                                            console.log('이메일 형식이 잘못되었습니다.');
+                                        else if(data.value === 'Wrong Email'){
+                                            alert('이메일 형식이 잘못되었습니다.');
                                         }
                                     }}
                                 >
@@ -252,7 +251,7 @@ export default function ChangePassword({history}) {
                                             setEmailAuth(true);
                                         }
                                         else{
-                                            alert('인증번호 불일치');
+                                            alert('잘못된 인증번호입니다.');
                                             setEmailAuth(false);
                                         }
                                     }}
@@ -303,9 +302,14 @@ export default function ChangePassword({history}) {
                             color="primary"
                             className={classes.submit}
                             onClick={async () => {
-                                //비밀번호 변경하는 post 함수
-                                
-                                history.push("/signin");
+                                const data = await postChangePassword(`${server.ip}/user/changePassword`, userID, password);
+
+                                if(data.value === 'Success'){
+                                    history.push("/signin");
+                                }
+                                else if (data.value === 'Short password'){
+                                    alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                                }
                             }}
                         >
                             비밀번호 변경

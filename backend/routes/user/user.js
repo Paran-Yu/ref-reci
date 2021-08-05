@@ -48,7 +48,7 @@ app.post("/register", async (req, res) => {
     }
 
     try {
-        const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, ?, NOW(), 0)", [
+        const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, ?, NOW(), 0, 0)", [
             userName,
             userID,
             hashPassword,
@@ -149,6 +149,32 @@ app.post("/emailAuth", async (req, res) => {
         smtpTransport.close();
     }
     catch(err){
+        console.log(err);
+    }
+});
+
+app.post("/changePassword", async (req, res) => {
+    const userID = req.body.userID;
+    const password = req.body.userPW;
+
+    console.log(`바꿀 비밀번호 ${password}`);
+
+    if (password.length < 8) {
+        res.send({ value: 'Short password' });
+        return;
+    }
+
+    try {
+        const hashPassword = crypto.createHash("sha512").update(password).digest("hex");
+
+        await pool.query("UPDATE User SET userPW = ? WHERE userID = ?", [
+            hashPassword,
+            userID,
+        ]);
+
+        res.send({ value: 'Success' });
+    }
+    catch (err) {
         console.log(err);
     }
 });
