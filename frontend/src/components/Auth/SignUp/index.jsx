@@ -1,13 +1,13 @@
 // React, Router
 import React, { useEffect, useState } from 'react';
-import { Route } from "react-router";
+// import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
 
 // Core
-import Avatar from '@material-ui/core/Avatar';
+import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 // Icons & Images
 import Background from '../../../images/main.png';
@@ -23,6 +24,29 @@ import Background from '../../../images/main.png';
 // Server
 import axios from 'axios';
 import server from '../../../server.json';
+
+const mytheme = createTheme({
+    palette: {
+        primary: {
+            light: '#f2da9e',
+            main: '#f9bc15',
+            dark: '#f19920',
+            contrastText: '#fff',
+        },
+        secondary: {
+            light: '#f2ede7',
+            main: '#a29d97',
+            dark: '#45423c',
+            contrastText: '#fff',
+        },
+        success: {
+            light: '#f2ede7',
+            main: '#fee500',
+            dark: '#45423c',
+            contrastText: '#191600',
+        },
+    },
+});
 
 const postRegister = async (url, userName, userID, userPW) => {
     try {
@@ -177,11 +201,23 @@ export default function SignUpSide({history}) {
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={6} className={classes.image} />
-            <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
+            <Grid item 
+                xs={12} 
+                sm={6}
+                component={Paper} 
+                elevation={6} 
+                square
+                container
+                square
+                justifyContent="flex-start"
+                alignItems="center"
+            >
+                <ThemeProvider theme={mytheme}>
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        회원가입
                     </Typography>
+                    
                     <form className={classes.form}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
@@ -320,6 +356,7 @@ export default function SignUpSide({history}) {
                             //component={RouterLink} to="/main"
                             fullWidth
                             variant="contained"
+                            size="large"
                             color="primary"
                             className={classes.submit}
                             onClick={async () => {
@@ -337,12 +374,12 @@ export default function SignUpSide({history}) {
                                 }
                             }}
                         >
-                            Sign Up
+                            회원가입
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link component={RouterLink} to="/signin" variant="body2">
-                                    Already have an account? Sign in
+                                <Link component={RouterLink} to="/signin" color="secondary" variant="body2">
+                                    이미 계정이 있으신가요? 로그인 하러 가기
                                 </Link>
                             </Grid>
                         </Grid>
@@ -351,6 +388,7 @@ export default function SignUpSide({history}) {
                         </Box>
                     </form>
                 </div>
+                </ThemeProvider>
             </Grid>
         </Grid>
     );
