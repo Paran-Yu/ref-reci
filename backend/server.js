@@ -18,12 +18,13 @@ const port = envJson.port ? envJson.port : 3001;
 // middleware
 
 // cors
-app.use(
-  cors({
-    origin: "*",
-    optionsSuccessStatus: 200,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "*",
+//     optionsSuccessStatus: 200,
+//   })
+// );
+app.use(cors());
 // bodyParser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

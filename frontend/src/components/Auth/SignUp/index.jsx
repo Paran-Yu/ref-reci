@@ -41,31 +41,10 @@ const postRegister = async (url, userName, userID, userPW) => {
                 accept: 'application/json',
             },
         });
-        console.log(`url: ${url}`);
-        console.log(`data.data: ${data.data}`);
         return data.data;
     }
     catch (err) {
         console.log(url);
-        console.log(`ERROR: ${err}`);
-    }
-}
-
-const postSearchName = async (url, userName) => {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userName: userName,
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        return data.data;
-    }
-    catch (err) {
         console.log(`ERROR: ${err}`);
     }
 }
@@ -156,18 +135,28 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUpSide() {
     const classes = useStyles();
 
+    //form 데이터
     const [userName, setUserName] = useState('');
     const [userID, setUserID] = useState('');
+    const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     
-    const [checkDuplicate, setCheckDuplicate] = useState(false);
-    const [emailAuth, setEmailAuth] = useState(false);
-    const [passwordSame, setPasswordSame] = useState(false);
+    //인증번호 입력칸 활성화, 비활성화
     const [hiddenAuth, setHiddenAuth] = useState(true);
 
+    //아래 2개가 SIGN UP을 활성화 시키기 위한 조건
+    const [emailAuth, setEmailAuth] = useState(false);
+    const [passwordSame, setPasswordSame] = useState(false);
+    
+    //SIGN UP 버튼을 활성화, 비활성화
+    const [signUpInactive, setSignUpInactive] = useState(true);
+
+    //서버에서 받아온 인증번호
+    const [emailAuthData, setEmailAuthData] = useState('');
+
     useEffect(()=>{
-        if(password === passwordCheck){
+        if(password === passwordCheck && password !== ''){
             console.log('비밀번호가 일치함');
             setPasswordSame(true);
         }
@@ -175,14 +164,24 @@ export default function SignUpSide() {
             console.log('비밀번호가 일치하지 않음');
             setPasswordSame(false);
         }
-    }, [passwordCheck])
+    }, [password, passwordCheck])
+
+    useEffect(() => {
+        if (emailAuth && passwordSame) {
+            console.log('두개 모두 true');
+            setSignUpInactive(false);
+        }
+        else {
+            setSignUpInactive(true);
+        }
+    }, [emailAuth, passwordSame])
 
 
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <Grid item xs={false} sm={7} className={classes.image} />
-            <Grid item xs={12} sm={5} component={Paper} elevation={6} square>
+            <Grid item xs={false} sm={6} className={classes.image} />
+            <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
@@ -192,7 +191,7 @@ export default function SignUpSide() {
                     </Typography>
                     <form className={classes.form} noValidate>
                         <Grid container spacing={2}>
-                            <Grid item xs={9}>
+                            <Grid item xs={12}>
                                 <TextField
                                     autoComplete="fname"
                                     name="firstName"
@@ -204,28 +203,8 @@ export default function SignUpSide() {
                                     autoFocus
                                     onChange={(event) => {
                                         setUserName(event.target.value);
-                                        setCheckDuplicate(false);
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Button
-                                    variant="outlined"
-                                    fullWidth
-                                    onClick={async()=>{
-                                        const userDatas = await postSearchName(`${server.ip}/user/searchName`, userName);
-                                        if(userDatas === true){
-                                            setCheckDuplicate(true);
-                                            console.log('중복 닉네임 없음');
-                                        }
-                                        else{
-                                            setCheckDuplicate(false);
-                                            console.log('중복 닉네임 존재');
-                                        }
-                                    }}
-                                >
-                                중복확인
-                                </Button>
                             </Grid>
                             <Grid item xs={9}>
                                 <TextField
@@ -238,7 +217,7 @@ export default function SignUpSide() {
                                     autoComplete="email"
                                     onChange={(event) => {
                                         setUserID(event.target.value);
-                                        //변화시 인증 초기화
+                                        setEmailAuth(false);
                                     }}
                                 />
                             </Grid>
@@ -256,7 +235,7 @@ export default function SignUpSide() {
                                             setHiddenAuth(false)
                                         }
                                         else {
-                                            console.log('중복 닉네임 존재');
+                                            console.log('중복 이메일 존재');
                                         }
                     
                                     }}
@@ -333,29 +312,14 @@ export default function SignUpSide() {
                         </Grid>
                         <Button
                             //type="submit"
+                            disabled={signUpInactive}
                             component={RouterLink} to="/main"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            onClick={() => {
-                                if(passwordSame && checkDuplicate){
-                                    //const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
-                                    alert('로그인 성공');
-                                }
-                                else if (passwordSame){
-                                    alert('닉네임 중복을 확인해주세요.');
-                                }
-                                else if (checkDuplicate){
-                                    alert('비밀번호와 비밀번호 확인이 다릅니다.');
-                                    alert(`비밀번호: ${password}`);
-                                    alert(`비밀번호 확인: ${passwordCheck}`);
-                                }
-                                else{
-                                    alert('닉네임 중복을 확인하고 비밀번호 확인도 확인해주세요.');
-                                    alert(`비밀번호: ${password}`);
-                                    alert(`비밀번호 확인: ${passwordCheck}`);
-                                }
+                            onClick={async () => {
+                                const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
                             }}
                         >
                             Sign Up

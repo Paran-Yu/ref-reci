@@ -28,7 +28,7 @@ import Background from '../../../images/authimg.png';
 import axios from 'axios';
 import server from '../../../server.json';
 
-let postDatas = async (url, userID, userPW) => {
+const postLogin = async (url, userID, userPW) => {
     try{
         const data = await axios({
             method: 'post',
@@ -105,15 +105,14 @@ export default function SignInSide() {
     const classes = useStyles();
     const [checked, setChecked] = useState(true)
 
-    const [logIn, setLogIn] = useState(false);
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
 
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <Grid item xs={false} sm={7} className={classes.image} />
-            <Grid item xs={12} sm={5} component={Paper} elevation={6} square>
+            <Grid item xs={false} sm={6} className={classes.image} />
+            <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
@@ -132,8 +131,8 @@ export default function SignInSide() {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            onChange={async (event) => {
-                                await setUserID(event.target.value);
+                            onChange={(event) => {
+                                setUserID(event.target.value);
                             }}
                         />
                         <TextField
@@ -146,8 +145,8 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={async (event) => {
-                                await setPassword(event.target.value);
+                            onChange={(event) => {
+                                setPassword(event.target.value);
                             }}
                         />
                         <FormControlLabel
@@ -168,7 +167,9 @@ export default function SignInSide() {
                             color="primary"
                             className={classes.submit}
                             onClick={async()=>{
-                                const userDatas = await postDatas(`${server.ip}/user/login`,userID,password);
+                                const userDatas = await postLogin(`${server.ip}/user/login`,userID,password);
+
+                                console.log(userDatas);
                             }}
                         >
                             Sign In

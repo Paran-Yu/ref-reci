@@ -3,6 +3,7 @@ const app = express.Router();
 const axios = require("axios");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const cors = require("cors");
 
 require('dotenv').config();
 
@@ -18,6 +19,8 @@ const smtpTransport = nodemailer.createTransport({
         rejectUnauthorized: false
     }
 });
+
+app.use(cors());
 
 app.post("/register", async (req, res) => {
     const userName = req.body.userName;
@@ -36,7 +39,8 @@ app.post("/register", async (req, res) => {
             userID,
             hashPassword,
         ]);
-        res.redirect('/');
+
+        res.send(true);
     }
     catch (err) {
         console.log(err);
@@ -60,43 +64,23 @@ app.post("/login", async (req, res) => {
         let t = dbUserPW.replace("\"","");
         let s = t.replace("\"", "");
         dbUserPW = s;
-
-
-        console.log(`password: ${password}`);
-        console.log(`userPW: ${dbUserPW}`);
         
         //salt값으로 해쉬 처리 해주는 부분
+        const hashPassword = crypto.createHash("sha512").update(password).digest("hex");
 
-        if(dbUserPW === password){
+        console.log(`password: ${password}`);
+        console.log(`hashPassword: ${hashPassword}`);
+        console.log(`dbUserPW: ${dbUserPW}`);
+
+        if(dbUserPW === hashPassword){
             console.log("비밀번호 일치");
-        }
-        else{
-            console.log("비밀번호 불일치");
-        }
-        
-        res.redirect('/');
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
-
-app.post("/searchName", async (req, res) => {
-    const userName = req.body.userName;
-
-    console.log(userName);
-
-    try {
-        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userName = ?", [
-            userName
-        ]);
-
-        if(rows.length === 0){
             res.send(true);
         }
         else{
+            console.log("비밀번호 불일치");
             res.send(false);
         }
+        
     }
     catch (err) {
         console.log(err);
