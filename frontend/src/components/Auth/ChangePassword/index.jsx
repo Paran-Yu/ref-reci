@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 // Core
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -18,10 +17,49 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 
 // Icons 
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+// Server
+import axios from 'axios';
+import server from '../../../server.json';
+
+function Copyright() {
+  return (
+      <Typography variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          <Link color="inherit" href="https://material-ui.com/">
+              Ref:reci
+          </Link>{' '}
+          {new Date().getFullYear()}
+          {'.'}
+      </Typography>
+  );
+}
+
+const postLogin = async (url, userID, userPW) => {
+    try{
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+                userPW: userPW
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        console.log(`url: ${url}`);
+        console.log(`data.data: ${data.data}`);
+        return data.data;
+    }
+    catch(err){
+        console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,50 +167,12 @@ export default function ChangePassword() {
                           </Button>
                           <Grid container>
                               <Grid item xs={12} sm={6}>
-                                  <Link href="#" variant="body2">
-                                      Forgot password?
-                                  </Link>
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
                                   <Link component={RouterLink} to="/signup" variant="body2">
                                       {"Don't have an account? Sign Up"}
                                   </Link>
                               </Grid>
                           </Grid>
                           <hr></hr>
-                          <Button
-                              xs={12}
-                              mt={2}
-                              component={RouterLink}
-                              to="/#"
-                              color="yellow"
-                              variant="contained"
-                              fullWidth
-                          >
-                              Kakao
-                          </Button>
-                          <Button
-                              xs={12}
-                              m={2}
-                              component={RouterLink}
-                              to="/#"
-  
-                              variant="contained"
-                              fullWidth
-                          >
-                              Google
-                          </Button>
-                          <Button
-                              xs={12}
-                              m={2}
-                              component={RouterLink}
-                              to="/#"
-                              color="white"
-                              variant="contained"
-                              fullWidth
-                          >
-                              GitHub
-                          </Button>
                           <Box mt={5}>
                               <Copyright />
                           </Box>
