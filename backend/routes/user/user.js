@@ -93,15 +93,17 @@ app.post("/searchID", async (req, res) => {
     console.log(userID);
 
     try {
+
+
         const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
             userID
         ]);
 
         if (rows.length === 0) {
-            res.send(true);
+            res.send({value: 'Success'});
         }
         else {
-            res.send(false);
+            res.send({ value: 'Duplicate Email' });
         }
     }
     catch (err) {
