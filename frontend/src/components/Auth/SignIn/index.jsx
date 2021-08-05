@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SignInSide() {
+export default function SignInSide({history}) {
     const classes = useStyles();
     const [checked, setChecked] = useState(true)
 
@@ -163,9 +163,22 @@ export default function SignInSide() {
                             color="primary"
                             className={classes.submit}
                             onClick={async()=>{
-                                const userDatas = await postLogin(`${server.ip}/user/login`,userID,password);
+                                if(4 <= password.length && password.length <= 20){
+                                    const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
 
-                                console.log(userDatas);
+                                    if (userDatas === true) {
+                                        console.log('로그인 성공');
+                                        history.push("/");
+                                    }
+                                    else {
+                                        console.log('로그인 실패');
+                                    }
+                                }
+                                else{
+                                    alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
+                                    console.log(`현재 비밀번호 자릿수: ${password.length}`)
+                                }
+                                
                             }}
                         >
                             Sign In

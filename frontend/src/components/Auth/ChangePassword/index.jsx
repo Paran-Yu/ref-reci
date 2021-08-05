@@ -25,20 +25,20 @@ import axios from 'axios';
 import server from '../../../server.json';
 
 function Copyright() {
-  return (
-      <Typography variant="body2" color="textSecondary" align="center">
-          {'Copyright © '}
-          <Link color="inherit" href="https://material-ui.com/">
-              Ref:reci
-          </Link>{' '}
-          {new Date().getFullYear()}
-          {'.'}
-      </Typography>
-  );
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href="https://material-ui.com/">
+                Ref:reci
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
 }
 
 const postLogin = async (url, userID, userPW) => {
-    try{
+    try {
         const data = await axios({
             method: 'post',
             url: url,
@@ -54,7 +54,7 @@ const postLogin = async (url, userID, userPW) => {
         console.log(`data.data: ${data.data}`);
         return data.data;
     }
-    catch(err){
+    catch (err) {
         console.log(url);
         console.log(`ERROR: ${err}`);
     }
@@ -62,123 +62,121 @@ const postLogin = async (url, userID, userPW) => {
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-      height: '100vh',
-  },
-  image: {
-      // backgroundImage: `${authimg}`,
-      backgroundImage: 'url(https://source.unsplash.com/random)',
-      backgroundRepeat: 'no-repeat',
-      backgroundColor:
-          theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-  },
-  paper: {
-      margin: theme.spacing(8, 4),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-  },
-  avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-  },
-  submit: {
-      margin: theme.spacing(3, 0, 2),
-  },
+    root: {
+        height: '100vh',
+    },
+    image: {
+        // backgroundImage: `${authimg}`,
+        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor:
+            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    paper: {
+        margin: theme.spacing(8, 4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
 }));
 
 export default function ChangePassword() {
-      const classes = useStyles();
-      const [checked, setChecked] = useState(true);
+    const classes = useStyles();
+    const [checked, setChecked] = useState(true);
 
-      const [userID, setUserID] = useState('');
-      const [password, setPassword] = useState('');
-  
-      return (
-          <Grid container component="main" className={classes.root}>
-              <CssBaseline />
-              <Grid item xs={false} sm={6} className={classes.image} />
-              <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
-                  <div className={classes.paper}>
-                      <Typography component="h1" variant="h5">
-                          로그인
-                      </Typography>
-                      <form className={classes.form}>
-                          <TextField
-                              variant="outlined"
-                              margin="normal"
-                              required
-                              fullWidth
-                              id="email"
-                              label="아이디(E-mail)"
-                              name="email"
-                              type="email"
-                              autoComplete="email"
-                              autoFocus
-                              onChange={(event) => {
-                                  setUserID(event.target.value);
-                              }}
-                          />
-                          <TextField
-                              variant="outlined"
-                              margin="normal"
-                              required
-                              fullWidth
-                              name="password"
-                              label="비밀번호"
-                              type="password"
-                              id="password"
-                              autoComplete="current-password"
-                              onChange={(event) => {
-                                  setPassword(event.target.value);
-                              }}
-                          />
-                          <FormControlLabel
-                              control={
-                              <Checkbox 
-                                  checked={checked}
-                                  onChange={(e) => setChecked(e.target.checked)}
-                                  value="remember"
-                                  color="primary" 
-                              />
-                              }
-                              label="아이디 / 비밀번호 저장"
-                          />
-                          <Button
-                              //type="submit"
-                              fullWidth
-                              sizeLarge
-                              variant="contained"
-                              color="primary"
-                              className={classes.submit}
-                              onClick={async()=>{
-                                  const userDatas = await postLogin(`${server.ip}/user/login`,userID,password);
-  
-                                  console.log(userDatas);
-                              }}
-                          >
-                              Sign In
-                          </Button>
-                          <Grid container>
-                              <Grid item xs={12} sm={6}>
-                                  <Link component={RouterLink} to="/signup" variant="body2">
-                                      {"Don't have an account? Sign Up"}
-                                  </Link>
-                              </Grid>
-                          </Grid>
-                          <hr></hr>
-                          <Box mt={5}>
-                              <Copyright />
-                          </Box>
-                      </form>
-                  </div>
-              </Grid>
-          </Grid>
+    const [userID, setUserID] = useState('');
+    const [password, setPassword] = useState('');
+
+    return (
+        <Grid container component="main" className={classes.root}>
+            <CssBaseline />
+            <Grid item xs={false} sm={6} className={classes.image} />
+            <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
+                <div className={classes.paper}>
+                    <Typography component="h1" variant="h5">
+                        로그인
+                    </Typography>
+                    <form className={classes.form}>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="아이디(E-mail)"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            autoFocus
+                            onChange={(event) => {
+                                setUserID(event.target.value);
+                            }}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="비밀번호"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            onChange={(event) => {
+                                setPassword(event.target.value);
+                            }}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={checked}
+                                    onChange={(e) => setChecked(e.target.checked)}
+                                    value="remember"
+                                    color="primary"
+                                />
+                            }
+                            label="아이디 / 비밀번호 저장"
+                        />
+                        <Button
+                            //type="submit"
+                            fullWidth
+                            sizeLarge
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={async () => {
+                                const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+                            }}
+                        >
+                            Sign In
+                        </Button>
+                        <Grid container>
+                            <Grid item xs={12} sm={6}>
+                                <Link component={RouterLink} to="/signup" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                        <hr></hr>
+                        <Box mt={5}>
+                            <Copyright />
+                        </Box>
+                    </form>
+                </div>
+            </Grid>
+        </Grid>
     );
 }
