@@ -2,6 +2,7 @@ const express = require("express");
 const app = express.Router();
 const axios = require("axios");
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 require('dotenv').config();
 
@@ -10,8 +11,8 @@ const { pool } = require(`./../../mysql`);
 const smtpTransport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "",
-        pass: ""
+        user: "refreci21@gmail.com",
+        pass: "refreci2021!"
     },
     tls: {
         rejectUnauthorized: false
@@ -128,29 +129,21 @@ app.post("/emailAuth", async (req, res) => {
     const userID = req.body.userID;
     const randomNumber = Math.floor((Math.random() * (100 - 1) + 1));
 
-    console.log(userID);
-
     const mailOptions = {
-        from: "",
+        from: "refreci21@gmail.com",
         to: userID,
         subject: "Ref:Reci 이메일 인증",
-        text: "화면에서 다음 숫자를 입력해주세요." + randomNumber
+        html: `화면에서 다음 숫자를 입력해주세요. <h>${randomNumber}</h>`
     };
     console.log(userID);
     console.log(randomNumber);
     res.send(JSON.stringify(randomNumber));
 
-    try {
-        await smtpTransport.sendMail(mailOptions, (error, responses) => {
-            if (error) {
-                res.json({ msg: 'err' });
-            } else {
-                res.json({ msg: 'sucess' });
-            }
-            smtpTransport.close();
-        });
+    try{
+        const email = await smtpTransport.sendMail(mailOptions);
+        smtpTransport.close();
     }
-    catch (err) {
+    catch(err){
         console.log(err);
     }
 });

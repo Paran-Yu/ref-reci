@@ -42,7 +42,6 @@ const CatList = () => {
         {data.map((dt, idx) => {
           let color;
           if (idx == 0) {
-            console.log(idx);
             color = "#F19920";
           }
           return (

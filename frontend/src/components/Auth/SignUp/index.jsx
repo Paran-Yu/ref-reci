@@ -160,6 +160,7 @@ export default function SignUpSide() {
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
+    
     const [checkDuplicate, setCheckDuplicate] = useState(false);
     const [emailAuth, setEmailAuth] = useState(false);
     const [passwordSame, setPasswordSame] = useState(false);
@@ -175,6 +176,7 @@ export default function SignUpSide() {
             setPasswordSame(false);
         }
     }, [passwordCheck])
+
 
     return (
         <Grid container component="main" className={classes.root}>
