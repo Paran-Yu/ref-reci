@@ -48,11 +48,21 @@ class RefListWindow(QMainWindow):
         loadUi("h_ref_list.ui", self)
         # USER_NAME의 냉장고 리스트
         self.title.setText("{}의 냉장고".format(USER_NAME))
+        # 냉장고 목록 받아올 리스트
+        self.ref_list_list = []                         # DB에서 딕셔너리로 받아오는 리스트
+        self.ref_item_list = []                         # GUI에서 재료 카드를 담는 리스트
+        # 냉장고 리스트 스크롤 영역
+        self.scroll = QScrollArea(self)
+        # 리스트 모드 -> 0 / 선택 모드 -> 1
+        self.mode = 0
         # 선택모드는 숨김
         self.title_back.hide()
         self.title_recipe.hide()
+        # 재료 선택 리스트
+        self.selected_item = []
+        self.selected_item_name = []
         # 카테고리 pushbutton 리스트화
-        self.title_category_list = (self.category_all, self.category_vegi, self.category_meat, self.category_fish, self.category_egg, self.category_other)
+        self.title_category_list = (self.category_all, self.category_meat, self.category_vegi, self.category_fish, self.category_egg, self.category_other)
         self.title_category_index = 0
         self.main()
 
@@ -61,9 +71,16 @@ class RefListWindow(QMainWindow):
     
     # DB에서 사용자의 냉장고 리스트를 불러오기
     def read_ref_list(self):
-        # DB에서 제품 목록 리스트로 가져오기
+        # 카테고리 선택에 따른 제품 목록 리스트로 가져오기
         # item_name, item_count, item_createDay, item_category1
-        self.ref_list_list = refDB.get_UserProducts(USER_ID)
+        if self.title_category_index == 0:
+            # 전체 선택시
+            self.ref_list_list = refDB.get_UserProducts(USER_ID)
+        else:
+            # 카테고리 선택시
+            self.ref_list_list = refDB.get_UserProducts_Classifi1(USER_ID, self.title_category_index)
+        print(self.title_category_index)
+        print("새로 불러온 리스트")
         print(self.ref_list_list)
 
         # [더미 데이터]
@@ -90,9 +107,8 @@ class RefListWindow(QMainWindow):
             ref_list_layout.setRowMinimumHeight(i, 192)
             # print(i)
 
-        # 위젯 그룹 생성하여 리스트 카드 하나씩 넣기
-        ref_list_groupBox = QGroupBox("")
-        self.ref_item_list = []
+        # 위젯 그룹에 리스트 카드 하나씩 넣기
+        ref_list_groupBox = QGroupBox("")          # GUI에서 카드를 담는 그룹박스
         for i in range(self.count):
             self.ref_item_list.append(RefItem())
             # 데이터 플로팅
@@ -100,8 +116,8 @@ class RefListWindow(QMainWindow):
             self.ref_item_list[i].set_ref_item_category(category_list[self.ref_list_list[i]['item_category1']-1])
 
             self.dday = self.ref_list_list[i]['item_expDay'] - today
-            print(self.dday)
-            print(self.dday.days)
+            # print(self.dday)
+            # print(self.dday.days)
             self.ref_item_list[i].set_ref_item_day("D-{}".format(self.dday.days))
             self.ref_item_list[i].set_ref_item_count(str(self.ref_list_list[i]['item_count']))
             # click event slot 추가
@@ -109,9 +125,12 @@ class RefListWindow(QMainWindow):
             self.ref_item_list[i].ref_item_picture.clicked.connect(self.clicked_ref_items)
             ref_list_layout.addWidget(self.ref_item_list[i])
         ref_list_groupBox.setLayout(ref_list_layout)
+        print("생성된 아이템 카드")
+        print(ref_list_groupBox)
+        print(self.ref_item_list)
+        ref_list_groupBox.raise_()
 
         # Scroll Area 생성하여 리스트 집어넣기
-        self.scroll = QScrollArea(self)
         self.scroll.setGeometry(16, 264, 1248, 528)
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setStyleSheet("border: 0px;")
@@ -120,12 +139,19 @@ class RefListWindow(QMainWindow):
         # scroll.setFixedWidth(1200)
         # scroll.setFixedHeight(500)
 
+    def clear_list(self):
+        #trash = QWidget()
+        self.scroll.takeWidget()
+        self.ref_list_list = []
+        self.ref_item_list = []
+
 
     def clicked_category(self):
         selected_category = self.sender()
         # print(selected_category)
-        # print(self.category_list.index(selected_category))
+        # print(self.category_list.index(selected_category)
         new_title_category_index = self.title_category_list.index(selected_category)
+        print(new_title_category_index)
 
         # style sheet 변경
         self.title_category_list[self.title_category_index].setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
@@ -139,10 +165,10 @@ class RefListWindow(QMainWindow):
                                                               "border: 2px solid #F19920;\n"
                                                               "border-radius: 8px;")
 
-        # 표시 변경
-        ##작성하세요~##
-
         self.title_category_index = new_title_category_index
+        # 표시 변경
+        self.clear_list()
+        self.read_ref_list()
 
 
     # 리스트 모드 - Add 버튼 클릭 시
@@ -151,6 +177,7 @@ class RefListWindow(QMainWindow):
 
     # 리스트 모드 - Search 버튼 클릭 시
     def clicked_title_search(self):
+        self.mode = 1
         ## 화면설정
         # 기존 위젯 숨김
         self.title_search.hide()
@@ -168,10 +195,35 @@ class RefListWindow(QMainWindow):
         sender = self.sender()
         print(sender)
 
-        #self.scroll.setGeometry(16, 272, 1248, 528)
+        # 리스트 모드 -> 다이얼로 수량 조정 가능
+
+        QPushButton(self)
+        # 선택 모드 -> 뱃지 생성
+        if self.mode == 1:
+            # 클릭한 재료가 무엇인지 판별 -> 기존 선택 목록에 없으면 추가
+            for i in range(self.count):
+                if sender == self.ref_item_list[i].ref_item_container or sender == self.ref_item_list[i].ref_item_picture:
+                    if self.ref_item_list[i].ref_item_name.text() not in self.selected_item_name:
+                        self.selected_item_name.append(self.ref_item_list[i].ref_item_name.text())
+                        # 버튼 생성
+                        selected = QPushButton(self)
+                        selected.setText(self.ref_item_list[i].ref_item_name.text())
+                        selected.setGeometry(24, 192, 120, 56)
+                        selected.setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
+                                               "color: #8DB554;\n"
+                                               "background-color: #FFFFFF;\n"
+                                               "border: 2px solid #8DB554;\n"
+                                               "border-radius: 26px;")
+                        self.selected_item.append(selected)
+
+        print("선택된 재료")
+        print(self.selected_item)
+        print(self.selected_item_name)
+
 
     # 선택 모드 - 뒤로가기 클릭 시 =>
     def clicked_back(self):
+        self.mode = 0
         # 선택화면 용 위젯 숨김
         self.title_back.hide()
         self.title_recipe.hide()
