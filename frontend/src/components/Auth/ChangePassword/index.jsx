@@ -19,10 +19,12 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
 // Icons 
+import Background from '../../../images/main.png';
 
 // Server
 import axios from 'axios';
 import server from '../../../server.json';
+import { Label } from '@material-ui/icons';
 
 function Copyright() {
     return (
@@ -60,14 +62,77 @@ const postLogin = async (url, userID, userPW) => {
     }
 }
 
+const postRegister = async (url, userName, userID, userPW) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userName: userName,
+                userID: userID,
+                userPW: userPW
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postSearchID = async (url, userID) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postEmailAuth = async (url, userID) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
     },
     image: {
+<<<<<<< HEAD
+        backgroundImage: "url(" + Background + ")",
+=======
         // backgroundImage: `${authimg}`,
         backgroundImage: 'url(https://source.unsplash.com/random)',
+>>>>>>> 8e206ccff6ad2ecfbc7fbd8365d180417f3241f5
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -95,10 +160,47 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChangePassword() {
     const classes = useStyles();
-    const [checked, setChecked] = useState(true);
 
+    //form 데이터
+    const [userName, setUserName] = useState('');
     const [userID, setUserID] = useState('');
+    const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
+    
+    //인증번호 입력칸 활성화, 비활성화
+    const [hiddenAuth, setHiddenAuth] = useState(true);
+
+    //아래 2개가 SIGN UP을 활성화 시키기 위한 조건
+    const [emailAuth, setEmailAuth] = useState(false);
+    const [passwordSame, setPasswordSame] = useState(false);
+    
+    //SIGN UP 버튼을 활성화, 비활성화
+    const [signUpInactive, setSignUpInactive] = useState(true);
+
+    //서버에서 받아온 인증번호
+    const [emailAuthData, setEmailAuthData] = useState('');
+
+    useEffect(()=>{
+        if(password === passwordCheck && password !== ''){
+            console.log('비밀번호가 일치함');
+            setPasswordSame(true);
+        }
+        else{
+            console.log('비밀번호가 일치하지 않음');
+            setPasswordSame(false);
+        }
+    }, [password, passwordCheck])
+
+    useEffect(() => {
+        if (emailAuth && passwordSame) {
+            console.log('두개 모두 true');
+            setSignUpInactive(false);
+        }
+        else {
+            setSignUpInactive(true);
+        }
+    }, [emailAuth, passwordSame])
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -107,70 +209,138 @@ export default function ChangePassword() {
             <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5">
-                        로그인
+                        비밀번호 변경
                     </Typography>
                     <form className={classes.form}>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="아이디(E-mail)"
-                            name="email"
-                            type="email"
-                            autoComplete="email"
-                            autoFocus
-                            onChange={(event) => {
-                                setUserID(event.target.value);
-                            }}
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="비밀번호"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            onChange={(event) => {
-                                setPassword(event.target.value);
-                            }}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={checked}
-                                    onChange={(e) => setChecked(e.target.checked)}
-                                    value="remember"
-                                    color="primary"
+                        <Grid container spacing={2}>
+                            <Grid item xs={9}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="아이디(E-mail)"
+                                    name="email"
+                                    autoComplete="email"
+                                    onChange={(event) => {
+                                        setUserID(event.target.value);
+                                        setEmailAuth(false);
+                                    }}
                                 />
-                            }
-                            label="아이디 / 비밀번호 저장"
-                        />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    variant="outlined"
+                                    fullWidth
+                                    fullHeight
+                                    onClick={async () => {
+                                        
+                                        const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+
+                                        if (userDatas.value === 'Success') {
+                                            console.log('회원 정보 없음');
+                                        }
+                                        else if (userDatas.value === 'Duplicate Email'){
+                                            console.log('회원 정보 있음');
+                                            //이메일 인증 시작
+                                            const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                            setHiddenAuth(false);
+                                            setEmailAuthData(userDatas);
+                                            console.log(userDatas);
+                                        }
+                                        else if(userDatas.value === 'Wrong Email'){
+                                            console.log('이메일 형식이 잘못되었습니다.');
+                                        }
+                                    }}
+                                >
+                                인증
+                                </Button>
+                            </Grid>
+                            <Grid item xs={9}>
+                                <TextField
+                                    disabled={hiddenAuth}
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="verification"
+                                    label="인증번호"
+                                    name="verification"
+                                    autoComplete="verification"
+                                    onChange={(event) => {
+                                        setVerification(event.target.value);
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    variant="outlined"
+                                    disabled={hiddenAuth}
+                                    fullWidth
+                                    onClick={async () => {
+                                        if(verification == emailAuthData){
+                                            console.log('인증번호 일치');
+                                            setEmailAuth(true);
+                                        }
+                                        else{
+                                            console.log('인증번호 불일치');
+                                        }
+                                    }}
+                                >
+                                확인
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="비밀번호"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    onChange={(event) => {
+                                        setPassword(event.target.value);
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="passwordcheck"
+                                    label="비밀번호확인"
+                                    type="password"
+                                    id="passwordcheck"
+                                    autoComplete="current-password-check"
+                                    onChange={(event) => {
+                                        setPasswordCheck(event.target.value);
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                         <Button
                             //type="submit"
+                            disabled={signUpInactive}
+                            component={RouterLink} to="/main"
                             fullWidth
-                            sizeLarge
                             variant="contained"
                             color="primary"
                             className={classes.submit}
                             onClick={async () => {
-                                const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+                                const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
                             }}
                         >
-                            Sign In
+                            비밀번호 변경
                         </Button>
-                        <Grid container>
-                            <Grid item xs={12} sm={6}>
-                                <Link component={RouterLink} to="/signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <Link component={RouterLink} to="/signin" variant="body2">
+                                    로그인 화면으로 돌아가기
                                 </Link>
                             </Grid>
                         </Grid>
-                        <hr></hr>
                         <Box mt={5}>
                             <Copyright />
                         </Box>
