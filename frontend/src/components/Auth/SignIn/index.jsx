@@ -1,6 +1,12 @@
+// React, Router
 import {useState, React} from 'react';
 import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+
+// Style
+import { makeStyles } from '@material-ui/core/styles';
+
+// Core
 import Avatar from '@material-ui/core/Avatar';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
@@ -12,9 +18,12 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+
+// Icons
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+// Server 
 import axios from 'axios';
 import server from '../../../server.json';
 
@@ -54,12 +63,14 @@ function Copyright() {
     );
 }
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url{process.env.PUBLIC_URL + `/images/authimg.png`}',
+        // backgroundImage: `${authimg}`,
+        backgroundImage: 'url(https://source.unsplash.com/random)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -97,8 +108,8 @@ export default function SignInSide() {
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <Grid item sm={false} md={7} className={classes.image} />
-            <Grid item sm={12} md={5} component={Paper} elevation={6} square>
+            <Grid item xs={false} sm={7} className={classes.image} />
+            <Grid item xs={12} sm={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
