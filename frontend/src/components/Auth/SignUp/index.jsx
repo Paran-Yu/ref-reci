@@ -203,6 +203,11 @@ export default function SignUpSide() {
                                     autoFocus
                                     onChange={(event) => {
                                         setUserName(event.target.value);
+                                        console.log(event.target.value.length);
+                                        if (event.target.value.length >= 20){
+                                            alert('20자 미만으로 해주세요');
+                                            event.target.value = event.target.value.slice(0, -1);
+                                        }
                                     }}
                                 />
                             </Grid>
@@ -227,17 +232,24 @@ export default function SignUpSide() {
                                     fullWidth
                                     fullHeight
                                     onClick={async () => {
+                                        
+                                        
                                         const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
-                                        if (userDatas === true) {
+
+                                        if (userDatas.value === 'Success') {
                                             console.log('중복 이메일 없음');
                                             //이메일 인증 시작
                                             const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
-                                            setHiddenAuth(false)
+                                            setHiddenAuth(false);
+                                            setEmailAuthData(userDatas);
+                                            console.log(userDatas);
                                         }
-                                        else {
+                                        else if (userDatas.value === 'Duplicate Email'){
                                             console.log('중복 이메일 존재');
                                         }
-                    
+                                        else if(userDatas.value === 'Wrong Email'){
+                                            console.log('이메일 형식이 잘못되었습니다.');
+                                        }
                                     }}
                                 >
                                 인증
@@ -254,8 +266,7 @@ export default function SignUpSide() {
                                     name="verification"
                                     autoComplete="verification"
                                     onChange={(event) => {
-                                        setUserID(event.target.value);
-                                        //변화시 인증 초기화
+                                        setVerification(event.target.value);
                                     }}
                                 />
                             </Grid>
@@ -265,14 +276,12 @@ export default function SignUpSide() {
                                     disabled={hiddenAuth}
                                     fullWidth
                                     onClick={async () => {
-                                        const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
-                                        if (userDatas === true) {
-                                            console.log('중복 이메일 없음');
-                                            //이메일 인증 시작
-                                            const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                        if(verification == emailAuthData){
+                                            console.log('인증번호 일치');
+                                            setEmailAuth(true);
                                         }
-                                        else {
-                                            console.log('중복 닉네임 존재');
+                                        else{
+                                            console.log('인증번호 불일치');
                                         }
                                     }}
                                 >
