@@ -11,8 +11,8 @@ import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -160,14 +160,22 @@ export default function SignInSide({history}) {
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={6} className={classes.image} />
-            <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
+            <Grid item 
+                xs={12} 
+                sm={6} 
+                component={Paper} 
+                elevation={6} 
+                container
+                square
+                justifyContent="flex-start"
+                alignItems="center"
+            >
+                <ThemeProvider theme={mytheme}>
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5">
                         로그인
                     </Typography>
-                    
                     <form className={classes.form}>
-                    <ThemeProvider theme={mytheme}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -201,8 +209,7 @@ export default function SignInSide({history}) {
                                 }
                             }}
                         />
-                        
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             control={
                             <Checkbox 
                                 checked={checked}
@@ -212,12 +219,11 @@ export default function SignInSide({history}) {
                             />
                             }
                             label="아이디 / 비밀번호 저장"
-                        />
-                        
+                        /> */}
                         <Button
-                            //type="submit"
+                            type="submit"
                             fullWidth
-                            sizeLarge
+                            size="large"
                             variant="contained"
                             color= "primary"
                             className={classes.submit}
@@ -255,12 +261,12 @@ export default function SignInSide({history}) {
                         </Button>
                         <Grid container>
                             <Grid item xs={12} sm={6}>
-                                <Link component={RouterLink} to="/changepassword" variant="body2">
+                                <Link color="secondary" component={RouterLink} to="/changepassword" variant="body2">
                                     비밀번호 찾기
                                 </Link>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Link component={RouterLink} to="/signup" variant="body2">
+                                <Link color="secondary" component={RouterLink} to="/signup" variant="body2">
                                     회원가입
                                 </Link>
                             </Grid>
@@ -268,20 +274,31 @@ export default function SignInSide({history}) {
                         <hr></hr>
                         <Button
                             xs={12}
+<<<<<<< HEAD
                             mt={2}
                             to="/#"
+=======
+>>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             color="success"
                             variant="contained"
                             padding-bottom="10"
                             fullWidth
+<<<<<<< HEAD
                             href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
+=======
+>>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             >
                             Kakao
                         </Button>
-                        
+                        <br></br>
                         <Button
                             xs={12}
+<<<<<<< HEAD
                             m={2}
+=======
+                            component={RouterLink}
+                            to="/#"
+>>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             color="primary"
                             variant="contained"
                             fullWidth
@@ -289,9 +306,15 @@ export default function SignInSide({history}) {
                         >
                             Google
                         </Button>
+                        <br></br>
                         <Button
                             xs={12}
+<<<<<<< HEAD
                             m={2}
+=======
+                            component={RouterLink}
+                            to="/#"
+>>>>>>> 09c3c85f5a814a1ce6e35048be688aaf498c0e63
                             color="secondary"
                             variant="contained"
                             fullWidth
@@ -299,12 +322,13 @@ export default function SignInSide({history}) {
                         >
                             GitHub
                         </Button>
-                        </ThemeProvider>
+                        <br></br>
                         <Box mt={5}>
                             <Copyright />
                         </Box>
                     </form>
                 </div>
+                </ThemeProvider>
             </Grid>
         </Grid>
     );
