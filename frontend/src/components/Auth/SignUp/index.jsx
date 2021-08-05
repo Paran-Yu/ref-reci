@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignUpSide() {
+export default function SignUpSide({history}) {
     const classes = useStyles();
 
     //form 데이터
@@ -238,10 +238,10 @@ export default function SignUpSide() {
                                             console.log(userDatas);
                                         }
                                         else if (userDatas.value === 'Duplicate Email'){
-                                            console.log('중복 이메일 존재');
+                                            alert('이미 가입된 계정입니다.');
                                         }
                                         else if(userDatas.value === 'Wrong Email'){
-                                            console.log('이메일 형식이 잘못되었습니다.');
+                                            alert('이메일 형식이 잘못되었습니다.');
                                         }
                                     }}
                                 >
@@ -315,13 +315,20 @@ export default function SignUpSide() {
                         <Button
                             //type="submit"
                             disabled={signUpInactive}
-                            component={RouterLink} to="/main"
+                            //component={RouterLink} to="/main"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
                             onClick={async () => {
-                                const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                if (4 <= password.length && password.length <= 20) {
+                                    const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                    history.push("/");
+                                }
+                                else {
+                                    alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
+                                    console.log(`현재 비밀번호 자릿수: ${password.length}`)
+                                }
                             }}
                         >
                             Sign Up

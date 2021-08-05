@@ -127,7 +127,12 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
+<<<<<<< HEAD
         backgroundImage: "url(" + Background + ")",
+=======
+        // backgroundImage: `${authimg}`,
+        backgroundImage: 'url(https://source.unsplash.com/random)',
+>>>>>>> 8e206ccff6ad2ecfbc7fbd8365d180417f3241f5
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
