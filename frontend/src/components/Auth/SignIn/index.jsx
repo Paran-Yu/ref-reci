@@ -18,7 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import server from '../../../server.json';
 
-let postDatas = async (url, userID, userPW) => {
+const postLogin = async (url, userID, userPW) => {
     try{
         const data = await axios({
             method: 'post',
@@ -90,7 +90,6 @@ export default function SignInSide() {
     const classes = useStyles();
     const [checked, setChecked] = useState(true)
 
-    const [logIn, setLogIn] = useState(false);
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
 
@@ -117,8 +116,8 @@ export default function SignInSide() {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            onChange={async (event) => {
-                                await setUserID(event.target.value);
+                            onChange={(event) => {
+                                setUserID(event.target.value);
                             }}
                         />
                         <TextField
@@ -131,8 +130,8 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={async (event) => {
-                                await setPassword(event.target.value);
+                            onChange={(event) => {
+                                setPassword(event.target.value);
                             }}
                         />
                         <FormControlLabel
@@ -153,7 +152,9 @@ export default function SignInSide() {
                             color="primary"
                             className={classes.submit}
                             onClick={async()=>{
-                                const userDatas = await postDatas(`${server.ip}/user/login`,userID,password);
+                                const userDatas = await postLogin(`${server.ip}/user/login`,userID,password);
+
+                                console.log(userDatas);
                             }}
                         >
                             Sign In

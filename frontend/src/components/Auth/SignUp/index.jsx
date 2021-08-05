@@ -32,8 +32,6 @@ const postRegister = async (url, userName, userID, userPW) => {
                 accept: 'application/json',
             },
         });
-        console.log(`url: ${url}`);
-        console.log(`data.data: ${data.data}`);
         return data.data;
     }
     catch (err) {
@@ -135,18 +133,29 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
     const classes = useStyles();
 
+    //form 데이터
     const [userName, setUserName] = useState('');
     const [userID, setUserID] = useState('');
+    const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     
-    const [checkDuplicate, setCheckDuplicate] = useState(false);
-    const [emailAuth, setEmailAuth] = useState(false);
-    const [passwordSame, setPasswordSame] = useState(false);
+    //인증번호 입력칸 활성화, 비활성화
     const [hiddenAuth, setHiddenAuth] = useState(true);
 
+    //아래 3개가 SIGN UP을 활성화 시키기 위한 조건
+    const [checkDuplicate, setCheckDuplicate] = useState(false); 
+    const [emailAuth, setEmailAuth] = useState(false);
+    const [passwordSame, setPasswordSame] = useState(false);
+    
+    //SIGN UP 버튼을 활성화, 비활성화
+    const [signUpInactive, setSignUpInactive] = useState(true);
+
+    //서버에서 받아온 인증번호
+    const [emailAuthData, setEmailAuthData] = useState('');
+
     useEffect(()=>{
-        if(password === passwordCheck){
+        if(password === passwordCheck && password !== ''){
             console.log('비밀번호가 일치함');
             setPasswordSame(true);
         }
@@ -154,7 +163,17 @@ export default function SignUp() {
             console.log('비밀번호가 일치하지 않음');
             setPasswordSame(false);
         }
-    }, [passwordCheck])
+    }, [password, passwordCheck])
+
+    useEffect(() => {
+        if (checkDuplicate && emailAuth && passwordSame) {
+            console.log('세개 모두 true');
+            setSignUpInactive(false);
+        }
+        else {
+            setSignUpInactive(true);
+        }
+    }, [checkDuplicate, emailAuth, passwordSame])
 
 
     return (
@@ -231,9 +250,13 @@ export default function SignUp() {
                                         //이메일 인증 시작
                                         const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
                                         setHiddenAuth(false)
+                                        console.log(userDatas);
+                                        console.log(typeof userDatas);
+
+                                        setEmailAuthData(userDatas);
                                     }
                                     else {
-                                        console.log('중복 닉네임 존재');
+                                        console.log('중복 이메일 존재');
                                     }
                 
                                 }}
@@ -252,8 +275,7 @@ export default function SignUp() {
                                 name="verification"
                                 autoComplete="verification"
                                 onChange={(event) => {
-                                    setUserID(event.target.value);
-                                    //변화시 인증 초기화
+                                    setVerification(event.target.value);
                                 }}
                             />
                         </Grid>
@@ -263,14 +285,14 @@ export default function SignUp() {
                                 disabled={hiddenAuth}
                                 fullWidth
                                 onClick={async () => {
-                                    const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
-                                    if (userDatas === true) {
-                                        console.log('중복 이메일 없음');
-                                        //이메일 인증 시작
-                                        const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                    if (emailAuthData == verification) {
+                                        console.log('이메일 인증 완료');
+                                        setEmailAuth(true);
                                     }
                                     else {
-                                        console.log('중복 닉네임 존재');
+                                        console.log('숫자가 다릅니다.');
+                                        console.log(emailAuthData);
+                                        console.log(verification);
                                     }
                                 }}
                             >
@@ -314,17 +336,18 @@ export default function SignUp() {
                             />
                         </Grid>
                     </Grid>
-                    <Button
-                        //type="submit"
-                        //component={RouterLink} to="/main"
+                    <Button 
+                        component={RouterLink} to="/main"
+                        disabled={signUpInactive}
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={() => {
+                        onClick={async () => {
                             if(passwordSame && checkDuplicate){
-                                //const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
-                                alert('로그인 성공');
+                                const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+                                alert('회원가입 성공');
+                                console.log(userDatas);
                             }
                             else if (passwordSame){
                                 alert('닉네임 중복을 확인해주세요.');
