@@ -86,15 +86,26 @@ ORDER BY ASC;
 
 ### 레시피 + 즐겨찾기 부분 추가
 
-레시피 검색 틀(DB에 따라 주성 필요)<br>
-레시피의 이름, 인분, 이미지, 요약본, 요리시간을 제공한다 (전체 컬럼 제공)<br>
-(test data: 닭 혹은 대파가 들어간 레시피 --> 닭 or 대파)
+1. 속재료의 c2ID를 활용하여 선택재료가 포함되는 레시피 정보 반환
+
 ```sql
-SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime, iID, count(*)
-FROM recipe r, recipeingredient  i
-WHERE r.rID = i.rID and i.iID in (select iID from ingredient where ingredientName in ('닭', '대파'))
-group by r.rID
-order by count(*) DESC; -- 재료 많이 겹치는 순서로 보여줌
+SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime, rid.count
+FROM Recipe r, (SELECT DISTINCT ri.rID, count(*) count
+FROM RecipeIngredient ri, Ingredient i
+WHERE ri.iID=i.iID and i.ingredientName REGEXP (
+		SELECT REPLACE(GROUP_CONCAT(a.classification2Name), ',' , '|') AS NAME
+		FROM (SELECT c2.classification2Name FROM Classification2 c2 WHERE c2.c2ID in (1)) a)
+Group by ri.rID) rid
+WHERE r.rID=rid.rID
+Order by rid.count DESC;
+-->
+```
+
+2. 레시피 ID를 가지고 재료 정보 가져오기
+```sql
+SELECT i.iID, i.ingredientName, ri.ingredientAmount
+FROM Recipe r, Ingredient i, RecipeIngredient ri
+WHERE r.rID in (1) and r.rID=ri.rID and ri.iID=i.iID;
 ```
 
 레시피 단계<br>

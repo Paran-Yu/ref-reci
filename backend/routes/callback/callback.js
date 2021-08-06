@@ -4,6 +4,8 @@ const axios = require("axios");
 
 require('dotenv').config();
 
+const { pool } = require(`./../../mysql`);
+
 const githubClientID = process.env.githubClientID2;
 const githubClientSecret = process.env.githubClientSecret2;
 const googleClientID = process.env.googleClientID2;
@@ -42,10 +44,21 @@ app.get("/github", async (req, res) => {
             },
         });
 
-        console.log('social login result:', userResponse.data);
-        console.log(`${userResponse.data.name}님 환영합니다.`)
+        //console.log('social login result:', userResponse.data);
+        console.log(`id: ${userResponse.data.id}`);
+        console.log(`userName: ${userResponse.data.name}`);
 
-        res.redirect('/');
+        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
+            userResponse.data.id
+        ]);
+
+        if(rows.length === 0){
+            const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, 0, NOW(), 0, 1)", [
+                userResponse.data.name,
+                userResponse.data.id,
+            ]);
+        }
+        res.redirect("http://localhost:3000/");
     }
 
     catch (err) {
@@ -79,10 +92,21 @@ app.get("/google", async (req, res) => {
             },
         });
 
-        console.log('social login result:', userResponse.data);
-        console.log(`${userResponse.data.name}님 환영합니다.`)
+        //console.log('social login result:', userResponse.data);
+        console.log(`id: ${userResponse.data.id}`);
+        console.log(`userName: ${userResponse.data.name}`);
 
-        res.redirect('/');
+        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
+            userResponse.data.id
+        ]);
+
+        if (rows.length === 0) {
+            const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, 0, NOW(), 0, 1)", [
+                userResponse.data.name,
+                userResponse.data.id,
+            ]);
+        }
+        res.redirect("http://localhost:3000/");
     }
     catch (err) {
         console.log(err);
@@ -117,10 +141,21 @@ app.get("/kakao", async (req, res) => {
             },
         });
 
-        console.log('social login result:', userResponse.data);
-        console.log(`${userResponse.data.properties.nickname}님 환영합니다.`)
+        //console.log('social login result:', userResponse.data);
+        console.log(`id: ${userResponse.data.id}`);
+        console.log(`userName: ${userResponse.data.properties.nickname}`);
 
-        res.redirect('/');
+        const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
+            userResponse.data.id
+        ]);
+
+        if (rows.length === 0) {
+            const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, 0, NOW(), 0, 1)", [
+                userResponse.data.properties.nickname,
+                userResponse.data.id,
+            ]);
+        }
+        res.redirect("http://localhost:3000/");
     }
     catch (err) {
         console.log(err);

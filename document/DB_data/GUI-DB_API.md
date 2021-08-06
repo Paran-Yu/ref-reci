@@ -3,8 +3,8 @@
 - item_category1 : 재료 대분류
 - item_createDay : 재료 등록일
 - item_expDay : 재료 유통기한(D-day식으로 표기 예정)
-- item_count : 재료 수량<br>
-(소분류...이미지 안필요해...?)
+- item_count : 재료 수량
+- item_image : 재료 이미지
 
 ### 냉장고 추가 화면
 - item_name : 재료 이름
@@ -12,6 +12,7 @@
 - item_category2 : 재료 소분류
 - item_expDay : 재료 유통기한(D-day식으로 표기 예정)
 - item_count : 재료 수량
+- item_image : 재료 이미지(소분류 이미지)
 
 ### 레시피 검색 화면
 - recipe_name : 레시피 이름

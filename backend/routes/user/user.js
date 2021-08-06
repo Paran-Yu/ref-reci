@@ -28,19 +28,33 @@ app.post("/register", async (req, res) => {
     const inputPassword = req.body.userPW;
     const hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
 
-    console.log(userName);
-    console.log(userID);
-    console.log(inputPassword);
-    console.log(hashPassword);
+    console.log(`userName ${userName}`);
+    console.log(`userID ${userID}`);
+    console.log(`inputPassword ${inputPassword}`);
+    console.log(`hashPassword ${hashPassword}`);
+    
+    //닉네임이 2자 미만이면 안된다.
+    console.log(`닉네임 글자수 ${userName.length}`);
+    if (userName.length < 2){
+        res.send({ value: 'Short userName' });
+        return;
+    }
+
+    //비밀번호가 8자 미만이면 안된다.
+    console.log(`비밀번호 글자수 ${inputPassword.length}`);
+    if (inputPassword.length < 8) {
+        res.send({ value: 'Short password' });
+        return;
+    }
 
     try {
-        const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, ?, NOW(), 0)", [
+        const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, ?, NOW(), 0, 0)", [
             userName,
             userID,
             hashPassword,
         ]);
 
-        res.send(true);
+        res.send({ value: 'Success' });
     }
     catch (err) {
         console.log(err);
@@ -118,13 +132,13 @@ app.post("/searchID", async (req, res) => {
 
 app.post("/emailAuth", async (req, res) => {
     const userID = req.body.userID;
-    const randomNumber = Math.floor((Math.random() * (100 - 1) + 1));
+    const randomNumber = Math.floor((Math.random() * (999999 - 100000) + 100000));
 
     const mailOptions = {
         from: "refreci21@gmail.com",
         to: userID,
         subject: "Ref:Reci 이메일 인증",
-        html: `화면에서 다음 숫자를 입력해주세요. <h>${randomNumber}</h>`
+        html: `화면에서 다음 숫자를 입력해주세요. <strong>${randomNumber}</strong>`
     };
     console.log(userID);
     console.log(randomNumber);
@@ -135,6 +149,32 @@ app.post("/emailAuth", async (req, res) => {
         smtpTransport.close();
     }
     catch(err){
+        console.log(err);
+    }
+});
+
+app.post("/changePassword", async (req, res) => {
+    const userID = req.body.userID;
+    const password = req.body.userPW;
+
+    console.log(`바꿀 비밀번호 ${password}`);
+
+    if (password.length < 8) {
+        res.send({ value: 'Short password' });
+        return;
+    }
+
+    try {
+        const hashPassword = crypto.createHash("sha512").update(password).digest("hex");
+
+        await pool.query("UPDATE User SET userPW = ? WHERE userID = ?", [
+            hashPassword,
+            userID,
+        ]);
+
+        res.send({ value: 'Success' });
+    }
+    catch (err) {
         console.log(err);
     }
 });
