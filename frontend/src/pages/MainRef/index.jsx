@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "60px",
     marginBottom: "60px",
   },
+  image: {
+    height: "60%",
+    width: "100%",
+  },
 }));
 const MainRef = () => {
   const baseTheme = createMuiTheme();
@@ -32,9 +36,7 @@ const MainRef = () => {
       <Layout />
       <Grid>
         <Grid container spacing={2} alignItems="center" justify="center">
-          <Grid>
-            <img src={backGround} />
-          </Grid>
+          <Grid item xs={12}></Grid>
           <Grid item xs={10} className={st.Fav} id={1} style={{ margin: "" }}>
             <Typography align="left" variant="h6" gutterBottom className={st.word}>
               인기 폭주! 사람들이 가장 많이 찾았어요
