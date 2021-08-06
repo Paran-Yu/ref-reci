@@ -162,6 +162,10 @@ export default function SignInSide({history}) {
             >
                 <ThemeProvider theme={mytheme}>
                 <div className={classes.paper}>
+                    <Typography color="primary" variant="h2">
+                        <b>Ref:Reci</b>
+                    </Typography>
+                    <br></br>
                     <Typography component="h1" variant="h5">
                         로그인
                     </Typography>
@@ -243,12 +247,12 @@ export default function SignInSide({history}) {
                             로그인
                         </Button>
                         <Grid container>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={6}>
                                 <Link color="secondary" component={RouterLink} to="/changepassword" variant="body2">
                                     비밀번호 찾기
                                 </Link>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={6}>
                                 <Link color="secondary" component={RouterLink} to="/signup" variant="body2">
                                     회원가입
                                 </Link>
