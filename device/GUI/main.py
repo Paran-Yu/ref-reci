@@ -6,6 +6,9 @@ from ref_item import RefItem
 from db import DB
 import sys
 import datetime
+import encoder
+import RPi.GPIO as GPIO
+import time
 
 
 ## 전역변수
@@ -138,6 +141,7 @@ class RefListWindow(QMainWindow):
         self.scroll.setWidgetResizable(False)
         # scroll.setFixedWidth(1200)
         # scroll.setFixedHeight(500)
+        return self.ref_item_list
 
     def clear_list(self):
         #trash = QWidget()
@@ -409,7 +413,7 @@ class RecipeDetailWindow(QMainWindow):
 
 
 # main
-if __name__ == "__main__":
+def main():
     # DB connect
     refDB = DB()
 
@@ -437,3 +441,9 @@ if __name__ == "__main__":
 
     mainWidget.show()
     app.exec()
+
+if __name__ == "__main__":
+    encoder = encoder.Encoder()
+    while True:
+        print("SWITCH: %d  ROTATE: %d" % (GPIO.input(encoder.SW), encoder.get_direction()))
+        time.sleep(0.01)

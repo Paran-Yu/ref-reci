@@ -153,7 +153,7 @@ export default function SignInSide({history}) {
                     <ThemeProvider theme={mytheme}>
                         <TextField
                             variant="outlined"
-                            margin="normal"
+                            // margin="normal"
                             required
                             fullWidth
                             id="email"
