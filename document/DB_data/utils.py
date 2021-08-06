@@ -331,6 +331,7 @@ class DB:
         try:
             sql = "DELETE FROM UserProduct WHERE upID=%s"
             cursor.execute(sql, id)
+            self.db.commit()
             return 1
         except:
             print("삭제에 실패 하였습니다.")
@@ -351,6 +352,7 @@ class DB:
         try:
             sql = "UPDATE UserProduct SET {}=%s WHERE upID=%s".format(type)
             cursor.execute(sql, (data, ProductID))
+            self.db.commit()
             return 1
         except:
             print("변경에 실패 하였습니다.")
