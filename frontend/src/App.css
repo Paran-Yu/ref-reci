@@ -36,3 +36,45 @@
     transform: rotate(360deg);
   }
 }
+
+/* @font-face {
+  font-family: 'KoPubWorld';
+  font-style: normal;
+  font-weight: 100;
+  src: url(./styles/fonts/KoPubWorld-Dotum-Light.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'KoPubWorld';
+  font-style: normal;
+  font-weight: normal;
+  src: url(./styles/fonts/KoPubWorld-Dotum-Medium.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'KoPubWorld';
+  font-style: normal;
+  font-weight: bold;
+  src: url(./styles/fonts/KoPubWorld-Dotum-Bold.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'Munhwajae';
+  font-style: normal;
+  font-weight: normal;
+  src: url./styles/fonts/munhwajae-regular.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'Munhwajae';
+  font-style: normal;
+  font-weight: bold;
+  src: url(./styles/fonts/munhwajae-bold.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'Jeju';
+  font-style: normal;
+  font-weight: normal;
+  src: url(./styles/fonts/JejuGothicOTF.otf) format('truetype')
+} */
