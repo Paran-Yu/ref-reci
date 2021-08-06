@@ -68,7 +68,7 @@ class DB:
         '''
         cursor = self.db.cursor()
 
-        sql = "select c1.classification1Name, c1.classification1Image, c2.classification2Name, c2.classification2Image " \
+        sql = "select c1.classification1Name, c1.classification1Image, c2.classification2Name, c2.classification2Image, c1.c1ID, c2.Classification2to1 " \
               "from Classification2 c2, Classification1 c1 " \
               "where '{}' like concat('%', c2.classification2Name, '%') and c1.c1ID = c2.Classification2to1;".format(
             name)
