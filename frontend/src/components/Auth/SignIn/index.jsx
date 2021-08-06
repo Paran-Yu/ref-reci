@@ -172,7 +172,7 @@ export default function SignInSide({history}) {
                     <form className={classes.form}>
                         <TextField
                             variant="outlined"
-                            margin="normal"
+                            // margin="normal"
                             required
                             fullWidth
                             id="email"

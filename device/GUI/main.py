@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
 from ref_item import RefItem
 from db import DB
+import barcode_reader
 import sys
 import datetime
 
@@ -98,6 +99,7 @@ class RefListWindow(QMainWindow):
 
     # 받아온 리스트를 ui에 그리기
     def draw_ref_list(self):
+        print("리스트 그리기")
         # GridLayout 생성 및 조정
         ref_list_layout = QGridLayout()
         ref_list_layout.setContentsMargins(16, 16, 16, 16)
@@ -112,8 +114,12 @@ class RefListWindow(QMainWindow):
         for i in range(self.count):
             self.ref_item_list.append(RefItem())
             # 데이터 플로팅
+            print(self.ref_list_list[i]['item_category2'])
+            print("border-image: url(img/category2/%s.jpg)" % self.ref_list_list[i]['item_category2'])
+            self.ref_item_list[i].set_upID(self.ref_list_list[i]['upID'])
+            self.ref_item_list[i].ref_item_picture.setStyleSheet("border-image: url(img/category2/{}.jpg);\n".format(self.ref_list_list[i]['item_category2']))
             self.ref_item_list[i].set_ref_item_name(self.ref_list_list[i]['item_name'])
-            self.ref_item_list[i].set_ref_item_category(category_list[self.ref_list_list[i]['item_category1']-1])
+            self.ref_item_list[i].set_ref_item_category(self.ref_list_list[i]['item_category1'])
 
             self.dday = self.ref_list_list[i]['item_expDay'] - today
             # print(self.dday)
@@ -131,7 +137,7 @@ class RefListWindow(QMainWindow):
         ref_list_groupBox.raise_()
 
         # Scroll Area 생성하여 리스트 집어넣기
-        self.scroll.setGeometry(16, 264, 1248, 528)
+        self.scroll.setGeometry(16, 264, 1248, 472)
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setStyleSheet("border: 0px;")
         self.scroll.setWidget(ref_list_groupBox)
@@ -151,6 +157,7 @@ class RefListWindow(QMainWindow):
         # print(selected_category)
         # print(self.category_list.index(selected_category)
         new_title_category_index = self.title_category_list.index(selected_category)
+        print(self.title_category_index)
         print(new_title_category_index)
 
         # style sheet 변경
@@ -246,12 +253,13 @@ class AddWindow(QMainWindow):
         super().__init__()
         loadUi("h_ref_add.ui", self)
 
+        self.add_item_category2 = ""
         # 추가 화면 초기화
         self.count = int(self.add_item_count.text())
         self.category_index = -1
         self.today_str = today.strftime('%Y-%m-%d')
         self.add_item_createDay.setText(self.today_str)
-        self.add_item_expDay.setText(self.today_str)
+        # self.add_item_expDay.setText(self.today_str)
         # 소분류 리스트 초기화
         self.name_list = []
         self.name_list_index = 0
@@ -267,11 +275,25 @@ class AddWindow(QMainWindow):
     # 냉장고 리스트로 돌아가기
     def clicked_back(self):
         self.reset_all()
+        refListWindow.read_ref_list()
         mainWidget.setCurrentIndex(mainWidget.currentIndex() - 1)
 
     # 화면에 표시된 내용을 DB에 추가
     def clicked_next(self):
         # 저장된 내용을 DB에 넣는 쿼리문 추가
+        data = dict()
+        data['user_id'] = USER_ID
+        data['item_name'] = self.add_item_name.text()
+        data['item_category1'] = self.add_item_category.text()
+        data['item_category2'] = self.add_item_category2
+        data['item_expDay'] = "%s-%s-%s" % (self.add_item_exp_year.text(), self.add_item_exp_month.text(), self.add_item_exp_day.text())
+        data['item_count'] = int(self.add_item_count.text())
+        data['item_image'] = "{}.jpg".format(self.add_item_name.text())
+        data['item_category1_id'] = self.category_index + 1
+        classifi2_idx = refDB.get_Classifi2_id(data['item_category2'])
+        data['item_category2_id'] = classifi2_idx
+        print([data])
+        refDB.add_UserProducts([data])
         self.reset_all()
 
     # 음성인식 입력 모드
@@ -280,10 +302,26 @@ class AddWindow(QMainWindow):
 
     # 바코드 입력 모드
     def clicked_barcode(self):
-        pass
+        print("barcode reader start!!")
+        self.barcode_btn.setEnabled(False)
+        # 바코드 리더 함수 호출 - 제품명 가져오기
+        item_name = barcode_reader.barcode_recognition()
+        # print(item_name)
+        # 제품명으로 소분류, 대분류 찾기
+        result = refDB.get_Product_category(item_name)
+        if result != -1:
+            # print(result[-1])
+            self.add_item_name.setText(item_name)
+            self.add_item_category.setText(result[-1][0])
+            self.add_item_count.setText("1")
+            self.add_item_category2 = result[-1][2]
+            self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
+        self.barcode_btn.setEnabled(True)
+
 
     # 뒤로가기, 다음 버튼 클릭 시 모든 값 초기화
     def reset_all(self):
+        self.add_item_image.setStyleSheet("background-color: #FFFFFF")
         self.add_item_category.setText("제품분류")
         self.add_item_name.setText("제품명")
         self.add_item_createDay.setText(self.today_str)
@@ -313,12 +351,15 @@ class AddWindow(QMainWindow):
         print(self.name_list)
         print(self.name_list_index)
         if self.category_index > -1:
-            self.add_item_name.setText(self.name_list[self.name_list_index][0])
+            self.add_item_name.setText(self.name_list[self.name_list_index][1])
 
         if self.name_list_index == len(self.name_list) - 1:
             self.name_list_index = 0
         else:
             self.name_list_index += 1
+        self.add_item_category2 = self.name_list[self.name_list_index - 1][1]
+        print("border-image: url(img/category2/{})".format(self.name_list[self.name_list_index][2]))
+        self.add_item_image.setStyleSheet("border-image: url(img/category2/{});".format(self.name_list[self.name_list_index - 1][2]))
 
     # 제품 등록일 변경
     def clicked_create(self):
@@ -327,6 +368,43 @@ class AddWindow(QMainWindow):
     # 제품 유통기한 변경
     def clicked_exp(self):
         pass
+
+    def clicked_exp_year(self):
+        print("exp_year")
+        if self.add_item_exp_year.text() == "0000":
+            self.add_item_exp_year.setText(str(today.year))
+        else:
+            self.add_item_exp_year.setText(str(int(self.add_item_exp_year.text()) + 1))
+
+    def clicked_exp_month(self):
+        print("exp_month")
+        if self.add_item_exp_month.text() == "00":
+            self.add_item_exp_month.setText(str(today.month).zfill(2))
+        elif self.add_item_exp_month.text() == "12":
+            self.add_item_exp_month.setText("01")
+        else:
+            self.add_item_exp_month.setText(str(int(self.add_item_exp_month.text()) + 1).zfill(2))
+
+    def clicked_exp_day(self):
+        print("exp_day")
+        if self.add_item_exp_day.text() == "00":
+            self.add_item_exp_day.setText(str(today.day).zfill(2))
+        elif self.add_item_exp_month.text() in ("01", "03", "05", "07", "08", "10", "12"):
+            if self.add_item_exp_day.text() == "31":
+                self.add_item_exp_day.setText("01")
+            else:
+                self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
+        elif self.add_item_exp_month.text() in ("04", "06", "09", "11"):
+            if self.add_item_exp_day.text() == "30":
+                self.add_item_exp_day.setText("01")
+            else:
+                self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
+        else:
+            if self.add_item_exp_day.text() == "28":
+                self.add_item_exp_day.setText("01")
+            else:
+                self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
+
 
     # 수량 마이너스 - 선택된 단위에 따라
     def clicked_minus(self):

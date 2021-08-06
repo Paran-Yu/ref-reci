@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     backgroundColor: "#F2EDE7",
   },
-  grid: {
-    width: "30wh",
-  },
 }));
 
 const FavRecList = () => {
@@ -38,9 +35,9 @@ const FavRecList = () => {
   const len = useNowCols();
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={Number.isInteger(len) ? len : 1}>
+      <GridList className={classes.gridList} cols={Number.isInteger(len) ? len - 1 : 1}>
         {Favs.map((dt, idx) => (
-          <GridListTile key={idx} className={classes.grid} alignItems="center" justify="center">
+          <GridListTile key={idx} alignItems="center" justify="center">
             <FavItem dt={dt} idx={idx} />
           </GridListTile>
         ))}
