@@ -111,10 +111,10 @@ class RefListWindow(QMainWindow):
         # GridLayout 생성 및 조정
         ref_list_layout = QGridLayout()
         ref_list_layout.setContentsMargins(16, 16, 16, 16)
-        ref_list_layout.setColumnMinimumWidth(0, 608)
-        ref_list_layout.setColumnMinimumWidth(1, 608)
+        ref_list_layout.setColumnMinimumWidth(0, 610)
+        ref_list_layout.setColumnMinimumWidth(1, 610)
         for i in range(int(self.count / 2) + 1):
-            ref_list_layout.setRowMinimumHeight(i, 192)
+            ref_list_layout.setRowMinimumHeight(i, 200)
             # print(i)
 
         # 위젯 그룹에 리스트 카드 하나씩 넣기
@@ -146,7 +146,7 @@ class RefListWindow(QMainWindow):
         ref_list_groupBox.raise_()
 
         # Scroll Area 생성하여 리스트 집어넣기
-        self.scroll.setGeometry(16, 264, 1248, 472)
+        self.scroll.setGeometry(8, 264, 1260, 472)
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setStyleSheet("border: 0px;")
         self.scroll.setWidget(ref_list_groupBox)
@@ -222,12 +222,13 @@ class RefListWindow(QMainWindow):
                     if self.ref_list_list[i]['item_category2'] not in self.selected_item_name:
                         self.selected_item_name.append(self.ref_list_list[i]['item_category2'])
 
-        print("선택된 재료")
-        print(self.selected_item_name)
         self.draw_selected()
+
 
     # 클릭 시 만들어진 선택 목록을 그리는 함수
     def draw_selected(self):
+        print("선택된 재료")
+        print(self.selected_item_name)
         # 레이아웃 생성 및 조정
         selected_layout = QGridLayout()
         selected_layout.setContentsMargins(16, 0, 16, 0)
@@ -237,18 +238,17 @@ class RefListWindow(QMainWindow):
             selected_layout.setColumnMinimumWidth(i, 120)
 
         selected_groupBox = QGroupBox("")
-        print("그룹박스")
         for i in self.selected_item_name:
             # 버튼 생성
             selected = QPushButton()
             selected.setText(i)
-            print(len(i))
             selected.setMinimumSize(108 + (len(i) * 10), 56)
             selected.setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
                                    "color: #8DB554;\n"
                                    "background-color: #FFFFFF;\n"
                                    "border: 2px solid #8DB554;\n"
                                    "border-radius: 26px;")
+            selected.clicked.connect(self.clicked_selected_item)
             self.selected_item.append(selected)
             selected_layout.addWidget(selected)
         selected_groupBox.setLayout(selected_layout)
@@ -262,6 +262,12 @@ class RefListWindow(QMainWindow):
         self.selected_scroll.raise_()
 
 
+    def clicked_selected_item(self):
+        sender = self.sender()
+        self.selected_item_name.remove(sender.text())
+        self.selected_item = []
+        self.draw_selected()
+
 
     # 선택 모드 - 뒤로가기 클릭 시 =>
     def clicked_back(self):
@@ -274,6 +280,8 @@ class RefListWindow(QMainWindow):
         # 선택화면 용 위젯 숨김
         self.title_back.hide()
         self.title_recipe.hide()
+        self.selected_scroll.takeWidget()
+        self.selected_scroll.hide()
 
         # 기존 다시 표시
         self.title_search.show()
