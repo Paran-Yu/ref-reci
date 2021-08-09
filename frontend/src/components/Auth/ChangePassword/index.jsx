@@ -216,6 +216,10 @@ export default function ChangePassword({history}) {
             >
                 <ThemeProvider theme={mytheme}>
                     <div className={classes.paper}>
+                        <Typography color="primary" variant="h2">
+                            <b>Ref:Reci</b>
+                        </Typography>
+                        <br></br>
                         <Typography component="h1" variant="h5">
                             비밀번호 변경
                         </Typography>

@@ -3,6 +3,12 @@ from PyQt5.QtCore import *
 from PyQt5 import QtGui
 import db as DB
 
+# 임시용
+USER_ID = 1
+
+# DB 클래스 생성
+refDB = DB.DB()
+
 class RefItem(QWidget):
     def __init__(self):
         super().__init__()
@@ -27,9 +33,10 @@ class RefItem(QWidget):
 
         self.ref_item_picture = QPushButton(self)
         self.ref_item_picture.setGeometry(QRect(0, 0, 248, 192))
-        self.ref_item_picture.setStyleSheet("background-color: #FFFFFF;\n"
-                                            "border-image: url(img/onion.png);\n"
-                                            "border: 0px;")
+        # self.ref_item_picture.setStyleSheet("border-image: url(img/category2/고구마.jpg);\n")
+        #self.ref_item_picture.setStyleSheet("background-color: #FFFFFF;\n"
+        #                                    "border-image: url(img/category2/고구마.jpg);\n"
+        #                                    "border: 0px;")
         self.ref_item_picture.setText("")
         self.ref_item_picture.setObjectName("ref_item_picture")
 
@@ -132,6 +139,9 @@ class RefItem(QWidget):
         self.ref_item_minus.setText(_translate("ref_item", "-"))
         self.ref_item_plus.setText(_translate("ref_item", "+"))
 
+    def set_upID(self, ID):
+        self.upID = ID
+
     def set_ref_item_name(self, name):
         self.ref_item_name.setText(QCoreApplication.translate("ref_item", name))
 
@@ -158,4 +168,5 @@ class RefItem(QWidget):
 
     def clicked_delete(self):
         print("delete")
-        # DB.del_UserProducts(id)
+        print(self.upID)
+        refDB.del_UserProducts(self.upID)
