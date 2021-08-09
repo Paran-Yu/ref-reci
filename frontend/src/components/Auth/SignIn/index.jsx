@@ -28,16 +28,8 @@ import Background from '../../../images/main.png';
 import axios from 'axios';
 import server from '../../../server.json';
 
-// const kakao = createTheme({
-//     palette: {
-//         primary: {
-//             light: '#f2ede7',
-//             main: '#fee500',
-//             dark: '#191600',
-//             contrastText: '#191600',
-//         },
-//     },
-// });
+//Social Login
+const {Kakao} = window;
 
 const mytheme = createTheme({
     palette: {
@@ -144,13 +136,13 @@ export default function SignInSide({history}) {
             <CssBaseline />
             <Grid item xs={false} sm={6} className={classes.image} />
             <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
+                <ThemeProvider theme={mytheme}>
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5">
                         로그인
                     </Typography>
                     
                     <form className={classes.form}>
-                    <ThemeProvider theme={mytheme}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -259,7 +251,7 @@ export default function SignInSide({history}) {
                         >
                             Google
                         </Button>
-                        <Button
+                        <IconButton
                             xs={12}
                             m={2}
                             component={RouterLink}
@@ -268,14 +260,56 @@ export default function SignInSide({history}) {
                             variant="contained"
                             fullWidth
                         >
-                            GitHub
-                        </Button>
-                        </ThemeProvider>
+                            <GitHubIcon />
+                        </IconButton>
+                        {/* <IconButton
+                            href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
+                            >
+                            Kakao
+                        </IconButton> */}
+                        <IconButton
+                                onClick={() => {
+                                    Kakao.Auth.login({
+                                        success: function (response) {
+                                            Kakao.API.request({
+                                                url: '/v2/user/me',
+                                                success: async function (response) {
+                                                    console.log(response)
+                                                    const data = await axios({
+                                                        method: 'post',
+                                                        url: `${server.ip}/callback/kakao`,
+                                                        data: {
+                                                            id: response.id,
+                                                            userName: response.properties.nickname
+                                                        },
+                                                        headers: {
+                                                            accept: 'application/json',
+                                                        },
+                                                    });
+                                                    console.log(data);
+                                                    if (data.data.value === 'Success') history.push("/");
+                                                    else if (data.data.value === 'Error') alert('로그인 과정에서 예상치 못한 문제가 발생했습니다.');
+                                                },
+                                                fail: function (error) {
+                                                    alert('로그인 중 에러 발생')
+                                                },
+                                            })
+                                        },
+                                        fail: function (error) {
+                                            alert('로그인 중 에러 발생')
+                                        },
+                                    })
+                                }}>
+                                Kakao
+                        </IconButton>
+                        
+                        <br></br>
                         <Box mt={5}>
                             <Copyright />
                         </Box>
                     </form>
                 </div>
+                </ThemeProvider>
             </Grid>
         </Grid>
     );

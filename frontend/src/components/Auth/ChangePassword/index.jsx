@@ -165,13 +165,14 @@ export default function ChangePassword({history}) {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     
-    //인증번호 입력칸 활성화, 비활성화
-    const [hiddenAuth, setHiddenAuth] = useState(true);
-
     //아래 2개가 SIGN UP을 활성화 시키기 위한 조건
     const [emailAuth, setEmailAuth] = useState(false);
     const [passwordSame, setPasswordSame] = useState(false);
     
+    //아이디와 인증버튼 활성화, 비활성화
+    const [verButtonInactive, setVerButtonInactive] = useState(false);
+    //인증번호 입력칸 활성화, 비활성화
+    const [hiddenAuth, setHiddenAuth] = useState(true);
     //SIGN UP 버튼을 활성화, 비활성화
     const [signUpInactive, setSignUpInactive] = useState(true);
 
@@ -228,6 +229,7 @@ export default function ChangePassword({history}) {
                                 <Grid container spacing={1} alignItems="center">
                                     <Grid item xs={9}>
                                         <TextField
+                                            disabled={verButtonInactive}
                                             variant="outlined"
                                             required
                                             fullWidth
@@ -244,6 +246,7 @@ export default function ChangePassword({history}) {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <Button
+                                            disabled={verButtonInactive}
                                             variant="outlined"
                                             fullWidth
                                             size="large"
@@ -257,10 +260,17 @@ export default function ChangePassword({history}) {
                                                 else if (data.value === 'Duplicate Email'){
                                                     console.log('회원 정보 있음');
                                                     //이메일 인증 시작
-                                                    const data = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
-                                                    setHiddenAuth(false);
-                                                    setEmailAuthData(data);
-                                                    console.log(data);
+                                                    const emailDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+                                                    if (emailDatas.value === 'Email Sent') {
+                                                        alert('이메일이 전송되었습니다.');
+                                                        setHiddenAuth(false);
+                                                        setEmailAuthData(emailDatas.number);
+                                                        console.log(emailDatas.number);
+                                                        setVerButtonInactive(true);
+                                                    }
+                                                    else if (emailDatas.value === 'Email Error') {
+                                                        alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
+                                                    }
                                                 }
                                                 else if(data.value === 'Wrong Email'){
                                                     alert('이메일 형식이 잘못되었습니다.');
@@ -299,6 +309,7 @@ export default function ChangePassword({history}) {
                                                 if(verification == emailAuthData){
                                                     console.log('인증번호 일치');
                                                     setEmailAuth(true);
+                                                    setHiddenAuth(true);
                                                 }
                                                 else{
                                                     alert('잘못된 인증번호입니다.');
