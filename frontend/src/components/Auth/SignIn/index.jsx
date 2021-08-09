@@ -21,10 +21,16 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
 // Icons
 import Background from '../../../images/main.png';
 import GitHubIcon from '@material-ui/icons/GitHub';
+// import Kakao from '../../../images/SocialLogin/kakao.png'
 
 // Server 
 import axios from 'axios';
@@ -202,6 +208,31 @@ export default function SignInSide({history}) {
                                     event.target.value = event.target.value.slice(0, -1);
                                 }
                             }}
+                            onKeyPress={async(event)=>{
+                                // if (event.keyCode === 13) {
+                                    if(4 <= password.length && password.length <= 20){
+                                        const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+                                        if (userDatas.value === 'Duplicate Email') {
+                                            console.log('가입된 이메일입니다.');
+                                            const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+                                            if (userDatas === true) {
+                                                console.log('로그인 성공');
+                                                history.push("/");
+                                            }
+                                            else {
+                                                alert('비밀번호가 틀렸습니다.');
+                                            }
+                                        }
+                                        else {
+                                            alert('가입되지 않은 이메일입니다.');
+                                        }
+                                    }
+                                    else{
+                                        alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
+                                        console.log(`현재 비밀번호 자릿수: ${password.length}`)
+                                    }
+                                // }
+                            }}
                         />
                         {/* <FormControlLabel
                             control={
@@ -247,12 +278,17 @@ export default function SignInSide({history}) {
                             로그인
                         </Button>
                         <Grid container>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <Link color="secondary" component={RouterLink} to="/changepassword" variant="body2">
                                     비밀번호 찾기
                                 </Link>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
+                                <span variant="body2">
+                                    |
+                                </span>
+                            </Grid>
+                            <Grid item xs={4}>
                                 <Link color="secondary" component={RouterLink} to="/signup" variant="body2">
                                     회원가입
                                 </Link>
@@ -264,17 +300,22 @@ export default function SignInSide({history}) {
                         >
                             Google
                         </IconButton>
-                        <IconButton
+                        <Button
+                            className={classes.button}
                             href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
+                            startIcon={<GitHubIcon />}
+                            variant="contained"
+                            color="inherit"
                         >
-                            <GitHubIcon />
-                        </IconButton>
+                            Sign in with GitHub
+                        </Button>
                         <IconButton
                             href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
                             >
                             Kakao
                         </IconButton>
                         <br></br>
+                        <img src={process.env.PUBLIC_URL + '/images/kakao.png'} />
                         <Box mt={5}>
                             <Copyright />
                         </Box>

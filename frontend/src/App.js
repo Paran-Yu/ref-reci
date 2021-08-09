@@ -21,9 +21,9 @@ function App() {
         <Route path='/reci' component={Recipe} />
         <Route path="/signIn" component={SignIn} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/changepassword" component={ChangePassword} />
         <Route path="/main" component={FloatingActionButton} />
         <Route path="/mainref" component={MainRef} />
-        <Route path="/changepassword" component={ChangePassword} />
       </Router>
     </div>
   );

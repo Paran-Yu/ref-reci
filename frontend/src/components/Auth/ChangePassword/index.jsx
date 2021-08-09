@@ -226,7 +226,7 @@ export default function ChangePassword({history}) {
                         <form className={classes.form}>
                             <Container maxWidth="md">
                                 <Grid container spacing={1} alignItems="center">
-                                    <Grid item xs={9}>
+                                    <Grid item xs={10}>
                                         <TextField
                                             variant="outlined"
                                             required
@@ -242,9 +242,9 @@ export default function ChangePassword({history}) {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         <Button
-                                            variant="outlined"
+                                            color="primary"
                                             fullWidth
                                             size="large"
                                             onClick={async () => {
@@ -272,7 +272,7 @@ export default function ChangePassword({history}) {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={1} alignItems="center">
-                                    <Grid item xs={9}>
+                                    <Grid item xs={10}>
                                         <TextField
                                             disabled={hiddenAuth}
                                             variant="outlined"
@@ -289,9 +289,9 @@ export default function ChangePassword({history}) {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         <Button
-                                            variant="outlined"
+                                            color="primary"
                                             disabled={hiddenAuth}
                                             fullWidth
                                             size="large"
