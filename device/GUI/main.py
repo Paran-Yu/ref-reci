@@ -49,6 +49,9 @@ class RefListWindow(QMainWindow):
         loadUi("h_ref_list.ui", self)
         # USER_NAME의 냉장고 리스트
         self.title.setText("{}의 냉장고".format(USER_NAME))
+        # 냉장고 목록 정렬
+        self.ref_list_sort_list = ['등록순', '유통기한순', '이름순', '이름역순']
+        self.ref_list_sort_index = 0
         # 냉장고 목록 받아올 리스트
         self.ref_list_list = []                         # DB에서 딕셔너리로 받아오는 리스트
         self.ref_item_list = []                         # GUI에서 재료 카드를 담는 리스트
@@ -92,9 +95,19 @@ class RefListWindow(QMainWindow):
         print("새로 불러온 리스트")
         print(self.ref_list_list)
 
-        # [더미 데이터]
-        # self.ref_list_list = []
-        # self.ref_list_list = [['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png']]
+        # 정렬
+        if self.ref_list_sort_index == 1:
+            # 유통기한순
+            self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_expDay']))
+        elif self.ref_list_sort_index == 2:
+            # 이름순
+            self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_name']))
+        elif self.ref_list_sort_index == 3:
+            # 이름역순
+            self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_name']), reverse=True)
+
+        print("정렬 후")
+        print(self.ref_list_list)
 
         self.count = len(self.ref_list_list)
         self.ref_list_count.setText('총 %d개' % self.count)
@@ -206,6 +219,17 @@ class RefListWindow(QMainWindow):
         self.selected_scroll.show()
 
 
+    def clicked_sort(self):
+        if self.ref_list_sort_index == len(self.ref_list_sort_list) - 1:
+            self.ref_list_sort_index = 0
+        else:
+            self.ref_list_sort_index += 1
+
+        self.ref_list_sort.setText(self.ref_list_sort_list[self.ref_list_sort_index])
+        self.read_ref_list()
+
+
+
     def clicked_ref_items(self):
         ## 선택한 재료 표시
         sender = self.sender()
@@ -291,7 +315,7 @@ class RefListWindow(QMainWindow):
 
     # 선택 모드 - 레시피 클릭 시 => 선택된 재료로 레시피 검색
     def clicked_recipe(self):
-        mainWidget.setCurrentIndex(mainWidget.currentIndex() + 1)
+        mainWidget.setCurrentIndex(mainWidget.currentIndex() + 2)
 
     def clicked_delete(self):
         print("delete")
@@ -507,41 +531,23 @@ class AddWindow(QMainWindow):
         self.btn_num_index = new_btn_num_index
 
 
-# 3 select items
-class SelectWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        loadUi("h_ref_select.ui", self)
-        self.main()
-
-    def main(self):
-        pass
-
-
-# 4 search items
+# 3 search items
 class SearchWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        # loadUi("h_ref_add.ui", self)
+        loadUi("h_recipe_list.ui", self)
         self.main()
 
     def main(self):
         pass
 
 
-# 5 recipe result
+    def clicked_back(self):
+        mainWidget.setCurrentIndex(mainWidget.currentIndex() - 2)
+
+
+# 4 recipe detail
 class RecipeResultWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        # loadUi("h_ref_add.ui", self)
-        self.main()
-
-    def main(self):
-        pass
-
-
-# 6 recipe detail
-class RecipeDetailWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         # loadUi("h_ref_add.ui", self)
@@ -572,11 +578,13 @@ if __name__ == "__main__":
     startWindow = StartWindow()
     refListWindow = RefListWindow()
     addWindow = AddWindow()
+    searchWindow = SearchWindow()
 
     # add pages to main widget stack
     mainWidget.addWidget(startWindow)
     mainWidget.addWidget(refListWindow)
     mainWidget.addWidget(addWindow)
+    mainWidget.addWidget(searchWindow)
 
     mainWidget.show()
     app.exec()
