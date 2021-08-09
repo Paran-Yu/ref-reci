@@ -62,6 +62,10 @@ class RefListWindow(QMainWindow):
         # 재료 선택 리스트
         self.selected_item = []
         self.selected_item_name = []
+        self.selected_scroll = QScrollArea(self)
+        self.selected_scroll.setGeometry(16, 192, 1248, 60)
+        self.selected_scroll.setStyleSheet("border: 0px;")
+        self.selected_scroll.hide()
         # 카테고리 pushbutton 리스트화
         self.title_category_list = (self.category_all, self.category_meat, self.category_vegi, self.category_fish, self.category_egg, self.category_other)
         self.title_category_index = 0
@@ -119,7 +123,7 @@ class RefListWindow(QMainWindow):
             self.ref_item_list.append(RefItem())
             # 데이터 플로팅
             print(self.ref_list_list[i]['item_category2'])
-            print("border-image: url(img/category2/%s.jpg)" % self.ref_list_list[i]['item_category2'])
+            # print("border-image: url(img/category2/%s.jpg)" % self.ref_list_list[i]['item_category2'])
             self.ref_item_list[i].set_upID(self.ref_list_list[i]['upID'])
             self.ref_item_list[i].ref_item_picture.setStyleSheet("border-image: url(img/category2/{}.jpg);\n".format(self.ref_list_list[i]['item_category2']))
             self.ref_item_list[i].set_ref_item_name(self.ref_list_list[i]['item_name'])
@@ -199,6 +203,7 @@ class RefListWindow(QMainWindow):
         # 선택화면 용 위젯 표시
         self.title_back.show()
         self.title_recipe.show()
+        self.selected_scroll.show()
 
 
     def clicked_ref_items(self):
@@ -208,33 +213,64 @@ class RefListWindow(QMainWindow):
 
         # 리스트 모드 -> 다이얼로 수량 조정 가능
 
-        QPushButton(self)
+
         # 선택 모드 -> 뱃지 생성
         if self.mode == 1:
             # 클릭한 재료가 무엇인지 판별 -> 기존 선택 목록에 없으면 추가
             for i in range(self.count):
                 if sender == self.ref_item_list[i].ref_item_container or sender == self.ref_item_list[i].ref_item_picture:
-                    if self.ref_item_list[i].ref_item_name.text() not in self.selected_item_name:
-                        self.selected_item_name.append(self.ref_item_list[i].ref_item_name.text())
-                        # 버튼 생성
-                        selected = QPushButton(self)
-                        selected.setText(self.ref_item_list[i].ref_item_name.text())
-                        selected.setGeometry(24, 192, 120, 56)
-                        selected.setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
-                                               "color: #8DB554;\n"
-                                               "background-color: #FFFFFF;\n"
-                                               "border: 2px solid #8DB554;\n"
-                                               "border-radius: 26px;")
-                        self.selected_item.append(selected)
+                    if self.ref_list_list[i]['item_category2'] not in self.selected_item_name:
+                        self.selected_item_name.append(self.ref_list_list[i]['item_category2'])
 
         print("선택된 재료")
-        print(self.selected_item)
         print(self.selected_item_name)
+        self.draw_selected()
+
+    # 클릭 시 만들어진 선택 목록을 그리는 함수
+    def draw_selected(self):
+        # 레이아웃 생성 및 조정
+        selected_layout = QGridLayout()
+        selected_layout.setContentsMargins(16, 0, 16, 0)
+        selected_layout.setRowMinimumHeight(0, 60)
+        # 선택 갯수만큼 열 생성
+        for i in range(len(self.selected_item_name)):
+            selected_layout.setColumnMinimumWidth(i, 120)
+
+        selected_groupBox = QGroupBox("")
+        print("그룹박스")
+        for i in self.selected_item_name:
+            # 버튼 생성
+            selected = QPushButton()
+            selected.setText(i)
+            print(len(i))
+            selected.setMinimumSize(108 + (len(i) * 10), 56)
+            selected.setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
+                                   "color: #8DB554;\n"
+                                   "background-color: #FFFFFF;\n"
+                                   "border: 2px solid #8DB554;\n"
+                                   "border-radius: 26px;")
+            self.selected_item.append(selected)
+            selected_layout.addWidget(selected)
+        selected_groupBox.setLayout(selected_layout)
+        selected_groupBox.raise_()
+
+        # Scroll Area 생성하여 선택 리스트 집어넣기
+        self.selected_scroll.setWidget(selected_groupBox)
+        self.selected_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.selected_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.selected_scroll.setWidgetResizable(False)
+        self.selected_scroll.raise_()
+
 
 
     # 선택 모드 - 뒤로가기 클릭 시 =>
     def clicked_back(self):
         self.mode = 0
+
+        # 선택된 재료 리스트 비우기
+        self.selected_item = []
+        self.selected_item_name = []
+
         # 선택화면 용 위젯 숨김
         self.title_back.hide()
         self.title_recipe.hide()
@@ -292,7 +328,6 @@ class AddWindow(QMainWindow):
     def clicked_back(self):
         self.reset_all()
         refListWindow.read_ref_list()
-        print("메롱")
         mainWidget.setCurrentIndex(mainWidget.currentIndex() - 1)
 
     # 화면에 표시된 내용을 DB에 추가
