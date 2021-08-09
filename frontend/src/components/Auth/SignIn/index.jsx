@@ -271,17 +271,11 @@ export default function SignInSide({history}) {
                             Kakao
                         </Button>
                         
-                        <Button
-                            xs={12}
-                            m={2}
-                            component={RouterLink}
-                            to="/#"
-                            color="primary"
-                            variant="contained"
-                            fullWidth
+                        <IconButton
+                            href={"https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
                         >
                             Google
-                        </Button>
+                        </IconButton>
                         <Button
                             className={classes.button}
                             href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
@@ -292,9 +286,8 @@ export default function SignInSide({history}) {
                             Sign in with GitHub
                         </Button>
                         <IconButton
-
                             href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
-                            >
+                        >
                             Kakao
                         </IconButton>
                         <IconButton
