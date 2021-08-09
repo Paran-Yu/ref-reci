@@ -7,6 +7,8 @@ import Layout from "../../layout";
 import { ReactComponent as Logo } from "../../logo.svg";
 import SideBar from "../../components/SideBar";
 import backGround from "../../images/background.png";
+import style from "./styles.css"
+
 const useStyles = makeStyles((theme) => ({
   Fav: {
     margin: "auto",
