@@ -50,9 +50,9 @@ background-color: rgba(0,0,0,00)</string>
     <property name="font">
      <font>
       <family>KoPubWorld돋움체</family>
+      <pointsize>56</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <pointsize>56</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -76,9 +76,9 @@ border: 0px;</string>
     <property name="font">
      <font>
       <family>KoPubWorld돋움체</family>
+      <pointsize>56</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <pointsize>56</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -105,9 +105,9 @@ background-color: rgba(0,0,0,0);
     <property name="font">
      <font>
       <family>KoPubWorld돋움체</family>
+      <pointsize>56</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <pointsize>56</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -233,9 +233,9 @@ border-radius: 10px;</string>
     <property name="font">
      <font>
       <family>KoPubWorld돋움체</family>
-      <weight>75</weight>
-      <bold>True</bold>
       <pointsize>56</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -305,7 +305,7 @@ background-color: #FFFFFF;
 border: 0px;</string>
     </property>
     <property name="text">
-     <string>2021-01-01</string>
+     <string>0000-00-00</string>
     </property>
    </widget>
    <widget class="QPushButton" name="voice_btn">
@@ -420,6 +420,66 @@ border-radius: 26px;</string>
     </property>
     <property name="text">
      <string> ±100</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_item_exp_year">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>304</y>
+      <width>105</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 34pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+text-align: center;
+background-color: #FFFFFF;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>0000</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_item_exp_day">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>304</y>
+      <width>65</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 34pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+text-align: center;
+background-color: #FFFFFF;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>00</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_item_exp_month">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>304</y>
+      <width>57</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 34pt &quot;KoPubWorld돋움체 Medium&quot;;
+color: #45423C;
+text-align: center;
+background-color: #FFFFFF;
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>00</string>
     </property>
    </widget>
   </widget>
@@ -634,6 +694,54 @@ border-radius: 26px;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>add_item_exp_year</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clicked_exp_year()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1009</x>
+     <y>334</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1006</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>add_item_exp_month</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clicked_exp_month()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1116</x>
+     <y>337</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1132</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>add_item_exp_day</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clicked_exp_day()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1176</x>
+     <y>325</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1177</x>
+     <y>417</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clicked_back()</slot>
@@ -647,5 +755,8 @@ border-radius: 26px;</string>
   <slot>clicked_voice()</slot>
   <slot>clicked_barcode()</slot>
   <slot>clicked_num()</slot>
+  <slot>clicked_exp_year()</slot>
+  <slot>clicked_exp_month()</slot>
+  <slot>clicked_exp_day()</slot>
  </slots>
 </ui>
