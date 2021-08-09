@@ -6,30 +6,30 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 // Style
 import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-// import { ThemeProvider } from '@material-ui/styles'
 
 // Core
 import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 
-// Icons
-import Background from '../../../images/main.png';
-import GitHubIcon from '@material-ui/icons/GitHub';
+// Icons & Images
+// import { GoogleLoginButton } from "react-social-login-buttons";
+import { GithubLoginButton } from "react-social-login-buttons";
 
 // Server 
 import axios from 'axios';
 import server from '../../../server.json';
 
+//Social Login
+const {Kakao} = window;
 
 const mytheme = createTheme({
     palette: {
@@ -54,6 +54,36 @@ const mytheme = createTheme({
     },
 });
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        height: '100vh',
+    },
+    image: {
+        backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    paper: {
+        margin: theme.spacing(8, 4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
+
+
 const postSearchID = async (url, userID) => {
     try {
         const data = await axios({
@@ -72,6 +102,7 @@ const postSearchID = async (url, userID) => {
         console.log(`ERROR: ${err}`);
     }
 }
+
 
 const postLogin = async (url, userID, userPW) => {
     try{
@@ -107,37 +138,6 @@ function Copyright() {
     );
 }
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        height: '100vh',
-    },
-    image: {
-        backgroundImage: "url(" + Background + ")",
-        backgroundRepeat: 'no-repeat',
-        // backgroundColor: 
-        //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-    },
-    paper: {
-        margin: theme.spacing(8, 4),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
-
 
 export default function SignInSide({history}) {
     const classes = useStyles();
@@ -145,6 +145,7 @@ export default function SignInSide({history}) {
 
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
+
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -203,7 +204,7 @@ export default function SignInSide({history}) {
                                 }
                             }}
                         />
-                        {/* <FormControlLabel
+                        <FormControlLabel
                             control={
                             <Checkbox 
                                 checked={checked}
@@ -213,7 +214,7 @@ export default function SignInSide({history}) {
                             />
                             }
                             label="아이디 / 비밀번호 저장"
-                        /> */}
+                        />
                         <Button
                             fullWidth
                             size="large"
@@ -258,23 +259,65 @@ export default function SignInSide({history}) {
                                 </Link>
                             </Grid>
                         </Grid>
-                        <br></br>
-                        <IconButton
-                            href={"https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
+                        <hr></hr>
+
+                        <GithubLoginButton
+                        href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
                         >
-                            Google
-                        </IconButton>
-                        <IconButton
-                            href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
-                        >
-                            <GitHubIcon />
-                        </IconButton>
-                        <IconButton
-                            href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
-                            >
-                            Kakao
-                        </IconButton>
+                        </GithubLoginButton>
+                        {/* <Button>
+                            <img 
+                            src={process.env.PUBLIC_URL + '/images/google.png'}
+                            onClick={window.location.href="https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
+                            />
+                        </Button> */}
+                        <Button>
+                            <img 
+                            src={process.env.PUBLIC_URL + '/images/google.png'}
+                            onClick={()=>{
+                                window.location.href="https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"
+                            }}
+                            />
+                        </Button>
+                        <Button>
+                            <img 
+                            src={process.env.PUBLIC_URL + '/images/kakao.png'}
+                            onClick={() => {
+                                Kakao.Auth.login({
+                                    success: function (response) {
+                                        Kakao.API.request({
+                                            url: '/v2/user/me',
+                                            success: async function (response) {
+                                                console.log(response)
+                                                const data = await axios({
+                                                    method: 'post',
+                                                    url: `${server.ip}/callback/kakao`,
+                                                    data: {
+                                                        id: response.id,
+                                                        userName: response.properties.nickname
+                                                    },
+                                                    headers: {
+                                                        accept: 'application/json',
+                                                    },
+                                                });
+                                                console.log(data);
+                                                if (data.data.value === 'Success') history.push("/");
+                                                else if (data.data.value === 'Error') alert('로그인 과정에서 예상치 못한 문제가 발생했습니다.');
+                                            },
+                                            fail: function (error) {
+                                                alert('로그인 중 에러 발생')
+                                            },
+                                        })
+                                    },
+                                    fail: function (error) {
+                                        alert('로그인 중 에러 발생')
+                                    },
+                                })
+                            }}
+                            />
+                        </Button>
                         <br></br>
+
                         <Box mt={5}>
                             <Copyright />
                         </Box>

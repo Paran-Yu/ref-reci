@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Grid, makeStyles, Typography, Button, createMuiTheme } from "@material-ui/core";
-import SearchDt from "../../components/SearchDt";
-import IngList from "../../components/ShowIng/IngList";
-import Layout from "../../layout";
-import SideBar from "../../components/SideBar";
 import { Router, Link } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Grid, makeStyles, Typography, Button, createMuiTheme } from "@material-ui/core";
+import SearchDt from "../../components/Fridge/SearchDt";
+import IngList from "../../components/Fridge/ShowIng/IngList";
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "2px 4px",
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#F19920",
   },
 }));
-const SecComp = (props) => {
+const Fridge = (props) => {
   const { catName } = props.location.state;
   const [cnt, setCnt] = React.useState(0);
   const st = useStyles();
@@ -40,7 +40,6 @@ const SecComp = (props) => {
   };
   return (
     <ThemeProvider theme={baseTheme}>
-      <Layout />
       <Grid container justifyContent="center" alignItems="center">
         <Typography align="center" variant="h3" gutterBottom className={st.title}>
           나의 냉장고
@@ -78,9 +77,8 @@ const SecComp = (props) => {
         <Grid className={st.list}>
           <IngList cnt={cnt} addCnt={addCnt.bind()} />
         </Grid>
-        <SideBar />
       </Grid>
     </ThemeProvider>
   );
 };
-export default SecComp;
+export default Fridge;

@@ -57,6 +57,7 @@ app.post("/register", async (req, res) => {
         res.send({ value: 'Success' });
     }
     catch (err) {
+        console.log('===========회원가입 중 에러 발생===========');
         console.log(err);
     }
 
@@ -97,6 +98,7 @@ app.post("/login", async (req, res) => {
         
     }
     catch (err) {
+        console.log('===========로그인 중 에러 발생===========');
         console.log(err);
     }
 });
@@ -126,6 +128,7 @@ app.post("/searchID", async (req, res) => {
         }
     }
     catch (err) {
+        console.log('===========아이디 검색 중 에러 발생===========');
         console.log(err);
     }
 });
@@ -142,14 +145,17 @@ app.post("/emailAuth", async (req, res) => {
     };
     console.log(userID);
     console.log(randomNumber);
-    res.send(JSON.stringify(randomNumber));
+    //res.send(JSON.stringify(randomNumber));
 
     try{
         const email = await smtpTransport.sendMail(mailOptions);
         smtpTransport.close();
+        res.send({value: 'Email Sent', number: randomNumber});
     }
     catch(err){
+        console.log('===========이메일 전송 중 에러 발생===========');
         console.log(err);
+        res.send({ value: 'Email Error' });
     }
 });
 
@@ -175,6 +181,7 @@ app.post("/changePassword", async (req, res) => {
         res.send({ value: 'Success' });
     }
     catch (err) {
+        console.log('===========비밀번호 변경 중 에러 발생===========');
         console.log(err);
     }
 });
