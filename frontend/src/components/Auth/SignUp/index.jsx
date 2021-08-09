@@ -19,8 +19,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 
-// Icons & Images
-import Background from '../../../images/main.png';
 
 // Server
 import axios from 'axios';
@@ -126,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: "url(" + Background + ")",
+        backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
