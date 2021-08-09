@@ -137,7 +137,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(8, 4),
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
     },
     avatar: {
         margin: theme.spacing(1),
@@ -146,6 +145,13 @@ const useStyles = makeStyles((theme) => ({
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
+        alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+            justifyContent: 'center'
+        },
+        [theme.breakpoints.up('md')]: {
+            justifyContent: 'flex-start'
+        },
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -209,7 +215,6 @@ export default function SignUpSide({history}) {
                 elevation={6} 
                 square
                 container
-                justifyContent="flex-start"
                 alignItems="center"
             >
                 <ThemeProvider theme={mytheme}>
@@ -243,7 +248,7 @@ export default function SignUpSide({history}) {
                                     }}
                                 />
                                 <Grid container spacing={2} alignItems="center">
-                                    <Grid item xs={9}>
+                                    <Grid item xs={10}>
                                         <TextField
                                             disabled={verButtonInactive}
                                             variant="outlined"
@@ -262,11 +267,16 @@ export default function SignUpSide({history}) {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         <Button
+<<<<<<< HEAD
+                                            // variant="outlined"
+=======
                                             disabled={verButtonInactive}
                                             variant="outlined"
+>>>>>>> acd1ed86ab1001bf52d002c647f0060f37373275
                                             fullWidth
+                                            color="primary"
                                             required
                                             size="large"
                                             onClick={async () => {
@@ -302,7 +312,7 @@ export default function SignUpSide({history}) {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={2} alignItems="center">
-                                    <Grid item xs={9}>
+                                    <Grid item xs={10}>
                                         <TextField
                                             disabled={hiddenAuth}
                                             variant="outlined"
@@ -317,9 +327,9 @@ export default function SignUpSide({history}) {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         <Button
-                                            variant="outlined"
+                                            color="primary"
                                             disabled={hiddenAuth}
                                             fullWidth
                                             size="large"
@@ -374,9 +384,7 @@ export default function SignUpSide({history}) {
                                     }}
                                 />
                                 <Button
-                                //type="submit"
                                 disabled={signUpInactive}
-                                //component={RouterLink} to="/main"
                                 fullWidth
                                 variant="contained"
                                 size="large"

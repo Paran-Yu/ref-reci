@@ -11,8 +11,6 @@ import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -227,7 +225,7 @@ export default function ChangePassword({history}) {
                         <form className={classes.form}>
                             <Container maxWidth="md">
                                 <Grid container spacing={1} alignItems="center">
-                                    <Grid item xs={9}>
+                                    <Grid item xs={10}>
                                         <TextField
                                             disabled={verButtonInactive}
                                             variant="outlined"
@@ -244,7 +242,7 @@ export default function ChangePassword({history}) {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         <Button
                                             disabled={verButtonInactive}
                                             variant="outlined"
@@ -282,7 +280,7 @@ export default function ChangePassword({history}) {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={1} alignItems="center">
-                                    <Grid item xs={9}>
+                                    <Grid item xs={10}>
                                         <TextField
                                             disabled={hiddenAuth}
                                             variant="outlined"
@@ -299,9 +297,9 @@ export default function ChangePassword({history}) {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         <Button
-                                            variant="outlined"
+                                            color="primary"
                                             disabled={hiddenAuth}
                                             fullWidth
                                             size="large"
