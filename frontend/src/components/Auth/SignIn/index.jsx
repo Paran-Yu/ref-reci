@@ -30,6 +30,8 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import axios from 'axios';
 import server from '../../../server.json';
 
+//Social Login
+const {Kakao} = window;
 
 const mytheme = createTheme({
     palette: {
@@ -93,6 +95,7 @@ const postLogin = async (url, userID, userPW) => {
         console.log(`ERROR: ${err}`);
     }
 }
+
 
 function Copyright() {
     return (
@@ -269,11 +272,47 @@ export default function SignInSide({history}) {
                         >
                             <GitHubIcon />
                         </IconButton>
-                        <IconButton
+                        {/* <IconButton
                             href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
                             >
                             Kakao
+                        </IconButton> */}
+                        <IconButton
+                                onClick={() => {
+                                    Kakao.Auth.login({
+                                        success: function (response) {
+                                            Kakao.API.request({
+                                                url: '/v2/user/me',
+                                                success: async function (response) {
+                                                    console.log(response)
+                                                    const data = await axios({
+                                                        method: 'post',
+                                                        url: `${server.ip}/callback/kakao`,
+                                                        data: {
+                                                            id: response.id,
+                                                            userName: response.properties.nickname
+                                                        },
+                                                        headers: {
+                                                            accept: 'application/json',
+                                                        },
+                                                    });
+                                                    console.log(data);
+                                                    if (data.data.value === 'Success') history.push("/");
+                                                    else if (data.data.value === 'Error') alert('로그인 과정에서 예상치 못한 문제가 발생했습니다.');
+                                                },
+                                                fail: function (error) {
+                                                    alert('로그인 중 에러 발생')
+                                                },
+                                            })
+                                        },
+                                        fail: function (error) {
+                                            alert('로그인 중 에러 발생')
+                                        },
+                                    })
+                                }}>
+                                Kakao
                         </IconButton>
+                        
                         <br></br>
                         <Box mt={5}>
                             <Copyright />
