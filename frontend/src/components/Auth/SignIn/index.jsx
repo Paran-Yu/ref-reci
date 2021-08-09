@@ -1,5 +1,5 @@
 // React, Router
-import { useState, React } from "react";
+import {useState, React} from 'react';
 // import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
@@ -29,29 +29,29 @@ import axios from 'axios';
 import server from '../../../server.json';
 
 //Social Login
-const { Kakao } = window;
+const {Kakao} = window;
 
 const mytheme = createTheme({
-  palette: {
-    primary: {
-      light: "#f2da9e",
-      main: "#f9bc15",
-      dark: "#f19920",
-      contrastText: "#fff",
+    palette: {
+        primary: {
+            light: '#f2da9e',
+            main: '#f9bc15',
+            dark: '#f19920',
+            contrastText: '#fff',
+        },
+        secondary: {
+            light: '#f2ede7',
+            main: '#a29d97',
+            dark: '#45423c',
+            contrastText: '#fff',
+        },
+        success: {
+            light: '#f2ede7',
+            main: '#fee500',
+            dark: '#45423c',
+            contrastText: '#191600',
+        },
     },
-    secondary: {
-      light: "#f2ede7",
-      main: "#a29d97",
-      dark: "#45423c",
-      contrastText: "#fff",
-    },
-    success: {
-      light: "#f2ede7",
-      main: "#fee500",
-      dark: "#45423c",
-      contrastText: "#191600",
-    },
-  },
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -143,16 +143,8 @@ export default function SignInSide({history}) {
     const classes = useStyles();
     const [checked, setChecked] = useState(true)
 
-  return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={6} className={classes.image} />
-      <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
-        <ThemeProvider theme={mytheme}>
-          <div className={classes.paper}>
-            <Typography component="h1" variant="h5">
-              로그인
-            </Typography>
+    const [userID, setUserID] = useState('');
+    const [password, setPassword] = useState('');
 
 
     return (
@@ -279,10 +271,6 @@ export default function SignInSide({history}) {
                             onClick={window.location.href="https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
                             />
                         </Button> */}
-                        <img 
-                            src={process.env.PUBLIC_URL + '/images/google.png'}
-                            // onClick={window.location.href="https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
-                        />
                         <Button>
                             <img 
                             src={process.env.PUBLIC_URL + '/images/google.png'}
