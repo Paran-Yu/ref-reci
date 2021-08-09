@@ -72,11 +72,15 @@ class RefListWindow(QMainWindow):
     
     # DB에서 사용자의 냉장고 리스트를 불러오기
     def read_ref_list(self):
+        self.clear_list()
         # 카테고리 선택에 따른 제품 목록 리스트로 가져오기
         # item_name, item_count, item_createDay, item_category1
         if self.title_category_index == 0:
             # 전체 선택시
             self.ref_list_list = refDB.get_UserProducts(USER_ID)
+        elif self.title_category_index == 5:
+            # 기타 선택시
+            self.ref_list_list = refDB.get_UserProducts_Classifi1_Extra(USER_ID)
         else:
             # 카테고리 선택시
             self.ref_list_list = refDB.get_UserProducts_Classifi1(USER_ID, self.title_category_index)
@@ -129,6 +133,7 @@ class RefListWindow(QMainWindow):
             # click event slot 추가
             self.ref_item_list[i].ref_item_container.clicked.connect(self.clicked_ref_items)
             self.ref_item_list[i].ref_item_picture.clicked.connect(self.clicked_ref_items)
+            self.ref_item_list[i].ref_item_delete.clicked.connect(self.clicked_delete)
             ref_list_layout.addWidget(self.ref_item_list[i])
         ref_list_groupBox.setLayout(ref_list_layout)
         print("생성된 아이템 카드")
@@ -174,7 +179,6 @@ class RefListWindow(QMainWindow):
 
         self.title_category_index = new_title_category_index
         # 표시 변경
-        self.clear_list()
         self.read_ref_list()
 
 
@@ -245,6 +249,18 @@ class RefListWindow(QMainWindow):
     def clicked_recipe(self):
         mainWidget.setCurrentIndex(mainWidget.currentIndex() + 1)
 
+    def clicked_delete(self):
+        print("delete")
+        sender = self.sender()
+        delete_index = -1
+        for i in range(len(self.ref_item_list)):
+            if self.ref_item_list[i].ref_item_delete == sender:
+                print(i)
+                delete_index = i
+        # print(self.upID)
+        refDB.del_UserProducts(self.ref_item_list[delete_index].upID)
+        self.read_ref_list()
+
 
 
 # 2 add items
@@ -276,6 +292,7 @@ class AddWindow(QMainWindow):
     def clicked_back(self):
         self.reset_all()
         refListWindow.read_ref_list()
+        print("메롱")
         mainWidget.setCurrentIndex(mainWidget.currentIndex() - 1)
 
     # 화면에 표시된 내용을 DB에 추가
@@ -315,6 +332,8 @@ class AddWindow(QMainWindow):
             self.add_item_category.setText(result[-1][0])
             self.add_item_count.setText("1")
             self.add_item_category2 = result[-1][2]
+            self.category_index = result[-1][4]
+            self.name_list_index = result[-1][5]
             self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
         self.barcode_btn.setEnabled(True)
 
@@ -326,6 +345,9 @@ class AddWindow(QMainWindow):
         self.add_item_name.setText("제품명")
         self.add_item_createDay.setText(self.today_str)
         self.add_item_expDay.setText(self.today_str)
+        self.add_item_exp_year.setText("0000")
+        self.add_item_exp_month.setText("00")
+        self.add_item_exp_day.setText("00")
         self.add_item_count.setText("0")
         self.category_index = -1
         self.name_list_index = 0
