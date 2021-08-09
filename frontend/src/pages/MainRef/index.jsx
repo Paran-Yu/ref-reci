@@ -10,8 +10,7 @@ import Fab from "../../components/Main/FloatingActionButton";
 import TopBar from "../../components/Main/TopBar";
 import BottomBar from "../../components/Main/BottomBar";
 import backGround from "../../images/background.png";
-
-
+import style from "./styles.css"
 
 const useStyles = makeStyles((theme) => ({
   Fav: {
