@@ -168,13 +168,14 @@ export default function SignUpSide({history}) {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     
-    //인증번호 입력칸 활성화, 비활성화
-    const [hiddenAuth, setHiddenAuth] = useState(true);
-
     //아래 2개가 SIGN UP을 활성화 시키기 위한 조건
     const [emailAuth, setEmailAuth] = useState(false);
     const [passwordSame, setPasswordSame] = useState(false);
     
+    //아이디와 인증버튼 활성화, 비활성화
+    const [verButtonInactive, setVerButtonInactive] = useState(false);
+    //인증번호 입력칸 활성화, 비활성화
+    const [hiddenAuth, setHiddenAuth] = useState(true);
     //SIGN UP 버튼을 활성화, 비활성화
     const [signUpInactive, setSignUpInactive] = useState(true);
 
@@ -249,6 +250,7 @@ export default function SignUpSide({history}) {
                                 <Grid container spacing={2} alignItems="center">
                                     <Grid item xs={10}>
                                         <TextField
+                                            disabled={verButtonInactive}
                                             variant="outlined"
                                             required
                                             margin="normal"
@@ -267,7 +269,12 @@ export default function SignUpSide({history}) {
                                     </Grid>
                                     <Grid item xs={2}>
                                         <Button
+<<<<<<< HEAD
                                             // variant="outlined"
+=======
+                                            disabled={verButtonInactive}
+                                            variant="outlined"
+>>>>>>> acd1ed86ab1001bf52d002c647f0060f37373275
                                             fullWidth
                                             color="primary"
                                             required
@@ -277,10 +284,20 @@ export default function SignUpSide({history}) {
                                                 if (userDatas.value === 'Success') {
                                                     console.log('중복 이메일 없음');
                                                     //이메일 인증 시작
-                                                    const userDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
-                                                    setHiddenAuth(false);
-                                                    setEmailAuthData(userDatas);
-                                                    console.log(userDatas);
+                                                    const emailDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+
+                                                    if (emailDatas.value === 'Email Sent'){
+                                                        alert('이메일이 전송되었습니다.');
+                                                        setHiddenAuth(false);
+                                                        setEmailAuthData(emailDatas.number);
+                                                        console.log(emailDatas.number);
+                                                        setVerButtonInactive(true);
+                                                    }
+                                                    else if(emailDatas.value === 'Email Error'){
+                                                        alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
+                                                    }
+
+                                                    
                                                 }
                                                 else if (userDatas.value === 'Duplicate Email'){
                                                     alert('이미 가입된 계정입니다.');
@@ -320,6 +337,7 @@ export default function SignUpSide({history}) {
                                                 if(verification == emailAuthData){
                                                     console.log('인증번호 일치');
                                                     setEmailAuth(true);
+                                                    setHiddenAuth(true);
                                                 }
                                                 else{
                                                     alert('잘못된 인증번호입니다.');

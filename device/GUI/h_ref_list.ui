@@ -165,7 +165,7 @@ border: 2px solid #A29D97;
 border-radius: 8px;</string>
     </property>
     <property name="text">
-     <string>어패류</string>
+     <string>해물류</string>
     </property>
    </widget>
    <widget class="QPushButton" name="category_egg">
