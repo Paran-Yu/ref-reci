@@ -285,11 +285,6 @@ export default function SignInSide({history}) {
                             Sign in with GitHub
                         </IconButton>
                         <IconButton
-                            href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
-                        >
-                            Kakao
-                        </IconButton>
-                        <IconButton
                                 onClick={() => {
                                     Kakao.Auth.login({
                                         success: function (response) {
