@@ -24,6 +24,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 // Icons
 import Background from '../../../images/main.png';
 import IconButton from '@material-ui/core/IconButton';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 // Server 
 import axios from 'axios';
@@ -261,7 +262,6 @@ export default function SignInSide({history}) {
                             variant="contained"
                             padding-bottom="10"
                             fullWidth
-
                             >
                             Kakao
                         </Button>
