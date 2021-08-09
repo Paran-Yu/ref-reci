@@ -13,24 +13,18 @@ import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 
 // Icons
 import Background from '../../../images/main.png';
 import GitHubIcon from '@material-ui/icons/GitHub';
-// import Kakao from '../../../images/SocialLogin/kakao.png'
 
 // Server 
 import axios from 'axios';
@@ -102,7 +96,6 @@ const postLogin = async (url, userID, userPW) => {
     }
 }
 
-
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -123,8 +116,6 @@ const useStyles = makeStyles((theme) => ({
     image: {
         backgroundImage: "url(" + Background + ")",
         backgroundRepeat: 'no-repeat',
-        // backgroundColor: 
-        //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
     },
@@ -237,7 +228,7 @@ export default function SignInSide({history}) {
                                 // }
                             }}
                         />
-                        {/* <FormControlLabel
+                        <FormControlLabel
                             control={
                             <Checkbox 
                                 checked={checked}
@@ -247,7 +238,7 @@ export default function SignInSide({history}) {
                             />
                             }
                             label="아이디 / 비밀번호 저장"
-                        /> */}
+                        />
                         <Button
                             fullWidth
                             size="large"
@@ -310,19 +301,14 @@ export default function SignInSide({history}) {
                             variant="contained"
                             color="inherit"
                         >
-<<<<<<< HEAD
                             Sign in with GitHub
                         </Button>
                         <IconButton
-=======
-                            <GitHubIcon />
-                        </IconButton>
-                        {/* <IconButton
->>>>>>> acd1ed86ab1001bf52d002c647f0060f37373275
+
                             href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
                             >
                             Kakao
-                        </IconButton> */}
+                        </IconButton>
                         <IconButton
                                 onClick={() => {
                                     Kakao.Auth.login({
@@ -358,9 +344,10 @@ export default function SignInSide({history}) {
                                 }}>
                                 Kakao
                         </IconButton>
-                        
                         <br></br>
-                        <img src={process.env.PUBLIC_URL + '/images/kakao.png'} />
+                        <img 
+                            src={process.env.PUBLIC_URL + '/images/kakao.png'}
+                        />
                         <Box mt={5}>
                             <Copyright />
                         </Box>

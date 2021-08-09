@@ -269,12 +269,8 @@ export default function SignUpSide({history}) {
                                     </Grid>
                                     <Grid item xs={2}>
                                         <Button
-<<<<<<< HEAD
-                                            // variant="outlined"
-=======
                                             disabled={verButtonInactive}
                                             variant="outlined"
->>>>>>> acd1ed86ab1001bf52d002c647f0060f37373275
                                             fullWidth
                                             color="primary"
                                             required
