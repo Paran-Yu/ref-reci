@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { GridList, makeStyles, GridListTile, Button } from "@material-ui/core";
 import FavDt from "./dump.json";
 import FavItem from "../FavItem";
-import { useNowCols } from "../../../common/MediaQueryHooks";
+import { useNowCols } from "../../../../common/MediaQueryHooks";
 import "./styles.css";
 import { useRef } from "react";
 

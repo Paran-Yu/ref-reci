@@ -7,7 +7,7 @@ import createTheme from '@material-ui/core/styles/createTheme';
 
 import catDt from "./dump.json";
 import CatItem from "../CatItem";
-import { useNowCols } from "../../../common/MediaQueryHooks";
+import { useNowCols } from "../../../../common/MediaQueryHooks";
 
 // Theme -------------------------------------
 const mytheme = createTheme({

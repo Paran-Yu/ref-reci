@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Button, GridListTile, Paper } from "@material-ui/core";
 import catDt from "./dump.json";
 import IngItem from "../IngItem";
-import { useNowCols } from "../../../common/MediaQueryHooks";
+import { useNowCols } from "../../../../common/MediaQueryHooks";
 import { PropTypes } from "react";
 const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);

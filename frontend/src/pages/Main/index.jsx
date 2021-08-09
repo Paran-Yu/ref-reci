@@ -1,11 +1,9 @@
 import React from "react";
 import { Grid, makeStyles, createMuiTheme, Typography } from "@material-ui/core";
 import Container from '@material-ui/core/Container';
-import FavRecList from "../../components/MainRef/FavRecList";
+import FavRecList from "../../components/Main/MainRef/FavRecList";
 import { ThemeProvider } from "@material-ui/styles";
-import CatList from "../../components/MainCat/CatList";
-import Layout from "../../layout";
-// import SideBar from "../../components/SideBar";
+import CatList from "../../components/Fridge/Category/CatList";
 import Fab from "../../components/Main/FloatingActionButton";
 import TopBar from "../../components/Main/TopBar";
 import BottomBar from "../../components/Main/BottomBar";
@@ -34,13 +32,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const MainRef = () => {
+const Main = () => {
   const baseTheme = createMuiTheme();
   const st = useStyles();
   return (
     <Container fixed>
       <ThemeProvider theme={baseTheme}>
-        <Layout />
         <TopBar />
         <Grid>
           <Grid container mt={5} spacing={2} alignItems="center" justify="center">
@@ -77,4 +74,4 @@ const MainRef = () => {
   );
 };
 
-export default MainRef;
+export default Main;
