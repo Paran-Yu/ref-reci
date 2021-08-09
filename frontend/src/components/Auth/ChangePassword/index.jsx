@@ -19,9 +19,6 @@ import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-// Icons 
-import Background from '../../../images/main.png';
-
 // Server
 import axios from 'axios';
 import server from '../../../server.json';
@@ -128,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: "url(" + Background + ")",
+        backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],

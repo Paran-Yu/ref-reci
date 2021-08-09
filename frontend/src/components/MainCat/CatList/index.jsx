@@ -1,18 +1,37 @@
 import Ract, { useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
+
+// Style
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import createTheme from '@material-ui/core/styles/createTheme';
+
 import catDt from "./dump.json";
 import CatItem from "../CatItem";
 import { useNowCols } from "../../../common/MediaQueryHooks";
-const useGetdata = () => {
-  const [catItemDatas, setCatItemDatas] = useState([]);
-  const getDatas = async () => {
-    setCatItemDatas(catDt);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return catItemDatas;
-};
+
+// Theme -------------------------------------
+const mytheme = createTheme({
+  palette: {
+      primary: {
+          light: '#f2da9e',
+          main: '#f9bc15',
+          dark: '#f19920',
+          contrastText: '#fff',
+      },
+      secondary: {
+          light: '#f2ede7',
+          main: '#a29d97',
+          dark: '#45423c',
+          contrastText: '#fff',
+      },
+      success: {
+          light: '#f2ede7',
+          main: '#fee500',
+          dark: '#45423c',
+          contrastText: '#191600',
+      },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,19 +46,30 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
   },
 }));
+// -------------------------------------------
+
+const useGetdata = () => {
+  const [catItemDatas, setCatItemDatas] = useState([]);
+  const getDatas = async () => {
+    setCatItemDatas(catDt);
+  };
+  useEffect(() => {
+    getDatas();
+  }, []);
+  return catItemDatas;
+};
+
 
 const CatList = () => {
-  const st = useStyles();
+  const classes = useStyles();
   const data = useGetdata();
   const len = useNowCols();
   console.log(len);
   return (
-    <div className={st.root}>
+    <div className={classes.root}>
       <Grid xs={10}>
         <GridList
           container
-          cols={Number.isInteger(len) ? len / 2 + 1 : 4}
-          style={{ height: len * 200, height: "auto", overflowY: "auto" }}
         >
           {data.map((dt, idx) => {
             let color;
@@ -47,10 +77,11 @@ const CatList = () => {
               color = "#F19920";
             }
             return (
-              <Grid item key={idx} dt={dt} style={{ height: len * 50 + 50 }}>
+              <Grid item key={idx} dt={dt} xs={4} lg={3}>
                 <Paper
-                  className={st.grid}
-                  style={{ backgroundColor: color, width: len * 50 + 30, height: len * 50 + 30 }}
+                  className={classes.grid}
+                  fullwidth
+                  // style={{ backgroundColor: color, width: len * 50 + 30, height: len * 50 + 30 }}
                 >
                   <CatItem dt={dt} />
                 </Paper>
