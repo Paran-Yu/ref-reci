@@ -20,7 +20,7 @@ import Container from '@material-ui/core/Container';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 // Icons 
-import Background from '../../../images/main.png';
+import Background from '../../../../public/images/main.png';
 
 // Server
 import axios from 'axios';
