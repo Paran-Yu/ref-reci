@@ -1,11 +1,14 @@
 import Ract, { useState, useEffect } from "react";
 import { Grid, ButtonBase, makeStyles, GridList } from "@material-ui/core";
 import { Router, Link } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   catIt: {
     width: "100%",
     height: "100%",
-    color: "black",
+    color: "#45423C",
+    fontWeight: "bold",
+    fontSize: "large",
   },
   link: {
     width: "100%",
