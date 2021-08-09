@@ -13,8 +13,8 @@ import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -23,7 +23,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
 // Icons
-import Background from '../../../../public/images/main.png';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
 // Server 
@@ -96,7 +95,6 @@ const postLogin = async (url, userID, userPW) => {
     }
 }
 
-
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -115,10 +113,8 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: "url(" + Background + ")",
+        backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
         backgroundRepeat: 'no-repeat',
-        // backgroundColor: 
-        //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
     },
@@ -206,7 +202,7 @@ export default function SignInSide({history}) {
                                 }
                             }}
                         />
-                        {/* <FormControlLabel
+                        <FormControlLabel
                             control={
                             <Checkbox 
                                 checked={checked}
@@ -216,7 +212,7 @@ export default function SignInSide({history}) {
                             />
                             }
                             label="아이디 / 비밀번호 저장"
-                        /> */}
+                        />
                         <Button
                             fullWidth
                             size="large"
@@ -250,7 +246,7 @@ export default function SignInSide({history}) {
                             로그인
                         </Button>
                         <Grid container>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <Link color="secondary" component={RouterLink} to="/changepassword" variant="body2">
                                     비밀번호 찾기
                                 </Link>
@@ -261,7 +257,21 @@ export default function SignInSide({history}) {
                                 </Link>
                             </Grid>
                         </Grid>
-                        <br></br>
+                        <hr></hr>
+                        <Button
+                            xs={12}
+                            mt={2}
+                            component={RouterLink}
+                            to="/#"
+                            color="success"
+                            variant="contained"
+                            padding-bottom="10"
+                            fullWidth
+
+                            >
+                            Kakao
+                        </Button>
+                        
                         <IconButton
                             href={"https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"}
                         >
@@ -269,14 +279,17 @@ export default function SignInSide({history}) {
                         </IconButton>
                         <IconButton
                             href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
+                            startIcon={<GitHubIcon />}
+                            variant="contained"
+                            color="inherit"
                         >
-                            <GitHubIcon />
+                            Sign in with GitHub
                         </IconButton>
-                        {/* <IconButton
+                        <IconButton
                             href={"https://kauth.kakao.com/oauth/authorzie?client_id=c765ccaf81f7ec64ac9adacbe5f8beb7&redirect_uri="+server.ip+"/callback/kakao&response_type=code"}
-                            >
+                        >
                             Kakao
-                        </IconButton> */}
+                        </IconButton>
                         <IconButton
                                 onClick={() => {
                                     Kakao.Auth.login({
@@ -312,8 +325,10 @@ export default function SignInSide({history}) {
                                 }}>
                                 Kakao
                         </IconButton>
-                        
                         <br></br>
+                        <img 
+                            src={process.env.PUBLIC_URL + '/images/kakao.png'}
+                        />
                         <Box mt={5}>
                             <Copyright />
                         </Box>

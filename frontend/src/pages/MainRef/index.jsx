@@ -24,8 +24,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "60px",
   },
   image: {
-    height: "60%",
-    width: "100%",
+    height: "50%",
   },
 }));
 const MainRef = () => {
@@ -36,7 +35,9 @@ const MainRef = () => {
       <Layout />
       <Grid>
         <Grid container spacing={2} alignItems="center" justify="center">
-          <Grid item xs={12}></Grid>
+          <Grid item xs={12} className={st.image}>
+            <img src={backGround} style={{ flex: 1, height: "auto", width: "100%" }} />
+          </Grid>
           <Grid item xs={10} className={st.Fav} id={1} style={{ margin: "" }}>
             <Typography align="left" variant="h6" gutterBottom className={st.word}>
               인기 폭주! 사람들이 가장 많이 찾았어요
