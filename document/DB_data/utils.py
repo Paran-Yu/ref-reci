@@ -528,7 +528,3 @@ class DB:
         :return:
         '''
         pass
-
-
-db = DB()
-print(db.get_UserProducts(1))
