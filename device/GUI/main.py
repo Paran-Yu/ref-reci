@@ -49,6 +49,9 @@ class RefListWindow(QMainWindow):
         loadUi("h_ref_list.ui", self)
         # USER_NAME의 냉장고 리스트
         self.title.setText("{}의 냉장고".format(USER_NAME))
+        # 냉장고 목록 정렬
+        self.ref_list_sort_list = ['등록순', '유통기한순', '이름순', '이름역순']
+        self.ref_list_sort_index = 0
         # 냉장고 목록 받아올 리스트
         self.ref_list_list = []                         # DB에서 딕셔너리로 받아오는 리스트
         self.ref_item_list = []                         # GUI에서 재료 카드를 담는 리스트
@@ -62,6 +65,10 @@ class RefListWindow(QMainWindow):
         # 재료 선택 리스트
         self.selected_item = []
         self.selected_item_name = []
+        self.selected_scroll = QScrollArea(self)
+        self.selected_scroll.setGeometry(16, 192, 1248, 60)
+        self.selected_scroll.setStyleSheet("border: 0px;")
+        self.selected_scroll.hide()
         # 카테고리 pushbutton 리스트화
         self.title_category_list = (self.category_all, self.category_meat, self.category_vegi, self.category_fish, self.category_egg, self.category_other)
         self.title_category_index = 0
@@ -88,9 +95,19 @@ class RefListWindow(QMainWindow):
         print("새로 불러온 리스트")
         print(self.ref_list_list)
 
-        # [더미 데이터]
-        # self.ref_list_list = []
-        # self.ref_list_list = [['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png'], ['양파', '채소류', 3, '2021-7-20', '2021-8-20', 'img/onion.png']]
+        # 정렬
+        if self.ref_list_sort_index == 1:
+            # 유통기한순
+            self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_expDay']))
+        elif self.ref_list_sort_index == 2:
+            # 이름순
+            self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_name']))
+        elif self.ref_list_sort_index == 3:
+            # 이름역순
+            self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_name']), reverse=True)
+
+        print("정렬 후")
+        print(self.ref_list_list)
 
         self.count = len(self.ref_list_list)
         self.ref_list_count.setText('총 %d개' % self.count)
@@ -107,10 +124,10 @@ class RefListWindow(QMainWindow):
         # GridLayout 생성 및 조정
         ref_list_layout = QGridLayout()
         ref_list_layout.setContentsMargins(16, 16, 16, 16)
-        ref_list_layout.setColumnMinimumWidth(0, 608)
-        ref_list_layout.setColumnMinimumWidth(1, 608)
+        ref_list_layout.setColumnMinimumWidth(0, 610)
+        ref_list_layout.setColumnMinimumWidth(1, 610)
         for i in range(int(self.count / 2) + 1):
-            ref_list_layout.setRowMinimumHeight(i, 192)
+            ref_list_layout.setRowMinimumHeight(i, 200)
             # print(i)
 
         # 위젯 그룹에 리스트 카드 하나씩 넣기
@@ -119,7 +136,7 @@ class RefListWindow(QMainWindow):
             self.ref_item_list.append(RefItem())
             # 데이터 플로팅
             print(self.ref_list_list[i]['item_category2'])
-            print("border-image: url(img/category2/%s.jpg)" % self.ref_list_list[i]['item_category2'])
+            # print("border-image: url(img/category2/%s.jpg)" % self.ref_list_list[i]['item_category2'])
             self.ref_item_list[i].set_upID(self.ref_list_list[i]['upID'])
             self.ref_item_list[i].ref_item_picture.setStyleSheet("border-image: url(img/category2/{}.jpg);\n".format(self.ref_list_list[i]['item_category2']))
             self.ref_item_list[i].set_ref_item_name(self.ref_list_list[i]['item_name'])
@@ -142,7 +159,7 @@ class RefListWindow(QMainWindow):
         ref_list_groupBox.raise_()
 
         # Scroll Area 생성하여 리스트 집어넣기
-        self.scroll.setGeometry(16, 264, 1248, 472)
+        self.scroll.setGeometry(8, 264, 1260, 472)
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setStyleSheet("border: 0px;")
         self.scroll.setWidget(ref_list_groupBox)
@@ -199,6 +216,18 @@ class RefListWindow(QMainWindow):
         # 선택화면 용 위젯 표시
         self.title_back.show()
         self.title_recipe.show()
+        self.selected_scroll.show()
+
+
+    def clicked_sort(self):
+        if self.ref_list_sort_index == len(self.ref_list_sort_list) - 1:
+            self.ref_list_sort_index = 0
+        else:
+            self.ref_list_sort_index += 1
+
+        self.ref_list_sort.setText(self.ref_list_sort_list[self.ref_list_sort_index])
+        self.read_ref_list()
+
 
 
     def clicked_ref_items(self):
@@ -208,36 +237,75 @@ class RefListWindow(QMainWindow):
 
         # 리스트 모드 -> 다이얼로 수량 조정 가능
 
-        QPushButton(self)
+
         # 선택 모드 -> 뱃지 생성
         if self.mode == 1:
             # 클릭한 재료가 무엇인지 판별 -> 기존 선택 목록에 없으면 추가
             for i in range(self.count):
                 if sender == self.ref_item_list[i].ref_item_container or sender == self.ref_item_list[i].ref_item_picture:
-                    if self.ref_item_list[i].ref_item_name.text() not in self.selected_item_name:
-                        self.selected_item_name.append(self.ref_item_list[i].ref_item_name.text())
-                        # 버튼 생성
-                        selected = QPushButton(self)
-                        selected.setText(self.ref_item_list[i].ref_item_name.text())
-                        selected.setGeometry(24, 192, 120, 56)
-                        selected.setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
-                                               "color: #8DB554;\n"
-                                               "background-color: #FFFFFF;\n"
-                                               "border: 2px solid #8DB554;\n"
-                                               "border-radius: 26px;")
-                        self.selected_item.append(selected)
+                    if self.ref_list_list[i]['item_category2'] not in self.selected_item_name:
+                        self.selected_item_name.append(self.ref_list_list[i]['item_category2'])
 
+        self.draw_selected()
+
+
+    # 클릭 시 만들어진 선택 목록을 그리는 함수
+    def draw_selected(self):
         print("선택된 재료")
-        print(self.selected_item)
         print(self.selected_item_name)
+        # 레이아웃 생성 및 조정
+        selected_layout = QGridLayout()
+        selected_layout.setContentsMargins(16, 0, 16, 0)
+        selected_layout.setRowMinimumHeight(0, 60)
+        # 선택 갯수만큼 열 생성
+        for i in range(len(self.selected_item_name)):
+            selected_layout.setColumnMinimumWidth(i, 120)
+
+        selected_groupBox = QGroupBox("")
+        for i in self.selected_item_name:
+            # 버튼 생성
+            selected = QPushButton()
+            selected.setText(i)
+            selected.setMinimumSize(108 + (len(i) * 10), 56)
+            selected.setStyleSheet("font: 24pt \"KoPubWorld돋움체 Medium\";\n"
+                                   "color: #8DB554;\n"
+                                   "background-color: #FFFFFF;\n"
+                                   "border: 2px solid #8DB554;\n"
+                                   "border-radius: 26px;")
+            selected.clicked.connect(self.clicked_selected_item)
+            self.selected_item.append(selected)
+            selected_layout.addWidget(selected)
+        selected_groupBox.setLayout(selected_layout)
+        selected_groupBox.raise_()
+
+        # Scroll Area 생성하여 선택 리스트 집어넣기
+        self.selected_scroll.setWidget(selected_groupBox)
+        self.selected_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.selected_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.selected_scroll.setWidgetResizable(False)
+        self.selected_scroll.raise_()
+
+
+    def clicked_selected_item(self):
+        sender = self.sender()
+        self.selected_item_name.remove(sender.text())
+        self.selected_item = []
+        self.draw_selected()
 
 
     # 선택 모드 - 뒤로가기 클릭 시 =>
     def clicked_back(self):
         self.mode = 0
+
+        # 선택된 재료 리스트 비우기
+        self.selected_item = []
+        self.selected_item_name = []
+
         # 선택화면 용 위젯 숨김
         self.title_back.hide()
         self.title_recipe.hide()
+        self.selected_scroll.takeWidget()
+        self.selected_scroll.hide()
 
         # 기존 다시 표시
         self.title_search.show()
@@ -247,7 +315,7 @@ class RefListWindow(QMainWindow):
 
     # 선택 모드 - 레시피 클릭 시 => 선택된 재료로 레시피 검색
     def clicked_recipe(self):
-        mainWidget.setCurrentIndex(mainWidget.currentIndex() + 1)
+        mainWidget.setCurrentIndex(mainWidget.currentIndex() + 2)
 
     def clicked_delete(self):
         print("delete")
@@ -292,7 +360,6 @@ class AddWindow(QMainWindow):
     def clicked_back(self):
         self.reset_all()
         refListWindow.read_ref_list()
-        print("메롱")
         mainWidget.setCurrentIndex(mainWidget.currentIndex() - 1)
 
     # 화면에 표시된 내용을 DB에 추가
@@ -464,41 +531,23 @@ class AddWindow(QMainWindow):
         self.btn_num_index = new_btn_num_index
 
 
-# 3 select items
-class SelectWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        loadUi("h_ref_select.ui", self)
-        self.main()
-
-    def main(self):
-        pass
-
-
-# 4 search items
+# 3 search items
 class SearchWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        # loadUi("h_ref_add.ui", self)
+        loadUi("h_recipe_list.ui", self)
         self.main()
 
     def main(self):
         pass
 
 
-# 5 recipe result
+    def clicked_back(self):
+        mainWidget.setCurrentIndex(mainWidget.currentIndex() - 2)
+
+
+# 4 recipe detail
 class RecipeResultWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        # loadUi("h_ref_add.ui", self)
-        self.main()
-
-    def main(self):
-        pass
-
-
-# 6 recipe detail
-class RecipeDetailWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         # loadUi("h_ref_add.ui", self)
@@ -529,11 +578,13 @@ if __name__ == "__main__":
     startWindow = StartWindow()
     refListWindow = RefListWindow()
     addWindow = AddWindow()
+    searchWindow = SearchWindow()
 
     # add pages to main widget stack
     mainWidget.addWidget(startWindow)
     mainWidget.addWidget(refListWindow)
     mainWidget.addWidget(addWindow)
+    mainWidget.addWidget(searchWindow)
 
     mainWidget.show()
     app.exec()
