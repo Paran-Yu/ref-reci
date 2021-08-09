@@ -35,7 +35,10 @@ def barcode_recognition():
 
       barcode_data = d.data.decode("utf-8")
       barcode_type = d.type
-
+      if barcode_type == "QRCODE":
+        f = open("user.txt","w")
+        f.write(barcode_data)
+        return barcode_data
       cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
       text = '%s (%s)' % (barcode_data, barcode_type)
