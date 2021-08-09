@@ -24,8 +24,6 @@ import IconButton from '@material-ui/core/IconButton';
 
 // Icons & Images
 import GitHubIcon from '@material-ui/icons/GitHub';
-import Background from '../../../images/main.png';
-import IconButton from '@material-ui/core/IconButton';
 
 // Server 
 import axios from 'axios';
