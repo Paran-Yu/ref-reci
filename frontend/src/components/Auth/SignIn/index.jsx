@@ -25,11 +25,6 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Background from '../../../images/main.png';
 import IconButton from '@material-ui/core/IconButton';
 
-// Icons
-import Background from '../../../images/main.png';
-import GitHubIcon from '@material-ui/icons/GitHub';
-
-
 // Server 
 import axios from 'axios';
 import server from '../../../server.json';
