@@ -4,6 +4,8 @@ const axios = require("axios");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const cors = require("cors");
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 require('dotenv').config();
 
@@ -12,8 +14,8 @@ const { pool } = require(`./../../mysql`);
 const smtpTransport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "refreci21@gmail.com",
-        pass: "refreci2021!"
+        user: process.env.emailID,
+        pass: process.env.emailPW
     },
     tls: {
         rejectUnauthorized: false
@@ -71,7 +73,7 @@ app.post("/login", async (req, res) => {
     console.log(password);
 
     try {
-        const [rows, fields] = await pool.query("SELECT userPW FROM User WHERE userID = ?", [
+        const [rows, fields] = await pool.query("SELECT uID, userPW FROM User WHERE userID = ?", [
             userID
         ]);
         
@@ -89,7 +91,12 @@ app.post("/login", async (req, res) => {
 
         if(dbUserPW === hashPassword){
             console.log("비밀번호 일치");
-            res.send(true);
+            req.session.uid = rows[0].uID;
+            req.session.isLogined = true;
+            req.session.save(()=>{
+                console.log(req.session);
+                res.send(true);
+            })
         }
         else{
             console.log("비밀번호 불일치");

@@ -106,6 +106,27 @@ const postEmailAuth = async (url, userID) => {
     }
 }
 
+const postLogin = async (url, userID, userPW) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
+                userID: userID,
+                userPW: userPW
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -388,6 +409,8 @@ export default function SignUpSide({history}) {
                                     const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
                                     
                                     if(userDatas.value === 'Success'){
+                                        const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+                                        console.log('로그인 성공');
                                         alert('회원가입 완료');
                                         history.push("/");
                                     }
