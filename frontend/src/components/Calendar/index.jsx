@@ -33,7 +33,7 @@ export default function(){
           events={events}
           locale={'ko'}
           dateClick={(info) => {alert(info.dateStr)}}
-          eventClick={(el) => {console.log(el.event.startstr)}}
+          eventClick={(el) => {alert(el.event.startstr)}}
 
         />
       </section>
