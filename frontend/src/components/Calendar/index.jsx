@@ -16,10 +16,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import server from '../../../server.json';
-import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
-import events from './event'
-import moment from 'moment'
+import server from '../../server.json';
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+import events from './event';
+import moment from 'moment';
 
 
 import "./index.css";
