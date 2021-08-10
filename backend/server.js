@@ -58,7 +58,8 @@ app.use("/base", require(`${__dirname}/routes/base/base`));
 app.use("/base/auth", require(`${__dirname}/routes/base/auth`));
 app.use("/callback", require(`${__dirname}/routes/callback/callback`));
 app.use("/user", require(`${__dirname}/routes/user/user`));
-
+app.use("/myref", require(`${__dirname}/routes/myref/myref`));
+app.use("/mypage", require(`${__dirname}/routes/mypage/calendar`));
 
 app.get("/", function (req, res) {
   res.send("Hello node.js");

@@ -2,13 +2,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //page
 import './App.css';
-import MainRef from './pages/MainRef/';
-import SecComp from './pages/SecComp/';
+import Main from './pages/Main/';
+import Fridge from './pages/Fridge/';
 import Recipe from './pages/Recipe';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import ChangePassword from './components/Auth/ChangePassword'
-import FloatingActionButton from './components/Main/FloatingActionButton';
 
 
 function App() {
@@ -16,14 +15,12 @@ function App() {
     <div className="App">
       <Router>
         {/* <Route exact path='/' component={MainRef} /> */}
-        <Route exact path='/' component={MainRef} />
-        <Route path='/stuff' component={SecComp} />
-        <Route path='/reci' component={Recipe} />
-        <Route path="/signIn" component={SignIn} />
+        <Route exact path='/' component={Main} />
+        <Route path='/fridge' component={Fridge} />
+        <Route path='/recipe' component={Recipe} />
+        <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/changepassword" component={ChangePassword} />
-        <Route path="/main" component={FloatingActionButton} />
-        <Route path="/mainref" component={MainRef} />
       </Router>
     </div>
   );
