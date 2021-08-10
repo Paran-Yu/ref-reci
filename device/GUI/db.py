@@ -374,9 +374,9 @@ class DB:
             print("유저정보를 가져오는데 실패하였습니다.")
             return 0
 
-    def get_recipe(self, ingredientID_tuple):
+    def get_recipe(self, classifiID_tuple):
         '''
-        :param ingredientID_tuple: (id1, id2 ...)
+        :param classifiID_tuple: (id1, id2 ...)
         :return: data: 2차원 list, 리스트 안에는 dict형식
 
         ex: [{recipe_id: 1, recipe_name: 한방삼계탕, ...}...]
@@ -386,6 +386,9 @@ class DB:
         data = []
         cursor = self.db.cursor()
         try:
+            if type(classifiID_tuple) == type(1):
+                classifiID_tuple = "(" + str(classifiID_tuple) + ")"
+
             sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime, rid.count " \
                   "FROM Recipe r, (SELECT DISTINCT ri.rID, count(*) count " \
                   "FROM RecipeIngredient ri, Ingredient i " \
@@ -394,8 +397,9 @@ class DB:
                   "FROM (SELECT c2.classification2Name FROM Classification2 c2 WHERE c2.c2ID in {}) a) " \
                   "Group by ri.rID) rid " \
                   "WHERE r.rID=rid.rID " \
-                  "Order by rid.count DESC;".format(str(ingredientID_tuple))
+                  "Order by rid.count DESC;".format(str(classifiID_tuple))
 
+            print(sql)
             dict_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -486,3 +490,6 @@ class DB:
         :return:
         '''
         pass
+
+db = DB()
+print(db.get_recipe((1, 2)))
