@@ -6,6 +6,25 @@ import interactionPlugin from '@fullcalendar/interaction'
 import axios from 'axios';
 import './index.css'
 
+const getEvents = async (url, date) => {
+  try {
+      const data = await axios({
+          method: 'post',
+          url: url,
+          data: {
+              date:date
+          },
+          headers: {
+              accept: 'application/json',
+          },
+      });
+      return data.data;
+  }
+  catch (err) {
+      console.log(url);
+      console.log(`ERROR: ${err}`);
+  }
+}
 // componentDidMount() {
 //   fetch('http://localhost:3001/mypage')
 //       .then(res=>res.json())
@@ -32,8 +51,13 @@ export default function(){
           initialView="dayGridMonth"
           events={events}
           locale={'ko'}
-          dateClick={(info) => {alert(info.dateStr)}}
-          eventClick={(el) => {console.log(el.event.startstr)}}
+          dateClick={async (info) => {
+            alert(info.dateStr)
+            
+            const data = await getEvents(`${server.ip}/calendar/getMonth`, info.dateStr)
+            console.log(data)
+          }}
+          eventClick={(el) => {alert(el.event.startstr)}}
 
         />
       </section>
