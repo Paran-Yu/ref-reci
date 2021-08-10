@@ -7,7 +7,19 @@ const path = require("path");
 const cors = require("cors");
 const { response } = require("express");
 const axios = require('axios');
-
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const option = {
+  host: 'i5a203.p.ssafy.io',
+  user: 'user',
+  password: process.env.dbPassword,
+  database: 'refreci',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  port: 3306,
+};
+const sessionStore = new MySQLStore(option);
 // --------------------------------------------
 // env
 const envJson = require(`${__dirname}/env/env.json`);
@@ -30,7 +42,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // db
 //app.use(require(`${__dirname}/middleware/db`));
-const { pool } = require(`${__dirname}/mysql`)
+const { pool } = require(`${__dirname}/mysql`);
+app.use(session({
+  httpOnly: true,
+  secret: "EZEZ",
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStore
+}));
+
 //----------------------------------
 // routes
 app.use(uploadFilePath, express.static(path.join(__dirname + uploadFilePath)));
