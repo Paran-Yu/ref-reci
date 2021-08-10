@@ -1,6 +1,6 @@
-import Ract, { useState, useEffect } from "react";
-import { Grid, ButtonBase, makeStyles, GridList } from "@material-ui/core";
-import { Router, Link } from "react-router-dom";
+import React from "react";
+import { ButtonBase, makeStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   catIt: {
@@ -22,7 +22,7 @@ const CatItem = (props) => {
   return (
     <Link
       to={{
-        pathname: "/stuff",
+        pathname: "/fridge",
         state: {
           catName: dt.CatName,
         },
