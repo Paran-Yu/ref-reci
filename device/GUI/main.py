@@ -3,6 +3,7 @@ from PyQt5.uic import *
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
 from ref_item import RefItem
+from recipe_item import ReciItem
 from db import DB
 import barcode_reader
 import sys
@@ -60,11 +61,13 @@ class RefListWindow(QMainWindow):
         # 리스트 모드 -> 0 / 선택 모드 -> 1
         self.mode = 0
         # 선택모드는 숨김
+        self.title_recipe.setEnabled(False)
         self.title_back.hide()
         self.title_recipe.hide()
         # 재료 선택 리스트
         self.selected_item = []
         self.selected_item_name = []
+        self.selected_item_id = []
         self.selected_scroll = QScrollArea(self)
         self.selected_scroll.setGeometry(16, 192, 1248, 60)
         self.selected_scroll.setStyleSheet("border: 0px;")
@@ -245,6 +248,11 @@ class RefListWindow(QMainWindow):
                 if sender == self.ref_item_list[i].ref_item_container or sender == self.ref_item_list[i].ref_item_picture:
                     if self.ref_list_list[i]['item_category2'] not in self.selected_item_name:
                         self.selected_item_name.append(self.ref_list_list[i]['item_category2'])
+                        self.selected_item_id.append(self.ref_list_list[i]['item_category2_id'])
+
+            # 선택된 재료가 하나 이상일 경우 레시피 검색 버튼 활성화
+            if len(self.selected_item_name) != 0:
+                self.title_recipe.setEnabled(True)
 
         self.draw_selected()
 
@@ -288,8 +296,15 @@ class RefListWindow(QMainWindow):
 
     def clicked_selected_item(self):
         sender = self.sender()
+        i = self.selected_item_name.index(sender.text())
         self.selected_item_name.remove(sender.text())
+        del self.selected_item_id[i]
         self.selected_item = []
+
+        # 선택된 재료가 하나도 없을 때 레시피 버튼 비활성화
+        if len(self.selected_item_name) == 0:
+            self.title_recipe.setEnabled(False)
+        # 선택 재료 리스트 다시 그리기
         self.draw_selected()
 
 
@@ -300,6 +315,7 @@ class RefListWindow(QMainWindow):
         # 선택된 재료 리스트 비우기
         self.selected_item = []
         self.selected_item_name = []
+        self.selected_item_id = []
 
         # 선택화면 용 위젯 숨김
         self.title_back.hide()
@@ -316,6 +332,7 @@ class RefListWindow(QMainWindow):
     # 선택 모드 - 레시피 클릭 시 => 선택된 재료로 레시피 검색
     def clicked_recipe(self):
         mainWidget.setCurrentIndex(mainWidget.currentIndex() + 2)
+        searchWindow.read_recipe_result()
 
     def clicked_delete(self):
         print("delete")
@@ -536,13 +553,64 @@ class SearchWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         loadUi("h_recipe_list.ui", self)
+        self.recipe_result = []         # 레시피 검색 결과 딕셔너리 리스트
+        self.recipe_item_list = []      # GUI 검색 결과를 담는 카드 리스트
+        # 검색 결과 스크롤 영역
+        self.recipe_scroll = QScrollArea(self)
+        self.recipe_scroll.setGeometry(24, 176, 1260, 528)
+        self.recipe_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.recipe_scroll.setStyleSheet("border: 0px;")
         self.main()
 
     def main(self):
         pass
 
+    def read_recipe_result(self):
+        # 레시피 검색 결과 불러오기
+        if len(refListWindow.selected_item_id) == 1:
+            self.recipe_result = refDB.get_recipe(refListWindow.selected_item_id[0])
+        else:
+            self.recipe_result = refDB.get_recipe(tuple(refListWindow.selected_item_id))
+        print("레시피 검색 결과")
+        print(self.recipe_result)
+
+        # 총 n개
+        self.recipe_count.setText("총 {}개".format(len(self.recipe_result)))
+
+        # 검색 결과 그리기
+        self.draw_recipe_result()
+
+    def draw_recipe_result(self):
+        print("검색 결과 그리기")
+        # GridLayout 생성 및 조정
+        recipe_layout = QGridLayout()
+        recipe_layout.setContentsMargins(0, 0, 0, 16)
+        recipe_layout.setColumnMinimumWidth(0, 1232)
+        for i in range(int(len(self.recipe_result))):
+            recipe_layout.setRowMinimumHeight(i, 200)
+
+        # 위젯 그룹에 리스트 카드 하나씩 넣기
+        recipe_groupBox = QGroupBox("")
+        for i in range(len(self.recipe_result)):
+            print(i)
+            self.recipe_item_list.append(ReciItem())
+            # 데이터 플로팅
+            self.recipe_item_list[i].recipe_item_name.setText(self.recipe_result[i]['recipe_name'])
+            self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'])
+            self.recipe_item_list[i].recipe_item_intro.setText(self.recipe_result[i]['recipe_intro'])
+            recipe_layout.addWidget(self.recipe_item_list[i])
+        recipe_groupBox.setLayout(recipe_layout)
+
+        self.recipe_scroll.setWidget(recipe_groupBox)
+        # self.scroll.setWidgetResizable(False)
+
+    def clear_list(self):
+        self.recipe_scroll.takeWidget()
+        self.recipe_result = []
+        self.recipe_item_list = []
 
     def clicked_back(self):
+        self.clear_list
         mainWidget.setCurrentIndex(mainWidget.currentIndex() - 2)
 
 
