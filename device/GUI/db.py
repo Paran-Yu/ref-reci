@@ -172,7 +172,7 @@ class DB:
         cursor = self.db.cursor()
         sql = "SELECT upID, productName, productCount, createdDate, " \
               "productClassification1, productShelfLife, productImage, productClassification2 " \
-              "FROM UserProduct WHERE uID=%s and procuctClassification1=%s;"
+              "FROM UserProduct WHERE uID=%s and productClassification1=%s;"
         cursor.execute(sql, (user_id, classifi1))
         result = cursor.fetchall()
 
@@ -399,7 +399,7 @@ class DB:
                   "WHERE r.rID=rid.rID " \
                   "Order by rid.count DESC;".format(str(classifiID_tuple))
 
-            print(sql)
+            # print(sql)
             dict_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -490,6 +490,3 @@ class DB:
         :return:
         '''
         pass
-
-db = DB()
-print(db.get_recipe((1, 2)))
