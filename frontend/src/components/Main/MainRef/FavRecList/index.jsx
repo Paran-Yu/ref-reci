@@ -6,6 +6,10 @@ import { useNowCols } from "../../../../common/MediaQueryHooks";
 import "./styles.css";
 import { useRef } from "react";
 
+//Icon
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
 const useGetdata = () => {
   const [favItemDatas, setFavItemDatas] = useState([]);
   const getDatas = async () => {
@@ -39,11 +43,13 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     margin: "auto",
     left: 0,
+    bottom: 90
   },
   rightbutton: {
     position: "absolute",
     margin: "auto",
     right: 0,
+    bottom: 90
   }
 }));
 
@@ -101,8 +107,7 @@ const FavRecList = () => {
   return (
     <div className={classes.root}
           >
-      <Button className={classes.leftbutton}> - </Button>
-      <Button className={classes.rightbutton}> -> </Button>
+      
       <GridList className={classes.gridList} cols={Number.isInteger(len) ? len - 1 : 1} 
           onMouseDown={onDragStart}
           onMouseMove={onThrottleDragMove}
@@ -115,7 +120,8 @@ const FavRecList = () => {
           </GridListTile>
         ))}
       </GridList>
-      
+      <Button className={classes.leftbutton} ><ArrowBackIosIcon></ArrowBackIosIcon></Button>
+      <Button className={classes.rightbutton} ><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
     </div>
   );
 };

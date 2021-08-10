@@ -22,7 +22,7 @@ import Typography from '@material-ui/core/Typography';
 
 // Icons & Images
 // import { GoogleLoginButton } from "react-social-login-buttons";
-import { GithubLoginButton } from "react-social-login-buttons";
+// import { GithubLoginButton } from "react-social-login-buttons";
 
 // Server 
 import axios from 'axios';
@@ -261,10 +261,10 @@ export default function SignInSide({history}) {
                         </Grid>
                         <hr></hr>
 
-                        <GithubLoginButton
+                        {/* <GithubLoginButton
                         href={"https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"}
                         >
-                        </GithubLoginButton>
+                        </GithubLoginButton> */}
                         {/* <Button>
                             <img 
                             src={process.env.PUBLIC_URL + '/images/google.png'}

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route } from "react-router";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 import { createTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,6 +49,8 @@ export default function FloatingActionButton() {
         <Fab
         color="primary"
         aria-label="user"
+        component={RouterLink}
+        to="/profile"
         style={
           {
             position: 'fixed',
@@ -59,6 +63,8 @@ export default function FloatingActionButton() {
         <Fab
         color="primary"
         aria-label="calendar"
+        component={RouterLink}
+        to="/calendar"
         style={
           {
             position: 'fixed',
@@ -71,6 +77,8 @@ export default function FloatingActionButton() {
         <Fab
         color="primary"
         aria-label="recipe"
+        component={RouterLink}
+        to="/recipe"
         style={
           {
             position: 'fixed',
@@ -83,6 +91,8 @@ export default function FloatingActionButton() {
         <Fab
         color="primary"
         aria-label="fridge"
+        component={RouterLink}
+        to="/fridge"
         style={
           {
             position: 'fixed',
