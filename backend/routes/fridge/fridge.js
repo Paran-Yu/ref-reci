@@ -2,8 +2,6 @@ const express = require("express");
 const app = express.Router();
 const axios = require("axios");
 const { pool } = require(`../../mysql`)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
 
 
 //현재 날짜를 yyyy-mm-dd 포맷으로 리턴

@@ -3,8 +3,7 @@ const express = require("express");
 const app = express.Router();
 const axios = require("axios");
 const { pool } = require(`../../mysql`)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+
 
 //F에서 date 형식을 보내면 해당하는 월의 events를 뿌려줌
 app.post("/getMonth", async (req, res) =>{
@@ -23,7 +22,7 @@ app.post("/getMonth", async (req, res) =>{
         const data = await pool.query(sql,[month, year])
         console.log(data)
         //나중에 중복제거 할것
-        res.send()
+        //res.send(data)
     }
     catch (err) {
         console.log(err)
