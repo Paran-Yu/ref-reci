@@ -1,49 +1,41 @@
-import React, { Component } from "react";
-import { Route } from "react-router";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
-import Avatar from '@material-ui/core/Avatar';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useRef } from 'react';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import events from './events'
+import interactionPlugin from '@fullcalendar/interaction'
 import axios from 'axios';
-import server from '../../server.json';
-import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
-import events from './event';
-import moment from 'moment';
+import './index.css'
 
+// componentDidMount() {
+//   fetch('http://localhost:3001/mypage')
+//       .then(res=>res.json())
+//       .then(data=>console.log(data));
+// }
 
-import "./index.css";
-import "react-big-calendar/lib/css/react-big-calendar.css";
+//백에서 달 꺼를 날짜를 가져와서 캘린더에 뿌리고
+//캘린더 클릭 시 백에서 해당 날짜에 유통기한마감 상품을 다른 창에 뿌림
 
-const localizer = momentLocalizer(moment);
+export default function(){
+  const calendarRef = useRef(null)
 
-class App extends Component {
-  state = {
-    
-  };
-  render() {
-    return (
-      <div className="App">
-        <Calendar
-          localizer={localizer}
-          defaultDate={new Date()}
-          defaultView="month"
+  // const onEvent = event => {
+  //   let calendaApi = this.calendarRef.current.getApi();
+  //   calendaApi.next()
+  // }
+
+    return(
+      <section>
+
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[ dayGridPlugin, interactionPlugin ]}
+          initialView="dayGridMonth"
           events={events}
-          style={{ height: "100vh" }}
-        />
-      </div>
-    );
-  }
-}
+          locale={'ko'}
+          dateClick={(info) => {alert(info.dateStr)}}
+          eventClick={(el) => {console.log(el.event.startstr)}}
 
-export default App;
+        />
+      </section>
+    )
+  }
