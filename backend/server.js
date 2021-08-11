@@ -19,7 +19,10 @@ const port = envJson.port ? envJson.port : 3001;
 
 //----------------------------------
 // middleware
-app.use(cors({credentials: true}));
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
 // bodyParser
 app.use(bodyParser.json());

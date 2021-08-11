@@ -116,7 +116,7 @@ const postLogin = async (url, userID, userPW) => {
                 userID: userID,
                 userPW: userPW
             },
-            // withCredentials: true,
+            withCredentials: true,
             headers: {
                 accept: 'application/json',
             },
@@ -134,7 +134,7 @@ const checkLogin = async (url) => {
         const data = await axios({
             method: 'get',
             url: url,
-            // withCredentials: true,
+            withCredentials: true,
             headers: {
                 accept: 'application/json',
             },
