@@ -12,3 +12,47 @@ code {
     monospace;
 }
 
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@font-face {
+  font-family: 'KoPubWorld';
+  font-style: normal;
+  font-weight: Light;
+  src: url(./styles/font/KoPubWorld-Dotum-Light.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'KoPubWorld';
+  font-style: normal;
+  font-weight: Medium;
+  src: url(./styles/font/KoPubWorld-Dotum-Medium.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'KoPubWorld';
+  font-style: normal;
+  font-weight: Bold;
+  src: url(./styles/font/KoPubWorld-Dotum-Bold.ttf) /* format('truetype') */
+}
+
+@font-face {
+  font-family: 'Munhwajae';
+  font-style: normal;
+  font-weight: normal;
+  src: url(./styles/font/munhwajae-regular.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'Jeju';
+  font-style: normal;
+  font-weight: normal;
+  src: url(./styles/font/JejuGothicOTF.otf) format('truetype')
+}

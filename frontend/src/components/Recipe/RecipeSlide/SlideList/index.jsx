@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import { GridList, makeStyles, GridListTile, Button } from "@material-ui/core";
 import FavDt from "./dump.json";
 import FavItem from "../SlideItem";
@@ -9,6 +9,21 @@ import { useRef } from "react";
 //Icon
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
+import ScrollButton from 'react-scroll-button'
+
+class ScrollComponent extends Component {
+    render() {
+        return (
+            <ScrollButton 
+                behavior={'smooth'} 
+                buttonBackgroundColor={'red'}
+                iconType={'arrow-up'}
+                style= {{fontSize: '24px'}}
+            />
+        );
+    }
+}
 
 const useGetdata = () => {
   const [favItemDatas, setFavItemDatas] = useState([]);
@@ -29,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     marginTop: 0,
     // overflowX: "scroll"
-    
   },
   gridList: {
     flexWrap: "nowrap",
@@ -37,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F2EDE7",
     width: "100%",
     height: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
+    fontFamily: 'KoPubWorld Bold',
+    fontStyle: `normal`,
   },
   leftbutton: {
     position: "absolute",
@@ -100,6 +116,16 @@ const SlideList = () => {
     };
   };
 
+  const onMoveRangeLeft = (e) => {
+    e.preventDefault();
+    console.log(e.pageX)
+    if (e.pageX > 50){
+      setStartX(e.pageX - 50);
+    } else {
+      setStartX(0)
+    }
+  };
+
   const delay = 50;
   const onThrottleDragMove = throttle(onDragMove, delay);
 
@@ -119,9 +145,10 @@ const SlideList = () => {
             <FavItem dt={dt} idx={idx} />
           </GridListTile>
         ))}
+      <ScrollComponent className={classes.leftbutton}></ScrollComponent>
       </GridList>
-      <Button className={classes.leftbutton} ><ArrowBackIosIcon></ArrowBackIosIcon></Button>
-      <Button className={classes.rightbutton} ><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
+      {/* <Button className={classes.leftbutton} onClick={onMoveRangeLeft}><ArrowBackIosIcon></ArrowBackIosIcon></Button> */}
+      {/* <Button className={classes.rightbutton} ><ArrowForwardIosIcon></ArrowForwardIosIcon></Button> */}
     </div>
   );
 };

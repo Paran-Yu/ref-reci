@@ -37,44 +37,43 @@
   }
 }
 
+@font-face {
+  font-family: 'KoPubWorld Light';
+  font-style: normal;
+  src: url(./styles/font/KoPubWorld-Dotum-Light.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'KoPubWorld';
+  font-style: normal;
+  font-weight: Medium;
+  src: url(./styles/font/KoPubWorld-Dotum-Medium.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'KoPubWorld Bold';
+  font-style: normal;
+  /* font-weight: Bold; */
+  src: url(./styles/font/KoPubWorld-Dotum-Bold.ttf) format('truetype')
+}
+
+@font-face {
+  font-family: 'Munhwajae';
+  font-style: normal;
+  font-weight: normal;
+  src: url(./styles/font/munhwajae-regular.ttf) format('truetype')
+}
+
 /* @font-face {
-  font-family: 'KoPubWorld';
-  font-style: normal;
-  font-weight: 100;
-  src: url(./styles/fonts/KoPubWorld-Dotum-Light.ttf) format('truetype')
-}
-
-@font-face {
-  font-family: 'KoPubWorld';
-  font-style: normal;
-  font-weight: normal;
-  src: url(./styles/fonts/KoPubWorld-Dotum-Medium.ttf) format('truetype')
-}
-
-@font-face {
-  font-family: 'KoPubWorld';
-  font-style: normal;
-  font-weight: bold;
-  src: url(./styles/fonts/KoPubWorld-Dotum-Bold.ttf) format('truetype')
-}
-
-@font-face {
-  font-family: 'Munhwajae';
-  font-style: normal;
-  font-weight: normal;
-  src: url./styles/fonts/munhwajae-regular.ttf) format('truetype')
-}
-
-@font-face {
   font-family: 'Munhwajae';
   font-style: normal;
   font-weight: bold;
-  src: url(./styles/fonts/munhwajae-bold.ttf) format('truetype')
+  src: url(./styles/font/munhwajae-bold.ttf) format('truetype')
 }
 
 @font-face {
   font-family: 'Jeju';
   font-style: normal;
   font-weight: normal;
-  src: url(./styles/fonts/JejuGothicOTF.otf) format('truetype')
+  src: url(./styles/font/JejuGothicOTF.otf) format('truetype')
 } */

@@ -52,6 +52,11 @@ const mytheme = createTheme({
             contrastText: '#191600',
         },
     },
+    typography: {
+        fontFamily: "'KoPubWorld', Munhwajae, jeju",
+        fontStyle: "normal",
+        fontWeight: "Bold"
+    },
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -161,11 +166,11 @@ export default function SignInSide({history}) {
             >
                 <ThemeProvider theme={mytheme}>
                 <div className={classes.paper}>
-                    <Typography color="primary" variant="h2">
+                    <Typography color="primary" variant="h2" style={{fontFamily:'Munhwajae', fontStyle:'normal', fontWeight:'normal'}} >
                         <b>Ref:Reci</b>
                     </Typography>
                     <br></br>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" style={{fontWeight:'Bold'}}>
                         로그인
                     </Typography>
                     <form className={classes.form}>

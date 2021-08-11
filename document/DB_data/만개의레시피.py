@@ -1,6 +1,6 @@
 import time
 from bs4 import BeautifulSoup
-from konlpy.tag import Twitter
+# from konlpy.tag import Twitter
 from PIL import Image
 import os
 import pymysql
@@ -15,12 +15,12 @@ class recipe_craw():
         self.detail_ingre = detail_ingre
         self.step_image = step_image
         self.recipe_list = dict()
-        self.img_num = 408
+        self.img_num = 0
         self.db = pymysql.connect(
             user='user',
             passwd='a203!',
             host='i5a203.p.ssafy.io',
-            db='project',
+            db='tmp_refreci',
             charset='utf8',
             port=3306
         )
@@ -64,7 +64,7 @@ class recipe_craw():
                 pass
 
             if self.detail_ingre:  # 구조 : 재료 :{필수재료:{닭:2마리, 대파:1대...}, 선택재료:{...}}
-                if d_ingre_title[1:-1] == '필수 재료':
+                if d_ingre_title[1:-1] == '필수 재료' or '필수' in d_ingre_title[1:-1]:
                     cate = '필수재료'
                 else:
                     cate = '선택재료'
@@ -95,17 +95,26 @@ class recipe_craw():
                     step_str = tmp.text
                     self.recipe_list[title]['step'][steps] = [step_str]
 
-                    phase_img = driver.find_element_by_css_selector('#stepimg{} > img'.format(steps)).get_attribute(
-                        'src')
 
                     # 이미지 저장
-                    image_name = "images/{}.jpg".format(image_num + "_" + str(steps))
-                    os.system("curl " + phase_img + " > " + image_name)
+                    try:
+                        phase_img = driver.find_element_by_css_selector('#stepimg{} > img'.format(steps)).get_attribute(
+                            'src')
+                        image_name = "images/{}.jpg".format(image_num + "_" + str(steps))
+                        os.system("curl " + phase_img + " > " + image_name)
+                    except:
+                        self.recipe_list[title]['step'][steps].append("")
+                        steps += 1
+                        continue
 
                     im = Image.open(image_name)  # 이미지 불러오기
-                    im = im.crop((100, 0, 1300, 744))
+                    x_size = 250 * 3
+                    y_size = 141 * 3
+                    im = im.resize((x_size, y_size))
+                    # print(steps, int(x_size * 0.07), 0, int(x_size * 0.87), int(y_size * 0.9), x_size, y_size)
+                    im = im.crop((int(x_size * 0.07), 0, int(x_size * 0.87), int(y_size * 0.9)))
                     im.save(image_name)  # 이미지 다른 이름으로 저장
-
+                    print(image_name)
                     self.recipe_list[title]['step'][steps].append(image_name.split("/")[1])
                     steps += 1
                 except:
@@ -128,13 +137,17 @@ class recipe_craw():
         os.system("curl " + self.recipe_list[title]['title_image'] + " > " + image_name)
 
         im = Image.open(image_name)  # 이미지 불러오기
-        im = im.crop((100, 0, 1300, 744))
+        x_size = 250*4
+        y_size = 140*4
+        im.resize((x_size, y_size))
+        im = im.crop((int(x_size*0.07), 0, int(x_size*0.87), int(y_size*0.9)))
         im.save(image_name)  # 이미지 다른 이름으로 저장
         # im.show()  # 이미지 보여주기
-        self.change_save_sql(title, image_num)
         print(self.recipe_list[title]['title_image'])
         print(self.recipe_list[title]['ingredient'])
         print(self.recipe_list[title]['step'])
+        self.change_save_sql(title, image_num)
+        print("DB완료")
 
         return element
 
@@ -179,6 +192,7 @@ class recipe_craw():
                 self.db.commit()
                 steps += 1
             except:
+                print("단계가 안들어가", steps)
                 break
 
         # ingredient_sql = "SELECT iID FROM `ingredient` WHERE ingredientName={};".format(title)
@@ -241,7 +255,7 @@ if __name__ == '__main__':
 
     # 하이퍼 파라미터 정의
     # min_page : 시작 페이지     max_page : 끝 페이지(크롤링 범위) 적어도 2이상
-    min_page = 2
+    min_page = 1
     max_page = 8
 
     # 들어갈려는 카테고리
