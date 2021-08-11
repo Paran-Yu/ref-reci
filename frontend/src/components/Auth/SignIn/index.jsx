@@ -116,7 +116,7 @@ const postLogin = async (url, userID, userPW) => {
                 userID: userID,
                 userPW: userPW
             },
-            withCredentials: true,
+            // withCredentials: true,
             headers: {
                 accept: 'application/json',
             },
@@ -125,6 +125,24 @@ const postLogin = async (url, userID, userPW) => {
     }
     catch(err){
         console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const checkLogin = async (url) => {
+    try {
+        const data = await axios({
+            method: 'get',
+            url: url,
+            withCredentials: true,
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        console.log(data.data.value);
+        return data.data;
+    }
+    catch (err) {
         console.log(`ERROR: ${err}`);
     }
 }
@@ -150,6 +168,10 @@ export default function SignInSide({history}) {
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
 
+    useEffect(async () => {
+        const data = await checkLogin(`${server.ip}/user/isLogin`);
+        console.log(data);
+    }, [])
 
     return (
         <Grid container component="main" className={classes.root}>
