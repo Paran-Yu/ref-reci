@@ -389,7 +389,7 @@ class AddWindow(QMainWindow):
         data['item_category2'] = self.add_item_category2
         data['item_expDay'] = "%s-%s-%s" % (self.add_item_exp_year.text(), self.add_item_exp_month.text(), self.add_item_exp_day.text())
         data['item_count'] = int(self.add_item_count.text())
-        data['item_image'] = "{}.jpg".format(self.add_item_name.text())
+        data['item_image'] = "{}.jpg".format(self.add_item_category2)
         data['item_category1_id'] = self.category_index + 1
         classifi2_idx = refDB.get_Classifi2_id(data['item_category2'])
         data['item_category2_id'] = classifi2_idx
@@ -416,8 +416,8 @@ class AddWindow(QMainWindow):
             self.add_item_category.setText(result[-1][0])
             self.add_item_count.setText("1")
             self.add_item_category2 = result[-1][2]
-            self.category_index = result[-1][4]
-            self.name_list_index = result[-1][5]
+            self.category_index = result[-1][4] - 1
+            #self.name_list_index = result[-1][5]
             self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
         self.barcode_btn.setEnabled(True)
 

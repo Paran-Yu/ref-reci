@@ -64,18 +64,19 @@ class DB:
         :param name: 제품이름
         ex: 해찬들 고추장
 
-        :return cate1Name, cate1Img,  cate2Name, cate2Img
+        :return cate1Name, cate1Img,  cate2Name, cate2Img, cate1Id, cate2Id
         '''
         cursor = self.db.cursor()
 
-        sql = "select c1.classification1Name, c1.classification1Image, c2.classification2Name, c2.classification2Image " \
+        sql = "select c1.classification1Name, c1.classification1Image, c2.classification2Name, c2.classification2Image, c1.c1ID, c2.c2Id " \
               "from Classification2 c2, Classification1 c1 " \
               "where '{}' like concat('%', c2.classification2Name, '%') and c1.c1ID = c2.Classification2to1;".format(
             name)
 
         cursor.execute(sql)
         result = cursor.fetchall()
-
+        # print("카테고리 결과")
+        # print(result)
         return result
 
     def add_UserProducts(self, data):
@@ -174,6 +175,48 @@ class DB:
               "productClassification1, productShelfLife, productImage, productClassification2 " \
               "FROM UserProduct WHERE uID=%s and productClassification1=%s;"
         cursor.execute(sql, (user_id, classifi1))
+        result = cursor.fetchall()
+
+        for r in result:
+            tmp = dict()
+            for d in range(7):
+                if d == 4:
+                    sql = "select c1.classification1Name, c2.classification2Name " \
+                          "from Classification2 c2, Classification1 c1 " \
+                          "where c1.c1ID=c2.Classification2to1 and c2.c2ID=%s;"
+                    cursor.execute(sql, r[7])
+                    cate = cursor.fetchall()
+                    tmp[dict_keys[d]] = cate[0][0]
+                    tmp['item_category2'] = cate[0][1]
+                    tmp['item_category1_id'] = r[d]
+                    tmp['item_category2_id'] = r[7]
+                else:
+                    tmp[dict_keys[d]] = r[d]
+
+            data.append(tmp)
+
+        return data
+
+    def get_UserProducts_Classifi1_Extra(self, user_id):
+        '''
+        대분류 기타의 제품을 보여줄 때 사용
+        :param user_id: user의 id를 받아서 DB에 저장된 제품을 보여준다.
+        :param classifi1: user가 가지고 있는 대분류ID를 받아서 필터링해준다.
+
+        :return data: 2차원리스트, 리스트 안에는 dict형
+        ex: [{item_name: 고추장, item_category1: 장류, ...}...]
+        item_name: 재료이름         item_category1: 대분류     item_createDay: 재료 등록일
+        item_expDay: 재료 유통기한 (D-day식으로 표기 예정)        item_count: 재료 수량
+        item_image
+        '''
+        data = []
+        dict_keys = ['upID', 'item_name', 'item_count', 'item_createDay',
+                     'item_category1', 'item_expDay', 'item_image', 'item_category2']
+        cursor = self.db.cursor()
+        sql = "SELECT upID, productName, productCount, createdDate, " \
+              "productClassification1, productShelfLife, productImage, productClassification2 " \
+              "FROM UserProduct WHERE uID=%s and productClassification1 not in (1,2,3,4);"
+        cursor.execute(sql, user_id)
         result = cursor.fetchall()
 
         for r in result:

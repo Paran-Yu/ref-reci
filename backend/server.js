@@ -1,16 +1,15 @@
 //----------------------------------
 // lib
 const express = require("express");
+const session = require('express-session');
 const bodyParser = require("body-parser");
+const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 const path = require("path");
 const cors = require("cors");
 const { response } = require("express");
 const axios = require('axios');
 require('dotenv').config();
-
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
 
 // --------------------------------------------
 // env
@@ -20,23 +19,28 @@ const port = envJson.port ? envJson.port : 3001;
 
 //----------------------------------
 // middleware
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
-app.use(cors());
 // bodyParser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // db
 //app.use(require(`${__dirname}/middleware/db`));
 const { pool } = require(`${__dirname}/mysql`);
 
-const sessionStore = new MySQLStore({}, pool);
+let sessionStore = new MySQLStore({}, pool);
+
+const expireDate = new Date(Date.now() + 24*60*60*1000);
 
 app.use(session({
-  httpOnly: true,
   secret: "EZEZ",
+  store: sessionStore,
   resave: false,
   saveUninitialized: true,
-  store: sessionStore
 }));
 
 //----------------------------------
@@ -70,6 +74,19 @@ app.post("/add", async (req, res) => {
     console.log(err);
   }
 });
+
+app.get("/isLogin", async (req, res) => {
+  if (req.session.uid) {
+    console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
+  }
+  else {
+    console.log('로그인이 되어있지 않습니다.')
+  }
+
+  console.log(req.session);
+  console.log(req.session.uid);
+  res.send({ value: req.session });
+})
 
 
 app.listen(port, () => {

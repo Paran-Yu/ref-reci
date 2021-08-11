@@ -4,7 +4,7 @@ import Card from '@material-ui/core/CardMedia'
 export default function FavRecipe() {
   return (
     <div>
-      즐겨찾기한 레시피
+      <h1>즐겨찾기한 레시피</h1>
       <Card>
         <Card item>
           hello
