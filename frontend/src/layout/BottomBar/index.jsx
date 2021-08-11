@@ -11,6 +11,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import createTheme from '@material-ui/core/styles/createTheme';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 // Theme -------------------------------------
 const mytheme = createTheme({
@@ -37,29 +39,48 @@ const mytheme = createTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  bar: {
-    position: 'sticky',
-    // top: theme.spacing(5),
-  }
+  root: {
+    width: '100%',
+    position: 'fixed',
+    bottom: 0,
+    justifyContent: 'center',
+  },
 }));
 // -------------------------------------------
 
 function Copyright() {
+  const classes = useStyles();
+
   return (
-      <Typography variant="body2" color="textSecondary" align="start">
-          {'Copyright © '}
-          <Link color="inherit" href="https://material-ui.com/">
-              Ref:reci
-          </Link>{' '}
-          {new Date().getFullYear()}
-          {'.'}
-      </Typography>
+    <Typography 
+    variant="body2" 
+    color="textSecondary" 
+    align="start"
+    className={classes.root}
+    >
+        {'Copyright © '}
+        <Link color="inherit" href="https://material-ui.com/">
+            Ref:reci
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+    </Typography>
   );
 }
 
-export default function BottomBar() {
-  const classes = useStyles();
+// function Navigation() {
+//   const classes = useStyles();
+//   return (
+//       <BottomNavigation
+//         showLabels
+//         className={classes.root}
+//       >
+//         <Copyright />
+//       </BottomNavigation>
+//   )
+// }
 
+export default function BottomBar() {
   return (
     <Copyright />
   )
