@@ -1,3 +1,5 @@
+import axios from 'axios';
+import server from '../../../server.json';
 export default [
     {
       'title': 'Dinner',
@@ -11,4 +13,3 @@ export default [
       'allDay': false
     },
   ]
-  
