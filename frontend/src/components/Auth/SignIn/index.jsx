@@ -170,7 +170,7 @@ export default function SignInSide({history}) {
                         <b>Ref:Reci</b>
                     </Typography>
                     <br></br>
-                    <Typography component="h1" style={{fontWeight:'Bold'}}>
+                    <Typography component="h1" variant="h5" style={{fontWeight:'Bold'}}>
                         로그인
                     </Typography>
                     <form className={classes.form}>
