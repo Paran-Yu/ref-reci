@@ -20,10 +20,10 @@ const checkLogin = async(url) => {
     const data = await axios({
       method: 'get',
       url: url,
-      withCredentials: true
-      // headers: {
-      //   accept: 'application/json',
-      // },
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
     });
     console.log(data.data.value);
     return data.data;

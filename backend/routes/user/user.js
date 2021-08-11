@@ -3,8 +3,6 @@ const app = express.Router();
 const axios = require("axios");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
 
 require('dotenv').config();
 
@@ -90,11 +88,12 @@ app.post("/login", async (req, res) => {
             console.log("비밀번호 일치");
             req.session.uid = rows[0].uID;
             req.session.isLogined = true;
-            
+
             req.session.save(() => {
                 res.send(true);
                 console.log(req.session);
             });
+            
         }
         else{
             console.log("비밀번호 불일치");
