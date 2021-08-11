@@ -65,7 +65,7 @@ background-color: rgba(0,0,0,00)</string>
      </size>
     </property>
    </widget>
-   <widget class="QLabel" name="ref_list_count">
+   <widget class="QLabel" name="recipe_count">
     <property name="geometry">
      <rect>
       <x>24</x>
@@ -82,7 +82,7 @@ color: #45423C</string>
      <string>총 0개</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ref_list_sort">
+   <widget class="QPushButton" name="recipe_sort">
     <property name="geometry">
      <rect>
       <x>1080</x>
