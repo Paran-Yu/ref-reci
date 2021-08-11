@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     marginTop: 0,
     // overflowX: "scroll"
-    
   },
   gridList: {
     flexWrap: "nowrap",
@@ -52,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F2EDE7",
     width: "100%",
     height: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
+    fontFamily: 'KoPubWorld Bold',
+    fontStyle: `normal`,
   },
   leftbutton: {
     position: "absolute",

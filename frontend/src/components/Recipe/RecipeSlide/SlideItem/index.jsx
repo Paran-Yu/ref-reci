@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     color: "#45423C",
   },
+  recipeList: {
+    fontFamily: 'KoPubWorld Bold'
+  }
 }));
 
 
@@ -31,7 +34,7 @@ const SlideItem = (props) => {
       <CardActions className={classes.action}>
         <CardMedia></CardMedia>
         <CardContent>
-          <Typography align="center" gutterBottom variant="h6" component="h2">
+          <Typography align="center" gutterBottom variant="h6" component="h2" className={classes.recipeList}>
             {dt.name}
           </Typography>
         </CardContent>

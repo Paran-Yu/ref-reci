@@ -13,11 +13,14 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     justifyItems: "center",
     alignItems: "center",
+    fontFamily: 'KoPubWorld Bold',
+    // fontStyle: 'normal'
   },
   word: {
     color: "#A29D97",
     marginLeft: "10px",
-    marginTop: "20px",
+    marginTop: "24px",
+    fontFamily: 'KoPubWorld Bold',
   },
   title: {
     color: "#45423C",
