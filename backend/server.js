@@ -19,8 +19,11 @@ const port = envJson.port ? envJson.port : 3001;
 
 //----------------------------------
 // middleware
+app.use(cors({credentials: true}));
 
-
+// bodyParser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // db
 //app.use(require(`${__dirname}/middleware/db`));
@@ -31,22 +34,11 @@ let sessionStore = new MySQLStore({}, pool);
 const expireDate = new Date(Date.now() + 24*60*60*1000);
 
 app.use(session({
-  key: 'session_cookie_name',
   secret: "EZEZ",
-  store: sessionStore,
+  //store: sessionStore,
   resave: false,
   saveUninitialized: true,
-  cookie: {
-    expires: expireDate
-  },
-  
 }));
-
-app.use(cors());
-
-// bodyParser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //----------------------------------
 // routes

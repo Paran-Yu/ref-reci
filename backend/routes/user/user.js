@@ -199,9 +199,10 @@ app.get("/isLogin", async (req, res) => {
         console.log('로그인이 되어있지 않습니다.')
     }
     
+    console.log(req.sessionID)
     console.log(req.session);
     console.log(req.session.uid);
-    res.send({value:req.session.uid});
+    res.send({value:req.session});
 })
 
 app.get("/userInfo", async (req, res) => {

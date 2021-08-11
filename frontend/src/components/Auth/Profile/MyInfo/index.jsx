@@ -20,10 +20,12 @@ const checkLogin = async(url) => {
     const data = await axios({
       method: 'get',
       url: url,
-      headers: {
-        accept: 'application/json',
-      },
+      withCredentials: true
+      // headers: {
+      //   accept: 'application/json',
+      // },
     });
+    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -44,7 +46,7 @@ export default function MyInfo() {
   useEffect(async() => {
     setUserID('여기 이메일')
     setUserName('여기 닉네임')
-    const data = await checkLogin(`${server.ip}/isLogin`);
+    const data = await checkLogin(`${server.ip}/user/isLogin`);
     console.log(data);
   },[])
 
