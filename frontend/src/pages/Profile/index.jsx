@@ -3,6 +3,7 @@ import {useState, React} from 'react';
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import MyInfo from '../../components/Auth/Profile/MyInfo';
 import QRCode from '../../components/Auth/Profile/QRCode';
+import FavRecipe from "../../components/Recipe/FavRecipe";
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
@@ -104,6 +105,7 @@ export default function profile() {
           <MyInfo />
         </Grid>
       </Grid>
+      <FavRecipe />
       <Fab />
       <BottomBar />
       </ThemeProvider>

@@ -40,7 +40,7 @@ const SmallList = (props) => {
   const st = useStyles();
   const data = useGetdata();
   const len = useNowCols();
-  const [arr, setArr] = React.useState({
+  const [arr, setArr] = useState({
     cnt: 0,
     arr: [],
   });
