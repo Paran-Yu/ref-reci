@@ -6,13 +6,30 @@ import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+import axios from 'axios';
+import server from '../../../../server.json';
+
 const useStyles = makeStyles((theme) => ({
   btn: {
     margin: theme.spacing(1),
     },
 }));
 
-
+const checkLogin = async(url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 export default function MyInfo() {
   const classes = useStyles();
@@ -22,10 +39,12 @@ export default function MyInfo() {
   const [expireNum, setExpireNum] = useState('');
 
 
-  useEffect(() => {
+  useEffect(async() => {
     setUserID('여기 이메일')
     setUserName('여기 닉네임')
-  })
+    const data = await checkLogin(`${server.ip}/isLogin`);
+    console.log(data);
+  },[])
 
 
   return (
