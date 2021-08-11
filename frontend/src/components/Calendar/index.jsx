@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import events from './events'
 import interactionPlugin from '@fullcalendar/interaction'
 import axios from 'axios';
+import server from '../../server.json'
 import './index.css'
 
 const getEvents = async (url, date) => {
