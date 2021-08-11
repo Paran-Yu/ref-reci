@@ -6,7 +6,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import createTheme from '@material-ui/core/styles/createTheme';
 
 import catDt from "./dump.json";
-import CatItem from "../CatItem";
+import CatItem from "../LargeItem";
 import { useNowCols } from "../../../../common/MediaQueryHooks";
 
 // Theme -------------------------------------

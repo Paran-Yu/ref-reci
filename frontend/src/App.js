@@ -9,7 +9,7 @@ import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import ChangePassword from './components/Auth/ChangePassword';
 import Profile from './components/Auth/Profile';
-import Calendar from './components/Calendar';
+import Calendar from './components/Calendar/Dates';
 
 
 function App() {
