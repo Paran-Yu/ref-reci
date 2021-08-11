@@ -60,7 +60,7 @@ const useGetdata = () => {
 };
 
 
-const CatList = () => {
+const LargeList = () => {
   const classes = useStyles();
   const data = useGetdata();
   const len = useNowCols();
@@ -93,4 +93,4 @@ const CatList = () => {
     </div>
   );
 };
-export default CatList;
+export default LargeList;
