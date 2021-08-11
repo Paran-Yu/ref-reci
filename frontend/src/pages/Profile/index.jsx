@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import MyInfo from '../../components/Auth/Profile/MyInfo';
 import QRCode from '../../components/Auth/Profile/QRCode';
 import FavRecipe from "../../components/Recipe/FavRecipe";
+
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
@@ -12,6 +13,7 @@ import BottomBar from "../../layout/BottomBar";
 // Style
 import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
 
 // Core
 import createTheme from '@material-ui/core/styles/createTheme';
@@ -26,6 +28,8 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
 
 // Server 
 import axios from 'axios';
@@ -89,7 +93,7 @@ export default function profile() {
   // const classes = useStyles();
 
   return (
-    <Container fixed>
+    <Container fixed >
       <ThemeProvider theme={mytheme}>
       <TopBar />
       <Typography
@@ -97,15 +101,20 @@ export default function profile() {
       >
         마이페이지
       </Typography>
-      <Grid container>
-        <Grid item xs={12} sm={6}>
-          <QRCode />
+      <Divider variant="middle" />
+      <Box m={3}>
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <QRCode />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <MyInfo />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <MyInfo />
-        </Grid>
-      </Grid>
-      <FavRecipe />
+      </Box>
+      <Box my={3}>
+        <FavRecipe />
+      </Box>
       <Fab />
       <BottomBar />
       </ThemeProvider>
