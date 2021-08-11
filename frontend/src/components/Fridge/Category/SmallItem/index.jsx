@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { Fade, Backdrop, CardActionArea, makeStyles, Modal, Card } from "@material-ui/core";
 import { Router, Link } from "react-router-dom";
 import IngTask from "../DetailModal";
+
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -38,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IngItem = (props) => {
+const SmallItem = (props) => {
   const { dt, idx } = props;
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [flag, setFlag] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [flag, setFlag] = useState(false);
   const handleOpen = () => {
     setOpen(true);
     setFlag(!flag);
@@ -85,4 +87,4 @@ const IngItem = (props) => {
     </div>
   );
 };
-export default IngItem;
+export default SmallItem;

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Button, GridListTile, Paper } from "@material-ui/core";
 import catDt from "./dump.json";
 import IngItem from "../SmallItem";
 import { useNowCols } from "../../../../common/MediaQueryHooks";
 import { PropTypes } from "react";
+
+
 const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);
   const getDatas = async () => {
@@ -34,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IngList = (props) => {
+const SmallList = (props) => {
   const st = useStyles();
   const data = useGetdata();
   const len = useNowCols();
-  const [arr, setArr] = React.useState({
+  const [arr, setArr] = useState({
     cnt: 0,
     arr: [],
   });
@@ -71,4 +73,4 @@ const IngList = (props) => {
     </div>
   );
 };
-export default IngList;
+export default SmallList;

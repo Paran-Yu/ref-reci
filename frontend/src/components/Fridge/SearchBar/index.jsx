@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Grid,
   IconButton,
@@ -53,12 +53,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const options = ["소분류1", "소분류2", "소분류3", "소분류4"];
-const SearchDt = (props) => {
+const SearchBar = (props) => {
   const { catName } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState("");
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [value, setValue] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(1);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -143,4 +143,4 @@ const SearchDt = (props) => {
     </Grid>
   );
 };
-export default SearchDt;
+export default SearchBar;
