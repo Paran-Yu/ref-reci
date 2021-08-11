@@ -8,7 +8,7 @@ import Recipe from './pages/Recipe';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import ChangePassword from './components/Auth/ChangePassword';
-import Profile from './components/Auth/Profile';
+import Profile from './pages/Profile';
 import Calendar from './components/Calendar/Dates';
 
 

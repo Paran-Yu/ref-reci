@@ -19,7 +19,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 
-
 // Server
 import axios from 'axios';
 import server from '../../../server.json';

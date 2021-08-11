@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CatItem = (props) => {
+const LargeItem = (props) => {
   const { dt, idx } = props;
   const st = useStyles();
   return (
@@ -34,4 +34,4 @@ const CatItem = (props) => {
     </Link>
   );
 };
-export default CatItem;
+export default LargeItem;

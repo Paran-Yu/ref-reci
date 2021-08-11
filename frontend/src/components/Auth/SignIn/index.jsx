@@ -83,7 +83,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 const postSearchID = async (url, userID) => {
     try {
         const data = await axios({
@@ -102,7 +101,6 @@ const postSearchID = async (url, userID) => {
         console.log(`ERROR: ${err}`);
     }
 }
-
 
 const postLogin = async (url, userID, userPW) => {
     try{
