@@ -18,15 +18,20 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 
 // Server 
 import axios from 'axios';
-import server from '../../../server.json';
+import server from '../../../../server.json';
 
-export default function profile() {
+
+
+export default function QRCode() {
   return (
-    <h1>
-      Profile
-    </h1>
+    <Container fixed>
+      <h1>
+        여기에 QRCode를 넣어주세요
+      </h1>
+    </Container>
   )
 }

@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FavRecList = () => {
+const SlideList = () => {
   const Favs = useGetdata();
   const classes = useStyles();
   const len = useNowCols();
@@ -126,4 +126,4 @@ const FavRecList = () => {
   );
 };
 
-export default FavRecList;
+export default SlideList;

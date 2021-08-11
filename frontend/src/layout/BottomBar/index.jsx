@@ -38,8 +38,8 @@ const mytheme = createTheme({
 
 const useStyles = makeStyles((theme) => ({
   bar: {
-    position: 'fixed',
-    top: theme.spacing(5),
+    position: 'sticky',
+    // top: theme.spacing(5),
   }
 }));
 // -------------------------------------------

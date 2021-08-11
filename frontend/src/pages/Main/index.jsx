@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, makeStyles, createMuiTheme, Typography } from "@material-ui/core";
 import Container from '@material-ui/core/Container';
-import FavRecList from "../../components/Main/MainRef/FavRecList";
+import FavRecList from "../../components/Recipe/RecipeSlide/SlideList";
 import { ThemeProvider } from "@material-ui/styles";
 import CatList from "../../components/Fridge/Category/LargeList";
 import Fab from "../../layout/FloatingActionButton";

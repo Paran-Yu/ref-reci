@@ -1,5 +1,7 @@
-import React, { useState, useEffect, } from 'react';
+import { React, useState, useEffect, } from 'react';
 import { Chip, Paper, makeStyles, Grid } from '@material-ui/core';
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -14,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
 }))
-const IngTask = () => {
-    const [chipData, setChipData] = React.useState([
+const DetailModal = () => {
+    const [chipData, setChipData] = useState([
         { key: 0, label: '2021.07.21' },
         { key: 1, label: '2021.07.15' },
         { key: 2, label: '2021.07.3' },
@@ -45,4 +47,4 @@ const IngTask = () => {
         </div>
     )
 }
-export default IngTask;
+export default DetailModal;

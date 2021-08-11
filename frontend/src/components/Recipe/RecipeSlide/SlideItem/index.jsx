@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const FavItem = (props) => {
+const SlideItem = (props) => {
   const classes = useStyles();
   const { dt, idx } = props;
   return (
@@ -39,4 +39,4 @@ const FavItem = (props) => {
     </Card>
   );
 };
-export default FavItem;
+export default SlideItem;
