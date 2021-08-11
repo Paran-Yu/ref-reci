@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Router, Link } from "react-router-dom";
+import {useState, React} from 'react';
+import { Link } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Grid, makeStyles, Typography, Button, createMuiTheme } from "@material-ui/core";
-import SearchDt from "../../components/Fridge/SearchDt";
-import IngList from "../../components/Fridge/ShowIng/IngList";
+import SearchDt from "../../components/Fridge/SearchBar";
+import IngList from "../../components/Fridge/Category/SmallList";
 
+// import BottomBar
+// import FloatingActionButton
+// import TopBar
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,9 +33,11 @@ const useStyles = makeStyles((theme) => ({
     background: "#F19920",
   },
 }));
+
+
 const Fridge = (props) => {
   const { catName } = props.location.state;
-  const [cnt, setCnt] = React.useState(0);
+  const [cnt, setCnt] = useState(0);
   const st = useStyles();
   const baseTheme = createMuiTheme();
   const addCnt = (re) => {
@@ -46,7 +51,7 @@ const Fridge = (props) => {
         </Typography>
         <Link
           to={{
-            pathname: "/reci",
+            pathname: "/recipe",
             state: cnt,
           }}
           className={st.link}

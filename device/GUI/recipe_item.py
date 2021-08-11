@@ -10,7 +10,7 @@ class ReciItem(QWidget):
         self.resize(608, 192)
 
         self.recipe_item_container = QPushButton(self)
-        self.recipe_item_container.setGeometry(QRect(0, 0, 608, 192))
+        self.recipe_item_container.setGeometry(QRect(0, 0, 1232, 192))
         self.recipe_item_container.setStyleSheet("background-color: #F2EDE7;\n"
                                                  "border: 0px;")
         self.recipe_item_container.setText("")
@@ -25,7 +25,7 @@ class ReciItem(QWidget):
         self.recipe_item_picture.setObjectName("recipe_item_picture")
 
         self.recipe_item_name = QLabel(self)
-        self.recipe_item_name.setGeometry(QRect(272, 16, 321, 41))
+        self.recipe_item_name.setGeometry(QRect(272, 16, 512, 41))
         font = QtGui.QFont()
         font.setFamily("KoPubWorld돋움체 Bold")
         font.setWeight(75)
@@ -36,14 +36,14 @@ class ReciItem(QWidget):
         self.recipe_item_name.setObjectName("recipe_item_name")
 
         self.recipe_item_ingre = QLabel(self)
-        self.recipe_item_ingre.setGeometry(QRect(272, 64, 321, 33))
+        self.recipe_item_ingre.setGeometry(QRect(272, 64, 512, 33))
         self.recipe_item_ingre.setStyleSheet("font: 20pt \"KoPubWorld돋움체 Medium\";\n"
                                              "color: #45423C;\n"
                                              "background-color: rgba(0,0,0,0);")
         self.recipe_item_ingre.setObjectName("recipe_item_ingre")
 
         self.recipe_item_time = QLabel(self)
-        self.recipe_item_time.setGeometry(QRect(504, 16, 80, 32))
+        self.recipe_item_time.setGeometry(QRect(1074, 16, 144, 32))
         self.recipe_item_time.setStyleSheet("font: 18pt \"KoPubWorld돋움체 Bold\";\n"
                                             "color: #ffffff;\n"
                                             "text-align: center;\n"
@@ -56,7 +56,7 @@ class ReciItem(QWidget):
         self.recipe_item_time.setObjectName("recipe_item_time")
 
         self.recipe_item_intro = QTextBrowser(self)
-        self.recipe_item_intro.setGeometry(QRect(272, 112, 313, 65))
+        self.recipe_item_intro.setGeometry(QRect(272, 112, 780, 65))
         self.recipe_item_intro.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.recipe_item_intro.setStyleSheet("font: 14pt \"KoPubWorld돋움체 Medium\";\n"
                                              "color: #45423C;\n"

@@ -557,7 +557,7 @@ class SearchWindow(QMainWindow):
         self.recipe_item_list = []      # GUI 검색 결과를 담는 카드 리스트
         # 검색 결과 스크롤 영역
         self.recipe_scroll = QScrollArea(self)
-        self.recipe_scroll.setGeometry(8, 176, 1260, 528)
+        self.recipe_scroll.setGeometry(24, 176, 1260, 528)
         self.recipe_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.recipe_scroll.setStyleSheet("border: 0px;")
         self.main()
@@ -584,10 +584,9 @@ class SearchWindow(QMainWindow):
         print("검색 결과 그리기")
         # GridLayout 생성 및 조정
         recipe_layout = QGridLayout()
-        recipe_layout.setContentsMargins(16, 0, 16, 16)
-        recipe_layout.setColumnMinimumWidth(0, 610)
-        recipe_layout.setColumnMinimumWidth(1, 610)
-        for i in range(int(len(self.recipe_result) / 2) + 1):
+        recipe_layout.setContentsMargins(0, 0, 0, 16)
+        recipe_layout.setColumnMinimumWidth(0, 1232)
+        for i in range(int(len(self.recipe_result))):
             recipe_layout.setRowMinimumHeight(i, 200)
 
         # 위젯 그룹에 리스트 카드 하나씩 넣기
@@ -597,7 +596,7 @@ class SearchWindow(QMainWindow):
             self.recipe_item_list.append(ReciItem())
             # 데이터 플로팅
             self.recipe_item_list[i].recipe_item_name.setText(self.recipe_result[i]['recipe_name'])
-            self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'].split()[0])
+            self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'])
             self.recipe_item_list[i].recipe_item_intro.setText(self.recipe_result[i]['recipe_intro'])
             recipe_layout.addWidget(self.recipe_item_list[i])
         recipe_groupBox.setLayout(recipe_layout)

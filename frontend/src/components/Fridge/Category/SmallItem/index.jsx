@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Fade, Backdrop, CardActionArea, makeStyles, Modal, Card } from "@material-ui/core";
 import { Router, Link } from "react-router-dom";
-import IngTask from "../IngTask";
+import IngTask from "../DetailModal";
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",

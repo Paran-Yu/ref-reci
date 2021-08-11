@@ -1,14 +1,12 @@
 import React from "react";
 import { Grid, makeStyles, createMuiTheme, Typography } from "@material-ui/core";
 import Container from '@material-ui/core/Container';
-import FavRecList from "../../components/Main/MainRef/FavRecList";
+import FavRecList from "../../components/Recipe/RecipeSlide/SlideList";
 import { ThemeProvider } from "@material-ui/styles";
-import CatList from "../../components/Fridge/Category/CatList";
-import Fab from "../../components/Main/FloatingActionButton";
-import TopBar from "../../components/Main/TopBar";
-import BottomBar from "../../components/Main/BottomBar";
-import backGround from "../../images/background.png";
-import style from "./styles.css"
+import CatList from "../../components/Fridge/Category/LargeList";
+import Fab from "../../layout/FloatingActionButton";
+import TopBar from "../../layout/TopBar";
+import BottomBar from "../../layout/BottomBar";
 
 const useStyles = makeStyles((theme) => ({
   Fav: {
@@ -42,7 +40,7 @@ const Main = () => {
         <Grid>
           <Grid container mt={5} spacing={2} alignItems="center" justify="center">
             <Grid item xs={12} className={st.image}>
-              <img src={backGround} style={{ flex: 1, height: "auto", width: "100%" }} />
+              <img src={process.env.PUBLIC_URL + '/images/background.png'} style={{ flex: 1, height: "auto", width: "100%" }} />
             </Grid>
             <Grid item xs={10} className={st.Fav} id={1} style={{ margin: "" }}>
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
