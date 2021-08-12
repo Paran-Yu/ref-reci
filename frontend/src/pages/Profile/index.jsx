@@ -149,6 +149,7 @@ export default function Profile({history}) {
 
     const data2 = await getUserData(`${server.ip}/user/userInfo`);
     setUserID(data2.userID);
+    console.log(data2.userID);
     setUserName(data2.userName);
     setMyFridgeNum(data2.foodCount);
     setExpire3Num(data2.expire3FoodCount);
