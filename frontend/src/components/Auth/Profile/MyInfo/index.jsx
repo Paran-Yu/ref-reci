@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+
 import Typography  from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
@@ -54,6 +56,7 @@ export default function MyInfo({history}) {
       console.log(data.value);
       //history.replace('/signin');
       history.push('/signin');
+      
     }
   },[])
 
