@@ -56,6 +56,8 @@ app.use("/callback", require(`${__dirname}/routes/callback/callback`));
 app.use("/user", require(`${__dirname}/routes/user/user`));
 app.use("/fridge", require(`${__dirname}/routes/fridge/fridge`));
 app.use("/calendar", require(`${__dirname}/routes/calendar/calendar`));
+app.use("/foodlist", require(`${__dirname}/routes/calendar/foodlist`));
+
 
 app.get("/", function (req, res) {
   res.send("Hello node.js");
