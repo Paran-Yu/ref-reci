@@ -120,6 +120,7 @@ export default function Profile({history}) {
 
   useEffect(async () => {
     const loginData = await getUserData(`${server.ip}/user/isLogin`);
+    console.log(loginData);
     if (loginData.value) {
       setUID(loginData.value);
       //필요한 데이터 가져오기
@@ -131,8 +132,6 @@ export default function Profile({history}) {
       setExpiredNum(userInfoData.expiredFoodCount);
 
       const favRecipeData = await getUserData(`${server.ip}/user/recipeInfo`);
-      console.log(favRecipeData)
-      console.log(favRecipeData[0].rName)
 
       const recipeItems = favRecipeData.map((recipeData) => {
         return (
