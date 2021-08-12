@@ -1,9 +1,10 @@
-import {useState, React} from 'react';
+import React, {useState, useEffect} from 'react';
 // import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import MyInfo from '../../components/Auth/Profile/MyInfo';
 import QRCode from '../../components/Auth/Profile/QRCode';
 import FavRecipe from "../../components/Recipe/FavRecipe";
+
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
@@ -12,6 +13,7 @@ import BottomBar from "../../layout/BottomBar";
 // Style
 import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
 
 // Core
 import createTheme from '@material-ui/core/styles/createTheme';
@@ -26,6 +28,8 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
 
 // Server 
 import axios from 'axios';
@@ -84,12 +88,77 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getUserData = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
-export default function profile() {
+const getProfileData = async(url) => {
+  try{
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    })
+    return data.data;
+  }
+  catch(err){
+    console.log(`ERROR: ${err}`);
+  }
+}
+
+export default function Profile({history}) {
   // const classes = useStyles();
 
+  const [userID, setUserID] = useState('');
+  const [userName, setUserName] = useState('');
+  const [myFridgeNum, setMyFridgeNum] = useState('');
+  const [expire3Num, setExpire3Num] = useState('');
+  const [expiredNum, setExpiredNum] = useState('');
+
+  useEffect(async () => {
+    const data = await getUserData(`${server.ip}/user/isLogin`);
+    // if (data.value) {
+    //   //필요한 데이터 가져오기
+    //   console.log(data.value);
+    //   setUID(data.value);
+    //   setUserID('여기 이메일')
+    //   setUserName('여기 닉네임')
+    //   setMyFridgeNum()
+    //   setExpireNum()
+    // }
+    // else {
+    //   console.log(data.value);
+    //   history.replace('/signin');
+    // }
+
+    const data2 = await getUserData(`${server.ip}/user/userInfo`);
+    setUserID(data2.userID);
+    console.log(data2.userID);
+    setUserName(data2.userName);
+    setMyFridgeNum(data2.foodCount);
+    setExpire3Num(data2.expire3FoodCount);
+    setExpiredNum(data2.expire3FoodCount);
+
+  }, [])
+
   return (
-    <Container fixed>
+    <Container fixed >
       <ThemeProvider theme={mytheme}>
       <TopBar />
       <Typography
@@ -97,15 +166,20 @@ export default function profile() {
       >
         마이페이지
       </Typography>
-      <Grid container>
-        <Grid item xs={12} sm={6}>
-          <QRCode />
+      <Divider variant="middle" />
+      <Box m={3}>
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <QRCode />
+          </Grid>
+          <Grid item xs={12} md={6}>
+              <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <MyInfo />
-        </Grid>
-      </Grid>
-      <FavRecipe />
+      </Box>
+      <Box my={3}>
+        <FavRecipe />
+      </Box>
       <Fab />
       <BottomBar />
       </ThemeProvider>

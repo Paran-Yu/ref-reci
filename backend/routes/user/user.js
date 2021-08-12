@@ -3,9 +3,6 @@ const app = express.Router();
 const axios = require("axios");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const cors = require("cors");
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
 
 require('dotenv').config();
 
@@ -21,8 +18,6 @@ const smtpTransport = nodemailer.createTransport({
         rejectUnauthorized: false
     }
 });
-
-app.use(cors());
 
 app.post("/register", async (req, res) => {
     const userName = req.body.userName;
@@ -69,8 +64,8 @@ app.post("/login", async (req, res) => {
     const userID = req.body.userID;
     const password = req.body.userPW;
 
-    console.log(userID);
-    console.log(password);
+    // console.log(userID);
+    // console.log(password);
 
     try {
         const [rows, fields] = await pool.query("SELECT uID, userPW FROM User WHERE userID = ?", [
@@ -85,18 +80,19 @@ app.post("/login", async (req, res) => {
         //salt값으로 해쉬 처리 해주는 부분
         const hashPassword = crypto.createHash("sha512").update(password).digest("hex");
 
-        console.log(`password: ${password}`);
-        console.log(`hashPassword: ${hashPassword}`);
-        console.log(`dbUserPW: ${dbUserPW}`);
+        // console.log(`password: ${password}`);
+        // console.log(`hashPassword: ${hashPassword}`);
+        // console.log(`dbUserPW: ${dbUserPW}`);
 
         if(dbUserPW === hashPassword){
             console.log("비밀번호 일치");
             req.session.uid = rows[0].uID;
-            req.session.isLogined = true;
-            req.session.save(()=>{
-                console.log(req.session);
+
+            req.session.save(() => {
                 res.send(true);
-            })
+                console.log(req.session);
+            });
+            
         }
         else{
             console.log("비밀번호 불일치");
@@ -113,7 +109,7 @@ app.post("/login", async (req, res) => {
 app.post("/searchID", async (req, res) => {
     const userID = req.body.userID;
 
-    console.log(userID);
+    // console.log(userID);
 
     try {
         const reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -192,5 +188,68 @@ app.post("/changePassword", async (req, res) => {
         console.log(err);
     }
 });
+
+app.get("/isLogin", async (req, res) => {
+    if(req.session.uid){
+        console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
+    }
+    else{
+        console.log('로그인이 되어있지 않습니다.')
+    }
+    
+    console.log(req.sessionID)
+    console.log(req.session);
+    res.send({value:req.session.uid});
+})
+
+app.get("/userInfo", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+
+    try {
+        const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
+            uID
+        ]);
+
+        const userID = rows1[0].userID;
+        const userName = rows1[0].userName;
+
+        console.log(userID);
+        console.log(userName);
+
+        const [rows2, fields2] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ?", [
+            uID
+        ]);
+
+        const foodCount = rows2[0].cnt;
+        console.log(foodCount);
+        
+        const [rows3, fields3] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 <= DATE(productShelfLife) - DATE(NOW()) AND DATE(productShelfLife) - DATE(NOW()) <= 3", [
+            uID
+        ]);
+
+        const expire3FoodCount = rows3[0].cnt;
+        console.log(expire3FoodCount);
+
+        const [rows4, fields4] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 > DATE(productShelfLife) - DATE(NOW())", [
+            uID
+        ]);
+
+        const expiredFoodCount = rows4[0].cnt;
+        console.log(expiredFoodCount);
+
+        res.send({
+            userID: userID,
+            userName: userName,
+            foodCount: foodCount,
+            expire3FoodCount: expire3FoodCount,
+            expiredFoodCount: expiredFoodCount,
+        })
+    }
+    catch (err) {
+        console.log('===========로그인 중 에러 발생===========');
+        console.log(err);
+    }
+})
 
 module.exports = app;
