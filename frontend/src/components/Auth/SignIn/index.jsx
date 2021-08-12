@@ -1,5 +1,5 @@
 // React, Router
-import {useState, React} from 'react';
+import {useState, React, useEffect} from 'react';
 // import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink, Redirect } from "react-router-dom";
 
@@ -51,6 +51,11 @@ const mytheme = createTheme({
             dark: '#45423c',
             contrastText: '#191600',
         },
+    },
+    typography: {
+        fontFamily: "'KoPubWorld', Munhwajae, jeju",
+        fontStyle: "normal",
+        fontWeight: "Bold"
     },
 });
 
@@ -111,6 +116,7 @@ const postLogin = async (url, userID, userPW) => {
                 userID: userID,
                 userPW: userPW
             },
+            withCredentials: true,
             headers: {
                 accept: 'application/json',
             },
@@ -119,6 +125,24 @@ const postLogin = async (url, userID, userPW) => {
     }
     catch(err){
         console.log(url);
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const checkLogin = async (url) => {
+    try {
+        const data = await axios({
+            method: 'get',
+            url: url,
+            withCredentials: true,
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        console.log(data.data.value);
+        return data.data;
+    }
+    catch (err) {
         console.log(`ERROR: ${err}`);
     }
 }
@@ -144,6 +168,10 @@ export default function SignInSide({history}) {
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
 
+    useEffect(async () => {
+        const data = await checkLogin(`${server.ip}/user/isLogin`);
+        console.log(data);
+    }, [])
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -161,11 +189,11 @@ export default function SignInSide({history}) {
             >
                 <ThemeProvider theme={mytheme}>
                 <div className={classes.paper}>
-                    <Typography color="primary" variant="h2">
+                    <Typography color="primary" variant="h2" style={{fontFamily:'Munhwajae', fontStyle:'normal', fontWeight:'normal'}} >
                         <b>Ref:Reci</b>
                     </Typography>
                     <br></br>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" style={{fontWeight:'Bold'}}>
                         로그인
                     </Typography>
                     <form className={classes.form}>
