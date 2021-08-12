@@ -9,7 +9,7 @@ import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import ChangePassword from './components/Auth/ChangePassword';
 import Profile from './pages/Profile';
-import Calendar from './components/Calendar/Dates';
+import Calendar from './pages/Calendar';
 import DeleteUser from './pages/Profile/DeleteUser';
 import ChangeUserDetail from './pages/Profile/ChangeUserDetail';
 import CheckPassword from './pages/Profile/CheckPassword';
