@@ -87,7 +87,6 @@ app.post("/login", async (req, res) => {
         if(dbUserPW === hashPassword){
             console.log("비밀번호 일치");
             req.session.uid = rows[0].uID;
-            req.session.isLogined = true;
 
             req.session.save(() => {
                 res.send(true);
@@ -200,12 +199,57 @@ app.get("/isLogin", async (req, res) => {
     
     console.log(req.sessionID)
     console.log(req.session);
-    console.log(req.session.uid);
-    res.send({value:req.session});
+    res.send({value:req.session.uid});
 })
 
 app.get("/userInfo", async (req, res) => {
-    const uID = req.session.uid;
+    // const uID = req.session.uid;
+    const uID = 1;
+
+    try {
+        const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
+            uID
+        ]);
+
+        const userID = rows1[0].userID;
+        const userName = rows1[0].userName;
+
+        console.log(userID);
+        console.log(userName);
+
+        const [rows2, fields2] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ?", [
+            uID
+        ]);
+
+        const foodCount = rows2[0].cnt;
+        console.log(foodCount);
+        
+        const [rows3, fields3] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 <= DATE(productShelfLife) - DATE(NOW()) AND DATE(productShelfLife) - DATE(NOW()) <= 3", [
+            uID
+        ]);
+
+        const expire3FoodCount = rows3[0].cnt;
+        console.log(expire3FoodCount);
+
+        const [rows4, fields4] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 > DATE(productShelfLife) - DATE(NOW())", [
+            uID
+        ]);
+
+        const expiredFoodCount = rows4[0].cnt;
+        console.log(expiredFoodCount);
+
+        res.send({
+            userID: userID,
+            userName: userName,
+            foodCount: foodCount,
+            expire3FoodCount: expire3FoodCount,
+            expiredFoodCount: expiredFoodCount,
+        })
+    }
+    catch (err) {
+        console.log('===========로그인 중 에러 발생===========');
+        console.log(err);
+    }
 })
 
 module.exports = app;

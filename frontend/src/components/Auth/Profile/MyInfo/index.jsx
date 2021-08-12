@@ -49,24 +49,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const checkLogin = async(url) => {
-  try {
-    const data = await axios({
-      method: 'get',
-      url: url,
-      withCredentials: true,
-      headers: {
-        accept: 'application/json',
-      },
-    });
-    console.log(data.data.value);
-    return data.data;
-  }
-  catch (err) {
-    console.log(`ERROR: ${err}`);
-  }
-}
-
 
 export default function MyInfo() {
   const classes = useStyles();
@@ -89,12 +71,13 @@ export default function MyInfo() {
         내 정보
       </Typography>
       <Box textAlign="center" p={2}>
-        <p>냉장고 속에 {myFridgeNum}개의 식재료가 있습니다.</p>
-        <p>유효기간이 3일 미만인 식재료가 {expireNum}개 있습니다.</p>
+        <p>냉장고 속에 {props.myFridgeNum}개의 식재료가 있습니다.</p>
+        <p>유효기간이 3일 미만인 식재료가 {props.expire3Num}개 있습니다.</p>
+        <p>유효기간이 지난 식재료가 {props.expiredNum}개 있습니다.</p>
       </Box>
       <Box textAlign="left">
-        <p>닉네임: {userName}</p>
-        <p>아이디(Email): {userID}</p>
+        <p>닉네임: {props.userName}</p>
+        <p>아이디(Email): {props.userID}</p>
       </Box>
       <Box p={2}>
         <div >

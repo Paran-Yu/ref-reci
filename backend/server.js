@@ -34,13 +34,15 @@ const { pool } = require(`${__dirname}/mysql`);
 
 let sessionStore = new MySQLStore({}, pool);
 
-const expireDate = new Date(Date.now() + 24*60*60*1000);
-
 app.use(session({
   secret: "EZEZ",
   store: sessionStore,
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    secure: false,
+    maxAge: 1000*60*60*24,
+  }
 }));
 
 //----------------------------------

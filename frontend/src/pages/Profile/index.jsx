@@ -1,4 +1,4 @@
-import {useState, React} from 'react';
+import React, {useState, useEffect} from 'react';
 // import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import MyInfo from '../../components/Auth/Profile/MyInfo';
@@ -88,9 +88,74 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getUserData = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
-export default function profile() {
+const getProfileData = async(url) => {
+  try{
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    })
+    return data.data;
+  }
+  catch(err){
+    console.log(`ERROR: ${err}`);
+  }
+}
+
+export default function Profile({history}) {
   // const classes = useStyles();
+
+  const [userID, setUserID] = useState('');
+  const [userName, setUserName] = useState('');
+  const [myFridgeNum, setMyFridgeNum] = useState('');
+  const [expire3Num, setExpire3Num] = useState('');
+  const [expiredNum, setExpiredNum] = useState('');
+
+  useEffect(async () => {
+    const data = await getUserData(`${server.ip}/user/isLogin`);
+    // if (data.value) {
+    //   //필요한 데이터 가져오기
+    //   console.log(data.value);
+    //   setUID(data.value);
+    //   setUserID('여기 이메일')
+    //   setUserName('여기 닉네임')
+    //   setMyFridgeNum()
+    //   setExpireNum()
+    // }
+    // else {
+    //   console.log(data.value);
+    //   history.replace('/signin');
+    // }
+
+    const data2 = await getUserData(`${server.ip}/user/userInfo`);
+    setUserID(data2.userID);
+    console.log(data2.userID);
+    setUserName(data2.userName);
+    setMyFridgeNum(data2.foodCount);
+    setExpire3Num(data2.expire3FoodCount);
+    setExpiredNum(data2.expire3FoodCount);
+
+  }, [])
 
   return (
     <Container fixed >
@@ -108,7 +173,7 @@ export default function profile() {
             <QRCode />
           </Grid>
           <Grid item xs={12} md={6}>
-            <MyInfo />
+              <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
           </Grid>
         </Grid>
       </Box>
