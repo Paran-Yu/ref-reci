@@ -137,8 +137,9 @@ export default function Profile({history}) {
   useEffect(async () => {
     const loginData = await getUserData(`${server.ip}/user/isLogin`);
     console.log(loginData);
-    if (loginData.value) {
-      setUID(loginData.value);
+    setUID(1);
+    // if (loginData.value) {
+    //   setUID(loginData.value);
       //필요한 데이터 가져오기
       const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
       setUserID(userInfoData.userID);
@@ -159,33 +160,12 @@ export default function Profile({history}) {
         )
       })
       setRecipeDatas(recipeItems);
-    }
-    else {
-      console.log(loginData.value);
-      history.replace('/signin');
-    }
+    // }
+    // else {
+    //   console.log(loginData.value);
+    //   history.replace('/signin');
+    // }
 
-    // const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
-    // setUserID(userInfoData.userID);
-    // setUserName(userInfoData.userName);
-    // setMyFridgeNum(userInfoData.foodCount);
-    // setExpire3Num(userInfoData.expire3FoodCount);
-    // setExpiredNum(userInfoData.expiredFoodCount);
-
-    // const favRecipeData = await getUserData(`${server.ip}/user/recipeInfo`);
-    // console.log(favRecipeData)
-    // console.log(favRecipeData[0].rName)
-
-    // const recipeItems = favRecipeData.map((recipeData) => {
-    //   return (
-    //     <Grid item key={recipeData} xs={12} sm={4} md={3} lg={2}>
-    //       <Card className={classes.root}>
-    //         <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
-    //       </Card>
-    //     </Grid>
-    //   )
-    // })
-    // setRecipeDatas(recipeItems);
   }, [])
   
   return (
