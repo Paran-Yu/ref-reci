@@ -109,7 +109,9 @@ app.post("/login", async (req, res) => {
 app.get("/logout", async(req, res) => {
     try{
         req.session.destroy(()=>{
+            res.clearCookie('connect.sid');
             console.log('로그아웃 됨');
+            res.redirect('http://i5a203.p.ssafy.io/signin');
         })
     }
     catch(err){
