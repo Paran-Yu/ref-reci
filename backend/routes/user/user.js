@@ -106,6 +106,17 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.get("/logout", async(req, res) => {
+    try{
+        req.session.destroy(()=>{
+            console.log('로그아웃 됨');
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
 app.post("/searchID", async (req, res) => {
     const userID = req.body.userID;
 

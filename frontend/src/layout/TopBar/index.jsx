@@ -9,6 +9,10 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+// Server
+import axios from 'axios';
+import server from '../../../server.json';
+
 // Style
 import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -56,6 +60,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 // -------------------------------------------
 
+const getLogout = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 export default function TopBar() {
   const classes = useStyles();
@@ -66,7 +85,13 @@ export default function TopBar() {
         <AppBar position="static">
           <Toolbar>
             <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
-            <Button color="inherit">로그아웃</Button>
+            <Button 
+            color="inherit" 
+              onClick={async () => {
+                const data = await getLogout(`${server.ip}/user/logout`);
+              }}>
+              로그아웃
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
