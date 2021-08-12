@@ -1,10 +1,13 @@
 import {useState, React} from 'react';
-// import { Route } from "react-router";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
-import PropTypes from 'prop-types';
 
 // Core
 import Grid from '@material-ui/core/Grid';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,6 +39,15 @@ const mytheme = createTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
   bar: {
     position: 'fixed',
     top: theme.spacing(2),
@@ -50,33 +62,18 @@ export default function TopBar() {
 
   return (
     <div>
-      <Grid
-      container
-      spacing={2}
-      direction="row"
-      justifyContent="flex-end"
-      alignItems="baseline"
-      >
-        <Grid item xs={2}>
-          <span>
-            마이페이지
-          </span>
-        </Grid>
-        <Grid item xs={2}>
-          <span>
-            로그아웃
-          </span>
-        </Grid>
-      </Grid>
-      <Grid
-      container
-      direction="row"
-      justifyContent="flex-start"
-      alignItems="center"
-      m={3}
-      >
-        <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
-      </Grid>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
+            <Button color="inherit">로그아웃</Button>
+          </Toolbar>
+        </AppBar>
+      </div>
     </div>
   )
 }
+
+
+
+
