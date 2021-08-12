@@ -1,4 +1,4 @@
-import {useState, React} from 'react';
+import React, {useState, useEffect} from 'react';
 // import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import MyInfo from '../../components/Auth/Profile/MyInfo';
@@ -88,10 +88,67 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getUserData = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
-export default function profile() {
+export default function Profile({history}) {
   // const classes = useStyles();
 
+  const [userID, setUserID] = useState('');
+  const [userName, setUserName] = useState('');
+  const [myFridgeNum, setMyFridgeNum] = useState('');
+  const [expire3Num, setExpire3Num] = useState('');
+  const [expiredNum, setExpiredNum] = useState('');
+
+  const [recipeDatas, setRecipeDatas ] = useState();
+
+  useEffect(async () => {
+    //const loginData = await getUserData(`${server.ip}/user/isLogin`);
+    // if (loginData.value) {
+    //   //필요한 데이터 가져오기
+    //   setUID(loginData.value);
+    //   setUserID('여기 이메일')
+    //   setUserName('여기 닉네임')
+    //   setMyFridgeNum()
+    //   setExpireNum()
+    // }
+    // else {
+    //   console.log(data.value);
+    //   history.replace('/signin');
+    // }
+
+    const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
+    setUserID(userInfoData.userID);
+    setUserName(userInfoData.userName);
+    setMyFridgeNum(userInfoData.foodCount);
+    setExpire3Num(userInfoData.expire3FoodCount);
+    setExpiredNum(userInfoData.expiredFoodCount);
+
+    const favRecipeData = await getUserData(`${server.ip}/user/recipeInfo`);
+    console.log(favRecipeData)
+    console.log(favRecipeData[0].rName)
+
+    const recipeItems = favRecipeData.map((recipeData) =>
+      <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+    )
+    setRecipeDatas(recipeItems);
+
+  }, [])
+  
   return (
     <Container fixed >
       <ThemeProvider theme={mytheme}>
@@ -108,12 +165,13 @@ export default function profile() {
             <QRCode />
           </Grid>
           <Grid item xs={12} md={6}>
-            <MyInfo />
+              <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
           </Grid>
         </Grid>
       </Box>
       <Box my={3}>
-        <FavRecipe />
+          <h1>즐겨찾기한 레시피</h1>
+          {recipeDatas}
       </Box>
       <Fab />
       <BottomBar />

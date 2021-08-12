@@ -203,7 +203,81 @@ app.get("/isLogin", async (req, res) => {
 })
 
 app.get("/userInfo", async (req, res) => {
-    const uID = req.session.uid;
+    // const uID = req.session.uid;
+    const uID = 1;
+
+    try {
+        const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
+            uID
+        ]);
+
+        const userID = rows1[0].userID;
+        const userName = rows1[0].userName;
+
+        console.log(userID);
+        console.log(userName);
+
+        const [rows2, fields2] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ?", [
+            uID
+        ]);
+
+        const foodCount = rows2[0].cnt;
+        console.log(foodCount);
+        
+        const [rows3, fields3] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 <= DATE(productShelfLife) - DATE(NOW()) AND DATE(productShelfLife) - DATE(NOW()) <= 3", [
+            uID
+        ]);
+
+        const expire3FoodCount = rows3[0].cnt;
+        console.log(expire3FoodCount);
+
+        const [rows4, fields4] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 > DATE(productShelfLife) - DATE(NOW())", [
+            uID
+        ]);
+
+        const expiredFoodCount = rows4[0].cnt;
+        console.log(expiredFoodCount);
+
+        res.send({
+            userID: userID,
+            userName: userName,
+            foodCount: foodCount,
+            expire3FoodCount: expire3FoodCount,
+            expiredFoodCount: expiredFoodCount,
+        })
+    }
+    catch (err) {
+        console.log('===========유저 정보 조회 중 에러 발생===========');
+        console.log(err);
+    }
+})
+
+app.get("/recipeInfo", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+
+    try {
+        const [rows1, fields1] = await pool.query("SELECT r.recipeName AS rName, r.recipeIntroduce AS rIntroduce, r.recipeImage AS rImage FROM Favorites AS f JOIN Recipe AS r ON r.rID = f.rID WHERE f.uID = ?", [
+            uID
+        ]);
+
+        const len = rows1.length
+        console.log(len);
+
+        // for(let i=0; i<len; i++){
+        //     console.log(rows1[i].rName);
+        //     console.log(rows1[i].rIntroduce);
+        //     console.log(rows1[i].rImage);
+        // }
+        
+        // console.log(rows1)
+
+        res.json(rows1)
+    }
+    catch (err) {
+        console.log('===========즐겨찾기 레시피 조회 중 에러 발생===========');
+        console.log(err);
+    }
 })
 
 module.exports = app;

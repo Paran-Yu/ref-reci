@@ -24,14 +24,31 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import server from '../../../../server.json';
 
+// const option ={
+//   url:'http://i5a203.p.ssafy.io',
+//   method:'POST',
+//   header:{
+    
+//   }
+// }
 
+// axios(option)
+
+// if chosen_items:
+const params = {
+  'size':'150x150',
+  'data':'1'     // 여기에 userid
+}
+// qr_code = requests.get(
+//     'http://api.qrserver.com/v1/create-qr-code', params=params
+// ).url
+const userid = '1'
+const size = 250
 
 export default function QRCode() {
   return (
     <Container fixed>
-      <h1>
-        여기에 QRCode를 넣어주세요
-      </h1>
+      <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + userid} ></img>
     </Container>
   )
 }
