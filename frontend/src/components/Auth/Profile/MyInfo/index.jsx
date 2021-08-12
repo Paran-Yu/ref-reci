@@ -52,7 +52,7 @@ export default function MyInfo({history}) {
     }
     else{
       console.log(data.value);
-      history.replace('/signin');
+      //history.replace('/signin');
       history.push('/signin');
     }
   },[])
