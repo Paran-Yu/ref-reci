@@ -203,8 +203,8 @@ app.get("/isLogin", async (req, res) => {
 })
 
 app.get("/userInfo", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    //const uID = 1;
 
     try {
         const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
