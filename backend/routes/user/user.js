@@ -87,7 +87,6 @@ app.post("/login", async (req, res) => {
         if(dbUserPW === hashPassword){
             console.log("비밀번호 일치");
             req.session.uid = rows[0].uID;
-            req.session.isLogined = true;
 
             req.session.save(() => {
                 res.send(true);
@@ -200,8 +199,7 @@ app.get("/isLogin", async (req, res) => {
     
     console.log(req.sessionID)
     console.log(req.session);
-    console.log(req.session.uid);
-    res.send({value:req.session});
+    res.send({value:req.session.uid});
 })
 
 app.get("/userInfo", async (req, res) => {

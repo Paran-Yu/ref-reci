@@ -25,7 +25,6 @@ const checkLogin = async(url) => {
         accept: 'application/json',
       },
     });
-    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -47,7 +46,7 @@ export default function MyInfo() {
     setUserID('여기 이메일')
     setUserName('여기 닉네임')
     const data = await checkLogin(`${server.ip}/user/isLogin`);
-    console.log(data);
+    console.log(data.value);
   },[])
 
 
