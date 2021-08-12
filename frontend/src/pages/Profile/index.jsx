@@ -109,6 +109,7 @@ const getUserData = async (url) => {
 export default function Profile({history}) {
   const classes = useStyles();
 
+  const [uID, setUID] = useState('');
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('');
   const [myFridgeNum, setMyFridgeNum] = useState('');
