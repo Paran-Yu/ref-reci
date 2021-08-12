@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 // Server
 import axios from 'axios';
-import server from '../../../server.json';
+import server from '../../server.json';
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
