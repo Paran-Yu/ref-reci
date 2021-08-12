@@ -45,7 +45,7 @@ const params = {
 const userid = '1'
 const size = 250
 
-export default function QRCode() {
+export default function QRCode(props) {
   return (
     <Container fixed>
       <div>
@@ -55,7 +55,7 @@ export default function QRCode() {
         </Typography>
       </div>
       <Box p={2}>
-        <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + userid} ></img>
+        <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + props.uID} ></img>
       </Box>
     </Container>
   )

@@ -186,7 +186,7 @@ export default function Profile({history}) {
       <Box m={3}>
         <Grid container>
           <Grid item xs={12} md={6}>
-            <QRCode />
+            <QRCode uid={uID}/>
           </Grid>
           <Grid item xs={12} md={6}>
               <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
