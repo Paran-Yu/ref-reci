@@ -1,7 +1,7 @@
 // React, Router
 import {useState, React} from 'react';
 // import { Route } from "react-router";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { BrowserRouter as Router, Link as RouterLink, Redirect } from "react-router-dom";
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
