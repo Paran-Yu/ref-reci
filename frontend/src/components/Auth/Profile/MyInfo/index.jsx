@@ -34,7 +34,7 @@ const checkLogin = async(url) => {
 
 
 
-export default function MyInfo(history) {
+export default function MyInfo({history}) {
   const classes = useStyles();
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('');
