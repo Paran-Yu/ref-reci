@@ -48,7 +48,15 @@ const size = 250
 export default function QRCode() {
   return (
     <Container fixed>
-      <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + userid} ></img>
+      <div>
+        <Typography
+        variant="h4">
+          나의 QR 코드
+        </Typography>
+      </div>
+      <Box p={2}>
+        <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + userid} ></img>
+      </Box>
     </Container>
   )
 }

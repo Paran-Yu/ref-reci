@@ -16,6 +16,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 
 // Core
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
 import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -25,7 +27,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
@@ -106,7 +107,7 @@ const getUserData = async (url) => {
 }
 
 export default function Profile({history}) {
-  // const classes = useStyles();
+  const classes = useStyles();
 
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('');
@@ -142,8 +143,16 @@ export default function Profile({history}) {
     console.log(favRecipeData)
     console.log(favRecipeData[0].rName)
 
-    const recipeItems = favRecipeData.map((recipeData) =>
-      <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+    const recipeItems = favRecipeData.map((recipeData) => {
+      return (
+        <Grid item key={recipeData} xs={12} sm={4}>
+          <Card className={classes.root}>
+            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+          </Card>
+        </Grid>
+      )
+    }
+      
     )
     setRecipeDatas(recipeItems);
 
@@ -171,7 +180,9 @@ export default function Profile({history}) {
       </Box>
       <Box my={3}>
           <h1>즐겨찾기한 레시피</h1>
-          {recipeDatas}
+          <Grid container>
+            {recipeDatas}
+          </Grid>
       </Box>
       <Fab />
       <BottomBar />

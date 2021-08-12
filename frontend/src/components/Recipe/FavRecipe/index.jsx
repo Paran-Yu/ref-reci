@@ -30,36 +30,22 @@ export default function FavRecipe(props) {
   const classes = useStyles();
 
   return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={props.url}
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {props.rName}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {props.rIntroduce}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-      </Grid>
-    </div>
+// grid -> grid item -> card -> cardactionarea
+    <CardActionArea>
+      <CardMedia
+        className={classes.media}
+        image={props.url}
+        title="Contemplative Reptile"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+          {props.rName}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {props.rIntroduce}
+        </Typography>
+      </CardContent>
+    </CardActionArea>
+
   )
 }
