@@ -34,7 +34,7 @@ const checkLogin = async(url) => {
 
 
 
-export default function MyInfo() {
+export default function MyInfo(history) {
   const classes = useStyles();
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('');
@@ -43,10 +43,15 @@ export default function MyInfo() {
 
 
   useEffect(async() => {
-    setUserID('여기 이메일')
-    setUserName('여기 닉네임')
     const data = await checkLogin(`${server.ip}/user/isLogin`);
-    console.log(data.value);
+    if(data.value){
+      //필요한 데이터 가져오기
+      setUserID('여기 이메일')
+      setUserName('여기 닉네임')
+    }
+    else{
+      history.replace('/signin');
+    }
   },[])
 
 
