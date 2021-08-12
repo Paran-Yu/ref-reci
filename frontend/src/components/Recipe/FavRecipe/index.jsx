@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   media: {
-    height: 140,
+    height: 180,
   },
   details: {
     display: 'flex',
@@ -33,6 +33,7 @@ export default function FavRecipe(props) {
 
   return (
 // grid -> grid item -> card -> cardactionarea
+  <Card className={classes.root}>
     <CardActionArea>
       <CardMedia
         className={classes.media}
@@ -47,5 +48,6 @@ export default function FavRecipe(props) {
         </Typography>
       </CardContent>
     </CardActionArea>
+  </Card>
   )
 }

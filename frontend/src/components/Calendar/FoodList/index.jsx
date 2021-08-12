@@ -33,6 +33,8 @@ export default function FoodList(props) {
     <Box>
       <Card className={classes.root}>
         <CardMedia
+          component="img"
+          alt="recipe-image"
           className={classes.cover}
           image="{props.imgurl}"
           title="Live from space album cover"

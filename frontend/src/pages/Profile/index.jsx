@@ -30,7 +30,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
+import Pagination from '@material-ui/lab/Pagination';
 
 // Server 
 import axios from 'axios';
@@ -87,6 +87,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
       margin: theme.spacing(3, 0, 2),
   },
+  pg: {
+    '& > *': {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 const getUserData = async (url) => {
@@ -105,6 +110,17 @@ const getUserData = async (url) => {
     console.log(`ERROR: ${err}`);
   }
 }
+
+
+// const Pagination = () => {
+//   const classes = useStyles();
+//   return (
+//     <div className={classes.pg}>
+//       <Pagination count={10} color="primary" />
+//       <Pagination count={10} color="secondary" />
+//     </div>
+//   );
+// };
 
 export default function Profile({history}) {
   const classes = useStyles();
@@ -133,23 +149,22 @@ export default function Profile({history}) {
     //   history.replace('/signin');
     // }
 
-    const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
-    setUserID(userInfoData.userID);
-    setUserName(userInfoData.userName);
-    setMyFridgeNum(userInfoData.foodCount);
-    setExpire3Num(userInfoData.expire3FoodCount);
-    setExpiredNum(userInfoData.expiredFoodCount);
-
     const favRecipeData = await getUserData(`${server.ip}/user/recipeInfo`);
     console.log(favRecipeData)
     console.log(favRecipeData[0].rName)
 
+    // const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
+    // setUserID(userInfoData.userID);
+    // setUserName(userInfoData.userName);
+    // setMyFridgeNum(userInfoData.foodCount);
+    // setExpire3Num(userInfoData.expire3FoodCount);
+    // setExpiredNum(userInfoData.expiredFoodCount);
+
+
     const recipeItems = favRecipeData.map((recipeData) => {
       return (
-        <Grid item key={recipeData} xs={12} sm={4} md={3} lg={2}>
-          <Card className={classes.root}>
-            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
-          </Card>
+        <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
+          <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
         </Grid>
       )
     })
@@ -172,7 +187,7 @@ export default function Profile({history}) {
             <QRCode />
           </Grid>
           <Grid item xs={12} md={6}>
-              <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
+            <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
           </Grid>
         </Grid>
       </Box>
@@ -184,7 +199,11 @@ export default function Profile({history}) {
       </Box>
       <Fab />
       <BottomBar />
+      <div className={classes.pg}>
+        <Pagination count={10} color="primary" />
+      </div>
       </ThemeProvider>
     </Container>
   )
 }
+
