@@ -25,8 +25,9 @@ export default function MyInfo(props) {
         내 정보
       </Typography>
       <Box textAlign="center" p={2}>
-        <p>냉장고 속에 {props.myFridgeNum}개의 식재료가 있습니다.</p>
-        <p>유효기간이 3일 미만인 식재료가 {props.expireNum}개 있습니다.</p>
+        <p>냉장고 속에 {myFridgeNum}개의 식재료가 있습니다.</p>
+        <p>유효기간이 3일 미만인 식재료가 {expireNum}개 있습니다.</p>
+        <p>유효기간이 지난 식재료가 {expiredNum}개 있습니다.</p>
       </Box>
       <Box textAlign="left">
         <p>닉네임: {props.userName}</p>
