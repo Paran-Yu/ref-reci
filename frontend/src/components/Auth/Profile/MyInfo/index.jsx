@@ -46,10 +46,12 @@ export default function MyInfo(history) {
     const data = await checkLogin(`${server.ip}/user/isLogin`);
     if(data.value){
       //필요한 데이터 가져오기
+      console.log(data.value);
       setUserID('여기 이메일')
       setUserName('여기 닉네임')
     }
     else{
+      console.log(data.value);
       history.replace('/signin');
     }
   },[])
