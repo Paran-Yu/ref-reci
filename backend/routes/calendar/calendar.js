@@ -30,9 +30,6 @@ app.post("/getMonth", async (req, res) =>{
 
 })
 
-app.post("/getDate", async (req, res) => {
-    const sql  = `SELECT `
-})
 app.get("/getEvents", async (req, res) =>{
 
     const sql = `SELECT DISTINCT(productShelfLife)
