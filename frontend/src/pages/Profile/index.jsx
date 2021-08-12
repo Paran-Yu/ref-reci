@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function profile() {
+export default function Profile() {
   // const classes = useStyles();
 
   return (
