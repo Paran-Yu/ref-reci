@@ -50,19 +50,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function MyInfo() {
+export default function MyInfo(props) {
   const classes = useStyles();
-  const [userID, setUserID] = useState('');
-  const [userName, setUserName] = useState('');
-  const [myFridgeNum, setMyFridgeNum] = useState('');
-  const [expireNum, setExpireNum] = useState('');
 
-  useEffect(async() => {
-    setUserID('여기 이메일')
-    setUserName('여기 닉네임')
-    const data = await checkLogin(`${server.ip}/user/isLogin`);
-    console.log(data);
-  },[])
 
   return (
     <div>
