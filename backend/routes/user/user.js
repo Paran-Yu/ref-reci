@@ -111,7 +111,9 @@ app.get("/logout", async(req, res) => {
         req.session.destroy(()=>{
             res.clearCookie('connect.sid');
             console.log('로그아웃 됨');
-            res.redirect('http://i5a203.p.ssafy.io/signin');
+            // res.redirect('http://i5a203.p.ssafy.io/signin');
+            // res.redirect('/signin');
+            res.redirect('http://localhost:3000/');
         })
     }
     catch(err){
