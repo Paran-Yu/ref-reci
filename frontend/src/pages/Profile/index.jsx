@@ -145,17 +145,14 @@ export default function Profile({history}) {
 
     const recipeItems = favRecipeData.map((recipeData) => {
       return (
-        <Grid item key={recipeData} xs={12} sm={4}>
+        <Grid item key={recipeData} xs={12} sm={4} md={3} lg={2}>
           <Card className={classes.root}>
             <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
           </Card>
         </Grid>
       )
-    }
-      
-    )
+    })
     setRecipeDatas(recipeItems);
-
   }, [])
   
   return (
