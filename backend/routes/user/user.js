@@ -247,7 +247,35 @@ app.get("/userInfo", async (req, res) => {
         })
     }
     catch (err) {
-        console.log('===========로그인 중 에러 발생===========');
+        console.log('===========유저 정보 조회 중 에러 발생===========');
+        console.log(err);
+    }
+})
+
+app.get("/recipeInfo", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+
+    try {
+        const [rows1, fields1] = await pool.query("SELECT r.recipeName AS rName, r.recipeIntroduce AS rIntroduce, r.recipeImage AS rImage FROM Favorites AS f JOIN Recipe AS r ON r.rID = f.rID WHERE f.uID = ?", [
+            uID
+        ]);
+
+        const len = rows1.length
+        console.log(len);
+
+        // for(let i=0; i<len; i++){
+        //     console.log(rows1[i].rName);
+        //     console.log(rows1[i].rIntroduce);
+        //     console.log(rows1[i].rImage);
+        // }
+        
+        // console.log(rows1)
+
+        res.json(rows1)
+    }
+    catch (err) {
+        console.log('===========즐겨찾기 레시피 조회 중 에러 발생===========');
         console.log(err);
     }
 })
