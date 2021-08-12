@@ -77,7 +77,7 @@ const getLogout = async (url) => {
   }
 }
 
-export default function TopBar() {
+export default function TopBar({history}) {
   const classes = useStyles();
 
   return (
@@ -90,6 +90,7 @@ export default function TopBar() {
             color="inherit" 
               onClick={async () => {
                 const data = await getLogout(`${server.ip}/user/logout`);
+                history.replace('/signin');
               }}>
               로그아웃
             </Button>
