@@ -9,6 +9,8 @@ const path = require("path");
 const cors = require("cors");
 const { response } = require("express");
 const axios = require('axios');
+const fs = require("fs");
+const { Server } = require("http");
 require('dotenv').config();
 
 // --------------------------------------------
@@ -59,37 +61,14 @@ app.get("/", function (req, res) {
   res.send("Hello node.js");
 });
 
-app.post("/add", async (req, res) => {
-  const userName = req.body.userName;
-  const userID = req.body.userID;
-  const userPW = req.body.userPW;
 
-  try {
-    const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, ?, NOW(), 0)", [
-      userName,
-      userID,
-      userPW,
-    ])
-    res.redirect('/');
-  }
-  catch (err) {
-    console.log(err);
-  }
-});
-
-app.get("/isLogin", async (req, res) => {
-  if (req.session.uid) {
-    console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
-  }
-  else {
-    console.log('로그인이 되어있지 않습니다.')
-  }
-
-  console.log(req.session);
-  console.log(req.session.uid);
-  res.send({ value: req.session });
+app.get("/img", function(req, res){
+  const rID = req.query.id;
+  fs.readFile(`../../images/${rID}`, function(err, data){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(data);
+  })
 })
-
 
 app.listen(port, () => {
   console.log(`{init : ${port}}`);

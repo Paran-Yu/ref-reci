@@ -11,6 +11,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+// Server
+import axios from 'axios';
+import server from '../../../server.json';
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -20,28 +24,28 @@ const useStyles = makeStyles({
   },
 });
 
-export default function FavRecipe() {
+const url = server.ip + "/img";
+
+export default function FavRecipe(props) {
   const classes = useStyles();
 
   return (
     <div>
-      <h1>즐겨찾기한 레시피</h1>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Card className={classes.root}>
             <CardActionArea>
               <CardMedia
                 className={classes.media}
-                image="/static/images/cards/contemplative-reptile.jpg"
+                image={props.url}
                 title="Contemplative Reptile"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  Lizard
+                  {props.rName}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                  across all continents except Antarctica
+                  {props.rIntroduce}
                 </Typography>
               </CardContent>
             </CardActionArea>
