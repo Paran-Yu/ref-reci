@@ -55,7 +55,7 @@ export default function QRCode(props) {
         </Typography>
       </div>
       <Box p={2}>
-        <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + props.uID} ></img>
+        <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + props.uid} ></img>
       </Box>
     </Container>
   )
