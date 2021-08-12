@@ -10,6 +10,9 @@ import SignUp from './components/Auth/SignUp';
 import ChangePassword from './components/Auth/ChangePassword';
 import Profile from './pages/Profile';
 import Calendar from './components/Calendar/Dates';
+import DeleteUser from './pages/Profile/DeleteUser';
+import ChangeUserDetail from './pages/Profile/ChangeUserDetail';
+import CheckPassword from './pages/Profile/CheckPassword';
 
 
 function App() {
@@ -24,6 +27,9 @@ function App() {
         <Route path="/changepassword" component={ChangePassword} />
         <Route path="/profile" component={Profile} />
         <Route path="/calendar" component={Calendar} />
+        <Route path="/user" component={CheckPassword} />
+        <Route path="/user/update" component={ChangeUserDetail} />
+        <Route path="/delete" component={DeleteUser} />
       </Router>
     </div>
   );

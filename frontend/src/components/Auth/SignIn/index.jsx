@@ -5,10 +5,12 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-// Core
+// Theme
+import { ThemeProvider } from '@material-ui/core/styles';
 import createTheme from '@material-ui/core/styles/createTheme';
+
+// Core API
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -21,8 +23,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 // Icons & Images
-// import { GoogleLoginButton } from "react-social-login-buttons";
-// import { GithubLoginButton } from "react-social-login-buttons";
+
 
 // Server 
 import axios from 'axios';

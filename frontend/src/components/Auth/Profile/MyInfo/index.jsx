@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 import Typography  from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -6,8 +7,41 @@ import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+// Theme
+import { ThemeProvider } from '@material-ui/core/styles';
+import createTheme from '@material-ui/core/styles/createTheme';
+
 import axios from 'axios';
 import server from '../../../../server.json';
+
+const mytheme = createTheme({
+  palette: {
+      primary: {
+          light: '#f2da9e',
+          main: '#f9bc15',
+          dark: '#f19920',
+          contrastText: '#fff',
+      },
+      secondary: {
+          light: '#f2ede7',
+          main: '#a29d97',
+          dark: '#45423c',
+          contrastText: '#fff',
+      },
+      success: {
+          light: '#f2ede7',
+          main: '#fee500',
+          dark: '#45423c',
+          contrastText: '#191600',
+      },
+  },
+  typography: {
+      fontFamily: "'KoPubWorld', Munhwajae, jeju",
+      fontStyle: "normal",
+      fontWeight: "Bold"
+  },
+});
+
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -34,7 +68,6 @@ const checkLogin = async(url) => {
 }
 
 
-
 export default function MyInfo() {
   const classes = useStyles();
   const [userID, setUserID] = useState('');
@@ -42,14 +75,12 @@ export default function MyInfo() {
   const [myFridgeNum, setMyFridgeNum] = useState('');
   const [expireNum, setExpireNum] = useState('');
 
-
   useEffect(async() => {
     setUserID('여기 이메일')
     setUserName('여기 닉네임')
     const data = await checkLogin(`${server.ip}/user/isLogin`);
     console.log(data);
   },[])
-
 
   return (
     <div>
