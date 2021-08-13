@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { emphasize, withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import Chip from '@material-ui/core/Chip';
-import HomeIcon from '@material-ui/icons/Home';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import { emphasize, withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import Chip from "@material-ui/core/Chip";
+import HomeIcon from "@material-ui/icons/Home";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
@@ -15,10 +14,10 @@ const StyledBreadcrumb = withStyles((theme) => ({
     height: theme.spacing(3),
     color: theme.palette.grey[800],
     fontWeight: theme.typography.fontWeightRegular,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       backgroundColor: theme.palette.grey[300],
     },
-    '&:active': {
+    "&:active": {
       boxShadow: theme.shadows[1],
       backgroundColor: emphasize(theme.palette.grey[300], 0.12),
     },
@@ -27,10 +26,10 @@ const StyledBreadcrumb = withStyles((theme) => ({
 
 function handleClick(event) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');
+  console.info("You clicked a breadcrumb.");
 }
 
-export default function CustomizedBreadcrumbs() {
+export default function CustomizedBreadcrumbs(props) {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       <StyledBreadcrumb
@@ -40,20 +39,11 @@ export default function CustomizedBreadcrumbs() {
         icon={<HomeIcon fontSize="small" />}
         onClick={handleClick}
       />
-      <StyledBreadcrumb
-        component="a" 
-        href="#" 
-        label="대분류" 
-        onClick={handleClick}
-      />
-      <StyledBreadcrumb
-        label="소분류"
-        onClick={handleClick}
-      />
+      <StyledBreadcrumb component="a" href="#" label={props.catName} onClick={handleClick} />
+      <StyledBreadcrumb label="소분류" onClick={handleClick} />
     </Breadcrumbs>
   );
 }
-
 
 // const useStyles = makeStyles((theme) => ({
 //   menu: {
@@ -133,4 +123,3 @@ export default function CustomizedBreadcrumbs() {
 //   );
 // };
 // export default Breadcrumb;
-
