@@ -56,13 +56,13 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: `normal`,
   },
   leftbutton: {
-    position: "absolute",
+    // position: "absolute",
     margin: "auto",
     left: 0,
     bottom: 90
   },
   rightbutton: {
-    position: "absolute",
+    // position: "absolute",
     margin: "auto",
     right: 0,
     bottom: 90
