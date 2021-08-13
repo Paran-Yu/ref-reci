@@ -42,7 +42,7 @@ export default function Calendar() {
   console.log(dates)
   useEffect(async () => {
     //console.log(dates)
-    const foodlist = await getItems(`http://localhost:3001/foodlist/getItems`, `${dates}`);
+    const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
 
 
 
