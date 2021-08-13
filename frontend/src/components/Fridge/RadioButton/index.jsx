@@ -1,34 +1,26 @@
-import React, { useState } from "react";
-import {
-  Grid,
-  makeStyles,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-} from "@material-ui/core";
+import React, { useStyles } from 'react';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
-const useStyles = makeStyles((theme) => ({}));
+
 const RadioButton = (props) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = React.useState('female');
+
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
   return (
-    <Grid container justifyContent="center">
-      <Grid container>
-        <Grid justifyContent="center" alignItems="center">
-          <FormControl component="fieldset">
-            <RadioGroup value={value} onChange={handleChange} row>
-              <FormControlLabel label="정렬 없음" control={<Radio />} value="" />
-              <FormControlLabel label="이름 순" control={<Radio />} value="name" />
-              <FormControlLabel label="유통기한 순" control={<Radio />} value="endDay" />
-              <FormControlLabel label="구매일자 순" control={<Radio />} value="buyDay" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-      </Grid>
-    </Grid>
+    <FormControl component="fieldset">
+      <RadioGroup row aria-label="radio-group" name="sorted" value={value} onChange={handleChange}>
+        <FormControlLabel value="validate" control={<Radio />} label="유효기간 남은 순" />
+        <FormControlLabel value="name" control={<Radio />} label="이름 순" />
+        <FormControlLabel value="new" control={<Radio />} label="최신 순" />
+      </RadioGroup>
+    </FormControl>
   );
 };
 export default RadioButton;

@@ -1,45 +1,48 @@
-import React, { useState } from "react";
-import { Grid, IconButton, InputBase, Paper, makeStyles } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import Breadcrumb from "../Breadcrumb";
-import RadioButton from "../RadioButton";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import DirectionsIcon from '@material-ui/icons/Directions';
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    width: "100%",
-    background: "#F2EDE7",
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
   },
   input: {
     marginLeft: theme.spacing(1),
-    width: "100%",
+    flex: 1,
   },
   iconButton: {
     padding: 10,
   },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
 }));
+
+
 const SearchBar = (props) => {
   const classes = useStyles();
+
   return (
-    <Grid container justifyContent="center">
-      <Grid container>
-        <Grid item xs={2}>
-          <Breadcrumb />
-        </Grid>
-        <Grid item xs={10}>
-          <Grid>
-            <Paper className={classes.root}>
-              <InputBase xs={8} className={classes.input} placeholder="검색어를 입력하세요" />
-              <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Grid>
-        </Grid>
-        <Grid>
-          <RadioButton />
-        </Grid>
-      </Grid>
-    </Grid>
+    <Paper component="form" className={classes.root}>
+      <InputBase
+        className={classes.input}
+        placeholder="식재료의 분류 또는 이름으로 검색하세요"
+        inputProps={{ 'aria-label': 'search google maps' }}
+      />
+      <IconButton type="submit" className={classes.iconButton} aria-label="search">
+        <SearchIcon />
+      </IconButton>
+    </Paper>
   );
 };
 export default SearchBar;

@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //page
 import './App.css';
-import Main from './pages/Main/';
-import Fridge from './pages/Fridge/';
+import Main from './pages/Main';
+import Fridge from './pages/Fridge';
 import Recipe from './pages/Recipe';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
