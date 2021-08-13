@@ -103,7 +103,7 @@ export default function TopBar() {
             color="inherit" 
             onClick={async () => {
               const data = await getLogout(`${server.ip}/user/logout`);
-              window.location.href = "http://i5a203.p.ssafy.io/signin"
+              window.location.replace("http://i5a203.p.ssafy.io/signin");
             }} className={classes.logout}>
               로그아웃
             </Button>

@@ -27,7 +27,7 @@ function App() {
         <Route path="/changepassword" component={ChangePassword} />
         <Route path="/profile" component={Profile} />
         <Route path="/calendar" component={Calendar} />
-        <Route path="/usr/check" component={CheckPassword} />
+        <Route path="/usr/check/:id" component={CheckPassword} />
         <Route path="/usr/update" component={ChangeUserDetail} />
         <Route path="/usr/delete" component={DeleteUser} />
       </Router>

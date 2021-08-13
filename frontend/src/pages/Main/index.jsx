@@ -1,12 +1,43 @@
 import React from "react";
-import { Grid, makeStyles, createMuiTheme, Typography } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import Container from '@material-ui/core/Container';
 import FavRecList from "../../components/Recipe/RecipeSlide/SlideList";
-import { ThemeProvider } from "@material-ui/styles";
 import CatList from "../../components/Fridge/Category/LargeList";
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
+
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+
+const mytheme = createTheme({
+  palette: {
+      primary: {
+          light: '#f2da9e',
+          main: '#f9bc15',
+          dark: '#f19920',
+          contrastText: '#fff',
+      },
+      secondary: {
+          light: '#f2ede7',
+          main: '#a29d97',
+          dark: '#45423c',
+          contrastText: '#fff',
+      },
+      success: {
+          light: '#f2ede7',
+          main: '#fee500',
+          dark: '#45423c',
+          contrastText: '#191600',
+      },
+  },
+  typography: {
+      fontFamily: "'KoPubWorld', Munhwajae, jeju",
+      fontStyle: "normal",
+      fontWeight: "Bold"
+  },
+});
+
+
 
 const useStyles = makeStyles((theme) => ({
   Fav: {
@@ -34,24 +65,23 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Main = () => {
-  const baseTheme = createMuiTheme();
   const st = useStyles();
   return (
-    <Container fixed>
-      <ThemeProvider theme={baseTheme}>
+    <ThemeProvider theme={mytheme}>
+    <Container fixed >
         <TopBar />
         <Grid>
           <Grid container mt={5} spacing={2} alignItems="center" justify="center">
             <Grid item xs={12} className={st.image}>
               <img src={process.env.PUBLIC_URL + '/images/background.png'} style={{ flex: 1, height: "auto", width: "100%" }} />
             </Grid>
-            <Grid item xs={10} className={st.Fav} id={1} style={{ margin: "" }}>
+            <Grid item xs={10} className={st.Fav} id={1} style={{ maxWidth: "100%", width: "100%" }}>
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
                 인기 폭주! 사람들이 가장 많이 찾았어요
               </Typography>
               <FavRecList />
             </Grid>
-            <Grid item xs={10} className={st.Fav} id={2}>
+            <Grid item xs={10} className={st.Fav} id={2} style={{ maxWidth: "100%", width: "100%" }}>
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
                 신작 레시피 도착!
               </Typography>
@@ -70,8 +100,8 @@ const Main = () => {
           </Grid>
         </Grid>
         <BottomBar />
-      </ThemeProvider>
     </Container>
+    </ThemeProvider>
   );
 };
 
