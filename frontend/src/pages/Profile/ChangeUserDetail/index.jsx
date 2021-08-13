@@ -162,6 +162,7 @@ export default function SignUpSide({history}) {
     const [userID, setUserID] = useState('');
     const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
     
     //닉네임이 2자를 넘었는지, 변경 완료 활성화
     const [userNameShort, setUserNameShort] = useState(true);
@@ -177,6 +178,15 @@ export default function SignUpSide({history}) {
 
     //서버에서 받아온 인증번호
     const [emailAuthData, setEmailAuthData] = useState('');
+
+    useEffect(() => {
+        if (password === passwordCheck && password !== '') {
+            setPasswordSame(false);
+        }
+        else {
+            setPasswordSame(true);
+        }
+    }, [password, passwordCheck])
 
     const onChangeUserName = (e) => {
         setUserName(e.target.value);
@@ -210,8 +220,7 @@ export default function SignUpSide({history}) {
     }
 
     const onChangeUserPWCheck = (e) => {
-        if (password === e.target.value) setPasswordSame(true);
-        else setPasswordSame(false);
+        setPasswordCheck(e.target.value);
     }
 
     const onClickUserNameChangeBtn = async () => {
@@ -269,7 +278,7 @@ export default function SignUpSide({history}) {
             alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
         }
 
-        alert('닉네임이 변경되었습니다.')
+        alert('비밀번호가 변경되었습니다.')
     };
 
     const onClickOkBtn = () => {
