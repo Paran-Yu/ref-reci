@@ -111,7 +111,9 @@ app.get("/logout", async(req, res) => {
         req.session.destroy(()=>{
             res.clearCookie('connect.sid');
             console.log('로그아웃 됨');
-            res.redirect('http://i5a203.p.ssafy.io/signin');
+            // res.redirect('http://i5a203.p.ssafy.io/signin');
+            // res.redirect('/signin');
+            res.redirect('http://localhost:3000/');
         })
     }
     catch(err){
@@ -216,8 +218,8 @@ app.get("/isLogin", async (req, res) => {
 })
 
 app.get("/userInfo", async (req, res) => {
-    const uID = req.session.uid;
-    //const uID = 1;
+    // const uID = req.session.uid;
+    const uID = 1;
 
     try {
         const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
