@@ -36,16 +36,19 @@ export default function CustomizedBreadcrumbs() {
       <StyledBreadcrumb
         component="a"
         href="#"
-        label="Home"
+        label="나의 냉장고"
         icon={<HomeIcon fontSize="small" />}
         onClick={handleClick}
       />
-      <StyledBreadcrumb component="a" href="#" label="Catalog" onClick={handleClick} />
       <StyledBreadcrumb
-        label="Accessories"
-        deleteIcon={<ExpandMoreIcon />}
+        component="a" 
+        href="#" 
+        label="대분류" 
         onClick={handleClick}
-        onDelete={handleClick}
+      />
+      <StyledBreadcrumb
+        label="소분류"
+        onClick={handleClick}
       />
     </Breadcrumbs>
   );

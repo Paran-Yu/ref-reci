@@ -15,27 +15,27 @@ import ShowChoiceButton from '../../components/Fridge/ShowChoiceButton';
 import TopBar from '../../layout/TopBar';
 import BottomBar from '../../layout/BottomBar';
 import FloatingActionButton from '../../layout/FloatingActionButton';
+import CatItem from '../../components/Fridge/Category/CatItem';
 
 export default function Fridge() {
   return (
-    <div>
-    <TopBar />
-    <Box my={3}>
-      <Container fixed>
-        <Typography variant="h2">
-          나의 냉장고
-        </Typography>
-        <Divider />
-        <Box justifyContent="space-between" alignItems="center">
-          <Breadcrumb />
-          <ShowChoiceButton />
-        </Box>
-        <RadioButton />
-        <SearchBar />
-      </Container>
-    </Box>
-    <FloatingActionButton />
-    <BottomBar />
-    </div>
+    <Container fixed>
+      <TopBar />
+      <Box my={3}>
+          <Typography variant="h2">
+            나의 냉장고
+          </Typography>
+          <Divider />
+          <Box justifyContent="space-between" alignItems="center">
+            <Breadcrumb />
+            <ShowChoiceButton />
+          </Box>
+          <RadioButton />
+          <SearchBar />
+          <CatItem />
+      </Box>
+      <FloatingActionButton />
+      <BottomBar />
+    </Container>
   )
 }
