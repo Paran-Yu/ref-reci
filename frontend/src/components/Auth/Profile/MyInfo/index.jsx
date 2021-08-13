@@ -78,6 +78,8 @@ export default function MyInfo(props) {
             size="normal"
             variant="contained"
             color= "primary"
+            component={RouterLink}
+            to="/usr/check/update"
             >
               회원정보수정
             </Button>
@@ -88,6 +90,8 @@ export default function MyInfo(props) {
             size="normal"
             variant="outlined"
             color= "primary"
+            component={RouterLink}
+            to="/usr/check/delete"
             >
               회원탈퇴
             </Button>

@@ -46,14 +46,50 @@ const mytheme = createTheme({
     },
 });
 
-const postRegister = async (url, userName, userID, userPW) => {
+const postName = async (url, userName) => {
     try {
         const data = await axios({
             method: 'post',
             url: url,
             data: {
                 userName: userName,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postID = async (url, userID) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
                 userID: userID,
+            },
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        return data.data;
+    }
+    catch (err) {
+        console.log(`ERROR: ${err}`);
+    }
+}
+
+const postPW = async (url, userPW) => {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: url,
+            data: {
                 userPW: userPW
             },
             headers: {
@@ -67,64 +103,6 @@ const postRegister = async (url, userName, userID, userPW) => {
     }
 }
 
-const postSearchID = async (url, userID) => {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userID: userID,
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        return data.data;
-    }
-    catch (err) {
-        console.log(`ERROR: ${err}`);
-    }
-}
-
-const postEmailAuth = async (url, userID) => {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userID: userID,
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        return data.data;
-    }
-    catch (err) {
-        console.log(`ERROR: ${err}`);
-    }
-}
-
-const postLogin = async (url, userID, userPW) => {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userID: userID,
-                userPW: userPW
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        return data.data;
-    }
-    catch (err) {
-        console.log(url);
-        console.log(`ERROR: ${err}`);
-    }
-}
 
 function Copyright() {
     return (
@@ -184,21 +162,120 @@ export default function SignUpSide({history}) {
     const [userID, setUserID] = useState('');
     const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState('');
     
-    //아래 2개가 SIGN UP을 활성화 시키기 위한 조건
-    const [emailAuth, setEmailAuth] = useState(false);
-    const [passwordSame, setPasswordSame] = useState(false);
+    //닉네임이 2자를 넘었는지, 변경 완료 활성화
+    const [userNameShort, setUserNameShort] = useState(true);
+    //이메일 인증을 마쳤는지, 변경 완료 활성화
+    const [emailAuth, setEmailAuth] = useState(true);
+    //비밀번호가 같은지, 변경 완료 활성화
+    const [passwordSame, setPasswordSame] = useState(true);
     
     //아이디와 인증버튼 활성화, 비활성화
     const [verButtonInactive, setVerButtonInactive] = useState(false);
     //인증번호 입력칸 활성화, 비활성화
     const [hiddenAuth, setHiddenAuth] = useState(true);
-    //SIGN UP 버튼을 활성화, 비활성화
-    const [signUpInactive, setSignUpInactive] = useState(true);
 
     //서버에서 받아온 인증번호
     const [emailAuthData, setEmailAuthData] = useState('');
+
+    const onChangeUserName = (e) => {
+        setUserName(e.target.value);
+        if (e.target.value.length > 20) {
+            alert('20자 이하로 해주세요');
+            e.target.value = e.target.value.slice(0, -1);
+            setUserNameShort(true);
+        }
+        else if(e.target.value.length < 2){
+            setUserNameShort(true);
+        }
+        else{
+            setUserNameShort(false);
+        }
+    };
+
+    const onChangeUserID = (e) => {
+        setUserID(e.target.value);
+    };
+
+    const onChangeVer = (e) => {
+        setVerification(e.target.value);
+    }
+
+    const onChangeUserPW = (e) => {
+        setPassword(e.target.value);
+        if (e.target.value.length > 20) {
+            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+            e.target.value = e.target.value.slice(0, -1);
+        }
+    }
+
+    const onChangeUserPWCheck = (e) => {
+        if (password === e.target.value) setPasswordSame(true);
+        else setPasswordSame(false);
+    }
+
+    const onClickUserNameChangeBtn = async () => {
+        const userDatas = await postName(`${server.ip}/user/changeUserName`, userName);
+
+        if (userDatas.value === 'Short userName') {
+            alert('닉네임은 2자 이상 20자 이하로 입력해주세요.');
+        }
+        
+        alert('닉네임이 변경되었습니다.')
+    };
+
+    const onClickUserIDBtn = async () => {
+        const userDatas = await postID(`${server.ip}/user/searchID`, userID);
+        if (userDatas.value === 'Success') {
+            const emailDatas = await postID(`${server.ip}/user/emailAuth`, userID);
+            if (emailDatas.value === 'Email Sent') {
+                alert('이메일이 전송되었습니다.');
+                setHiddenAuth(false);
+                setEmailAuthData(emailDatas.number);
+                setVerButtonInactive(true);
+            }
+            else if (emailDatas.value === 'Email Error') {
+                alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
+            }
+        }
+        else if (userDatas.value === 'Duplicate Email') {
+            alert('이미 가입된 계정입니다.');
+        }
+        else if (userDatas.value === 'Wrong Email') {
+            alert('이메일 형식이 잘못되었습니다.');
+        }
+    };
+
+    const onClickVerBtn = () => {
+        if (verification == emailAuthData) {
+            setEmailAuth(true);
+            setHiddenAuth(true);
+        }
+        else {
+            alert('잘못된 인증번호입니다.');
+        }
+    }
+
+    const onClickUserIDChangeBtn = async () => {
+        const userDatas = await postID(`${server.ip}/user/changeUserID`, userID);
+
+        alert('아이디가 변경되었습니다.')
+    };
+
+    const onClickUserPWChangeBtn = async () => {
+        const userDatas = await postPW(`${server.ip}/user/changeUserPW`, password);
+
+        if (userDatas.value === 'Short password') {
+            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
+        }
+
+        alert('닉네임이 변경되었습니다.')
+    };
+
+    const onClickOkBtn = () => {
+        // window.location.replace("http://localhost:3000/profile");
+        window.location.replace("http://i5a203.p.ssafy.io/profile");
+    }
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -217,15 +294,17 @@ export default function SignUpSide({history}) {
                                     autoFocus
                                     id="firstName"
                                     label="닉네임"
-                                    onChange={(event) => {
-                                        setUserName(event.target.value);
-                                        console.log(event.target.value.length);
-                                        if (event.target.value.length > 20){
-                                            alert('20자 이하로 해주세요');
-                                            event.target.value = event.target.value.slice(0, -1);
-                                        }
-                                    }}
+                                    onChange={onChangeUserName}
                                 />
+                                <Button
+                                    disabled={userNameShort}
+                                    color="primary"
+                                    fullWidth
+                                    size="large"
+                                    onClick={onClickUserNameChangeBtn}
+                                >
+                                    변경완료
+                                </Button>
                                 <Grid container spacing={2} alignItems="center">
                                     <Grid item xs={10}>
                                         <TextField
@@ -240,10 +319,7 @@ export default function SignUpSide({history}) {
                                             label="아이디(E-mail)"
                                             name="email"
                                             autoComplete="email"
-                                            onChange={(event) => {
-                                                setUserID(event.target.value);
-                                                setEmailAuth(false);
-                                            }}
+                                            onChange={onChangeUserID}
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
@@ -254,33 +330,7 @@ export default function SignUpSide({history}) {
                                             color="primary"
                                             required
                                             size="large"
-                                            onClick={async () => {
-                                                const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
-                                                if (userDatas.value === 'Success') {
-                                                    console.log('중복 이메일 없음');
-                                                    //이메일 인증 시작
-                                                    const emailDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
-
-                                                    if (emailDatas.value === 'Email Sent'){
-                                                        alert('이메일이 전송되었습니다.');
-                                                        setHiddenAuth(false);
-                                                        setEmailAuthData(emailDatas.number);
-                                                        console.log(emailDatas.number);
-                                                        setVerButtonInactive(true);
-                                                    }
-                                                    else if(emailDatas.value === 'Email Error'){
-                                                        alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
-                                                    }
-
-                                                    
-                                                }
-                                                else if (userDatas.value === 'Duplicate Email'){
-                                                    alert('이미 가입된 계정입니다.');
-                                                }
-                                                else if(userDatas.value === 'Wrong Email'){
-                                                    alert('이메일 형식이 잘못되었습니다.');
-                                                }
-                                            }}
+                                            onClick={onClickUserIDBtn}
                                         >
                                         인증
                                         </Button>
@@ -297,9 +347,7 @@ export default function SignUpSide({history}) {
                                             label="인증번호"
                                             name="verification"
                                             autoComplete="verification"
-                                            onChange={(event) => {
-                                                setVerification(event.target.value);
-                                            }}
+                                            onChange={onChangeVer}
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
@@ -308,20 +356,20 @@ export default function SignUpSide({history}) {
                                             disabled={hiddenAuth}
                                             fullWidth
                                             size="large"
-                                            onClick={async () => {
-                                                if(verification == emailAuthData){
-                                                    console.log('인증번호 일치');
-                                                    setEmailAuth(true);
-                                                    setHiddenAuth(true);
-                                                }
-                                                else{
-                                                    alert('잘못된 인증번호입니다.');
-                                                }
-                                            }}
+                                            onClick={onClickVerBtn}
                                         >
                                         확인
                                         </Button>
                                     </Grid>
+                                    <Button
+                                        disabled={emailAuth}
+                                        color="primary"
+                                        fullWidth
+                                        size="large"
+                                        onClick={onClickUserIDChangeBtn}
+                                    >
+                                        변경완료
+                                    </Button>
                                 </Grid>
                                 <TextField
                                     variant="outlined"
@@ -335,13 +383,7 @@ export default function SignUpSide({history}) {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
-                                    onChange={(event) => {
-                                        setPassword(event.target.value);
-                                        if (event.target.value.length > 20) {
-                                            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
-                                            event.target.value = event.target.value.slice(0, -1);
-                                        }
-                                    }}
+                                    onChange={onChangeUserPW}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -354,36 +396,27 @@ export default function SignUpSide({history}) {
                                     type="password"
                                     id="passwordcheck"
                                     autoComplete="current-password-check"
-                                    onChange={(event) => {
-                                        setPasswordCheck(event.target.value);
-                                    }}
+                                    onChange={onChangeUserPWCheck}
                                 />
                                 <Button
-                                disabled={signUpInactive}
-                                fullWidth
-                                variant="contained"
-                                size="large"
-                                color="primary"
-                                className={classes.submit}
-                                onClick={async () => {
-                                    const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
-                                    
-                                    if(userDatas.value === 'Success'){
-                                        const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
-                                        console.log('로그인 성공');
-                                        alert('회원가입 완료');
-                                        history.push("/");
-                                    }
-                                    else if (userDatas.value === 'Short userName'){
-                                        alert('닉네임은 2자 이상 20자 이하로 입력해주세요.');
-                                    }
-                                    else if (userDatas.value === 'Short password') {
-                                        alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
-                                    }
-                                }}
-                            >
-                                회원가입
-                            </Button>
+                                    disabled={passwordSame}
+                                    color="primary"
+                                    fullWidth
+                                    size="large"
+                                    onClick={onClickUserPWChangeBtn}
+                                >
+                                변경완료
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    size="large"
+                                    color="primary"
+                                    className={classes.submit}
+                                    onClick={onClickOkBtn}
+                                >
+                                    확인
+                                </Button>
                             </Container>
                         </form>
                     </div>

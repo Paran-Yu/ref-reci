@@ -5,6 +5,7 @@ import BottomBar from "../../layout/BottomBar";
 import CardList from "../../components/Recipe/SearchRecipe/CardList";
 import { ThemeProvider } from "@material-ui/styles";
 import Container from "@material-ui/core/Container";
+import FloatingActionButton from "../../layout/FloatingActionButton";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "2px 4px",
@@ -53,6 +54,7 @@ const Recipe = () => {
           <CardList />
         </Grid>
         <Grid>
+          <FloatingActionButton />
           <BottomBar />
         </Grid>
       </Grid>

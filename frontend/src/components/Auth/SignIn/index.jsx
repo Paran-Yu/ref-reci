@@ -148,6 +148,8 @@ const checkLogin = async (url) => {
     }
 }
 
+//콜백함수들
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">

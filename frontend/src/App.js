@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //page
 import './App.css';
-import Main from './pages/Main/';
-import Fridge from './pages/Fridge/';
+import Main from './pages/Main';
+import Fridge from './pages/Fridge';
 import Recipe from './pages/Recipe';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
@@ -27,7 +27,7 @@ function App() {
         <Route path="/changepassword" component={ChangePassword} />
         <Route path="/profile" component={Profile} />
         <Route path="/calendar" component={Calendar} />
-        <Route path="/usr/check" component={CheckPassword} />
+        <Route path="/usr/check/:id" component={CheckPassword} />
         <Route path="/usr/update" component={ChangeUserDetail} />
         <Route path="/usr/delete" component={DeleteUser} />
       </Router>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Typography  from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -16,7 +16,51 @@ import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import server from '../../../server.json';
 
-export default function CheckPassword() {
+const postCheck = async(url, password) => {
+  try {
+    const data = await axios({
+      method: 'post',
+      url: url,
+      data: {
+        password: password,
+      },
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
+
+export default function CheckPassword({history, match}) {
+  const [password, setPassword] = useState('');
+
+  const onChangePW = (event) => {
+    setPassword(event.target.value);
+  }
+  
+  const onClickPW = async() => {
+    console.log(password);
+    const data = await postCheck(`${server.ip}/user/checkPassword`, password);
+
+    if(data){
+      if (match.params.id === "update"){
+        window.location.replace("http://i5a203.p.ssafy.io/usr/update");
+        // window.location.replace("http://localhost:3000/usr/update");
+      }
+      else if (match.params.id === "delete"){
+        window.location.replace("http://i5a203.p.ssafy.io/usr/delete");
+        // window.location.replace("http://localhost:3000/usr/update");
+      }
+    }
+    else{
+      
+    }
+  }
+
   return (
     <box>
       <div>
@@ -33,12 +77,14 @@ export default function CheckPassword() {
         type="password"
         id="password"
         autoComplete="current-password"
+        onChange={onChangePW}
         />
         <Button
         fullWidth
         size="large"
         variant="contained"
         color= "primary"
+        onClick={onClickPW}
         >
           확인
         </Button>

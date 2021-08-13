@@ -18,6 +18,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import createTheme from '@material-ui/core/styles/createTheme';
 
+// NavLink
+import {NavLink} from "react-router-dom";
+
 // Theme -------------------------------------
 const mytheme = createTheme({
   palette: {
@@ -39,6 +42,11 @@ const mytheme = createTheme({
           dark: '#45423c',
           contrastText: '#191600',
       },
+      info: {
+        //light: '#ffffff',
+        main: '#ffffff',
+        //dark: '#45423c',
+      }
   },
 });
 
@@ -56,6 +64,16 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     top: theme.spacing(2),
     right: theme.spacing(2),
+  },
+  appbar: {
+    elevation: 0,
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent:  'space-between',
+  },
+  logo: {
+    cursor: 'pointer'
   }
 }));
 // -------------------------------------------
@@ -82,21 +100,25 @@ export default function TopBar() {
 
   return (
     <div>
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
+      <ThemeProvider theme={mytheme}>
+      <div className={classes.root} >
+        <AppBar elevation={0} position="static" color="info">
+          <Toolbar className={classes.toolbar}>
+          <NavLink to={"/"}>
+            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
+            </NavLink>
             <Button 
             color="inherit" 
-              onClick={async () => {
-                const data = await getLogout(`${server.ip}/user/logout`);
-                window.location.href = "http://i5a203.p.ssafy.io/signin"
-              }}>
+            onClick={async () => {
+              const data = await getLogout(`${server.ip}/user/logout`);
+              window.location.replace("http://i5a203.p.ssafy.io/signin");
+            }} className={classes.logout}>
               로그아웃
             </Button>
           </Toolbar>
         </AppBar>
       </div>
+      </ThemeProvider>
     </div>
   )
 }

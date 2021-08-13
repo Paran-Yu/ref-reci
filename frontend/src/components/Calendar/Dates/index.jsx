@@ -24,25 +24,7 @@ const getEvents = async (url) => {
   }
 }
 
-const getItems = async (url, date) => {
-  try {
-    const data = await axios({
-      method: 'post',
-      url: url,
-      data : {
-        date : date
-      },
-      headers: { 
-        accept: 'application/json'
-      }
-    })
-    return data.data
-  }
-  catch (err) {
-    console.log(url);
-    console.log(`ERROR: ${err}`);
-  }
-}
+
 
 
 
@@ -50,16 +32,17 @@ const getItems = async (url, date) => {
 //백에서 달 꺼를 날짜를 가져와서 캘린더에 뿌리고
 //캘린더 클릭 시 백에서 해당 날짜에 유통기한마감 상품을 다른 창에 뿌림
 
-export default function Dates() {
+export default function Dates({onChildClick}) {
   const calendarRef = useRef(null)
   const [calendarData, setCalendarData]=useState([])
-  const items = getItems('http://localhost:3001/foodlist/getItems',"2021-08-17")
-  console.log(items)
   useEffect(async()=>{
     const data= await getEvents('http://localhost:3001/calendar/getEvents')
     setCalendarData(data)
   },[])
-  
+  const onDateClick = (info) => {
+    //console.log(info.dateStr)
+    onChildClick(info.dateStr)
+  }
   // console.log('캘린더')
   // console.log(typeof(calendarData), calendarData)
     return(
@@ -70,9 +53,7 @@ export default function Dates() {
           initialView="dayGridMonth"
           events={calendarData}
           locale={'ko'}
-          dateClick={async (info) => {
-            alert(info.dateStr)
-          }}
+          dateClick={onDateClick}
           //foodlist로 날짜 전달
           //달력에 선택된게 아무것도 없을 때
           //리스트에 유효기간이 임박한 순으로 보여주기
