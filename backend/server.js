@@ -23,8 +23,27 @@ const port = envJson.port ? envJson.port : 3001;
 // middleware
 app.use(cors({
   origin: true,
-  credentials: true
+  credentials: true,
 }));
+
+const allowList = ['http://i5a203.p.ssafy.io', 'http://i5a203.p.ssafy.io:3001']
+
+app.all('/user/logout', function(req, res, next){
+  const origin = req.headers.origin;
+  console.log(req.headers)
+  console.log(origin)
+  if (allowList.indexOf(origin) > -1){
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Max-Age', '3600');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-Requested-With');
+
+  // res.header("Access-Control-Allow-Origin", "http://i5a203.p.ssafy.io");
+  // res.header("Access-Control-Allow-Headers", "X-Requested-With"); 
+  next();
+})
 
 // bodyParser
 app.use(bodyParser.json());

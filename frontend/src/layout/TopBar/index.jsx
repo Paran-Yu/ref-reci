@@ -1,10 +1,17 @@
 import {useState, React} from 'react';
-// import { Route } from "react-router";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
-import PropTypes from 'prop-types';
 
 // Core
 import Grid from '@material-ui/core/Grid';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+// Server
+import axios from 'axios';
+import server from '../../server.json';
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,51 +39,79 @@ const mytheme = createTheme({
           dark: '#45423c',
           contrastText: '#191600',
       },
+      info: {
+        //light: '#ffffff',
+        main: '#ffffff',
+        //dark: '#45423c',
+      }
   },
 });
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
   bar: {
     position: 'fixed',
     top: theme.spacing(2),
     right: theme.spacing(2),
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent:  'space-between',
   }
 }));
 // -------------------------------------------
 
+const getLogout = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 export default function TopBar() {
   const classes = useStyles();
 
   return (
     <div>
-      <Grid
-      container
-      spacing={2}
-      direction="row"
-      justifyContent="flex-end"
-      alignItems="baseline"
-      >
-        <Grid item xs={2}>
-          <span>
-            마이페이지
-          </span>
-        </Grid>
-        <Grid item xs={2}>
-          <span>
-            로그아웃
-          </span>
-        </Grid>
-      </Grid>
-      <Grid
-      container
-      direction="row"
-      justifyContent="flex-start"
-      alignItems="center"
-      m={3}
-      >
-        <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
-      </Grid>
+      <ThemeProvider theme={mytheme}>
+      <div className={classes.root} >
+        <AppBar position="static" color="info">
+          <Toolbar className={classes.toolbar}>
+            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
+            <Button 
+            color="inherit" 
+            onClick={async () => {
+              const data = await getLogout(`${server.ip}/user/logout`);
+              window.location.replace("http://i5a203.p.ssafy.io/signin");
+            }} className={classes.logout}>
+              로그아웃
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </div>
+      </ThemeProvider>
     </div>
   )
 }
+
+
+
+
