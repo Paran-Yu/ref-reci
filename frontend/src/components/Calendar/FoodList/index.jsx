@@ -7,6 +7,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider'
 import Badge from '@material-ui/core/Badge';
+import axios from 'axios';
+import server from '../../../server.json';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FoodList(props) {
   const classes = useStyles();
-
   return (
     <Box>
       <Card className={classes.root}>
@@ -36,19 +39,20 @@ export default function FoodList(props) {
           component="img"
           alt="recipe-image"
           className={classes.cover}
-          image="{props.imgurl}"
+          image={props.url}
           title="Live from space album cover"
         />
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <Typography component="h5" variant="h5">
-              {/* {props.FoodName} */}
-              양파
+              Food Name = {props.foodName} 
             </Typography>
             {/* <Divider orientation="horizontal" variant="fullWidth"/> */}
             <Typography variant="subtitle1" color="textSecondary">
-              {/* {props.Food} */}
-              수량
+              D-Day = {props.foodDday}
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary">
+              Food Count = {props.foodCount}
             </Typography>
           </CardContent>
         </div>

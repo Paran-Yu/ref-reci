@@ -10,12 +10,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
 // Server
-import axios from 'axios';
 import server from '../../../server.json';
 
 const useStyles = makeStyles({
-  root: {
+  cardroot: {
     maxWidth: 345,
+    height: 'h-100',
   },
   media: {
     height: 180,
@@ -33,7 +33,7 @@ export default function FavRecipe(props) {
 
   return (
 // grid -> grid item -> card -> cardactionarea
-  <Card className={classes.root}>
+  <Card className={classes.cardroot}>
     <CardActionArea>
       <CardMedia
         className={classes.media}

@@ -12,7 +12,7 @@ app.get("/getEvents", async (req, res) =>{
     try {
 
         const data = await pool.query(sql)
-        console.log(data)
+        // console.log(data)
         let jsonArray 	= new Array();
         for (let i=0; i<data[0].length; i++) {
             let jsonObj		= new Object();
@@ -26,7 +26,7 @@ app.get("/getEvents", async (req, res) =>{
             jsonArray.push(JSON.parse(jsonObj));
         }
 
-        console.log(jsonArray)
+        // console.log(jsonArray)
         res.send(jsonArray)
     }
     catch (err) {

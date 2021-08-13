@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(2),
     right: theme.spacing(2),
   },
+  appbar: {
+    elevation: 0,
+  },
   toolbar: {
     display: 'flex',
     justifyContent:  'space-between',
@@ -99,7 +102,7 @@ export default function TopBar() {
     <div>
       <ThemeProvider theme={mytheme}>
       <div className={classes.root} >
-        <AppBar position="static" color="info">
+        <AppBar elevation={0} position="static" color="info">
           <Toolbar className={classes.toolbar}>
           <NavLink to={"/"}>
             <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
@@ -108,8 +111,8 @@ export default function TopBar() {
             color="inherit" 
             onClick={async () => {
               const data = await getLogout(`${server.ip}/user/logout`);
-              window.location.href = "http://i5a203.p.ssafy.io/signin"
-            }} className={classes.logout} className={classes.logout}>
+              window.location.replace("http://i5a203.p.ssafy.io/signin");
+            }} className={classes.logout}>
               로그아웃
             </Button>
           </Toolbar>
