@@ -39,6 +39,11 @@ const mytheme = createTheme({
           dark: '#45423c',
           contrastText: '#191600',
       },
+      info: {
+        //light: '#ffffff',
+        main: '#ffffff',
+        //dark: '#45423c',
+      }
   },
 });
 
@@ -56,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     top: theme.spacing(2),
     right: theme.spacing(2),
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent:  'space-between',
   }
 }));
 // -------------------------------------------
@@ -82,21 +91,23 @@ export default function TopBar() {
 
   return (
     <div>
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
+      <ThemeProvider theme={mytheme}>
+      <div className={classes.root} >
+        <AppBar position="static" color="info">
+          <Toolbar className={classes.toolbar}>
             <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
             <Button 
             color="inherit" 
-              onClick={async () => {
-                const data = await getLogout(`${server.ip}/user/logout`);
-                window.location.replace("http://i5a203.p.ssafy.io/signin");
-              }}>
+            onClick={async () => {
+              const data = await getLogout(`${server.ip}/user/logout`);
+              window.location.replace("http://i5a203.p.ssafy.io/signin");
+            }} className={classes.logout}>
               로그아웃
             </Button>
           </Toolbar>
         </AppBar>
       </div>
+      </ThemeProvider>
     </div>
   )
 }
