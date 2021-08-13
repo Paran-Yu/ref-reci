@@ -163,6 +163,7 @@ export default function Profile({history}) {
     }
     else {
       console.log(loginData.value);
+      history.replace('/signin');
     }
 
     // const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
