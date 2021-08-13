@@ -4,35 +4,6 @@ const axios = require("axios");
 const { pool } = require(`../../mysql`)
 
 
-//F에서 date 형식을 보내면 해당하는 월의 events를 뿌려줌
-app.post("/getMonth", async (req, res) =>{
-    let date = req.body.date
-    date = new Date(date)
-    console.log(date)
-    //12월 일때 처리 year
-    const year = date.getFullYear().toString();
-    let month = date.getMonth() + 1;
-    month = month < 10 ? '0' + month.toString() : month.toString();
-    const sql = `SELECT productShelfLife 
-    FROM refreci.UserProduct 
-    WHERE uID = 1 AND MONTH(productShelfLife) = ? AND YEAR(productShelfLife) = ?`
-    try {
-
-        const data = await pool.query(sql,[month, year])
-        console.log(data)
-        //나중에 중복제거 할것
-        //res.send(data)
-    }
-    catch (err) {
-        console.log(err)
-        return new Error(err)
-    }
-
-})
-
-app.post("/getDate", async (req, res) => {
-    const sql  = `SELECT `
-})
 app.get("/getEvents", async (req, res) =>{
 
     const sql = `SELECT DISTINCT(productShelfLife)
@@ -41,7 +12,7 @@ app.get("/getEvents", async (req, res) =>{
     try {
 
         const data = await pool.query(sql)
-        console.log(data)
+        // console.log(data)
         let jsonArray 	= new Array();
         for (let i=0; i<data[0].length; i++) {
             let jsonObj		= new Object();
@@ -54,9 +25,8 @@ app.get("/getEvents", async (req, res) =>{
             //String 형태로 파싱한 객체를 다시 json으로 변환
             jsonArray.push(JSON.parse(jsonObj));
         }
-        //나중에 중복제거 할것
-        //하나하나 title = '' start = ''' end = ''
-        console.log(jsonArray)
+
+        // console.log(jsonArray)
         res.send(jsonArray)
     }
     catch (err) {

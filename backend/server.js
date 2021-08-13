@@ -9,6 +9,8 @@ const path = require("path");
 const cors = require("cors");
 const { response } = require("express");
 const axios = require('axios');
+const fs = require("fs");
+const { Server } = require("http");
 require('dotenv').config();
 
 // --------------------------------------------
@@ -21,8 +23,27 @@ const port = envJson.port ? envJson.port : 3001;
 // middleware
 app.use(cors({
   origin: true,
-  credentials: true
+  credentials: true,
 }));
+
+const allowList = ['http://i5a203.p.ssafy.io', 'http://i5a203.p.ssafy.io:3001']
+
+app.all('/user/logout', function(req, res, next){
+  const origin = req.headers.origin;
+  console.log(req.headers)
+  console.log(origin)
+  if (allowList.indexOf(origin) > -1){
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Max-Age', '3600');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-Requested-With');
+
+  // res.header("Access-Control-Allow-Origin", "http://i5a203.p.ssafy.io");
+  // res.header("Access-Control-Allow-Headers", "X-Requested-With"); 
+  next();
+})
 
 // bodyParser
 app.use(bodyParser.json());
@@ -54,42 +75,22 @@ app.use("/callback", require(`${__dirname}/routes/callback/callback`));
 app.use("/user", require(`${__dirname}/routes/user/user`));
 app.use("/fridge", require(`${__dirname}/routes/fridge/fridge`));
 app.use("/calendar", require(`${__dirname}/routes/calendar/calendar`));
+app.use("/foodlist", require(`${__dirname}/routes/calendar/foodlist`));
+
 
 app.get("/", function (req, res) {
   res.send("Hello node.js");
 });
 
-app.post("/add", async (req, res) => {
-  const userName = req.body.userName;
-  const userID = req.body.userID;
-  const userPW = req.body.userPW;
 
-  try {
-    const data = await pool.query("INSERT INTO User VALUES (null, ?, ?, ?, NOW(), 0)", [
-      userName,
-      userID,
-      userPW,
-    ])
-    res.redirect('/');
-  }
-  catch (err) {
-    console.log(err);
-  }
-});
-
-app.get("/isLogin", async (req, res) => {
-  if (req.session.uid) {
-    console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
-  }
-  else {
-    console.log('로그인이 되어있지 않습니다.')
-  }
-
-  console.log(req.session);
-  console.log(req.session.uid);
-  res.send({ value: req.session });
+app.get("/img", function(req, res){
+  const rID = req.query.id;
+  console.log(rID);
+  fs.readFile(`../../images/${rID}`, function(err, data){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(data);
+  })
 })
-
 
 app.listen(port, () => {
   console.log(`{init : ${port}}`);
