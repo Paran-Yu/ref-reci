@@ -18,6 +18,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import createTheme from '@material-ui/core/styles/createTheme';
 
+// NavLink
+import {NavLink} from "react-router-dom";
+
 // Theme -------------------------------------
 const mytheme = createTheme({
   palette: {
@@ -65,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     display: 'flex',
     justifyContent:  'space-between',
+  },
+  logo: {
+    cursor: 'pointer'
   }
 }));
 // -------------------------------------------
@@ -95,13 +101,15 @@ export default function TopBar() {
       <div className={classes.root} >
         <AppBar position="static" color="info">
           <Toolbar className={classes.toolbar}>
-            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
+          <NavLink to={"/"}>
+            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
+            </NavLink>
             <Button 
             color="inherit" 
             onClick={async () => {
               const data = await getLogout(`${server.ip}/user/logout`);
               window.location.href = "http://i5a203.p.ssafy.io/signin"
-            }} className={classes.logout}>
+            }} className={classes.logout} className={classes.logout}>
               로그아웃
             </Button>
           </Toolbar>
