@@ -62,22 +62,24 @@ export default function Calendar() {
   
 
   return (
-
-    <Box my={2}>
-      <Container fixed>
-        <Grid container>
-          <Grid item xs={12} md={6}>
-            <Box p={1}>
-              <Dates onChildClick={getDates}/>
-            </Box>
+    <Container fixed>
+      <TopBar />
+      <Box my={2}>
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <Box p={1}>
+                <Dates onChildClick={getDates}/>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box p={1}>
+                {foodDatas}
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Box p={1}>
-              {foodDatas}
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+      </Box>
+      <FloatingActionButton />
+      <BottomBar />
+    </Container>
   )
 }
