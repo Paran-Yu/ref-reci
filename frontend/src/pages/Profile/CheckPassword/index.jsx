@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Typography  from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -16,7 +16,15 @@ import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import server from '../../../server.json';
 
+
+
 export default function CheckPassword() {
+  const [password, setPassword] = useState('');
+
+  const onChangePW = (event) => {
+    setPassword(event.target.value);
+  }
+  
   return (
     <box>
       <div>
@@ -33,6 +41,7 @@ export default function CheckPassword() {
         type="password"
         id="password"
         autoComplete="current-password"
+        onChange={onChangePW}
         />
         <Button
         fullWidth

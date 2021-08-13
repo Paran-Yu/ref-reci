@@ -27,9 +27,9 @@ function App() {
         <Route path="/changepassword" component={ChangePassword} />
         <Route path="/profile" component={Profile} />
         <Route path="/calendar" component={Calendar} />
-        <Route path="/user" component={CheckPassword} />
-        <Route path="/user/update" component={ChangeUserDetail} />
-        <Route path="/delete" component={DeleteUser} />
+        <Route path="/usr/check" component={CheckPassword} />
+        <Route path="/usr/update" component={ChangeUserDetail} />
+        <Route path="/usr/delete" component={DeleteUser} />
       </Router>
     </div>
   );
