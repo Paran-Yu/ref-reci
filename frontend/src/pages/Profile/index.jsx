@@ -16,6 +16,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 
 // Core
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
 import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -25,11 +27,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
+import Pagination from '@material-ui/lab/Pagination';
 
 // Server 
 import axios from 'axios';
@@ -86,6 +87,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
       margin: theme.spacing(3, 0, 2),
   },
+  pg: {
+    '& > *': {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 const getUserData = async (url) => {
@@ -105,58 +111,61 @@ const getUserData = async (url) => {
   }
 }
 
-const getProfileData = async(url) => {
-  try{
-    const data = await axios({
-      method: 'get',
-      url: url,
-      withCredentials: true,
-      headers: {
-        accept: 'application/json',
-      },
-    })
-    return data.data;
-  }
-  catch(err){
-    console.log(`ERROR: ${err}`);
-  }
-}
+
+// const Pagination = () => {
+//   const classes = useStyles();
+//   return (
+//     <div className={classes.pg}>
+//       <Pagination count={10} color="primary" />
+//       <Pagination count={10} color="secondary" />
+//     </div>
+//   );
+// };
 
 export default function Profile({history}) {
-  // const classes = useStyles();
+  const classes = useStyles();
 
+  const [uID, setUID] = useState('');
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('');
   const [myFridgeNum, setMyFridgeNum] = useState('');
   const [expire3Num, setExpire3Num] = useState('');
   const [expiredNum, setExpiredNum] = useState('');
 
+  const [recipeDatas, setRecipeDatas ] = useState();
+
   useEffect(async () => {
-    const data = await getUserData(`${server.ip}/user/isLogin`);
-    // if (data.value) {
-    //   //필요한 데이터 가져오기
-    //   console.log(data.value);
-    //   setUID(data.value);
-    //   setUserID('여기 이메일')
-    //   setUserName('여기 닉네임')
-    //   setMyFridgeNum()
-    //   setExpireNum()
+    const loginData = await getUserData(`${server.ip}/user/isLogin`);
+    console.log(loginData);
+    setUID(1);
+    // if (loginData.value) {
+    //   setUID(loginData.value);
+      //필요한 데이터 가져오기
+      const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
+      setUserID(userInfoData.userID);
+      setUserName(userInfoData.userName);
+      setMyFridgeNum(userInfoData.foodCount);
+      setExpire3Num(userInfoData.expire3FoodCount);
+      setExpiredNum(userInfoData.expiredFoodCount);
+
+      const favRecipeData = await getUserData(`${server.ip}/user/recipeInfo`);
+
+      const recipeItems = favRecipeData.map((recipeData) => {
+        return (
+          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
+            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+          </Grid>
+        )
+      })
+      setRecipeDatas(recipeItems);
     // }
     // else {
-    //   console.log(data.value);
+    //   console.log(loginData.value);
     //   history.replace('/signin');
     // }
 
-    const data2 = await getUserData(`${server.ip}/user/userInfo`);
-    setUserID(data2.userID);
-    console.log(data2.userID);
-    setUserName(data2.userName);
-    setMyFridgeNum(data2.foodCount);
-    setExpire3Num(data2.expire3FoodCount);
-    setExpiredNum(data2.expire3FoodCount);
-
   }, [])
-
+  
   return (
     <Container fixed >
       <ThemeProvider theme={mytheme}>
@@ -170,19 +179,38 @@ export default function Profile({history}) {
       <Box m={3}>
         <Grid container>
           <Grid item xs={12} md={6}>
-            <QRCode />
+            <QRCode uid={uID}/>
           </Grid>
           <Grid item xs={12} md={6}>
-              <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
+            <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
           </Grid>
         </Grid>
       </Box>
-      <Box my={3}>
-        <FavRecipe />
+      <h1>즐겨찾기한 레시피</h1>
+      <Box 
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      my={3}
+      >
+        <Grid container spacing={2}>
+          {recipeDatas}
+        </Grid>
       </Box>
       <Fab />
       <BottomBar />
+      <div className={classes.pg}>
+        <Box
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        my={2}
+        >
+          <Pagination count={10} color="primary" />
+        </Box>
+      </div>
       </ThemeProvider>
     </Container>
   )
 }
+

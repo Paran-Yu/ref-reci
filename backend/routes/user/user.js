@@ -106,6 +106,21 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.get("/logout", async(req, res) => {
+    try{
+        req.session.destroy(()=>{
+            res.clearCookie('connect.sid');
+            console.log('로그아웃 됨');
+            // res.redirect('http://i5a203.p.ssafy.io/signin');
+            // res.redirect('/signin');
+            res.redirect('http://localhost:3000/');
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
 app.post("/searchID", async (req, res) => {
     const userID = req.body.userID;
 
@@ -247,9 +262,114 @@ app.get("/userInfo", async (req, res) => {
         })
     }
     catch (err) {
-        console.log('===========로그인 중 에러 발생===========');
+        console.log('===========유저 정보 조회 중 에러 발생===========');
         console.log(err);
     }
+})
+
+app.get("/recipeInfo", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+
+    try {
+        const [rows1, fields1] = await pool.query("SELECT r.recipeName AS rName, r.recipeIntroduce AS rIntroduce, r.recipeImage AS rImage FROM Favorites AS f JOIN Recipe AS r ON r.rID = f.rID WHERE f.uID = ?", [
+            uID
+        ]);
+
+        const len = rows1.length
+        console.log(len);
+
+        // for(let i=0; i<len; i++){
+        //     console.log(rows1[i].rName);
+        //     console.log(rows1[i].rIntroduce);
+        //     console.log(rows1[i].rImage);
+        // }
+        
+        // console.log(rows1)
+
+        res.json(rows1)
+    }
+    catch (err) {
+        console.log('===========즐겨찾기 레시피 조회 중 에러 발생===========');
+        console.log(err);
+    }
+})
+
+app.post("/checkPassword", async(req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+    const inputPassword = req.body.password;
+
+    try{
+        const [rows, field] = await pool.query("SELECT userPW FROM User WHERE uID = ?", [
+            uID
+        ])
+
+        const dbPassword = rows[0].userPW;
+        const hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
+
+        if (dbPassword === hashPassword){
+            console.log('비밀번호 일치')
+            res.send(true);
+        }
+        else{
+            console.log('비밀번호 불일치')
+            res.send(false);
+        }
+
+    }
+    catch(err){
+
+    }
+})
+
+app.post("/changeUserName", async(req, res) => {
+    // const uID = req.session.uID;
+    const uID = 1;
+    
+    const userName = req.body.userName;
+
+    if (userName.length < 2) {
+        res.send({ value: 'Short userName' });
+        return;
+    }
+
+    await pool.query("UPDATE User SET userName = ? WHERE uID = ?", [
+        userName,
+        uID,
+    ]);
+
+})
+
+app.post("/changeUserID", async (req, res) => {
+    // const uID = req.session.uID;
+    const uID = 1;
+    
+    const userID = req.body.userID;
+
+    await pool.query("UPDATE User SET userID = ? WHERE uID = ?", [
+        userID,
+        uID,
+    ]);
+})
+
+app.post("/changeUserPW", async (req, res) => {
+    // const uID = req.session.uID;
+    const uID = 1;
+    
+    const userPW = req.body.userPW;
+
+    if (userPW.length < 8) {
+        res.send({ value: 'Short password' });
+        return;
+    }
+
+    const hashPassword = crypto.createHash("sha512").update(userPW).digest("hex");
+
+    await pool.query("UPDATE User SET userPW = ? WHERE uID = ?", [
+        hashPassword,
+        uID,
+    ]);
 })
 
 module.exports = app;
