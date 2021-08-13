@@ -152,10 +152,8 @@ export default function Profile({history}) {
 
       const recipeItems = favRecipeData.map((recipeData) => {
         return (
-          <Grid item key={recipeData} xs={12} sm={4} md={3} lg={2}>
-            <Card className={classes.root}>
-              <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
-            </Card>
+          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
+            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
           </Grid>
         )
       })
@@ -188,16 +186,28 @@ export default function Profile({history}) {
           </Grid>
         </Grid>
       </Box>
-      <Box my={3}>
-          <h1>즐겨찾기한 레시피</h1>
-          <Grid container>
-            {recipeDatas}
-          </Grid>
+      <h1>즐겨찾기한 레시피</h1>
+      <Box 
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      my={3}
+      >
+        <Grid container spacing={2}>
+          {recipeDatas}
+        </Grid>
       </Box>
       <Fab />
       <BottomBar />
       <div className={classes.pg}>
-        <Pagination count={10} color="primary" />
+        <Box
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        my={2}
+        >
+          <Pagination count={10} color="primary" />
+        </Box>
       </div>
       </ThemeProvider>
     </Container>

@@ -162,12 +162,13 @@ export default function SignUpSide({history}) {
     const [userID, setUserID] = useState('');
     const [verification, setVerification] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState('');
     
+    //닉네임이 2자를 넘었는지, 변경 완료 활성화
+    const [userNameShort, setUserNameShort] = useState(true);
     //이메일 인증을 마쳤는지, 변경 완료 활성화
-    const [emailAuth, setEmailAuth] = useState(false);
+    const [emailAuth, setEmailAuth] = useState(true);
     //비밀번호가 같은지, 변경 완료 활성화
-    const [passwordSame, setPasswordSame] = useState(false);
+    const [passwordSame, setPasswordSame] = useState(true);
     
     //아이디와 인증버튼 활성화, 비활성화
     const [verButtonInactive, setVerButtonInactive] = useState(false);
@@ -182,6 +183,12 @@ export default function SignUpSide({history}) {
         if (e.target.value.length > 20) {
             alert('20자 이하로 해주세요');
             e.target.value = e.target.value.slice(0, -1);
+        }
+        else if(e.target.value.length < 2){
+            setUserNameShort(true);
+        }
+        else{
+            setUserNameShort(false);
         }
     };
 
@@ -202,7 +209,8 @@ export default function SignUpSide({history}) {
     }
 
     const onChangeUserPWCheck = (e) => {
-        setPasswordCheck(e.target.value);
+        if (password === e.target.value) setPasswordSame(true);
+        else setPasswordSame(false);
     }
 
     const onClickUserNameChangeBtn = async () => {
@@ -288,6 +296,7 @@ export default function SignUpSide({history}) {
                                     onChange={onChnageUserName}
                                 />
                                 <Button
+                                    disabled={userNameShort}
                                     color="primary"
                                     disabled={false}
                                     fullWidth
@@ -353,6 +362,7 @@ export default function SignUpSide({history}) {
                                         </Button>
                                     </Grid>
                                     <Button
+                                        disabled={emailAuth}
                                         color="primary"
                                         disabled={false}
                                         fullWidth
@@ -390,6 +400,7 @@ export default function SignUpSide({history}) {
                                     onChange={onChangeUserPWCheck}
                                 />
                                 <Button
+                                    disabled={passwordSame}
                                     color="primary"
                                     disabled={false}
                                     fullWidth

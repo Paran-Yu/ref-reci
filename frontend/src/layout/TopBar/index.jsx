@@ -18,6 +18,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import createTheme from '@material-ui/core/styles/createTheme';
 
+// NavLink
+import {NavLink} from "react-router-dom";
+
 // Theme -------------------------------------
 const mytheme = createTheme({
   palette: {
@@ -62,9 +65,15 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(2),
     right: theme.spacing(2),
   },
+  appbar: {
+    elevation: 0,
+  },
   toolbar: {
     display: 'flex',
     justifyContent:  'space-between',
+  },
+  logo: {
+    cursor: 'pointer'
   }
 }));
 // -------------------------------------------
@@ -93,9 +102,11 @@ export default function TopBar() {
     <div>
       <ThemeProvider theme={mytheme}>
       <div className={classes.root} >
-        <AppBar position="static" color="info">
+        <AppBar elevation={0} position="static" color="info">
           <Toolbar className={classes.toolbar}>
-            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} />
+          <NavLink to={"/"}>
+            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
+            </NavLink>
             <Button 
             color="inherit" 
             onClick={async () => {
