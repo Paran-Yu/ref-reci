@@ -16,8 +16,14 @@ import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 import CatItem from "../../components/Fridge/Category/CatItem";
-
-export default function Fridge() {
+import SmallList from "../../components/Fridge/Category/SmallList";
+export default function Fridge(props) {
+  let catName = "";
+  if (props.location.state == undefined) {
+    catName = "전체";
+  } else {
+    catName = props.location.state.catName;
+  }
   return (
     <Container fixed>
       <TopBar />
@@ -25,12 +31,12 @@ export default function Fridge() {
         <Typography variant="h2">나의 냉장고</Typography>
         <Divider />
         <Box justifyContent="space-between" alignItems="center">
-          <Breadcrumb />
+          <Breadcrumb catName={catName} />
           <ShowChoiceButton />
         </Box>
         <RadioButton />
         <SearchBar />
-        <CatItem />
+        <SmallList />
       </Box>
       <FloatingActionButton />
       <BottomBar />

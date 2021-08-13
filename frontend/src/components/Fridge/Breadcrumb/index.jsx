@@ -29,7 +29,7 @@ function handleClick(event) {
   console.info("You clicked a breadcrumb.");
 }
 
-export default function CustomizedBreadcrumbs() {
+export default function CustomizedBreadcrumbs(props) {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       <StyledBreadcrumb
@@ -39,7 +39,7 @@ export default function CustomizedBreadcrumbs() {
         icon={<HomeIcon fontSize="small" />}
         onClick={handleClick}
       />
-      <StyledBreadcrumb component="a" href="#" label="대분류" onClick={handleClick} />
+      <StyledBreadcrumb component="a" href="#" label={props.catName} onClick={handleClick} />
       <StyledBreadcrumb label="소분류" onClick={handleClick} />
     </Breadcrumbs>
   );
