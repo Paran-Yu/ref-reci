@@ -178,11 +178,12 @@ export default function SignUpSide({history}) {
     //서버에서 받아온 인증번호
     const [emailAuthData, setEmailAuthData] = useState('');
 
-    const onChnageUserName = (e) => {
+    const onChangeUserName = (e) => {
         setUserName(e.target.value);
         if (e.target.value.length > 20) {
             alert('20자 이하로 해주세요');
             e.target.value = e.target.value.slice(0, -1);
+            setUserNameShort(true);
         }
         else if(e.target.value.length < 2){
             setUserNameShort(true);
@@ -293,12 +294,11 @@ export default function SignUpSide({history}) {
                                     autoFocus
                                     id="firstName"
                                     label="닉네임"
-                                    onChange={onChnageUserName}
+                                    onChange={onChangeUserName}
                                 />
                                 <Button
                                     disabled={userNameShort}
                                     color="primary"
-                                    disabled={false}
                                     fullWidth
                                     size="large"
                                     onClick={onClickUserNameChangeBtn}
@@ -364,7 +364,6 @@ export default function SignUpSide({history}) {
                                     <Button
                                         disabled={emailAuth}
                                         color="primary"
-                                        disabled={false}
                                         fullWidth
                                         size="large"
                                         onClick={onClickUserIDChangeBtn}
@@ -402,7 +401,6 @@ export default function SignUpSide({history}) {
                                 <Button
                                     disabled={passwordSame}
                                     color="primary"
-                                    disabled={false}
                                     fullWidth
                                     size="large"
                                     onClick={onClickUserPWChangeBtn}

@@ -47,11 +47,13 @@ export default function CheckPassword({history, match}) {
     const data = await postCheck(`${server.ip}/user/checkPassword`, password);
 
     if(data){
-      if (match.params.id === "1"){
+      if (match.params.id === "update"){
         window.location.replace("http://i5a203.p.ssafy.io/usr/update");
+        // window.location.replace("http://localhost:3000/usr/update");
       }
-      else if (match.params.id === "2"){
+      else if (match.params.id === "delete"){
         window.location.replace("http://i5a203.p.ssafy.io/usr/delete");
+        // window.location.replace("http://localhost:3000/usr/update");
       }
     }
     else{
