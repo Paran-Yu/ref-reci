@@ -16,15 +16,49 @@ import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import server from '../../../server.json';
 
+const postCheck = async(url, password) => {
+  try {
+    const data = await axios({
+      method: 'post',
+      url: url,
+      data: {
+        password: password,
+      },
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
-
-export default function CheckPassword() {
+export default function CheckPassword({history, match}) {
   const [password, setPassword] = useState('');
 
   const onChangePW = (event) => {
     setPassword(event.target.value);
   }
   
+  const onClickPW = async() => {
+    console.log(password);
+    const data = await postCheck(`${server.ip}/user/checkPassword`, password);
+
+    if(data){
+      if (match.params.id === "1"){
+        window.location.replace("http://i5a203.p.ssafy.io/usr/update");
+      }
+      else if (match.params.id === "2"){
+        window.location.replace("http://i5a203.p.ssafy.io/usr/delete");
+      }
+    }
+    else{
+      
+    }
+  }
+
   return (
     <box>
       <div>
@@ -48,6 +82,7 @@ export default function CheckPassword() {
         size="large"
         variant="contained"
         color= "primary"
+        onClick={onClickPW}
         >
           확인
         </Button>

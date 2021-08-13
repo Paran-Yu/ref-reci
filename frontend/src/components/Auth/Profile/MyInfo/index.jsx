@@ -79,7 +79,7 @@ export default function MyInfo(props) {
             variant="contained"
             color= "primary"
             component={RouterLink}
-            to="/usr/check"
+            to="/usr/check/1"
             >
               회원정보수정
             </Button>
@@ -91,7 +91,7 @@ export default function MyInfo(props) {
             variant="outlined"
             color= "primary"
             component={RouterLink}
-            to="/usr/check"
+            to="/usr/check/2"
             >
               회원탈퇴
             </Button>
