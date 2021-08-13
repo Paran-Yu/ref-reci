@@ -226,6 +226,14 @@ export default function SignUpSide({history}) {
                                         }
                                     }}
                                 />
+                                <Button
+                                color="primary"
+                                disabled={false}
+                                fullWidth
+                                size="large"
+                                >
+                                변경완료
+                                </Button>
                                 <Grid container spacing={2} alignItems="center">
                                     <Grid item xs={10}>
                                         <TextField
@@ -322,6 +330,14 @@ export default function SignUpSide({history}) {
                                         확인
                                         </Button>
                                     </Grid>
+                                    <Button
+                                            color="primary"
+                                            disabled={false}
+                                            fullWidth
+                                            size="large"
+                                        >
+                                        변경완료
+                                        </Button>
                                 </Grid>
                                 <TextField
                                     variant="outlined"
@@ -359,6 +375,14 @@ export default function SignUpSide({history}) {
                                     }}
                                 />
                                 <Button
+                                color="primary"
+                                disabled={false}
+                                fullWidth
+                                size="large"
+                                >
+                                변경완료
+                            </Button>
+                                <Button
                                 disabled={signUpInactive}
                                 fullWidth
                                 variant="contained"
@@ -382,7 +406,7 @@ export default function SignUpSide({history}) {
                                     }
                                 }}
                             >
-                                회원가입
+                                확인
                             </Button>
                             </Container>
                         </form>
