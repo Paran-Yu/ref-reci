@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     color: "#45434C",
   },
+  front: {
+    width: "100%",
+  },
 }));
 const options = ["소분류1", "소분류2", "소분류3", "소분류4"];
 const Breadcrumb = (props) => {
@@ -41,7 +44,7 @@ const Breadcrumb = (props) => {
   return (
     <Grid container justifyContent="center">
       <Grid container>
-        <Grid item>
+        <Grid item className={classes.front}>
           <Paper className={classes.menu}>
             <List item component="nav">
               <ListItem button onClick={handleClickListItem}>
