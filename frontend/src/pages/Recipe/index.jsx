@@ -37,6 +37,7 @@ const Recipe = () => {
       <Box my={3}>
         <Typography variant="h2">레시피 정리</Typography>
         <Divider />
+        {/* props로 SearchBar에 소분류, 재료를 넘겨주세요  */}
         <SearchBar />
         <CardList />
       </Box>

@@ -30,6 +30,9 @@ export default function Fridge(props) {
   const addCnt = (re) => {
     setCnt(re);
   };
+
+  // useEffect
+
   return (
     <Container fixed>
       <TopBar />
@@ -41,7 +44,6 @@ export default function Fridge(props) {
           <ShowChoiceButton cnt={cnt} />
         </Box>
         <RadioButton />
-        <SearchBar />
         <SmallList cnt={cnt} addCnt={addCnt.bind()} />
       </Box>
       <FloatingActionButton />
