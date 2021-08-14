@@ -28,8 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SlideItem = (props) => {
+export default function SlideItem(props) {
   const classes = useStyles();
+  console.log("나는 슬라이드아이템이다1")
   // const { dt, idx } = props;
   return (
     <Card elevation={3} item className={classes.paper}>
@@ -45,4 +46,3 @@ const SlideItem = (props) => {
     </Card>
   );
 };
-export default SlideItem;

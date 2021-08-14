@@ -56,6 +56,7 @@ app.use("/user", require(`${__dirname}/routes/user/user`));
 app.use("/fridge", require(`${__dirname}/routes/fridge/fridge`));
 app.use("/calendar", require(`${__dirname}/routes/calendar/calendar`));
 app.use("/foodlist", require(`${__dirname}/routes/calendar/foodlist`));
+app.use("/recipe", require(`${__dirname}/routes/recipe/recipe`));
 
 
 app.get("/", function (req, res) {

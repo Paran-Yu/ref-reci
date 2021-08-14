@@ -83,20 +83,28 @@ const getFavData = async (url) => {
   }
 }
 
-const Main = () => {
+export default function Main(){
+  const st = useStyles();
+  
   // const [favItems, setFavDatas] = useState();
   const [favRecipe, setFavRecipes] = useState();
   const [recentRecipe, setRecentRecipes] = useState();
 
   useEffect(async () => {
-      const favRecipeData = await getFavData(`${server.ip}/recipe/tenFavorRecipe`);
-      const recentRecipeData = await getFavData(`${server.ip}/recipe/tenRecentRecipe`);
-      console.log("main", favRecipeData);
-      setFavRecipes(favRecipeData);
-      setRecentRecipes(recentRecipeData);
+    console.log("나는 메인이다1")
+    const favRecipeData = await getFavData(`${server.ip}/recipe/tenFavorRecipe`);
+    const recentRecipeData = await getFavData(`${server.ip}/recipe/tenRecentRecipe`);
+
+    console.log("나는 메인이다2")
+    console.log(favRecipeData)
+    console.log("나는 메인이다3")
+    console.log(recentRecipeData)
+
+    setFavRecipes(<FavRecList datas={favRecipeData} />)
+    setRecentRecipes(<FavRecList datas={recentRecipeData} />)
 
   }, [])
-  const st = useStyles();
+  
   return (
     <ThemeProvider theme={mytheme}>
     <Container fixed >
@@ -110,13 +118,13 @@ const Main = () => {
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
                 인기 폭주! 사람들이 가장 많이 찾았어요
               </Typography>
-              <FavRecList key={favRecipe} />
+              {favRecipe}
             </Grid>
             <Grid item xs={10} className={st.Fav} id={2} style={{ maxWidth: "100%", width: "100%" }}>
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
                 신작 레시피 도착!
               </Typography>
-              {/* <FavRecList key={recentRecipe}/> */}
+              {recentRecipe}
             </Grid>
             <Grid item xs={12} className={st.Fav}>
               <Typography align="center" variant="h3" gutterBottom className={st.title}>
@@ -126,7 +134,7 @@ const Main = () => {
                 <CatList />
               </Grid>
             </Grid>
-            {/* <SideBar /> */}
+              {/* <SideBar /> */}
             <Fab />
           </Grid>
         </Grid>
@@ -135,5 +143,3 @@ const Main = () => {
     </ThemeProvider>
   );
 };
-
-export default Main;

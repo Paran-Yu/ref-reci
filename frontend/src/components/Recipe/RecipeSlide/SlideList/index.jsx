@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component, useEffect } from "react";
 import { GridList, makeStyles, GridListTile, Button } from "@material-ui/core";
 import FavDt from "./dump.json";
 import FavItem from "../SlideItem";
@@ -58,16 +58,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SlideList = (props) => {
-  // const [favItem, setFavItems] = useState();
+export default function SlideList(props) {
 
-  // useEffect((() => {
-  const Favs = props.key;
-  console.log("slidelist", Favs);
-  // const favItem = 
-  // });
-  // setFavItems(favItem)
-  // }))
   const classes = useStyles();
   const len = useNowCols();
 
@@ -75,6 +67,8 @@ const SlideList = (props) => {
   const scrollRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState();
+
+  const [foodDatas, setFoodDatas] = useState();
 
   const onDragStart = (e) => {
     e.preventDefault();
@@ -126,6 +120,16 @@ const SlideList = (props) => {
   const delay = 50;
   const onThrottleDragMove = throttle(onDragMove, delay);
 
+  console.log("나는 슬라이드리스트다")
+  console.log(props.datas)
+
+  const list1 = props.datas.map((idx) => {
+    return (<GridListTile key={idx} alignItems="center" justify="center" >
+      <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`} />
+    </GridListTile>)
+  })
+
+  setFoodDatas(list1)
 
   return (
     <div className={classes.root}
@@ -137,15 +141,10 @@ const SlideList = (props) => {
           onMouseUp={onDragEnd}
           onMouseLeave={onDragEnd}
           ref={scrollRef}>
-        {Favs.map((idx) => {
-        <GridListTile key={idx} alignItems="center" justify="center" >
-          <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`}/>
-        </GridListTile>})}
+        {foodDatas}
       </GridList>
       <Button className={classes.leftbutton} onClick={onMoveRangeLeft}><ArrowBackIosIcon></ArrowBackIosIcon></Button>
       <Button className={classes.rightbutton} onClick={onMoveRangeRight}><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
     </div>
   );
 };
-
-export default SlideList;
