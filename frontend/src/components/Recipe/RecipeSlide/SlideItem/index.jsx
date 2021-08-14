@@ -7,7 +7,7 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 
 import server from '../../../../server.json';
 

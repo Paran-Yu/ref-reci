@@ -84,21 +84,16 @@ const getFavData = async (url) => {
 }
 
 const Main = () => {
-  const [favItems, setFavDatas] = useState();
-  
+  // const [favItems, setFavDatas] = useState();
+  const [favRecipe, setFavRecipes] = useState();
+  const [recentRecipe, setRecentRecipes] = useState();
+
   useEffect(async () => {
       const favRecipeData = await getFavData(`${server.ip}/recipe/tenFavorRecipe`);
-      console.log(favRecipeData)
-      // const favItems = favRecipeData.map((favData) => {
-      //   // console.log(favData)
-      //   return (
-      //     <FavRecList key={favData} rNama={favData.rNama} rImage={favData.rImage}/>
-      //     // <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
-      //     //   <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
-      //     // </Grid>
-      //   )
-      // })
-      setFavDatas(favItems);
+      const recentRecipeData = await getFavData(`${server.ip}/recipe/tenRecentRecipe`);
+      console.log("main", favRecipeData);
+      setFavRecipes(favRecipeData);
+      setRecentRecipes(recentRecipeData);
 
   }, [])
   const st = useStyles();
@@ -115,13 +110,13 @@ const Main = () => {
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
                 인기 폭주! 사람들이 가장 많이 찾았어요
               </Typography>
-              {favItems}
+              <FavRecList key={favRecipe} />
             </Grid>
             <Grid item xs={10} className={st.Fav} id={2} style={{ maxWidth: "100%", width: "100%" }}>
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
                 신작 레시피 도착!
               </Typography>
-              <FavRecList />
+              {/* <FavRecList key={recentRecipe}/> */}
             </Grid>
             <Grid item xs={12} className={st.Fav}>
               <Typography align="center" variant="h3" gutterBottom className={st.title}>

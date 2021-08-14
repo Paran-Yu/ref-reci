@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, Component } from "react";
 import { GridList, makeStyles, GridListTile, Button } from "@material-ui/core";
 import FavDt from "./dump.json";
 import FavItem from "../SlideItem";
@@ -13,16 +13,16 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 //server
 import server from '../../../../server.json';
 
-const useGetdata = () => {
-  const [favItemDatas, setFavItemDatas] = useState([]);
-  const getDatas = async () => {
-    setFavItemDatas(FavDt);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return favItemDatas;
-};
+// const useGetdata = () => {
+//   const [favItemDatas, setFavItemDatas] = useState([]);
+//   const getDatas = async () => {
+//     setFavItemDatas(FavDt);
+//   };
+//   useEffect(() => {
+//     getDatas();
+//   }, []);
+//   return favItemDatas;
+// };
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
@@ -58,8 +58,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SlideList = () => {
-  const Favs = useGetdata();
+const SlideList = (props) => {
+  // const [favItem, setFavItems] = useState();
+
+  // useEffect((() => {
+  const Favs = props.key;
+  console.log("slidelist", Favs);
+  // const favItem = 
+  // });
+  // setFavItems(favItem)
+  // }))
   const classes = useStyles();
   const len = useNowCols();
 
@@ -129,11 +137,10 @@ const SlideList = () => {
           onMouseUp={onDragEnd}
           onMouseLeave={onDragEnd}
           ref={scrollRef}>
-        {Favs.map((dt, idx) => (
-          <GridListTile key={idx} alignItems="center" justify="center" >
-            <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`}/>
-          </GridListTile>
-        ))}
+        {Favs.map((idx) => {
+        <GridListTile key={idx} alignItems="center" justify="center" >
+          <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`}/>
+        </GridListTile>})}
       </GridList>
       <Button className={classes.leftbutton} onClick={onMoveRangeLeft}><ArrowBackIosIcon></ArrowBackIosIcon></Button>
       <Button className={classes.rightbutton} onClick={onMoveRangeRight}><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
