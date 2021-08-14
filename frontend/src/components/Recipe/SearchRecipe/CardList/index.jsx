@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
+    marginTop: theme.spacing(1),
   },
 }));
 const useGetdata = () => {

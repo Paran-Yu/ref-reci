@@ -1,10 +1,11 @@
 import React from "react";
-import { Grid, makeStyles, Typography, createMuiTheme } from "@material-ui/core";
+import { Grid, makeStyles, Typography, Divider, Box } from "@material-ui/core";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 import CardList from "../../components/Recipe/SearchRecipe/CardList";
 import { ThemeProvider } from "@material-ui/styles";
 import Container from "@material-ui/core/Container";
+import SearchBar from "../../components/Fridge/SearchBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,35 +30,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const Recipe = () => {
-  const baseTheme = createMuiTheme();
   const classes = useStyles();
   return (
     <Container fixed>
-      <Grid>
-        <TopBar />
-        <Grid container alignItems="center" justify="center">
-          <Typography align="center" variant="h3" gutterBottom className={classes.title}>
-            나의 레시피
-          </Typography>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "center",
-              borderBottom: "4px solid #aaa",
-              lineHeight: "0.1em",
-              margin: "10px 30px 0px",
-            }}
-          ></div>
-        </Grid>
-
-        <Grid item xs={12} className={classes.root}>
-          <CardList />
-        </Grid>
-        <Grid>
-          <FloatingActionButton />
-          <BottomBar />
-        </Grid>
-      </Grid>
+      <TopBar />
+      <Box my={3}>
+        <Typography variant="h2">레시피 정리</Typography>
+        <Divider />
+        {/* props로 SearchBar에 소분류, 재료를 넘겨주세요  */}
+        <SearchBar />
+        <CardList />
+      </Box>
+      <FloatingActionButton />
+      <BottomBar />
     </Container>
   );
 };

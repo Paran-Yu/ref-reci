@@ -65,6 +65,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Main = () => {
+  const [favItems, setFavDatas] = useState();
+
+  const favRecipeData = await getUserData(`${server.ip}/user/url`);
+
+  useEffect(async () => {
+      const favItems = favRecipeData.map((favData) => {
+        return (
+          <FavRecList key={favData} rName={favData.rName} img={`${server.ip}/img?id=${favData.rImage}`}/>
+          // <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
+          //   <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+          // </Grid>
+        )
+      })
+      setFavDatas(favItems);
+
+  }, [])
   const st = useStyles();
   return (
     <ThemeProvider theme={mytheme}>
@@ -79,7 +95,7 @@ const Main = () => {
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
                 인기 폭주! 사람들이 가장 많이 찾았어요
               </Typography>
-              <FavRecList />
+              {favItems}
             </Grid>
             <Grid item xs={10} className={st.Fav} id={2} style={{ maxWidth: "100%", width: "100%" }}>
               <Typography align="left" variant="h6" gutterBottom className={st.word}>

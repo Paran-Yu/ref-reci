@@ -109,7 +109,7 @@ const SlideList = () => {
 
   const onMoveRangeRight = (e) => {
     e.preventDefault();
-    scrollRef.current.scrollLeft += 100
+    scrollRef.current.scrollLeft += 200
   };
 
   const delay = 50;
