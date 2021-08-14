@@ -148,11 +148,11 @@ export default function Profile({history}) {
       setExpire3Num(userInfoData.expire3FoodCount);
       setExpiredNum(userInfoData.expiredFoodCount);
 
-      const favRecipeData = await getUserData(`${server.ip}/user/recipeInfo`);
+      const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
 
       const recipeItems = favRecipeData.map((recipeData) => {
         return (
-          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
+          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
             <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
           </Grid>
         )

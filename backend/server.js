@@ -82,10 +82,9 @@ app.get("/", function (req, res) {
   res.send("Hello node.js");
 });
 
-
 app.get("/img", function(req, res){
   const rID = req.query.id;
-  console.log(rID);
+  console.log(rID); 
   fs.readFile(`../../images/${rID}`, function(err, data){
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(data);

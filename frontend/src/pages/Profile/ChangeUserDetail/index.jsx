@@ -215,6 +215,7 @@ export default function SignUpSide({history}) {
         setPassword(e.target.value);
         if (e.target.value.length > 20) {
             alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+            
             e.target.value = e.target.value.slice(0, -1);
         }
     }
