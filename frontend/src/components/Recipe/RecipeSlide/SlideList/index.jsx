@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     overflow: "hidden",
     marginTop: 0,
-    
+
   },
   gridList: {
     flexWrap: "nowrap",
@@ -63,12 +63,11 @@ export default function SlideList(props) {
   const classes = useStyles();
   const len = useNowCols();
 
+  // const Favs = props.key;
   //스크롤 관련
   const scrollRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState();
-
-  const [foodDatas, setFoodDatas] = useState();
 
   const onDragStart = (e) => {
     e.preventDefault();
@@ -120,28 +119,24 @@ export default function SlideList(props) {
   const delay = 50;
   const onThrottleDragMove = throttle(onDragMove, delay);
 
-  console.log("나는 슬라이드리스트다")
-  console.log(props.datas)
-
-  const list1 = props.datas.map((idx) => {
-    return (<GridListTile key={idx} alignItems="center" justify="center" >
+  const list2 = props.datas.map((idx) => {
+    return (<GridListTile alignItems="center" justify="center" >
       <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`} />
     </GridListTile>)
   })
 
-  setFoodDatas(list1)
-
   return (
     <div className={classes.root}
-          >
-      
-      <GridList className={classes.gridList} cols={Number.isInteger(len) ? len - 1 : 1} 
-          onMouseDown={onDragStart}
-          onMouseMove={onThrottleDragMove}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-          ref={scrollRef}>
-        {foodDatas}
+    >
+
+      <GridList className={classes.gridList} cols={Number.isInteger(len) ? len - 1 : 1}
+        onMouseDown={onDragStart}
+        onMouseMove={onThrottleDragMove}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+        ref={scrollRef}
+      >
+        {list2}
       </GridList>
       <Button className={classes.leftbutton} onClick={onMoveRangeLeft}><ArrowBackIosIcon></ArrowBackIosIcon></Button>
       <Button className={classes.rightbutton} onClick={onMoveRangeRight}><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
