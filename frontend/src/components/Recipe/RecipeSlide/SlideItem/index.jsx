@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import { React, useState, useEffect } from "react";
 
+import server from '../../../../server.json';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,7 +37,7 @@ const SlideItem = (props) => {
         <CardMedia></CardMedia>
         <CardContent>
           <Typography align="center" gutterBottom variant="h6" component="h2" className={classes.recipeList}>
-            <img width='100' height='100' src={props.img} />
+            <img width='100' height='100' src={props.rimg} />
             {props.rName}
           </Typography>
         </CardContent>

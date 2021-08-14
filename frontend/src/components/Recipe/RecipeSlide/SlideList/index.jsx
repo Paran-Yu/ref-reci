@@ -10,6 +10,9 @@ import { useRef } from "react";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
+//server
+import server from '../../../../server.json';
+
 const useGetdata = () => {
   const [favItemDatas, setFavItemDatas] = useState([]);
   const getDatas = async () => {
@@ -128,7 +131,7 @@ const SlideList = () => {
           ref={scrollRef}>
         {Favs.map((dt, idx) => (
           <GridListTile key={idx} alignItems="center" justify="center" >
-            <FavItem dt={dt} idx={idx} />
+            <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`}/>
           </GridListTile>
         ))}
       </GridList>

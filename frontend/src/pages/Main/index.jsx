@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import Container from '@material-ui/core/Container';
 import FavRecList from "../../components/Recipe/RecipeSlide/SlideList";
@@ -8,6 +8,10 @@ import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+
+// server
+import axios from 'axios';
+import server from '../../server.json';
 
 const mytheme = createTheme({
   palette: {
@@ -63,21 +67,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getFavData = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 const Main = () => {
   const [favItems, setFavDatas] = useState();
-
-  const favRecipeData = await getUserData(`${server.ip}/user/url`);
-
+  
   useEffect(async () => {
-      const favItems = favRecipeData.map((favData) => {
-        return (
-          <FavRecList key={favData} rName={favData.rName} img={`${server.ip}/img?id=${favData.rImage}`}/>
-          // <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
-          //   <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
-          // </Grid>
-        )
-      })
+      const favRecipeData = await getFavData(`${server.ip}/recipe/tenFavorRecipe`);
+      console.log(favRecipeData)
+      // const favItems = favRecipeData.map((favData) => {
+      //   // console.log(favData)
+      //   return (
+      //     <FavRecList key={favData} rNama={favData.rNama} rImage={favData.rImage}/>
+      //     // <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
+      //     //   <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+      //     // </Grid>
+      //   )
+      // })
       setFavDatas(favItems);
 
   }, [])
