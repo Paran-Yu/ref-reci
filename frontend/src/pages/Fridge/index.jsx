@@ -17,6 +17,8 @@ import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 import CatItem from "../../components/Fridge/Category/CatItem";
 import SmallList from "../../components/Fridge/Category/SmallList";
+
+
 export default function Fridge(props) {
   let catName = "";
   if (props.location.state == undefined) {
@@ -28,6 +30,9 @@ export default function Fridge(props) {
   const addCnt = (re) => {
     setCnt(re);
   };
+
+  // useEffect
+
   return (
     <Container fixed>
       <TopBar />
@@ -39,7 +44,6 @@ export default function Fridge(props) {
           <ShowChoiceButton cnt={cnt} />
         </Box>
         <RadioButton />
-        <SearchBar />
         <SmallList cnt={cnt} addCnt={addCnt.bind()} />
       </Box>
       <FloatingActionButton />
