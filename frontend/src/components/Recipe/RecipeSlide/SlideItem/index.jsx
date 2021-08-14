@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const SlideItem = (props) => {
   const classes = useStyles();
   // const { dt, idx } = props;
+
   return (
     <Card elevation={3} item className={classes.paper}>
       <CardActions className={classes.action}>

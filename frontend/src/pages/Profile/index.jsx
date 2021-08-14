@@ -157,6 +157,7 @@ export default function Profile({history}) {
           </Grid>
         )
       })
+
       setRecipeDatas(recipeItems);
     // }
     // else {

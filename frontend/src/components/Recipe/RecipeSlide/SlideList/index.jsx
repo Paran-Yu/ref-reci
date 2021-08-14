@@ -61,16 +61,11 @@ const useStyles = makeStyles((theme) => ({
 const SlideList = (props) => {
   // const [favItem, setFavItems] = useState();
 
-  // useEffect((() => {
-  const Favs = props.key;
-  console.log("slidelist", Favs);
-  // const favItem = 
-  // });
-  // setFavItems(favItem)
-  // }))
-  const classes = useStyles();
-  const len = useNowCols();
-
+    const classes = useStyles();
+    const len = useNowCols();
+    
+    // const Favs = props.key;
+    console.log("slidelist", props);
   //스크롤 관련
   const scrollRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
@@ -137,10 +132,11 @@ const SlideList = (props) => {
           onMouseUp={onDragEnd}
           onMouseLeave={onDragEnd}
           ref={scrollRef}>
-        {Favs.map((idx) => {
-        <GridListTile key={idx} alignItems="center" justify="center" >
+        {props.datas.map((idx) => {
+        return (<GridListTile alignItems="center" justify="center" >
           <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`}/>
-        </GridListTile>})}
+        </GridListTile>)
+      })}
       </GridList>
       <Button className={classes.leftbutton} onClick={onMoveRangeLeft}><ArrowBackIosIcon></ArrowBackIosIcon></Button>
       <Button className={classes.rightbutton} onClick={onMoveRangeRight}><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
