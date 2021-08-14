@@ -17,6 +17,8 @@ import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 import CatItem from "../../components/Fridge/Category/CatItem";
 import SmallList from "../../components/Fridge/Category/SmallList";
+
+
 export default function Fridge(props) {
   let catName = "";
   if (props.location.state == undefined) {
