@@ -22,7 +22,7 @@ app.get("/tenRecentRecipe", async(req, res) => {
 
 app.get("/tenFavorRecipe", async(req, res) => {
     try {
-        const [rows, fields] = await pool.query("SELECT r.recipeName AS rName, r.recipeImage AS rImage, count(*) FROM Favorites AS f JOIN Recipe AS r ON f.rID = r.rID GROUP BY r.rID ORDER BY count(*) DESC;");
+        const [rows, fields] = await pool.query("SELECT r.recipeName AS rName, r.recipeImage AS rImage, count(*) FROM Favorites AS f JOIN Recipe AS r ON f.rID = r.rID GROUP BY r.rID ORDER BY count(*) DESC LIMIT 10;");
         
         res.json(rows);
     }
