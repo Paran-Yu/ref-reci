@@ -26,6 +26,10 @@ export default function Fridge(props) {
   } else {
     catName = props.location.state.catName;
   }
+  const [cnt, setCnt] = useState(0);
+  const addCnt = (re) => {
+    setCnt(re);
+  };
   return (
     <Container fixed>
       <TopBar />
@@ -34,11 +38,11 @@ export default function Fridge(props) {
         <Divider />
         <Box justifyContent="space-between" alignItems="center">
           <Breadcrumb catName={catName} />
-          <ShowChoiceButton />
+          <ShowChoiceButton cnt={cnt} />
         </Box>
         <RadioButton />
         <SearchBar />
-        <SmallList />
+        <SmallList cnt={cnt} addCnt={addCnt.bind()} />
       </Box>
       <FloatingActionButton />
       <BottomBar />
