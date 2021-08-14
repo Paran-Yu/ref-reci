@@ -40,7 +40,7 @@ export default function SearchBar() {
 }
 
 const top100Films = [
-  { name: '태양초 고추장', category: 1994 },
+  { title: '태양초 고추장', year: 1994 },
   { title: '고추장일수도있고', year: 1972 },
   { title: '해찬들 고추장: Part II', year: 1974 },
   { title: 'The Dark Knight', year: 2008 },
