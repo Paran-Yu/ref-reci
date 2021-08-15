@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import TopBar from '../../../layout/TopBar';
 import BottomBar from '../../../layout/BottomBar';
 import FloatingActionButton from '../../../layout/FloatingActionButton';
+import DetailCard from '../../../components/Recipe/RecipeDetail';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +25,7 @@ export default function RecipeDetail() {
   return (
     <Container fixed>
       <TopBar />
+      <DetailCard />
       <BottomBar />
       <FloatingActionButton />
     </Container>
