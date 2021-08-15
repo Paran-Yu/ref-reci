@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Breadcrumb from "../../components/Fridge/Breadcrumb";
 import LargeList from "../../components/Fridge/Category/LargeList";
-import SearchBar from "../../components/Fridge/SearchBar";
+import SearchBar from "../../components/Recipe/SearchBar";
 import RadioButton from "../../components/Fridge/RadioButton";
 import ShowChoiceButton from "../../components/Fridge/ShowChoiceButton";
 
@@ -39,7 +39,7 @@ export default function Fridge(props) {
       <Box my={3}>
         <Typography variant="h2">나의 냉장고</Typography>
         <Divider />
-        <Box justifyContent="space-between" alignItems="center">
+        <Box my={1} display="flex" justifyContent="space-between" alignItems="center">
           <Breadcrumb catName={catName} />
           <ShowChoiceButton cnt={cnt} />
         </Box>

@@ -3,6 +3,8 @@ import { Grid, makeStyles, GridList, Paper, Button, createMuiTheme } from "@mate
 import { useNowCols } from "../../../../common/MediaQueryHooks";
 import catDt from "./dump.json";
 import CardItem from "../CardItem";
+
+
 const useStyles = makeStyles((theme) => ({
   grid: {
     border: "1px solid #dfdfdf",
@@ -28,21 +30,21 @@ const useGetdata = () => {
   }, []);
   return catItemDatas;
 };
+
+
 const CardList = () => {
   const classes = useStyles();
   const data = useGetdata();
   return (
     <div className={classes.root}>
-      <Grid xs={12}>
-        <GridList container>
+      <Grid container>
           {data.map((dt, idx) => (
-            <Grid item justifyContent="center" alignItems="center" key={idx} xs={4} lg={3}>
+            <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
               <Paper className={classes.grid}>
                 <CardItem dt={dt} idx={idx} />
               </Paper>
             </Grid>
           ))}
-        </GridList>
       </Grid>
     </div>
   );
