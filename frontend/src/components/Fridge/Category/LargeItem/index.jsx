@@ -24,13 +24,13 @@ const LargeItem = (props) => {
       to={{
         pathname: "/fridge",
         state: {
-          catName: dt.classification1Name,
+          catName: dt,
         },
       }}
       className={st.link}
       style={{ textDecoration: "none" }}
     >
-      <ButtonBase className={st.catIt}>{dt.classification1Name}</ButtonBase>
+      <ButtonBase className={st.catIt}>{dt}</ButtonBase>
     </Link>
   );
 };

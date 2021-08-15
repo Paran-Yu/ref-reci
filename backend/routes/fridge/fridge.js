@@ -53,7 +53,7 @@ app.get("/classification1", async (req, res) => {
         for(let i=0; i<len; i++){
             list.push(rows[i].classification1Name);
         }
-
+        console.log(list);
         res.json(list);
     }
     catch (err) {
