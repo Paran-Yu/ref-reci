@@ -54,6 +54,7 @@ const SmallItem = (props) => {
 
   const addDt = (event) => {
     setFlag(!flag);
+    handleClose();
     if (flag) {
       // props.arr.showA(props.arr.concat(dt.CatName))
       props.showDt(props.cnt - 1);

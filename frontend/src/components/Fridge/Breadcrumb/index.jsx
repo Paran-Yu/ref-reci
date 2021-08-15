@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { emphasize, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -24,12 +24,17 @@ const StyledBreadcrumb = withStyles((theme) => ({
   },
 }))(Chip); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
 
-function handleClick(event) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
-
 export default function CustomizedBreadcrumbs(props) {
+  const [smallCat, setSmallCat] = useState(false);
+  useEffect(() => {
+    if (props.catName != "전체") setSmallCat(true);
+    else setSmallCat(false);
+  });
+  const handleClick = (re) => {
+    console.log(re);
+    props.toBack(re);
+  };
+
   return (
     <Breadcrumbs aria-label="breadcrumb">
       <StyledBreadcrumb
@@ -37,89 +42,10 @@ export default function CustomizedBreadcrumbs(props) {
         href="#"
         label="나의 냉장고"
         icon={<HomeIcon fontSize="small" />}
-        onClick={handleClick}
+        onClick={handleClick(1)}
       />
-      <StyledBreadcrumb component="a" href="#" label={props.catName} onClick={handleClick} />
-      <StyledBreadcrumb label="소분류" onClick={handleClick} />
+      <StyledBreadcrumb component="a" href="#" label={props.catName} onClick={handleClick(2)} />
+      {props.catName != "전체" ? <StyledBreadcrumb label="소분류" /> : ""}
     </Breadcrumbs>
   );
 }
-
-// const useStyles = makeStyles((theme) => ({
-//   menu: {
-//     paddingTop: "0%",
-//     textAlign: "center",
-//     background: "#F9BC15",
-//     marginRight: theme.spacing(2),
-//     color: "#45434C",
-//   },
-// }));
-// const options = ["소분류1", "소분류2", "소분류3", "소분류4"];
-// const Breadcrumb = (props) => {
-//   const { catName } = props;
-//   const classes = useStyles();
-//   const [anchorEl, setAnchorEl] = useState(null);
-//   const [selectedIndex, setSelectedIndex] = useState(1);
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
-//   const handleClickListItem = (event) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-
-//   const handleMenuItemClick = (event, index) => {
-//     setSelectedIndex(index);
-//     setAnchorEl(null);
-//   };
-
-//   return (
-//     <Grid container justifyContent="center">
-//       <Grid container>
-//         <Grid item>
-//           <Paper className={classes.menu}>
-//             <List item component="nav">
-//               <ListItem button onClick={handleClickListItem}>
-//                 <ListItemText
-//                   primary={
-//                     <Typography
-//                       align="center"
-//                       style={{
-//                         fontSize: "large",
-//                         fontWeight: "bold",
-//                       }}
-//                     >
-//                       {catName}
-//                     </Typography>
-//                   }
-//                   secondary={
-//                     <Typography align="center" style={{ fontWeight: "normal" }}>
-//                       {options[selectedIndex]}
-//                     </Typography>
-//                   }
-//                 />
-//               </ListItem>
-//             </List>
-//           </Paper>
-//           <Menu
-//             classes={classes.menu}
-//             anchorEl={anchorEl}
-//             keepMounted
-//             open={Boolean(anchorEl)}
-//             onClose={handleClose}
-//           >
-//             {options.map((option, index) => (
-//               <MenuItem
-//                 key={option}
-//                 selected={index === selectedIndex}
-//                 onClick={(event) => handleMenuItemClick(event, index)}
-//               >
-//                 {option}
-//               </MenuItem>
-//             ))}
-//           </Menu>
-//         </Grid>
-//       </Grid>
-//     </Grid>
-//   );
-// };
-// export default Breadcrumb;

@@ -25,8 +25,15 @@ export default function Fridge(props) {
     catName = props.location.state.catName;
   }
   const [cnt, setCnt] = useState(0);
+  const [back, setBack] = useState(1);
   const addCnt = (re) => {
     setCnt(re);
+  };
+
+  const toBack = (re) => {
+    setBack(re);
+    if (catName != "전체") setBack(2);
+    console.log("Main : " + back);
   };
   return (
     <Container fixed>
@@ -35,12 +42,16 @@ export default function Fridge(props) {
         <Typography variant="h2">나의 냉장고</Typography>
         <Divider />
         <Box justifyContent="space-between" alignItems="center">
-          <Breadcrumb catName={catName} />
+          <Breadcrumb catName={catName} toBack={toBack.bind()} />
           <ShowChoiceButton cnt={cnt} />
         </Box>
         <RadioButton />
         <SearchBar />
-        <SmallList cnt={cnt} addCnt={addCnt.bind()} />
+        {catName == "전체" ? (
+          <LargeList num={back} />
+        ) : (
+          <SmallList cnt={cnt} addCnt={addCnt.bind()} />
+        )}
       </Box>
       <FloatingActionButton />
       <BottomBar />

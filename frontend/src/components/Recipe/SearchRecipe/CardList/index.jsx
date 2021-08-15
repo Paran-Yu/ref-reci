@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginTop: theme.spacing(1),
   },
+  list: {
+    height: "120%",
+  },
 }));
 const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);
@@ -34,7 +37,7 @@ const CardList = () => {
   return (
     <div className={classes.root}>
       <Grid xs={12}>
-        <GridList container>
+        <GridList container className={classes.list}>
           {data.map((dt, idx) => (
             <Grid item justifyContent="center" alignItems="center" key={idx} xs={4} lg={3}>
               <Paper className={classes.grid}>
