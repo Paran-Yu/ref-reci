@@ -4,7 +4,6 @@ import { useNowCols } from "../../../../common/MediaQueryHooks";
 import catDt from "./dump.json";
 import CardItem from "../CardItem";
 
-
 const useStyles = makeStyles((theme) => ({
   grid: {
     border: "1px solid #dfdfdf",
@@ -35,26 +34,20 @@ const useGetdata = () => {
   return catItemDatas;
 };
 
-
 const CardList = (props) => {
   const classes = useStyles();
   // const data = useGetdata();
   const data = props.datas;
   return (
     <div className={classes.root}>
-<<<<<<< HEAD
-      <Grid xs={12}>
-        <GridList container className={classes.list}>
-=======
       <Grid container>
->>>>>>> 50e4378615cd53ccf665db1f8c3e333e82eb5f9b
-          {data.map((dt, idx) => (
-            <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
-              <Paper className={classes.grid}>
-                <CardItem dt={dt} idx={idx} />
-              </Paper>
-            </Grid>
-          ))}
+        {data.map((dt, idx) => (
+          <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
+            <Paper className={classes.grid}>
+              <CardItem dt={dt} idx={idx} />
+            </Paper>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );
