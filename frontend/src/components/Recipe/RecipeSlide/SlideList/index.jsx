@@ -30,31 +30,30 @@ const useStyles = makeStyles((theme) => ({
     wrap: "nowrap",
     justifyContent: "space-around",
     overflow: "hidden",
-    marginTop: 0,
+    // marginTop: 0,
 
   },
   gridList: {
     flexWrap: "nowrap",
-    padding: 20,
+    padding: 10,
     backgroundColor: "white",
     width: "100%",
     height: "100%",
     overflow: "hidden",
     fontFamily: 'KoPubWorld Bold',
     fontStyle: `normal`,
-    // overflowX: "scroll"
   },
   leftbutton: {
     position: "absolute",
     margin: "auto",
     left: 0,
-    bottom: 90
+    bottom: '50%'
   },
   rightbutton: {
     position: "absolute",
     margin: "auto",
     right: 0,
-    bottom: 90
+    bottom: '50%'
   }
 }));
 
@@ -118,11 +117,11 @@ export default function SlideList(props) {
 
   const delay = 50;
   const onThrottleDragMove = throttle(onDragMove, delay);
-
+// <GridListTile alignItems="center" justify="center" ></GridListTile>
   const list2 = props.datas.map((idx) => {
-    return (<GridListTile alignItems="center" justify="center" >
-      <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`} />
-    </GridListTile>)
+    return (
+      <FavItem justify="center" alignItems="center" rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`} />
+    )
   })
 
   return (

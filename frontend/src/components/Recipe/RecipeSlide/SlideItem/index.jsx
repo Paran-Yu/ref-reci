@@ -16,13 +16,14 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     height: 150,
     width: 200,
-    marginTop: 10,
   },
   action: {
     justifyContent: "center",
     color: "#45423C",
-    marginTop: 20,
-    fontFamily: 'KoPubWorld Bold'
+    marginTop: 25,
+    fontFamily: 'KoPubWorld Bold',
+    marginLeft: 20,
+    fontSize: '14px'
   },
   recipe: {
     borderRadius: "50%",

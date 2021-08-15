@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "60px",
   },
   image: {
-    height: "50%",
+    height: "40%",
   },
 }));
 
