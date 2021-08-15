@@ -21,29 +21,30 @@ const useStyles = makeStyles((theme) => ({
   action: {
     justifyContent: "center",
     color: "#45423C",
-  },
-  recipeList: {
+    marginTop: 20,
     fontFamily: 'KoPubWorld Bold'
+  },
+  recipe: {
+    borderRadius: "50%",
+    overflow: "hidden"
   }
 }));
-
-
+//      {/* <CardActions className={classes.action}> */}
+        
+//        {/* <CardContent> */}
+// {/*<Card elevation={3} item className={classes.paper}>*/}
+// </Card> <CardMedia></CardMedia>
 const SlideItem = (props) => {
   const classes = useStyles();
   // const { dt, idx } = props;
 
   return (
-    <Card elevation={3} item className={classes.paper}>
-      <CardActions className={classes.action}>
-        <CardMedia></CardMedia>
-        <CardContent>
-          <Typography align="center" gutterBottom variant="h6" component="h2" className={classes.recipeList}>
-            <img width='100' height='100' src={props.rimg} />
-            {props.rName}
-          </Typography>
-        </CardContent>
-      </CardActions>
-    </Card>
+
+    <Typography className={classes.action} align="center" gutterBottom variant="h6" component="h2">
+      <img width='120' height='120' src={props.rimg} className={classes.recipe}/>
+      <div>{props.rName}</div>
+    </Typography>
+    
   );
 };
 export default SlideItem;
