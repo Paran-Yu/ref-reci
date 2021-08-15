@@ -4,17 +4,6 @@ import catDt from "./dump.json";
 import IngItem from "../SmallItem";
 import { PropTypes } from "react";
 
-const useGetdata = () => {
-  const [catItemDatas, setCatItemDatas] = useState([]);
-  const getDatas = async () => {
-    setCatItemDatas(catDt);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return catItemDatas;
-};
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -29,13 +18,17 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     height: "100%",
   },
-  list: {
-    width: "100%",
-  },
-  MainGrid: {
-    marginBottom: theme.spacing(2),
-  },
 }));
+const useGetdata = () => {
+  const [catItemDatas, setCatItemDatas] = useState([]);
+  const getDatas = async () => {
+    setCatItemDatas(catDt);
+  };
+  useEffect(() => {
+    getDatas();
+  }, []);
+  return catItemDatas;
+};
 
 const SmallList = (props) => {
   const classes = useStyles();
