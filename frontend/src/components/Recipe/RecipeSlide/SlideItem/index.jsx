@@ -29,12 +29,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden"
   }
 }));
-//      {/* <CardActions className={classes.action}> */}
-        
-//        {/* <CardContent> */}
-// {/*<Card elevation={3} item className={classes.paper}>*/}
-// </Card> <CardMedia></CardMedia>
-const SlideItem = (props) => {
+
+
+export default function SlideItem(props) {
   const classes = useStyles();
   // const { dt, idx } = props;
 
@@ -47,4 +44,3 @@ const SlideItem = (props) => {
     
   );
 };
-export default SlideItem;

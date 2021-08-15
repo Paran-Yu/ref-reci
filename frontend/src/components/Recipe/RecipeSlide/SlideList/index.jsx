@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component, useEffect } from "react";
 import { GridList, makeStyles, GridListTile, Button } from "@material-ui/core";
 import FavDt from "./dump.json";
 import FavItem from "../SlideItem";
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     overflow: "hidden",
     marginTop: 0,
-    
+
   },
   gridList: {
     flexWrap: "nowrap",
@@ -58,14 +58,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SlideList = (props) => {
-  // const [favItem, setFavItems] = useState();
+export default function SlideList(props) {
 
-    const classes = useStyles();
-    const len = useNowCols();
-    
-    // const Favs = props.key;
-    console.log("slidelist", props);
+  const classes = useStyles();
+  const len = useNowCols();
+
+  // const Favs = props.key;
   //스크롤 관련
   const scrollRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
@@ -121,27 +119,27 @@ const SlideList = (props) => {
   const delay = 50;
   const onThrottleDragMove = throttle(onDragMove, delay);
 
+  const list2 = props.datas.map((idx) => {
+    return (<GridListTile alignItems="center" justify="center" >
+      <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`} />
+    </GridListTile>)
+  })
 
   return (
     <div className={classes.root}
-          >
-      
-      <GridList className={classes.gridList} cols={Number.isInteger(len) ? len - 1 : 1} 
-          onMouseDown={onDragStart}
-          onMouseMove={onThrottleDragMove}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-          ref={scrollRef}>
-        {props.datas.map((idx) => {
-        return (<GridListTile alignItems="center" justify="center" >
-          <FavItem rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`}/>
-        </GridListTile>)
-      })}
+    >
+
+      <GridList className={classes.gridList} cols={Number.isInteger(len) ? len - 1 : 1}
+        onMouseDown={onDragStart}
+        onMouseMove={onThrottleDragMove}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+        ref={scrollRef}
+      >
+        {list2}
       </GridList>
       <Button className={classes.leftbutton} onClick={onMoveRangeLeft}><ArrowBackIosIcon></ArrowBackIosIcon></Button>
       <Button className={classes.rightbutton} onClick={onMoveRangeRight}><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
     </div>
   );
 };
-
-export default SlideList;
