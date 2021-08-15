@@ -63,9 +63,10 @@ const useGetdata = () => {
   return catItemDatas;
 };
 
-const LargeList = () => {
+const LargeList = (props) => {
   const classes = useStyles();
-  const data = useGetdata();
+  // const data = useGetdata();
+  const data = props.datas;
   const len = useNowCols();
   return (
     <div className={classes.root}>
@@ -79,7 +80,7 @@ const LargeList = () => {
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
                 <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
-                  <CatItem dt={dt} />
+                  <CatItem dt={dt} idx={idx}/>
                 </Paper>
               </Grid>
             );

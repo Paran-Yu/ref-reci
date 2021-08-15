@@ -37,13 +37,16 @@ export default function Calendar() {
   const [dates, setDates] = useState('')
   const [foodDatas, setfoodDatas] = useState();
 
-
+  //받아온 dates에 배열을 생성
   function getDates(dates) {
     setDates(dates)
   }
 
   useEffect(async () => {
     //console.log(dates)
+    // const foodlist = await getItems(`http://localhost:3001/foodlist/getItems`, `${dates}`);
+
+    //다른거에 담아서 여러개를 보내는?
     const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
 
     const foodItems = foodlist.map((foodData) => {

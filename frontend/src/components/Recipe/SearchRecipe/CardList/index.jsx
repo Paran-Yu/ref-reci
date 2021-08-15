@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
 }));
+//삭제 예정
 const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);
   const getDatas = async () => {
@@ -32,9 +33,10 @@ const useGetdata = () => {
 };
 
 
-const CardList = () => {
+const CardList = (props) => {
   const classes = useStyles();
-  const data = useGetdata();
+  // const data = useGetdata();
+  const data = props.datas;
   return (
     <div className={classes.root}>
       <Grid container>

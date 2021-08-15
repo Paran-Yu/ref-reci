@@ -59,13 +59,16 @@ const Recipe = () => {
 
   const [allFoodItems, setAllFoodItems] = useState();
   const [customSearchBar, setCustomSearchBar] = useState();
+  const [customCardList, setCustomCardList] = useState();
 
   useEffect(async () => {
     const allFoodItems = await getDatas(`${server.ip}/fridge/read`);
     items = allFoodItems;
 
     function handleChildChange(recipes, selectedArr) {
-      
+      console.log('렌더 전')
+      setCustomCardList(<CardList datas={recipes}/>)
+      console.log('렌더 후')
     }
 
     setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} />)
@@ -78,7 +81,7 @@ const Recipe = () => {
         <Typography variant="h2">레시피 정리</Typography>
         <Divider />
         {customSearchBar}
-        <CardList />
+        {customCardList}
       </Box>
       <FloatingActionButton />
       <BottomBar />

@@ -15,6 +15,8 @@ import {
 } from "@material-ui/core";
 import { Router, Link } from "react-router-dom";
 import DetailModal from "../DetailModal";
+import server from '../../../../server.json';
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -39,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(1),
   },
+  media: {
+    height: 200,
+  },
 }));
 
 const CardItem = (props) => {
@@ -55,6 +60,9 @@ const CardItem = (props) => {
     { key: 0, label: "우유" },
     { key: 1, label: "계란" },
     { key: 2, label: "달걀" },
+    { key: 3, label: "우유" },
+    { key: 4, label: "계란" },
+    { key: 5, label: "달걀" },
   ]);
   const handleDelete = (chipToDelete) => () => {
     setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
@@ -63,13 +71,13 @@ const CardItem = (props) => {
     <div>
       <Card onClick={handleOpen}>
         <CardActionArea>
-          <CardMedia image="/static/images/cards/contemplative-reptile.jpg" title="살려줘" />
+          <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.recipeImage}`} />
           <CardContent>
             <Typography variant="h5" component="h2">
-              {dt.CatName}
+              {dt.recipeName}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              20분
+              {dt.recipeTime}
             </Typography>
           </CardContent>
         </CardActionArea>

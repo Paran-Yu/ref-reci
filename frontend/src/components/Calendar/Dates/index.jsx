@@ -9,7 +9,6 @@ import Box from '@material-ui/core/Box';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
 const getEvents = async (url) => {
   try {
     const data = await axios({

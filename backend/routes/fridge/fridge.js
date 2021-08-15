@@ -44,6 +44,18 @@ app.get("/read", async (req, res) =>{
     }
 })
 
+app.get("/classification1", async (req, res) => {
+    try {
+        const [rows, fields] = await pool.query('SELECT classification1Name FROM Classification1', [])
+
+        res.json(rows);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
 //재료 삽입
 app.post("/", async (req, res) =>{
     const nowDay = getCurrentDate()
