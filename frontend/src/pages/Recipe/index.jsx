@@ -5,7 +5,7 @@ import BottomBar from "../../layout/BottomBar";
 import CardList from "../../components/Recipe/SearchRecipe/CardList";
 import { ThemeProvider } from "@material-ui/styles";
 import Container from "@material-ui/core/Container";
-import SearchBar from "../../components/Fridge/SearchBar";
+import SearchBar from "../../components/Recipe/SearchBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 const useStyles = makeStyles((theme) => ({
   root: {
