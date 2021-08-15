@@ -140,7 +140,7 @@ export default function Profile({history}) {
     setUID(1);
     // if (loginData.value) {
     //   setUID(loginData.value);
-      //필요한 데이터 가져오기
+    //필요한 데이터 가져오기
       const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
       setUserID(userInfoData.userID);
       setUserName(userInfoData.userName);
@@ -148,15 +148,16 @@ export default function Profile({history}) {
       setExpire3Num(userInfoData.expire3FoodCount);
       setExpiredNum(userInfoData.expiredFoodCount);
 
-      const favRecipeData = await getUserData(`${server.ip}/user/recipeInfo`);
+      const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
 
       const recipeItems = favRecipeData.map((recipeData) => {
         return (
-          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}>
+          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
             <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
           </Grid>
         )
       })
+
       setRecipeDatas(recipeItems);
     // }
     // else {

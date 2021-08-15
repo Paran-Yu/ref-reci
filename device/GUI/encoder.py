@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import PyQt5 import QThread
+from PyQt5.QtCore import *
 import time
 
 class Encoder:
@@ -11,16 +11,19 @@ class Encoder:
         self.oldCLK = 0
         self.oldDT = 0
 
+        self.setup()
         self.main()
 
     def setup(self):
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+
         GPIO.setup(self.SW, GPIO.IN)
         GPIO.setup(self.DT, GPIO.IN)
         GPIO.setup(self.CLK, GPIO.IN)
 
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-
+    def clicked_sw(self, pin):
+        print("CLICK")
 
     def get_direction(self):
         direction = 0
@@ -30,29 +33,25 @@ class Encoder:
         if (newCLK != self.oldCLK):
                 if(self.oldCLK == 0):
                         direction = self.oldDT * 2 - 1
-        oldCLK = newCLK
-        oldDT = newDT
+        self.oldCLK = newCLK
+        self.oldDT = newDT
 
         # CW: -1, CCW: +1
         return direction
 
     def main(self):
-        self.setup()
-
+        GPIO.add_event_detect(self.SW, GPIO.FALLING, callback=self.clicked_sw, bouncetime=200)
         while True:
-            print(GPIO.input(self.SW))
             print(self.get_direction())
-            time.sleep(0.1)
+            time.sleep(0.01)
 
 class MyThread(QThread):
-    mySignal = Signal(int)
+    # mySignal = Signal(int)
 
     def __init__(self):
         super().__init__()
 
-    # Thread start 누르면 자동 호출출
-   def run(self):
-        for i in range(5):
-            # emit으로 시그널 전송
-            self.mySignal.emit(i)
-            sleep(1)
+    # Thread start 누르면 자동 호출
+    def run(self):
+        self.encoder = Encoder()
+

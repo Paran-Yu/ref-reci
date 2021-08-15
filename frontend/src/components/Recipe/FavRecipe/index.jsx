@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 // Core
-import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,7 +13,7 @@ import server from '../../../server.json';
 
 const useStyles = makeStyles({
   cardroot: {
-    maxWidth: 345,
+    maxWidth: '100%',
     height: 'h-100',
   },
   media: {

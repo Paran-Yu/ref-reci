@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Breadcrumb from "../../components/Fridge/Breadcrumb";
 import LargeList from "../../components/Fridge/Category/LargeList";
-import SearchBar from "../../components/Fridge/SearchBar";
+import SearchBar from "../../components/Recipe/SearchBar";
 import RadioButton from "../../components/Fridge/RadioButton";
 import ShowChoiceButton from "../../components/Fridge/ShowChoiceButton";
 
@@ -17,6 +17,7 @@ import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 import CatItem from "../../components/Fridge/Category/CatItem";
 import SmallList from "../../components/Fridge/Category/SmallList";
+
 export default function Fridge(props) {
   let catName = "";
   if (props.location.state == undefined) {
