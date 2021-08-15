@@ -37,7 +37,7 @@ const postDatas = async (url, cl2) => {
   }
 }
 
-export default function SearchBar(props, { onChildChange }) {
+export default function SearchBar(props) {
   const classes = useStyles();
   const [selectedOptions, setSelectedOptions] = useState([]);
   

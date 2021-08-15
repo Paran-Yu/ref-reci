@@ -1,10 +1,12 @@
 import React from 'react';
 import { Container, Box, Typography, Paper, Grid, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+
 import TopBar from '../../../layout/TopBar';
 import BottomBar from '../../../layout/BottomBar';
 import FloatingActionButton from '../../../layout/FloatingActionButton';
-import DetailCard from '../../../components/Recipe/RecipeDetail';
+import RecipeTitle from '../../../components/RecipeDetail/RecipeTitle';
+import RecipeContent from '../../../components/RecipeDetail/RecipeContent';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +27,8 @@ export default function RecipeDetail() {
   return (
     <Container fixed>
       <TopBar />
-      <DetailCard />
+      <RecipeTitle />
+      <RecipeContent />
       <BottomBar />
       <FloatingActionButton />
     </Container>
