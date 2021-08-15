@@ -14,9 +14,7 @@ import server from '../../server.json'
 import { computeSegDraggable } from '@fullcalendar/react';
 
 const getItems = async (url,date) => {
-  try {
-    console.log(`send Data = ${date}`)
-    
+  try {    
     const data = await axios({
       method: 'POST',
       url: url,
@@ -41,18 +39,17 @@ export default function Calendar() {
 
 
   function getDates(dates) {
-    // console.log(dates);
     setDates(dates)
   }
-  console.log(dates)
+
   useEffect(async () => {
     //console.log(dates)
-    const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
+    const foodlist = await getItems(`http://localhost:3001/foodlist/getItems`, `${dates}`);
 
 
 
     const foodItems = foodlist.map((foodData) => {
-      console.log(`${foodData.Name}.jpg`)
+      // console.log(`${foodData.Name}.jpg`)
       return (
         <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
       )

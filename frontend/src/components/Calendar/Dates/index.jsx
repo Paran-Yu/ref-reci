@@ -5,6 +5,13 @@ import interactionPlugin from '@fullcalendar/interaction'
 import axios from 'axios';
 import server from '../../../server.json';
 import './index.css'
+import Box from '@material-ui/core/Box';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 const getEvents = async (url) => {
@@ -25,10 +32,6 @@ const getEvents = async (url) => {
 }
 
 
-
-
-
-
 //백에서 달 꺼를 날짜를 가져와서 캘린더에 뿌리고
 //캘린더 클릭 시 백에서 해당 날짜에 유통기한마감 상품을 다른 창에 뿌림
 
@@ -40,13 +43,27 @@ export default function Dates({onChildClick}) {
     setCalendarData(data)
   },[])
   const onDateClick = (info) => {
-    //console.log(info.dateStr)
     onChildClick(info.dateStr)
+  }
+  const onEventClick = (info) => {
+    onChildClick(info.event.startStr)
   }
   // console.log('캘린더')
   // console.log(typeof(calendarData), calendarData)
+
+  const [state, setState] = useState({
+    showExpire: true,
+    selected: false,
+  });
+
+  const { showExpire, selected } = state;
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
     return(
-      <section>
+      <Box>
         <FullCalendar
           ref={calendarRef}
           plugins={[ dayGridPlugin, interactionPlugin ]}
@@ -57,8 +74,18 @@ export default function Dates({onChildClick}) {
           //foodlist로 날짜 전달
           //달력에 선택된게 아무것도 없을 때
           //리스트에 유효기간이 임박한 순으로 보여주기
-          eventClick={(el) => {alert(el.event.startstr)}}
+          eventClick={onEventClick}
         />
-      </section>
+        <FormGroup>
+          <FormControlLabel
+            control={<Checkbox checked={showExpire} onChange={handleChange} name="gilad" />}
+            label="유통기한 7일 이하 식재료 모두 보기"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={selected} onChange={handleChange} name="jason" />}
+            label="선택 전체 해제"
+          />
+        </FormGroup>
+      </Box>
     )
   }
