@@ -19,6 +19,7 @@ export default function SearchBar() {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const handleChange = (event, value) => {
     setSelectedOptions(value);
+    console.log(value);
     // [박지우 -> 이지훈] selectedOptions 변할 때 query날리는 부분 작성해주세요.
   }
   
