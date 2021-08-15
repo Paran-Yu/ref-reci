@@ -46,9 +46,15 @@ app.get("/read", async (req, res) =>{
 
 app.get("/classification1", async (req, res) => {
     try {
+        const list = ["전체"];
         const [rows, fields] = await pool.query('SELECT classification1Name FROM Classification1', [])
+        const len = rows.length;
 
-        res.json(rows);
+        for(let i=0; i<len; i++){
+            list.push(rows[i].classification1Name);
+        }
+
+        res.json(list);
     }
     catch (err) {
         console.log(err)
