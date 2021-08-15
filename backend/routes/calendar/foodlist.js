@@ -13,6 +13,7 @@ app.post("/getItems", async (req, res) =>{
     let type
     let  sql
     let getDate, date, getyear, getmonth, getday, year, month, day
+    //처음 페이지가 실행됐을 때 NaN-NaN-NaN 처리
     if (req.body.date == ''){
         type = 1
         sql = `SELECT a.Classification2Image as Img, DATEDIFF(productShelfLife, now()) as Dday, b.productName as Name, b.productCount as Count
@@ -48,14 +49,13 @@ app.post("/getItems", async (req, res) =>{
     // console.log(year+'-'+month+'-'+day)
     try {
         let data
-        console.log(sql)
         if (type == 1){
             data = await pool.query(sql)
-            console.log(data[0])
+            // console.log(data[0])
         }
         else if (type == 2){
             data = await pool.query(sql, [year+'-'+month+'-' + day, getyear + '-' + getmonth + '-' + getday])
-            console.log(data[0])
+            // console.log(data[0])
         }
         let jsonArray 	= new Array();
         for (let i=0; i<data[0].length; i++) {
@@ -68,10 +68,8 @@ app.post("/getItems", async (req, res) =>{
             //String 형태로 파싱한 객체를 다시 json으로 변환
             jsonArray.push(JSON.parse(jsonObj));
         }
-        console.log(jsonArray)
-        if (!jsonArray){
-            console.log('HIHIHIHI')
-        }
+        // console.log(jsonArray)
+
         res.send(jsonArray)
     }
     catch (err) {

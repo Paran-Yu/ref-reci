@@ -13,7 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 
-
+//날짜를 하나 씩 add
 const getEvents = async (url) => {
   try {
     const data = await axios({
