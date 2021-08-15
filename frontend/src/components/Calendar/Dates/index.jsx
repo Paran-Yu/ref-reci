@@ -12,6 +12,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 
 
 const getEvents = async (url) => {
@@ -39,7 +40,7 @@ export default function Dates({onChildClick}) {
   const calendarRef = useRef(null)
   const [calendarData, setCalendarData]=useState([])
   useEffect(async()=>{
-    const data= await getEvents('http://localhost:3001/calendar/getEvents')
+    const data= await getEvents(`${server.ip}/calendar/getEvents`)
     setCalendarData(data)
   },[])
   const onDateClick = (info) => {
@@ -50,17 +51,19 @@ export default function Dates({onChildClick}) {
   }
   // console.log('캘린더')
   // console.log(typeof(calendarData), calendarData)
+  
+  const [showExpire, setShowExpire] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
-  const [state, setState] = useState({
-    showExpire: true,
-    selected: false,
-  });
+  const handleAllChange = () => {
+    setShowAll(!showAll)
+    setShowExpire(false)
+  }
 
-  const { showExpire, selected } = state;
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
+  const handleExpireChange = () => {
+    setShowExpire(!showExpire)
+    setShowAll(false)
+  }
 
     return(
       <Box>
@@ -76,16 +79,18 @@ export default function Dates({onChildClick}) {
           //리스트에 유효기간이 임박한 순으로 보여주기
           eventClick={onEventClick}
         />
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox checked={showExpire} onChange={handleChange} name="gilad" />}
-            label="유통기한 7일 이하 식재료 모두 보기"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={selected} onChange={handleChange} name="jason" />}
-            label="선택 전체 해제"
-          />
-        </FormGroup>
+        <Box my={1}>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox checked={showExpire} onChange={handleExpireChange} />}
+              label="유통기한 7일 이하인 식재료 모두 보기"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={showAll} onChange={handleAllChange} />}
+              label="전체 리스트 보기"
+            />
+          </FormGroup>
+        </Box>
       </Box>
     )
   }
