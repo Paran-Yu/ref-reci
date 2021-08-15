@@ -40,8 +40,10 @@ export default function Dates({onChildClick}) {
     setCalendarData(data)
   },[])
   const onDateClick = (info) => {
-    //console.log(info.dateStr)
     onChildClick(info.dateStr)
+  }
+  const onEventClick = (info) => {
+    onChildClick(info.event.startStr)
   }
   // console.log('캘린더')
   // console.log(typeof(calendarData), calendarData)
@@ -57,7 +59,7 @@ export default function Dates({onChildClick}) {
           //foodlist로 날짜 전달
           //달력에 선택된게 아무것도 없을 때
           //리스트에 유효기간이 임박한 순으로 보여주기
-          eventClick={(el) => {alert(el.event.startstr)}}
+          eventClick={onEventClick}
         />
       </section>
     )
