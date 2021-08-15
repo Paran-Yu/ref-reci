@@ -27,19 +27,7 @@ const DetailModal = () => {
   return (
     <div>
       <Paper component="ul" className={classes.root}>
-        {chipData.map((data) => {
-          let icon;
-          return (
-            <li key={data.key}>
-              <Chip
-                icon={icon}
-                label={data.label}
-                onDelete={handleDelete(data)}
-                className={classes.chip}
-              />
-            </li>
-          );
-        })}
+        아 아아아 이게 무슨 일인가
       </Paper>
     </div>
   );

@@ -5,6 +5,7 @@ import './App.css';
 import Main from './pages/Main';
 import Fridge from './pages/Fridge';
 import Recipe from './pages/Recipe';
+import RecipeDetail from './pages/Recipe/RecipeDetail';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import ChangePassword from './components/Auth/ChangePassword';
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/' component={Main} />
         <Route path='/fridge' component={Fridge} />
         <Route path='/recipe' component={Recipe} />
+        <Route path="/rec" component={RecipeDetail} />
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/changepassword" component={ChangePassword} />

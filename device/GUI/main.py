@@ -407,10 +407,13 @@ class AddWindow(QMainWindow):
         self.barcode_btn.setEnabled(False)
         # 바코드 리더 함수 호출 - 제품명 가져오기
         item_name = barcode_reader.barcode_recognition()
-        # print(item_name)
-        # 제품명으로 소분류, 대분류 찾기
-        result = refDB.get_Product_category(item_name)
-        if result != -1:
+        
+        # 바코드 API 성공하면
+        if item_name != -1:
+            # 제품명으로 소분류, 대분류 찾기
+            result = refDB.get_Product_category(item_name)
+            
+            # 소분류 찾기가 성공하면
             # print(result[-1])
             self.add_item_name.setText(item_name)
             self.add_item_category.setText(result[-1][0])
@@ -419,6 +422,10 @@ class AddWindow(QMainWindow):
             self.category_index = result[-1][4] - 1
             #self.name_list_index = result[-1][5]
             self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
+        # 바코드 API 실패하면
+        else:
+            pass
+        
         self.barcode_btn.setEnabled(True)
 
 

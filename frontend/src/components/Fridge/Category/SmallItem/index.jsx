@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from "react";
-import { Fade, Backdrop, CardActionArea, makeStyles, Modal, Card } from "@material-ui/core";
+import { Fade, Backdrop, CardActionArea, makeStyles, Modal, Card, Button } from "@material-ui/core";
 import { Router, Link } from "react-router-dom";
 import IngTask from "../DetailModal";
-
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -47,14 +47,13 @@ const SmallItem = (props) => {
   const [flag, setFlag] = useState(false);
   const handleOpen = () => {
     setOpen(true);
-    setFlag(!flag);
   };
   const handleClose = () => {
     setOpen(false);
   };
 
   const addDt = (event) => {
-    handleOpen();
+    setFlag(!flag);
     if (flag) {
       // props.arr.showA(props.arr.concat(dt.CatName))
       props.showDt(props.cnt - 1);
@@ -64,7 +63,7 @@ const SmallItem = (props) => {
   };
   return (
     <div className={classes.btn}>
-      <Card onClick={addDt.bind()} className={!flag ? classes.card : classes.card2}>
+      <Card onClick={handleOpen} className={!flag ? classes.card : classes.card2}>
         <CardActionArea className={classes.card}>{dt.CatName}</CardActionArea>
       </Card>
       <Modal
@@ -80,6 +79,9 @@ const SmallItem = (props) => {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2>{dt.CatName}</h2>
+            <Button size="small" onClick={addDt.bind()}>
+              <AddIcon />
+            </Button>
             <IngTask />
           </div>
         </Fade>
