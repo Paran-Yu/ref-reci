@@ -59,6 +59,21 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	modalpaper: {
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, 4, 3),
+	},
+	mdbutton: {
+		display: 'flex',
+		justifyContent: 'center',
+	}
 }));
 
 
@@ -255,18 +270,18 @@ export default function SignUpSide({history}) {
 											helperText={uNameHelperText}
 											error={uNameError}
 											onChange={(event) => {
-													setUserName(event.target.value);
-													if (event.target.value.length < 2) {
-														setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
-														setUNameError(true);
-													} else if (event.target.value.length > 20) {
-														setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
-														setUNameError(true);
-														event.target.value = event.target.value.slice(0, -1);
-													} else {
-														setUNameHelperText('');
-														setUNameError(false);
-													}
+												setUserName(event.target.value);
+												if (event.target.value.length < 2) {
+													setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
+													setUNameError(true);
+												} else if (event.target.value.length > 20) {
+													setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
+													setUNameError(true);
+													event.target.value = event.target.value.slice(0, -1);
+												} else {
+													setUNameHelperText('');
+													setUNameError(false);
+												}
 											}}
 										/>
 										<Grid container spacing={2} alignItems="center">
@@ -435,9 +450,6 @@ export default function SignUpSide({history}) {
 														setModalTitle('환영합니다.')
 														setModalMessage('회원가입이 완료되었습니다. 리프레시와 신선한 하루를 만드세요.');
 														setModalOpen(true);
-														if (modalOpen == false) {
-															history.push("/");
-														}
 												}
 												else {
 													setModalTitle('죄송합니다.')
@@ -463,7 +475,14 @@ export default function SignUpSide({history}) {
                         <div className={classes.modalpaper}>
                           <h2 id="transition-modal-title">{modalTitle}</h2>
                           <p id="transition-modal-description">{modalMessage}</p>
-                        </div>
+													<div className={classes.mdbutton}>
+														<Button
+														onClick={() => {
+															history.push("/");
+														}}
+														>확인</Button>
+													</div>
+												</div>
                       </Fade>
                     </Modal>
 										<Grid container justifyContent="flex-end">
