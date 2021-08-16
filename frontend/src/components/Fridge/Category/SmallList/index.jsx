@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     height: "120%",
   },
 }));
+
+
 const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);
   const getDatas = async () => {

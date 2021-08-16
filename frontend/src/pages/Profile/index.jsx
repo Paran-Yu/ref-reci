@@ -169,7 +169,6 @@ export default function Profile({history}) {
   
   return (
     <Container fixed >
-      <ThemeProvider theme={mytheme}>
       <TopBar />
       <Typography
       variant="h3"
@@ -210,7 +209,6 @@ export default function Profile({history}) {
       </div>
       <Fab />
       <BottomBar />
-      </ThemeProvider>
     </Container>
   )
 }

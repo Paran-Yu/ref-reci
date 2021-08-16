@@ -1,11 +1,9 @@
 // React, Router
 import React, { useEffect, useState } from 'react';
-// import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 // Core
 import createTheme from '@material-ui/core/styles/createTheme';
@@ -14,37 +12,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 
 // Server
 import axios from 'axios';
 import server from '../../../server.json';
 
-const mytheme = createTheme({
-    palette: {
-        primary: {
-            light: '#f2da9e',
-            main: '#f9bc15',
-            dark: '#f19920',
-            contrastText: '#fff',
-        },
-        secondary: {
-            light: '#f2ede7',
-            main: '#a29d97',
-            dark: '#45423c',
-            contrastText: '#fff',
-        },
-        success: {
-            light: '#f2ede7',
-            main: '#fee500',
-            dark: '#45423c',
-            contrastText: '#191600',
-        },
-    },
-});
 
 const postName = async (url, userName) => {
     try {
@@ -290,7 +264,7 @@ export default function SignUpSide({history}) {
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
-                <ThemeProvider theme={mytheme}>
+
                     <div className={classes.paper}>
                         <form className={classes.form}>
                             <Container maxWidth="md">
@@ -430,7 +404,6 @@ export default function SignUpSide({history}) {
                             </Container>
                         </form>
                     </div>
-                </ThemeProvider>
             </Grid>
     );
 }
