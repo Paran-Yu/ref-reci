@@ -13,10 +13,22 @@ const getDelete = async (url) => {
         accept: 'application/json',
       },
     });
-    return data.data;
+    return data.data.value;
   }
   catch (err) {
     console.log(`ERROR: ${err}`);
+  }
+}
+
+const clickHandler = async () => {
+  const data = await getDelete(`${server.ip}/user/deleteUser`);
+
+  if(data === 'Success'){
+    alert('회원 탈퇴가 완료되었습니다.');
+    window.location.replace('http://i5a203.p.ssafy.io/signin');
+  }
+  else if(data === 'Fail'){
+    alert('오류가 발생했습니다. 다시 시도해주세요.')
   }
 }
 
@@ -28,6 +40,7 @@ export default function DeleteUser() {
         냉장고를 효과적으로 관리하기에는 리프레시가 짱이에요
       </div>
       <Button
+        onClick={clickHandler}
       >
         확인
       </Button>

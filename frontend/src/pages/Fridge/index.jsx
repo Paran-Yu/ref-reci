@@ -47,12 +47,12 @@ export default function Fridge(props) {
           <ShowChoiceButton cnt={cnt} />
         </Box>
         <RadioButton />
-        <SearchBar />
+        {/* <SearchBar />
         {catName == "전체" ? (
           <LargeList num={back} />
         ) : (
           <SmallList cnt={cnt} addCnt={addCnt.bind()} />
-        )}
+        )} */}
       </Box>
       <FloatingActionButton />
       <BottomBar />
