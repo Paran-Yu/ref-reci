@@ -198,8 +198,6 @@ export default function Profile({history}) {
           {recipeDatas}
         </Grid>
       </Box>
-      <Fab />
-      <BottomBar />
       <div className={classes.pg}>
         <Box
         display='flex'
@@ -210,6 +208,8 @@ export default function Profile({history}) {
           <Pagination count={10} color="primary" />
         </Box>
       </div>
+      <Fab />
+      <BottomBar />
       </ThemeProvider>
     </Container>
   )

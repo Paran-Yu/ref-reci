@@ -53,6 +53,7 @@ const mytheme = createTheme({
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    userSelect: 'none',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -108,12 +109,14 @@ export default function TopBar() {
             <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
             </NavLink>
             <Button 
-            color="inherit" 
+            color="secondary"
             onClick={async () => {
               const data = await getLogout(`${server.ip}/user/logout`);
               window.location.replace("http://i5a203.p.ssafy.io/signin");
             }} className={classes.logout}>
-              로그아웃
+              <Typography variant="caption">
+                | 로그아웃 | 
+              </Typography>
             </Button>
           </Toolbar>
         </AppBar>
