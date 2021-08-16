@@ -29,23 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 // -------------------------------------------
 
-const useGetdata = (props) => {
-  const [catItemDatas, setCatItemDatas] = useState([]);
-
-  const getDatas = async () => {
-    console.log("List : " + props.num);
-    if (props.num == 1 || props.num == undefined) setCatItemDatas(catDt);
-    else setCatItemDatas(catDt2);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return catItemDatas;
-};
-
 const LargeList = (props) => {
   const classes = useStyles();
-  // const data = useGetdata();
   const data = props.datas;
   return (
     <div className={classes.root}>
@@ -59,7 +44,7 @@ const LargeList = (props) => {
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
                 <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
-                  <CatItem dt={dt} idx={idx} />
+                  <CatItem dt={dt} idx={idx} data={data} />
                 </Paper>
               </Grid>
             );
