@@ -39,7 +39,7 @@ const SmallList = (props) => {
   return (
     <div className={classes.root}>
       <Grid xs={12}>
-        <GridList container className={classes.list}>
+        <Grid container>
           {datas.map((dt, idx) => (
             <Grid item className={classes.MainGrid} key={idx} xs={4} lg={3}>
               <Paper className={classes.grid}>
@@ -47,7 +47,7 @@ const SmallList = (props) => {
               </Paper>
             </Grid>
           ))}
-        </GridList>
+        </Grid>
       </Grid>
     </div>
   );

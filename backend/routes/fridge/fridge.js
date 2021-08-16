@@ -86,7 +86,7 @@ app.get("/searchUserProduct", async (req, res) => {
     const cl2 = req.query.cl2ID;
 
     try {
-        const [rows, fields] = await pool.query('SELECT productName, productCount, productShelfLife FROM UserProduct WHERE uID = ? AND productClassification2 = ?', [
+        const [rows, fields] = await pool.query('SELECT productName, productCount, productShelfLife, productImage FROM UserProduct WHERE uID = ? AND productClassification2 = ?', [
             uID,
             cl2
         ])
