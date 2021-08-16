@@ -65,7 +65,7 @@ const SmallItem = (props) => {
   return (
     <div className={classes.btn}>
       <Card onClick={handleOpen} className={!flag ? classes.card : classes.card2}>
-        <CardActionArea className={classes.card}>{dt.CatName}</CardActionArea>
+        <CardActionArea className={classes.card}>{dt.productName}</CardActionArea>
       </Card>
       <Modal
         className={classes.modal}
@@ -79,7 +79,7 @@ const SmallItem = (props) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2>{dt.CatName}</h2>
+            <h2>{dt.productName}</h2>
             <Button size="small" onClick={addDt.bind()}>
               <AddIcon />
             </Button>

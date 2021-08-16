@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
-import catDt from "./dump.json";
+// import catDt from "./dump.json";
 import IngItem from "../SmallItem";
 import { PropTypes } from "react";
 
@@ -24,20 +24,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const useGetdata = () => {
-  const [catItemDatas, setCatItemDatas] = useState([]);
-  const getDatas = async () => {
-    setCatItemDatas(catDt);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return catItemDatas;
-};
-
 const SmallList = (props) => {
   const classes = useStyles();
-  const data = useGetdata();
+  // const data = catDt;
+  const datas = props.datas;
   const [arr, setArr] = useState({
     cnt: 0,
     arr: [],
@@ -50,7 +40,7 @@ const SmallList = (props) => {
     <div className={classes.root}>
       <Grid xs={12}>
         <GridList container className={classes.list}>
-          {data.map((dt, idx) => (
+          {datas.map((dt, idx) => (
             <Grid item className={classes.MainGrid} key={idx} xs={4} lg={3}>
               <Paper className={classes.grid}>
                 <IngItem dt={dt} cnt={props.cnt} arr={arr} showDt={showDt.bind()} />

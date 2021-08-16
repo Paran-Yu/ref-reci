@@ -17,21 +17,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LargeItem = (props) => {
-  const { dt, idx } = props;
+  const { dt, idx, data } = props;
   const st = useStyles();
+
   return (
     <Link
       to={{
         pathname: "/fridge",
         state: {
-          catName: props.dt,
-          data: props.data,
+          catID: dt.c1ID,
+          catName: dt.classification1Name,
+          data: data,
         },
       }}
       className={st.link}
       style={{ textDecoration: "none" }}
     >
-      <ButtonBase className={st.catIt}>{props.dt}</ButtonBase>
+      <ButtonBase className={st.catIt}>{dt.classification1Name}</ButtonBase>
     </Link>
   );
 };

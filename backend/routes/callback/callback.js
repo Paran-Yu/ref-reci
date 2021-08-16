@@ -17,10 +17,10 @@ const serverip = process.env.serverip2;
 app.get("/github", async (req, res) => {
     const requestToken = req.query.code;
 
-    console.log(requestToken);
-    console.log(githubClientID);
-    console.log(githubClientSecret);
-    console.log(requestToken);
+    // console.log(requestToken);
+    // console.log(githubClientID);
+    // console.log(githubClientSecret);
+    // console.log(requestToken);
 
     try {
         const access_token = await axios({
@@ -31,10 +31,10 @@ app.get("/github", async (req, res) => {
             },
         });
 
-        console.log('response.data');
-        console.log(access_token.data);
-        console.log('access_token');
-        console.log(access_token.data.access_token);
+        // console.log('response.data');
+        // console.log(access_token.data);
+        // console.log('access_token');
+        // console.log(access_token.data.access_token);
 
         const userResponse = await axios({
             method: 'get',
@@ -45,8 +45,8 @@ app.get("/github", async (req, res) => {
         });
 
         //console.log('social login result:', userResponse.data);
-        console.log(`id: ${userResponse.data.id}`);
-        console.log(`userName: ${userResponse.data.name}`);
+        // console.log(`id: ${userResponse.data.id}`);
+        // console.log(`userName: ${userResponse.data.name}`);
 
         const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
             userResponse.data.id
@@ -58,7 +58,7 @@ app.get("/github", async (req, res) => {
                 userResponse.data.id,
             ]);
         }
-        res.redirect("http://localhost:3000/");
+        res.redirect("http://i5a203.p.ssafy.io/");
     }
 
     catch (err) {
@@ -69,7 +69,7 @@ app.get("/github", async (req, res) => {
 
 app.get("/google", async (req, res) => {
     const requestToken = req.query.code;
-    console.log(requestToken);
+    // console.log(requestToken);
     try {
 
         const access_token = await axios({
@@ -80,10 +80,10 @@ app.get("/google", async (req, res) => {
             },
         });
 
-        console.log('response.data');
-        console.log(access_token.data);
-        console.log('access_token');
-        console.log(access_token.data.access_token);
+        // console.log('response.data');
+        // console.log(access_token.data);
+        // console.log('access_token');
+        // console.log(access_token.data.access_token);
 
         const userResponse = await axios({
             method: 'get',
@@ -94,8 +94,8 @@ app.get("/google", async (req, res) => {
         });
 
         //console.log('social login result:', userResponse.data);
-        console.log(`id: ${userResponse.data.id}`);
-        console.log(`userName: ${userResponse.data.name}`);
+        // console.log(`id: ${userResponse.data.id}`);
+        // console.log(`userName: ${userResponse.data.name}`);
 
         const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
             userResponse.data.id
@@ -107,7 +107,7 @@ app.get("/google", async (req, res) => {
                 userResponse.data.id,
             ]);
         }
-        res.redirect("http://localhost:3000/");
+        res.redirect("http://i5a203.p.ssafy.io/");
     }
     catch (err) {
         console.log('===========구글 로그인 중 에러 발생===========');

@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme) => ({
 
 const LargeList = (props) => {
   const classes = useStyles();
-  const data = props.datas;
+  const data = props.datas; //대분류 전체(컬럼 2줄)
   return (
     <div className={classes.root}>
       <Grid xs={10}>
         <GridList container>
-          {data.map((dt, idx) => {
+          {data.map((dt, idx) => { //dt: 대분류 전체를 쪼갬
             let color;
             if (idx == 0) {
               color = "#F19920";

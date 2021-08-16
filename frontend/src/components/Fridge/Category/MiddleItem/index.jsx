@@ -19,12 +19,14 @@ const useStyles = makeStyles((theme) => ({
 const MiddleItem = (props) => {
   const { dt, idx } = props;
   const st = useStyles();
+  
   const btn = () => {
-    props.setSub(dt.CatName);
+    props.setSub(dt.c2ID, dt.classification2Name);
   };
+
   return (
     <ButtonBase className={st.catIt} onClick={btn}>
-      {dt.CatName}
+      {dt.classification2Name}
     </ButtonBase>
   );
 };

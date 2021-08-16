@@ -379,7 +379,6 @@ export default function SignUpSide({history}) {
 												
 												if(userDatas.value === 'Success'){
 														const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
-														console.log('로그인 성공');
 														alert('회원가입 완료');
 														history.push("/");
 												}
