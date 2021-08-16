@@ -31,7 +31,7 @@ export default function CustomizedBreadcrumbs(props) {
     else setSmallCat(false);
   });
   const handleClick = (re) => {
-    console.log(re);
+    // console.log(re);
   };
 
   return (

@@ -56,7 +56,7 @@ function App() {
           <Route exact path='/' component={Main} />
           <Route path='/fridge' component={Fridge} />
           <Route path='/recipe' component={Recipe} />
-          <Route path="/rec" component={RecipeDetail} />
+          <Route path="/rec/:rid" component={RecipeDetail} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/changepassword" component={ChangePassword} />

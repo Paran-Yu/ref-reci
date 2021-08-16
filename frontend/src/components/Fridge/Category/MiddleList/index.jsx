@@ -6,7 +6,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import createTheme from "@material-ui/core/styles/createTheme";
 
 import MiddleItem from "../MiddleItem";
-import data from "./dump.json";
+// import data from "./dump.json";
 // Theme ------------------------------------
 
 // Theme -------------------------------------
@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MiddleList = (props) => {
   const classes = useStyles();
-  //const data = props.datas;
-  const setSub = (re) => {
-    props.subCheck(re);
+  const data = props.cl2Datas;
+  console.log(data);
+  const setSub = (c2ID, classification2Name) => {
+    props.subCheck(c2ID, classification2Name);
   };
   return (
     <div className={classes.root}>

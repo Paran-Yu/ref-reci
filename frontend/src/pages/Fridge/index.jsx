@@ -23,7 +23,7 @@ import MiddleList from "../../components/Fridge/Category/MiddleList";
 import axios from "axios";
 import server from "../../server.json";
 
-const getFavData = async (url) => {
+const getCl2Data = async (url) => {
   try {
     const data = await axios({
       method: "get",
@@ -40,8 +40,12 @@ const getFavData = async (url) => {
 
 const Fridge = (props) => {
   let catName = "";
+  let cl2Datas;
   const [cnt, setCnt] = useState(0);
   const [subCatName, setSubCatName] = useState("소분류");
+  const [customMiddleList, setCustomMiddleList] = useState();
+  const [customSmallList, setCustomSmallList] = useState();
+  
   let largeList = props.location.state.data;
   if (props.location.state == undefined) {
     catName = "전체";
@@ -49,21 +53,25 @@ const Fridge = (props) => {
     catName = props.location.state.catName;
   }
 
-  /*const [largeList, setLargeList] = useState();
-
   useEffect(async () => {
-    const largeListData = await getFavData(`${server.ip}/fridge/classification1`);
+    cl2Datas = await getCl2Data(`${server.ip}/fridge/classification2?cl1ID=${props.location.state.catID}`);
+    console.log(cl2Datas);
 
-    setLargeList(largeListData);
+    setCustomMiddleList(<MiddleList subCheck={subCheck.bind()} cl2Datas={cl2Datas} />);
   }, []);
 
-  console.log(largeList);*/
+  // console.log(largeList);
   const addCnt = (re) => {
     setCnt(re);
   };
 
-  const subCheck = (re) => {
-    setSubCatName(re);
+  const subCheck = async (c2ID, classification2Name) => {
+    setSubCatName(classification2Name);
+    console.log(c2ID);
+
+    const datas = await getCl2Data(`${server.ip}/fridge/searchUserProduct?cl2ID=${c2ID}`);
+    console.log(datas);
+    setCustomSmallList(<SmallList cnt={cnt} addCnt={addCnt.bind()} datas={datas} />)
   };
 
   return (
@@ -80,9 +88,9 @@ const Fridge = (props) => {
         {catName == "전체" ? (
           <LargeList datas={largeList} />
         ) : subCatName == "소분류" ? (
-          <MiddleList subCheck={subCheck.bind()} />
+            customMiddleList 
         ) : (
-          <SmallList cnt={cnt} addCnt={addCnt.bind()} />
+            customSmallList
         )}
       </Box>
       <FloatingActionButton />

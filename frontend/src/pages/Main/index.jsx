@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import FavRecList from "../../components/Recipe/RecipeSlide/SlideList";
-import CatList from "../../components/Fridge/Category/LargeList";
+import LargeList from "../../components/Fridge/Category/LargeList";
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
@@ -64,7 +64,7 @@ const Main = () => {
     // const favRecipes = ;
     setFavRecipes(<FavRecList datas={favRecipeData} />);
     setRecentRecipes(<FavRecList datas={recentRecipeData} />);
-    setLargeList(<CatList datas={largeListData} />);
+    setLargeList(<LargeList datas={largeListData} />);
   }, []);
 
   return (

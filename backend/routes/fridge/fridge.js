@@ -46,15 +46,53 @@ app.get("/read", async (req, res) =>{
 
 app.get("/classification1", async (req, res) => {
     try {
-        const list = ["전체"];
-        const [rows, fields] = await pool.query('SELECT classification1Name FROM Classification1', [])
+        const list = [{c1ID: 0, classification1Name: "전체"}];
+        const [rows, fields] = await pool.query('SELECT c1ID, classification1Name FROM Classification1', [])
         const len = rows.length;
 
         for(let i=0; i<len; i++){
-            list.push(rows[i].classification1Name);
+            list.push(rows[i]);
         }
         console.log(list);
         res.json(list);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
+app.get("/classification2", async (req, res) => {
+    const cl1 = req.query.cl1ID;
+
+    try {
+        const [rows, fields] = await pool.query('SELECT c2ID, classification2Name FROM Classification2 WHERE classification2to1 = ?', [
+            cl1
+        ])
+        
+        console.log(rows);
+        res.json(rows);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
+app.get("/searchUserProduct", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+    
+    const cl2 = req.query.cl2ID;
+
+    try {
+        const [rows, fields] = await pool.query('SELECT productName, productCount, productShelfLife, productImage FROM UserProduct WHERE uID = ? AND productClassification2 = ?', [
+            uID,
+            cl2
+        ])
+
+        console.log(rows);
+        res.json(rows);
     }
     catch (err) {
         console.log(err)

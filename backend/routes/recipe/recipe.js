@@ -8,6 +8,32 @@ require('dotenv').config();
 
 const { pool } = require(`./../../mysql`);
 
+app.get("/detail", async(req, res)=>{
+    const rID = req.query.rID;
+    let datas = [];
+    try{
+        const [rows1, fields1] = await pool.query("SELECT recipeName, recipeImage, recipeIntroduce, recipeAmount, recipeTime FROM Recipe WHERE rID = ?;", [
+            rID
+        ]);
+        datas.push(rows1);
+
+        const [rows2, fields2] = await pool.query("SELECT i.ingredientName, ri.ingredientAmount FROM Ingredient AS i JOIN RecipeIngredient AS ri ON i.iID=ri.iID WHERE ri.rID = ?;", [
+            rID
+        ]);
+        datas.push(rows2);
+
+        const [rows3, fields3] = await pool.query("SELECT recipephaseImage, recipephaseIntroduce FROM RecipePhase WHERE rID = ?;", [
+            rID
+        ]);
+        datas.push(rows3);
+
+        console.log(datas);
+    }
+    catch(e){
+
+    }
+})
+
 app.get("/tenRecentRecipe", async(req, res) => {
     try {
         const [rows, fields] = await pool.query("SELECT recipeName AS rName, recipeImage AS rImage FROM Recipe ORDER BY rID DESC LIMIT 10;");
