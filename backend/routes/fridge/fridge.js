@@ -21,28 +21,47 @@ function getCurrentDate()
 
 
 
-app.get("/", async (req, res) =>{
+app.get("/read", async (req, res) =>{
     try {
-        const [rows, fields] = await pool.query('SELECT * FROM refreci.UserProduct WHERE uID = 1')
+        const uID = 1;
+        // const uID = req.session.uID;
         
+        const [rows, fields] = await pool.query('SELECT productName, productClassification2 FROM UserProduct WHERE uID = ?', [
+            uID
+        ])
+        
+        let datas = [];
         for (let i = 0; i < rows.length; i++){
-            console.log(rows[i])
-            // res.send({
-            //     PN : rows[i].productName,
-            //     PC : rows[i].productCount,
-            //     DATE : rows[i].createdDate,
-            //     END_DATE : rows[i].productShelfLife
-            // })
+            let data = { name: rows[i].productName, category: rows[i].productClassification2};
+            datas.push(data);
         }
-
-        res.json(rows)
+        
+        res.json(datas);
     }
     catch (err) {
         console.log(err)
         return new Error(err)
     }
-
 })
+
+app.get("/classification1", async (req, res) => {
+    try {
+        const list = ["전체"];
+        const [rows, fields] = await pool.query('SELECT classification1Name FROM Classification1', [])
+        const len = rows.length;
+
+        for(let i=0; i<len; i++){
+            list.push(rows[i].classification1Name);
+        }
+        console.log(list);
+        res.json(list);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
 //재료 삽입
 app.post("/", async (req, res) =>{
     const nowDay = getCurrentDate()
@@ -128,6 +147,5 @@ app.delete('/', async (req, res) => {
         return new Error(err)
     }
 })
-
 
 module.exports = app;

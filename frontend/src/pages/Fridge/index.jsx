@@ -18,7 +18,6 @@ import FloatingActionButton from "../../layout/FloatingActionButton";
 import CatItem from "../../components/Fridge/Category/CatItem";
 import SmallList from "../../components/Fridge/Category/SmallList";
 
-
 export default function Fridge(props) {
   let catName = "";
   if (props.location.state == undefined) {
@@ -27,24 +26,33 @@ export default function Fridge(props) {
     catName = props.location.state.catName;
   }
   const [cnt, setCnt] = useState(0);
+  const [back, setBack] = useState(1);
   const addCnt = (re) => {
     setCnt(re);
   };
 
-  // useEffect
-
+  const toBack = (re) => {
+    setBack(re);
+    if (catName != "전체") setBack(2);
+    console.log("Main : " + back);
+  };
   return (
     <Container fixed>
       <TopBar />
       <Box my={3}>
         <Typography variant="h2">나의 냉장고</Typography>
         <Divider />
-        <Box my={1} display="flex" justifyContent="space-between" alignItems="center">
-          <Breadcrumb catName={catName} />
+        <Box justifyContent="space-between" alignItems="center">
+          <Breadcrumb catName={catName} toBack={toBack.bind()} />
           <ShowChoiceButton cnt={cnt} />
         </Box>
         <RadioButton />
-        <SmallList cnt={cnt} addCnt={addCnt.bind()} />
+        <SearchBar />
+        {catName == "전체" ? (
+          <LargeList num={back} />
+        ) : (
+          <SmallList cnt={cnt} addCnt={addCnt.bind()} />
+        )}
       </Box>
       <FloatingActionButton />
       <BottomBar />

@@ -41,9 +41,13 @@ const mytheme = createTheme({
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    position: 'fixed',
+    height: '180px',
+    position: 'relative',
     bottom: 0,
+    display:'flex',
     justifyContent: 'center',
+    alignItems: 'flex-end',
+    userSelect: 'none',
   },
 }));
 // -------------------------------------------
@@ -59,9 +63,9 @@ function Copyright() {
     className={classes.root}
     >
         {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
+        <span color="primary">
             Ref:reci
-        </Link>{' '}
+        </span>{' '}
         {new Date().getFullYear()}
         {'.'}
     </Typography>

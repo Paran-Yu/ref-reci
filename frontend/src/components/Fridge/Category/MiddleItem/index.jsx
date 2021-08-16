@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LargeItem = (props) => {
+const MiddleItem = (props) => {
   const { dt, idx } = props;
   const st = useStyles();
   return (
@@ -24,14 +24,14 @@ const LargeItem = (props) => {
       to={{
         pathname: "/fridge",
         state: {
-          catName: dt,
+          catName: dt.CatName,
         },
       }}
       className={st.link}
       style={{ textDecoration: "none" }}
     >
-      <ButtonBase className={st.catIt}>{dt}</ButtonBase>
+      <ButtonBase className={st.catIt}>{dt.CatName}</ButtonBase>
     </Link>
   );
 };
-export default LargeItem;
+export default MiddleItem;

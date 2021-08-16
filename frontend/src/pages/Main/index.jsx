@@ -87,16 +87,18 @@ const Main = () => {
   const st = useStyles();
   const [favRecipe, setFavRecipes] = useState();
   const [recentRecipe, setRecentRecipes] = useState();
+  const [largeList, setLargeList] = useState();
 
   useEffect(async () => {
     const favRecipeData = await getFavData(`${server.ip}/recipe/tenFavorRecipe`);
     const recentRecipeData = await getFavData(`${server.ip}/recipe/tenRecentRecipe`);
+    const largeListData = await getFavData(`${server.ip}/fridge/classification1`);
 
     // const favRecipes = ;
     setFavRecipes(<FavRecList datas={favRecipeData} />);
+    setRecentRecipes(<FavRecList datas={recentRecipeData} />);
+    setLargeList(<CatList datas={largeListData}/>)
 
-    const recentRecipes = <FavRecList datas={recentRecipeData} />;
-    setRecentRecipes(recentRecipes);
   }, [])
 
   return (
@@ -125,7 +127,7 @@ const Main = () => {
                 나의 냉장고
               </Typography>
               <Grid>
-                <CatList />
+                {largeList}
               </Grid>
             </Grid>
             {/* <SideBar /> */}

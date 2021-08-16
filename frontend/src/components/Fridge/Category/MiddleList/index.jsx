@@ -7,7 +7,7 @@ import createTheme from "@material-ui/core/styles/createTheme";
 
 import catDt from "./dump.json";
 import CatItem from "../LargeItem";
-import catDt2 from "./dump copy.json";
+
 // Theme -------------------------------------
 const mytheme = createTheme({
   palette: {
@@ -51,13 +51,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 // -------------------------------------------
 
-const useGetdata = (props) => {
+const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);
-
   const getDatas = async () => {
-    console.log("List : " + props.num);
-    if (props.num == 1 || props.num == undefined) setCatItemDatas(catDt);
-    else setCatItemDatas(catDt2);
+    setCatItemDatas(catDt);
   };
   useEffect(() => {
     getDatas();
@@ -65,10 +62,9 @@ const useGetdata = (props) => {
   return catItemDatas;
 };
 
-const LargeList = (props) => {
+const LargeList = () => {
   const classes = useStyles();
-  // const data = useGetdata();
-  const data = props.datas;
+  const data = useGetdata();
   return (
     <div className={classes.root}>
       <Grid xs={10}>
@@ -81,7 +77,7 @@ const LargeList = (props) => {
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
                 <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
-                  <CatItem dt={dt} idx={idx} />
+                  <CatItem dt={dt} />
                 </Paper>
               </Grid>
             );
