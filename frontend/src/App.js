@@ -5,7 +5,7 @@ import './App.css';
 import Main from './pages/Main';
 import Fridge from './pages/Fridge';
 import Recipe from './pages/Recipe';
-import RecipeDetail from './pages/Recipe/RecipeDetail';
+import RecipeDetail from './pages/RecipeDetail';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import ChangePassword from './components/Auth/ChangePassword';

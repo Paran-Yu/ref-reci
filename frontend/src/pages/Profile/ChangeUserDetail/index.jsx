@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 // Core
-import createTheme from '@material-ui/core/styles/createTheme';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -21,110 +20,110 @@ import server from '../../../server.json';
 
 
 const postName = async (url, userName) => {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userName: userName,
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        return data.data;
-    }
-    catch (err) {
-        console.log(`ERROR: ${err}`);
-    }
+  try {
+    const data = await axios({
+        method: 'post',
+        url: url,
+        data: {
+          userName: userName,
+        },
+        headers: {
+          accept: 'application/json',
+        },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
 }
 
 const postID = async (url, userID) => {
     try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userID: userID,
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        return data.data;
+      const data = await axios({
+        method: 'post',
+        url: url,
+        data: {
+          userID: userID,
+        },
+        headers: {
+          accept: 'application/json',
+        },
+      });
+      return data.data;
     }
     catch (err) {
-        console.log(`ERROR: ${err}`);
+      console.log(`ERROR: ${err}`);
     }
 }
 
 const postPW = async (url, userPW) => {
     try {
-        const data = await axios({
-            method: 'post',
-            url: url,
-            data: {
-                userPW: userPW
-            },
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        return data.data;
+      const data = await axios({
+        method: 'post',
+        url: url,
+        data: {
+          userPW: userPW
+        },
+        headers: {
+          accept: 'application/json',
+        },
+      });
+      return data.data;
     }
     catch (err) {
-        console.log(`ERROR: ${err}`);
+      console.log(`ERROR: ${err}`);
     }
 }
 
 
 function Copyright() {
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Ref:reci
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
+      <Typography variant="body2" color="textSecondary" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="https://material-ui.com/">
+          Ref:reci
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
     );
 }
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: '100vh',
+      height: '100vh',
     },
     image: {
-        backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
-        backgroundRepeat: 'no-repeat',
-        backgroundColor:
-            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+      backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
+      backgroundRepeat: 'no-repeat',
+      backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     paper: {
-        margin: theme.spacing(8, 4),
-        display: 'flex',
-        flexDirection: 'column',
+      margin: theme.spacing(8, 4),
+      display: 'flex',
+      flexDirection: 'column',
     },
     avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-        alignItems: 'center',
-        [theme.breakpoints.down('sm')]: {
-            justifyContent: 'center'
-        },
-        [theme.breakpoints.up('md')]: {
-            justifyContent: 'flex-start'
-        },
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+      alignItems: 'center',
+      [theme.breakpoints.down('sm')]: {
+        justifyContent: 'center'
+      },
+      [theme.breakpoints.up('md')]: {
+        justifyContent: 'flex-start'
+      },
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+      margin: theme.spacing(3, 0, 2),
     },
 }));
 
@@ -154,256 +153,255 @@ export default function SignUpSide({history}) {
     const [emailAuthData, setEmailAuthData] = useState('');
 
     useEffect(() => {
-        if (password === passwordCheck && password !== '') {
-            setPasswordSame(false);
-        }
-        else {
-            setPasswordSame(true);
-        }
+      if (password === passwordCheck && password !== '') {
+        setPasswordSame(false);
+      }
+      else {
+        setPasswordSame(true);
+      }
     }, [password, passwordCheck])
 
     const onChangeUserName = (e) => {
-        setUserName(e.target.value);
-        if (e.target.value.length > 20) {
-            alert('20자 이하로 해주세요');
-            e.target.value = e.target.value.slice(0, -1);
-            setUserNameShort(true);
-        }
-        else if(e.target.value.length < 2){
-            setUserNameShort(true);
-        }
-        else{
-            setUserNameShort(false);
-        }
+      setUserName(e.target.value);
+      if (e.target.value.length > 20) {
+        alert('20자 이하로 해주세요');
+        e.target.value = e.target.value.slice(0, -1);
+        setUserNameShort(true);
+      }
+      else if(e.target.value.length < 2){
+        setUserNameShort(true);
+      }
+      else{
+        setUserNameShort(false);
+      }
     };
 
     const onChangeUserID = (e) => {
-        setUserID(e.target.value);
+      setUserID(e.target.value);
     };
 
     const onChangeVer = (e) => {
-        setVerification(e.target.value);
+      setVerification(e.target.value);
     }
 
     const onChangeUserPW = (e) => {
-        setPassword(e.target.value);
-        if (e.target.value.length > 20) {
-            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
-            
-            e.target.value = e.target.value.slice(0, -1);
-        }
+      setPassword(e.target.value);
+      if (e.target.value.length > 20) {
+        alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+        
+        e.target.value = e.target.value.slice(0, -1);
+      }
     }
 
     const onChangeUserPWCheck = (e) => {
-        setPasswordCheck(e.target.value);
+      setPasswordCheck(e.target.value);
     }
 
     const onClickUserNameChangeBtn = async () => {
-        const userDatas = await postName(`${server.ip}/user/changeUserName`, userName);
+      const userDatas = await postName(`${server.ip}/user/changeUserName`, userName);
 
-        if (userDatas.value === 'Short userName') {
-            alert('닉네임은 2자 이상 20자 이하로 입력해주세요.');
-        }
-        
-        alert('닉네임이 변경되었습니다.')
+      if (userDatas.value === 'Short userName') {
+        alert('닉네임은 2자 이상 20자 이하로 입력해주세요.');
+      }
+      
+      alert('닉네임이 변경되었습니다.')
     };
 
     const onClickUserIDBtn = async () => {
-        const userDatas = await postID(`${server.ip}/user/searchID`, userID);
-        if (userDatas.value === 'Success') {
-            const emailDatas = await postID(`${server.ip}/user/emailAuth`, userID);
-            if (emailDatas.value === 'Email Sent') {
-                alert('이메일이 전송되었습니다.');
-                setHiddenAuth(false);
-                setEmailAuthData(emailDatas.number);
-                setVerButtonInactive(true);
-            }
-            else if (emailDatas.value === 'Email Error') {
-                alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
-            }
+      const userDatas = await postID(`${server.ip}/user/searchID`, userID);
+      if (userDatas.value === 'Success') {
+        const emailDatas = await postID(`${server.ip}/user/emailAuth`, userID);
+        if (emailDatas.value === 'Email Sent') {
+          alert('이메일이 전송되었습니다.');
+          setHiddenAuth(false);
+          setEmailAuthData(emailDatas.number);
+          setVerButtonInactive(true);
         }
-        else if (userDatas.value === 'Duplicate Email') {
-            alert('이미 가입된 계정입니다.');
+        else if (emailDatas.value === 'Email Error') {
+          alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
         }
-        else if (userDatas.value === 'Wrong Email') {
-            alert('이메일 형식이 잘못되었습니다.');
-        }
+      }
+      else if (userDatas.value === 'Duplicate Email') {
+        alert('이미 가입된 계정입니다.');
+      }
+      else if (userDatas.value === 'Wrong Email') {
+        alert('이메일 형식이 잘못되었습니다.');
+      }
     };
 
     const onClickVerBtn = () => {
-        if (verification == emailAuthData) {
-            setEmailAuth(true);
-            setHiddenAuth(true);
-        }
-        else {
-            alert('잘못된 인증번호입니다.');
-        }
+      if (verification == emailAuthData) {
+        setEmailAuth(true);
+        setHiddenAuth(true);
+      }
+      else {
+        alert('잘못된 인증번호입니다.');
+      }
     }
 
     const onClickUserIDChangeBtn = async () => {
-        const userDatas = await postID(`${server.ip}/user/changeUserID`, userID);
+      const userDatas = await postID(`${server.ip}/user/changeUserID`, userID);
 
-        alert('아이디가 변경되었습니다.')
+      alert('아이디가 변경되었습니다.')
     };
 
     const onClickUserPWChangeBtn = async () => {
-        const userDatas = await postPW(`${server.ip}/user/changeUserPW`, password);
+      const userDatas = await postPW(`${server.ip}/user/changeUserPW`, password);
 
-        if (userDatas.value === 'Short password') {
-            alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
-        }
+      if (userDatas.value === 'Short password') {
+        alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
+      }
 
-        alert('비밀번호가 변경되었습니다.')
+      alert('비밀번호가 변경되었습니다.')
     };
 
     const onClickOkBtn = () => {
-        // window.location.replace("http://localhost:3000/profile");
-        window.location.replace("http://i5a203.p.ssafy.io/profile");
+      // window.location.replace("http://localhost:3000/profile");
+      window.location.replace("http://i5a203.p.ssafy.io/profile");
     }
 
     return (
-        <Grid container component="main" className={classes.root}>
-            <CssBaseline />
-
-                    <div className={classes.paper}>
-                        <form className={classes.form}>
-                            <Container maxWidth="md">
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    autoFocus
-                                    id="firstName"
-                                    label="닉네임"
-                                    onChange={onChangeUserName}
-                                />
-                                <Button
-                                    disabled={userNameShort}
-                                    color="primary"
-                                    fullWidth
-                                    size="large"
-                                    onClick={onClickUserNameChangeBtn}
-                                >
-                                    변경완료
-                                </Button>
-                                <Grid container spacing={2} alignItems="center">
-                                    <Grid item xs={10}>
-                                        <TextField
-                                            disabled={verButtonInactive}
-                                            variant="outlined"
-                                            required
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            autoFocus
-                                            id="email"
-                                            label="아이디(E-mail)"
-                                            name="email"
-                                            autoComplete="email"
-                                            onChange={onChangeUserID}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <Button
-                                            disabled={verButtonInactive}
-                                            variant="outlined"
-                                            fullWidth
-                                            color="primary"
-                                            required
-                                            size="large"
-                                            onClick={onClickUserIDBtn}
-                                        >
-                                        인증
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                                <Grid container spacing={2} alignItems="center">
-                                    <Grid item xs={10}>
-                                        <TextField
-                                            disabled={hiddenAuth}
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="verification"
-                                            label="인증번호"
-                                            name="verification"
-                                            autoComplete="verification"
-                                            onChange={onChangeVer}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <Button
-                                            color="primary"
-                                            disabled={hiddenAuth}
-                                            fullWidth
-                                            size="large"
-                                            onClick={onClickVerBtn}
-                                        >
-                                        확인
-                                        </Button>
-                                    </Grid>
-                                    <Button
-                                        disabled={emailAuth}
-                                        color="primary"
-                                        fullWidth
-                                        size="large"
-                                        onClick={onClickUserIDChangeBtn}
-                                    >
-                                        변경완료
-                                    </Button>
-                                </Grid>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    autoFocus
-                                    fullWidth
-                                    name="password"
-                                    label="비밀번호"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                    onChange={onChangeUserPW}
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    autoFocus
-                                    name="passwordcheck"
-                                    label="비밀번호확인"
-                                    type="password"
-                                    id="passwordcheck"
-                                    autoComplete="current-password-check"
-                                    onChange={onChangeUserPWCheck}
-                                />
-                                <Button
-                                    disabled={passwordSame}
-                                    color="primary"
-                                    fullWidth
-                                    size="large"
-                                    onClick={onClickUserPWChangeBtn}
-                                >
-                                변경완료
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    size="large"
-                                    color="primary"
-                                    className={classes.submit}
-                                    onClick={onClickOkBtn}
-                                >
-                                    확인
-                                </Button>
-                            </Container>
-                        </form>
-                    </div>
-            </Grid>
+      <Grid container component="main" className={classes.root}>
+        <CssBaseline />
+        <div className={classes.paper}>
+            <form className={classes.form}>
+              <Container maxWidth="md">
+                <TextField
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    autoFocus
+                    id="firstName"
+                    label="닉네임"
+                    onChange={onChangeUserName}
+                />
+                <Button
+                    disabled={userNameShort}
+                    color="primary"
+                    fullWidth
+                    size="large"
+                    onClick={onClickUserNameChangeBtn}
+                >
+                    변경완료
+                </Button>
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item xs={10}>
+                    <TextField
+                      disabled={verButtonInactive}
+                      variant="outlined"
+                      required
+                      margin="normal"
+                      required
+                      fullWidth
+                      autoFocus
+                      id="email"
+                      label="아이디(E-mail)"
+                      name="email"
+                      autoComplete="email"
+                      onChange={onChangeUserID}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                      <Button
+                        disabled={verButtonInactive}
+                        variant="outlined"
+                        fullWidth
+                        color="primary"
+                        required
+                        size="large"
+                        onClick={onClickUserIDBtn}
+                      >
+                      인증
+                      </Button>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item xs={10}>
+                      <TextField
+                        disabled={hiddenAuth}
+                        variant="outlined"
+                        required
+                        fullWidth
+                        id="verification"
+                        label="인증번호"
+                        name="verification"
+                        autoComplete="verification"
+                        onChange={onChangeVer}
+                      />
+                  </Grid>
+                  <Grid item xs={2}>
+                      <Button
+                        color="primary"
+                        disabled={hiddenAuth}
+                        fullWidth
+                        size="large"
+                        onClick={onClickVerBtn}
+                      >
+                        확인
+                      </Button>
+                  </Grid>
+                  <Button
+                    disabled={emailAuth}
+                    color="primary"
+                    fullWidth
+                    size="large"
+                    onClick={onClickUserIDChangeBtn}
+                  >
+                    변경완료
+                  </Button>
+                </Grid>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  autoFocus
+                  fullWidth
+                  name="password"
+                  label="비밀번호"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={onChangeUserPW}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  autoFocus
+                  name="passwordcheck"
+                  label="비밀번호확인"
+                  type="password"
+                  id="passwordcheck"
+                  autoComplete="current-password-check"
+                  onChange={onChangeUserPWCheck}
+                />
+                <Button
+                  disabled={passwordSame}
+                  color="primary"
+                  fullWidth
+                  size="large"
+                  onClick={onClickUserPWChangeBtn}
+                >
+                  변경완료
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={onClickOkBtn}
+                >
+                  확인
+                </Button>
+              </Container>
+            </form>
+        </div>
+      </Grid>
     );
 }
