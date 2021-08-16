@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { Typography, Divider } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
-import DoneIcon from '@material-ui/icons/Done';
+
 
 const useStyles = makeStyles((theme) => ({
   img: {
@@ -30,8 +30,11 @@ export default function RecipeTitle() {
   }
 
   return (
-  <Box my={1}>
-    <Typography variant="h3">레시피 제목</Typography>
+  <Box mt={3} mb={1}>
+    <Typography color="primary" variant="h3">레시피 제목</Typography>
+    <Box my={2}>
+      <Divider />
+    </Box>
     <Paper>
       <Grid container alignItems="center" className={classes.intro}>
         <Grid item xs={12} md={6}>

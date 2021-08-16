@@ -1,5 +1,9 @@
-import { React, useState, useEffect } from "react";
-import { Chip, Paper, makeStyles, Grid } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
+import Grid from "@material-ui/core/Grid";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0.5),
   },
 }));
+
+
 const DetailModal = () => {
   const [chipData, setChipData] = useState([
     { key: 0, label: "2021.07.21" },

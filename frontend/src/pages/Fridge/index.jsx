@@ -49,7 +49,15 @@ const Fridge = (props) => {
     catName = props.location.state.catName;
   }
 
-  console.log(catName);
+  /*const [largeList, setLargeList] = useState();
+
+  useEffect(async () => {
+    const largeListData = await getFavData(`${server.ip}/fridge/classification1`);
+
+    setLargeList(largeListData);
+  }, []);
+
+  console.log(largeList);*/
   const addCnt = (re) => {
     setCnt(re);
   };

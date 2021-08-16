@@ -1,19 +1,20 @@
 import { React, useState, useEffect } from "react";
-import {
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  makeStyles,
-  Typography,
-  Card,
-  Modal,
-  Fade,
-  Backdrop,
-  CardActions,
-  Chip,
-  Paper,
-} from "@material-ui/core";
-import { Router, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import Modal from '@material-ui/core/Modal';
+import Typography from '@material-ui/core/Typography';
+
+
 import DetailModal from "../DetailModal";
 import server from '../../../../server.json';
 

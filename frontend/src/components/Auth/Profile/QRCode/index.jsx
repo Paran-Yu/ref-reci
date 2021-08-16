@@ -24,6 +24,13 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import server from '../../../../server.json';
 
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+    },
+}));
+
+
 // const option ={
 //   url:'http://i5a203.p.ssafy.io',
 //   method:'POST',

@@ -15,23 +15,6 @@ import BookIcon from '@material-ui/icons/Book';
 import PersonIcon from '@material-ui/icons/Person';
 
 
-const mytheme = createTheme({
-  palette: {
-    primary: {
-      light: '#f2da9e',
-      main: '#f9bc15',
-      dark: '#f19920',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#f2ede7',
-      main: '#a29d97',
-      dark: '#45423c',
-      contrastText: '#fff',
-    },
-  },
-});
-
 const useStyles = makeStyles(theme => ({
   fab: {
     position: 'fixed',
@@ -47,63 +30,61 @@ export default function FloatingActionButton() {
 
   return (
     <Box>
-      <ThemeProvider theme={mytheme}>
-        <Fab
-        color="primary"
-        aria-label="user"
-        component={RouterLink}
-        to="/profile"
-        style={
-          {
-            position: 'fixed',
-            bottom: positionMargin,
-            right: rightMargin,
-          }
-        }>
-          <PersonIcon />
-        </Fab>
-        <Fab
-        color="primary"
-        aria-label="calendar"
-        component={RouterLink}
-        to="/calendar"
-        style={
-          {
-            position: 'fixed',
-            bottom: positionMargin + 70,
-            right: rightMargin,
-          }
-        }>
-          <DateRangeIcon />
-        </Fab>
-        <Fab
-        color="primary"
-        aria-label="recipe"
-        component={RouterLink}
-        to="/recipe"
-        style={
-          {
-            position: 'fixed',
-            bottom: positionMargin + 140,
-            right: rightMargin,
-          }
-        }>
-          <BookIcon />
-        </Fab>
-        <Fab
-        color="primary"
-        aria-label="fridge"
-        component={RouterLink}
-        to="/fridge"
-        style={
-          {
-            position: 'fixed',
-            bottom: positionMargin + 210,
-            right: rightMargin,
-          }
-        }>
-          <KitchenIcon />
-        </Fab>
-      </ThemeProvider>
+      <Fab
+      color="primary"
+      aria-label="user"
+      component={RouterLink}
+      to="/profile"
+      style={
+        {
+          position: 'fixed',
+          bottom: positionMargin,
+          right: rightMargin,
+        }
+      }>
+        <PersonIcon />
+      </Fab>
+      <Fab
+      color="primary"
+      aria-label="calendar"
+      component={RouterLink}
+      to="/calendar"
+      style={
+        {
+          position: 'fixed',
+          bottom: positionMargin + 70,
+          right: rightMargin,
+        }
+      }>
+        <DateRangeIcon />
+      </Fab>
+      <Fab
+      color="primary"
+      aria-label="recipe"
+      component={RouterLink}
+      to="/recipe"
+      style={
+        {
+          position: 'fixed',
+          bottom: positionMargin + 140,
+          right: rightMargin,
+        }
+      }>
+        <BookIcon />
+      </Fab>
+      <Fab
+      color="primary"
+      aria-label="fridge"
+      component={RouterLink}
+      to="/fridge"
+      style={
+        {
+          position: 'fixed',
+          bottom: positionMargin + 210,
+          right: rightMargin,
+        }
+      }>
+        <KitchenIcon />
+      </Fab>
     </Box>
   )};
