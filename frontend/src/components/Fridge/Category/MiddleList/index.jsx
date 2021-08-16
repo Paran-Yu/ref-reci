@@ -5,10 +5,10 @@ import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import createTheme from "@material-ui/core/styles/createTheme";
 
-import catDt from "./dump.json";
-import CatItem from "../LargeItem";
+import MiddleItem from "../MiddleItem";
+import data from "./dump.json";
+// Theme ------------------------------------
 
-// Theme -------------------------------------
 const mytheme = createTheme({
   palette: {
     primary: {
@@ -51,33 +51,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 // -------------------------------------------
 
-const useGetdata = () => {
-  const [catItemDatas, setCatItemDatas] = useState([]);
-  const getDatas = async () => {
-    setCatItemDatas(catDt);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return catItemDatas;
-};
-
-const LargeList = () => {
+const MiddleList = (props) => {
   const classes = useStyles();
-  const data = useGetdata();
+  //const data = props.datas;
+  const setSub = (re) => {
+    props.subCheck(re);
+  };
   return (
     <div className={classes.root}>
       <Grid xs={10}>
         <GridList container>
           {data.map((dt, idx) => {
-            let color;
-            if (idx == 0) {
-              color = "#F19920";
-            }
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
-                <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
-                  <CatItem dt={dt} />
+                <Paper className={classes.grid} fullwidth>
+                  <MiddleItem dt={dt} idx={idx} setSub={setSub.bind()} />
                 </Paper>
               </Grid>
             );
@@ -87,4 +75,4 @@ const LargeList = () => {
     </div>
   );
 };
-export default LargeList;
+export default MiddleList;

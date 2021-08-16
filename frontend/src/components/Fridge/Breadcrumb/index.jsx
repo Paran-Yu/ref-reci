@@ -32,7 +32,6 @@ export default function CustomizedBreadcrumbs(props) {
   });
   const handleClick = (re) => {
     console.log(re);
-    props.toBack(re);
   };
 
   return (
@@ -45,7 +44,7 @@ export default function CustomizedBreadcrumbs(props) {
         onClick={handleClick(1)}
       />
       <StyledBreadcrumb component="a" href="#" label={props.catName} onClick={handleClick(2)} />
-      {props.catName != "전체" ? <StyledBreadcrumb label="소분류" /> : ""}
+      {props.catName != "전체" ? <StyledBreadcrumb label={props.subCatName} /> : ""}
     </Breadcrumbs>
   );
 }
