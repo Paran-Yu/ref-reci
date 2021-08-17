@@ -208,7 +208,7 @@ export default function Profile({history}) {
           alignItems='center'
           my={2}
         >
-          <Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length/postPerPage)} color="primary" />
+        <Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length/postPerPage)} color="primary" />
         </Box>
       </div>
       <Fab />
