@@ -621,7 +621,7 @@ class SearchWindow(QMainWindow):
             # 데이터 플로팅
             self.recipe_item_list[i].recipe_item_name.setText(self.recipe_result[i]['recipe_name'])
             self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'].split(' ')[0])
-            self.recipe_item_list[i].recipe_item_time.setGeometry(QRect(len(self.recipe_result[i]['recipe_name']) * 28 + 320, 16, 144, 40))
+            self.recipe_item_list[i].recipe_item_time.setGeometry(QRect(len(self.recipe_result[i]['recipe_name']) * 28 + 320, 16, 80, 40))
             self.recipe_item_list[i].recipe_item_intro.setText(self.recipe_result[i]['recipe_intro'])
             self.recipe_item_list[i].recipe_item_picture.setStyleSheet("background-color: #FFFFFF;\n"
                                                                        "border-image: url(img/recipe/{});\n"
@@ -635,8 +635,16 @@ class SearchWindow(QMainWindow):
         # self.scroll.setWidgetResizable(False)
 
     def clicked_item(self):
+        reci_id = 0
         sender = self.sender()
         print(sender)
+        for i in range(len(self.recipe_result)):
+            if sender == self.recipe_item_list[i].recipe_item_picture or sender == self.recipe_item_list[i].recipe_item_container:
+                reci_id = self.recipe_result[i]['recipe_id']
+                break
+        print(reci_id)
+        mainWidget.setCurrentIndex(mainWidget.currentIndex() + 1)
+        detailWindow.draw_detail(reci_id)
 
     def clear_list(self):
         self.recipe_scroll.takeWidget()
@@ -649,16 +657,24 @@ class SearchWindow(QMainWindow):
 
 
 # 4 recipe detail
-class RecipeResultWindow(QMainWindow):
+class RecipeDetailWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        # loadUi("h_ref_add.ui", self)
+        loadUi("h_recipe_detail.ui", self)
         self.main()
 
     def main(self):
         pass
 
+    def clicked_back(self):
+        mainWidget.setCurrentIndex(mainWidget.currentIndex() - 1)
 
+    def draw_detail(self, id):
+        recipe_detail = refDB.get_detail_recipe(id)
+        self.recipe_picture.setStyleSheet("border-image: url(img/recipe/{})".format(recipe_detail['recipe_image']))
+        self.recipe_item_name.setText(recipe_detail['recipe_name'])
+        # print(recipe_detail['recipe_ingredient'])
+        # print(recipe_detail['recipe_phase'])
 
 # main
 if __name__ == "__main__":
@@ -681,12 +697,14 @@ if __name__ == "__main__":
     refListWindow = RefListWindow()
     addWindow = AddWindow()
     searchWindow = SearchWindow()
+    detailWindow = RecipeDetailWindow()
 
     # add pages to main widget stack
     #mainWidget.addWidget(startWindow)
     mainWidget.addWidget(refListWindow)
     mainWidget.addWidget(addWindow)
     mainWidget.addWidget(searchWindow)
+    mainWidget.addWidget(detailWindow)
 
     # encoder thread
     encoderThread = EncoderThread()
