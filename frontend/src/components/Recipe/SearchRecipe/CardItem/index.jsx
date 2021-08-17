@@ -1,20 +1,23 @@
 import { React, useState, useEffect } from "react";
-import {
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  makeStyles,
-  Typography,
-  Card,
-  Modal,
-  Fade,
-  Backdrop,
-  CardActions,
-  Chip,
-  Paper,
-} from "@material-ui/core";
-import { Router, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import Modal from '@material-ui/core/Modal';
+import Typography from '@material-ui/core/Typography';
+
+
 import DetailModal from "../DetailModal";
+import server from '../../../../server.json';
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -39,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(1),
   },
+  media: {
+    height: 200,
+  },
 }));
 
 const CardItem = (props) => {
@@ -55,6 +61,9 @@ const CardItem = (props) => {
     { key: 0, label: "우유" },
     { key: 1, label: "계란" },
     { key: 2, label: "달걀" },
+    { key: 3, label: "우유" },
+    { key: 4, label: "계란" },
+    { key: 5, label: "달걀" },
   ]);
   const handleDelete = (chipToDelete) => () => {
     setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
@@ -63,13 +72,13 @@ const CardItem = (props) => {
     <div>
       <Card onClick={handleOpen}>
         <CardActionArea>
-          <CardMedia image="/static/images/cards/contemplative-reptile.jpg" title="살려줘" />
+          <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.recipeImage}`} />
           <CardContent>
             <Typography variant="h5" component="h2">
-              {dt.CatName}
+              {dt.recipeName}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              20분
+              {dt.recipeTime}
             </Typography>
           </CardContent>
         </CardActionArea>

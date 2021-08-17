@@ -1,4 +1,4 @@
-import {useState, React} from 'react';
+import React, { useState } from 'react';
 
 // Core
 import Grid from '@material-ui/core/Grid';
@@ -22,37 +22,11 @@ import createTheme from '@material-ui/core/styles/createTheme';
 import {NavLink} from "react-router-dom";
 
 // Theme -------------------------------------
-const mytheme = createTheme({
-  palette: {
-      primary: {
-          light: '#f2da9e',
-          main: '#f9bc15',
-          dark: '#f19920',
-          contrastText: '#fff',
-      },
-      secondary: {
-          light: '#f2ede7',
-          main: '#a29d97',
-          dark: '#45423c',
-          contrastText: '#fff',
-      },
-      success: {
-          light: '#f2ede7',
-          main: '#fee500',
-          dark: '#45423c',
-          contrastText: '#191600',
-      },
-      info: {
-        //light: '#ffffff',
-        main: '#ffffff',
-        //dark: '#45423c',
-      }
-  },
-});
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    userSelect: 'none',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -100,7 +74,6 @@ export default function TopBar() {
 
   return (
     <div>
-      <ThemeProvider theme={mytheme}>
       <div className={classes.root} >
         <AppBar elevation={0} position="static" color="info">
           <Toolbar className={classes.toolbar}>
@@ -108,17 +81,18 @@ export default function TopBar() {
             <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
             </NavLink>
             <Button 
-            color="inherit" 
+            color="secondary"
             onClick={async () => {
               const data = await getLogout(`${server.ip}/user/logout`);
               window.location.replace("http://i5a203.p.ssafy.io/signin");
             }} className={classes.logout}>
-              로그아웃
+              <Typography variant="caption">
+                | 로그아웃 | 
+              </Typography>
             </Button>
           </Toolbar>
         </AppBar>
       </div>
-      </ThemeProvider>
     </div>
   )
 }

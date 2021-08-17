@@ -14,9 +14,7 @@ import server from '../../server.json'
 import { computeSegDraggable } from '@fullcalendar/react';
 
 const getItems = async (url,date) => {
-  try {
-    console.log(`send Data = ${date}`)
-    
+  try {    
     const data = await axios({
       method: 'POST',
       url: url,
@@ -39,20 +37,20 @@ export default function Calendar() {
   const [dates, setDates] = useState('')
   const [foodDatas, setfoodDatas] = useState();
 
-
+  //받아온 dates에 배열을 생성
   function getDates(dates) {
-    // console.log(dates);
     setDates(dates)
   }
-  console.log(dates)
+
   useEffect(async () => {
     //console.log(dates)
+    // const foodlist = await getItems(`http://localhost:3001/foodlist/getItems`, `${dates}`);
+
+    //다른거에 담아서 여러개를 보내는?
     const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
 
-
-
     const foodItems = foodlist.map((foodData) => {
-      console.log(`${foodData.Name}.jpg`)
+      // console.log(`${foodData.Name}.jpg`)
       return (
         <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
       )

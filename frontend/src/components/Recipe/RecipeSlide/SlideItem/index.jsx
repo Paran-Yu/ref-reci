@@ -1,13 +1,13 @@
-import {
-  makeStyles,
-  Card,
-  CardActions,
-  CardMedia,
-  CardContent,
-  Typography,
-  Grid,
-} from "@material-ui/core";
-import { React, useState } from "react";
+import React, { useState } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+
 
 import server from '../../../../server.json';
 
@@ -16,13 +16,14 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     height: 150,
     width: 200,
-    marginTop: 10,
   },
   action: {
     justifyContent: "center",
     color: "#45423C",
-    marginTop: 20,
-    fontFamily: 'KoPubWorld Bold'
+    marginTop: 25,
+    fontFamily: 'KoPubWorld Bold',
+    marginLeft: 20,
+    fontSize: '14px'
   },
   recipe: {
     borderRadius: "50%",

@@ -169,7 +169,6 @@ export default function Profile({history}) {
   
   return (
     <Container fixed >
-      <ThemeProvider theme={mytheme}>
       <TopBar />
       <Typography
       variant="h3"
@@ -189,28 +188,27 @@ export default function Profile({history}) {
       </Box>
       <h1>즐겨찾기한 레시피</h1>
       <Box 
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      my={3}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        my={3}
       >
         <Grid container spacing={2}>
           {recipeDatas}
         </Grid>
       </Box>
-      <Fab />
-      <BottomBar />
       <div className={classes.pg}>
         <Box
-        display='flex'
-        justifyContent='center'
-        alignItems='center'
-        my={2}
+          display='flex'
+          justifyContent='center'
+          alignItems='center'
+          my={2}
         >
           <Pagination count={10} color="primary" />
         </Box>
       </div>
-      </ThemeProvider>
+      <Fab />
+      <BottomBar />
     </Container>
   )
 }

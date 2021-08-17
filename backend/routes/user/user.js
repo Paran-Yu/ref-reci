@@ -344,4 +344,20 @@ app.post("/changeUserPW", async (req, res) => {
     ]);
 })
 
+app.get("/deleteUser", async (req, res) => {
+    // const uID = req.session.uID;
+    const uID = 54;
+    try{
+        await pool.query("DELETE FROM User WHERE uID = ?", [
+            uID,
+        ]);
+        res.send({value: 'Success'});
+    }
+    catch(e){
+        console.log(e);
+        res.send({ value: 'Fail' });
+    }
+    
+})
+
 module.exports = app;
