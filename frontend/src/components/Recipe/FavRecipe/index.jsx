@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Core
 import Card from '@material-ui/core/Card';
@@ -42,13 +43,19 @@ const introTruncate = (txt, len, endwith) => {
   }
 };
 
+
 export default function FavRecipe(props) {
   const classes = useStyles();
   const editedIntro = introTruncate(props.rIntroduce, 50);
+  console.log(props)
 
   return (
   <Card className={classes.cardroot}>
-    <CardActionArea>
+    <CardActionArea
+    // component={RouterLink}
+    // id가 없어요 지훈님 ㅠ.ㅠ
+    // to="/rec/{props.id}"
+    >
       <CardMedia
         className={classes.media}
         image={props.url}

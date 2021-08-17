@@ -53,7 +53,7 @@ class StartWindow(QMainWindow):
         # 유저 정보 불러오기
         global USER_NAME
         USER_NAME = refDB.get_User_Name(USER_ID)
-        self.hide()
+        #self.hide()
         QCoreApplication.instance().quit()
 
 
@@ -693,4 +693,5 @@ if __name__ == "__main__":
     # encoderThread.start()
 
     mainWidget.show()
+    startWindow.hide()
     app.exec()
