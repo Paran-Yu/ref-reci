@@ -1,46 +1,14 @@
+// React
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
+// Material-UI
 import Typography  from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+
 import { makeStyles } from '@material-ui/core/styles';
-
-// Theme
-import { ThemeProvider } from '@material-ui/core/styles';
-import createTheme from '@material-ui/core/styles/createTheme';
-
-import axios from 'axios';
-import server from '../../../../server.json';
-
-const mytheme = createTheme({
-  palette: {
-      primary: {
-          light: '#f2da9e',
-          main: '#f9bc15',
-          dark: '#f19920',
-          contrastText: '#fff',
-      },
-      secondary: {
-          light: '#f2ede7',
-          main: '#a29d97',
-          dark: '#45423c',
-          contrastText: '#fff',
-      },
-      success: {
-          light: '#f2ede7',
-          main: '#fee500',
-          dark: '#45423c',
-          contrastText: '#191600',
-      },
-  },
-  typography: {
-      fontFamily: "'KoPubWorld', Munhwajae, jeju",
-      fontStyle: "normal",
-      fontWeight: "Bold"
-  },
-});
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyInfo(props) {
   const classes = useStyles();
-
 
   return (
     <div>
@@ -74,24 +41,24 @@ export default function MyInfo(props) {
           <Grid container>
             <Grid item xs={5} className={classes.btn}>
             <Button
-            fullWidth
-            size="normal"
-            variant="contained"
-            color= "primary"
-            component={RouterLink}
-            to="/usr/check/update"
+              fullWidth
+              size="normal"
+              variant="contained"
+              color= "primary"
+              component={RouterLink}
+              to="/usr/check/update"
             >
               회원정보수정
             </Button>
             </Grid>
             <Grid item xs={5} className={classes.btn}>
             <Button
-            fullWidth
-            size="normal"
-            variant="outlined"
-            color= "primary"
-            component={RouterLink}
-            to="/usr/check/delete"
+              fullWidth
+              size="normal"
+              variant="outlined"
+              color= "primary"
+              component={RouterLink}
+              to="/usr/check/delete"
             >
               회원탈퇴
             </Button>

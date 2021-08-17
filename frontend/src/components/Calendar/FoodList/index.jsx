@@ -1,15 +1,10 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider'
-import Badge from '@material-ui/core/Badge';
-import axios from 'axios';
-import server from '../../../server.json';
-
 
 
 
