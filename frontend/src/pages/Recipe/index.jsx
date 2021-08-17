@@ -7,10 +7,35 @@ import { ThemeProvider } from "@material-ui/styles";
 import Container from "@material-ui/core/Container";
 import SearchBar from "../../components/Recipe/SearchBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
+import Pagination from '@material-ui/lab/Pagination';
+import createTheme from '@material-ui/core/styles/createTheme';
 
 // Server 
 import axios from 'axios';
 import server from '../../server.json';
+
+const mytheme = createTheme({
+  palette: {
+      primary: {
+          light: '#f2da9e',
+          main: '#f9bc15',
+          dark: '#f19920',
+          contrastText: '#fff',
+      },
+      secondary: {
+          light: '#f2ede7',
+          main: '#a29d97',
+          dark: '#45423c',
+          contrastText: '#fff',
+      },
+      success: {
+          light: '#f2ede7',
+          main: '#fee500',
+          dark: '#45423c',
+          contrastText: '#191600',
+      },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     background: "#F19920",
   },
+  paginate: {
+    display: "flex",
+    flexDirection: 'column',
+    alignItems: 'center',
+    // justifyContent: 'center'
+  }
 }));
 
 const getDatas = async (url) => {
@@ -57,22 +88,37 @@ let items;
 const Recipe = () => {
   const classes = useStyles();
 
-  const [allFoodItems, setAllFoodItems] = useState();
+  const [allFoodItem, setAllFoodItems] = useState([]);
   const [customSearchBar, setCustomSearchBar] = useState();
   const [customCardList, setCustomCardList] = useState();
 
+  const [recipeid, setrecipeid]   = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(12);
+
+  
+  
+  function handleChildChange(recipes, selectedArr) {
+    console.log('렌더 전')
+    setrecipeid(recipes)
+    console.log('렌더 후')
+  }
+  
   useEffect(async () => {
     const allFoodItems = await getDatas(`${server.ip}/fridge/read`);
     items = allFoodItems;
-
-    function handleChildChange(recipes, selectedArr) {
-      console.log('렌더 전')
-      setCustomCardList(<CardList datas={recipes}/>)
-      console.log('렌더 후')
-    }
-
+    setAllFoodItems(items);
+    
     setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} />)
   }, [])
+  
+  // 현재 페이지 가져오기
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentrecipes = recipeid.slice(indexOfFirstPost, indexOfLastPost);
+  
+    const paginate = (event, value) => {setCurrentPage(value)
+      setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} />)};
 
   return (
     <Container fixed>
@@ -81,8 +127,13 @@ const Recipe = () => {
         <Typography variant="h2">레시피 정리</Typography>
         <Divider />
         {customSearchBar}
-        {customCardList}
+        <CardList datas={currentrecipes}/>
       </Box>
+      <Pagination onChange={paginate} 
+        page={currentPage} 
+        count={Math.ceil(recipeid.length/postPerPage)} 
+        color="primary" 
+        className={classes.paginate}/>
       <FloatingActionButton />
       <BottomBar />
     </Container>
