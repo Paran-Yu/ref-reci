@@ -62,7 +62,11 @@ const mytheme = createTheme({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-      height: '100vh',
+    height: '100vh',
+  },
+  gridItem: {
+    display: 'flex',
+    alignItems: 'stretch',
   },
   image: {
       backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
@@ -152,7 +156,7 @@ export default function Profile({history}) {
 
       const recipeItems = favRecipeData.map((recipeData) => {
         return (
-          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
+          <Grid item className={classes.gridItem} key={recipeData} xs={12} sm={6} md={4} lg={3}> 
             <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
           </Grid>
         )
