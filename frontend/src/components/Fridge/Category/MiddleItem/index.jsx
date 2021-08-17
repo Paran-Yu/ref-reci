@@ -19,19 +19,15 @@ const useStyles = makeStyles((theme) => ({
 const MiddleItem = (props) => {
   const { dt, idx } = props;
   const st = useStyles();
+  
+  const btn = () => {
+    props.setSub(dt.c2ID, dt.classification2Name);
+  };
+
   return (
-    <Link
-      to={{
-        pathname: "/fridge",
-        state: {
-          catName: dt.CatName,
-        },
-      }}
-      className={st.link}
-      style={{ textDecoration: "none" }}
-    >
-      <ButtonBase className={st.catIt}>{dt.CatName}</ButtonBase>
-    </Link>
+    <ButtonBase className={st.catIt} onClick={btn}>
+      {dt.classification2Name}
+    </ButtonBase>
   );
 };
 export default MiddleItem;

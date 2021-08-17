@@ -1,5 +1,10 @@
-import { React, useState, useEffect } from "react";
-import { Grid, makeStyles, GridList, Paper, Button, createMuiTheme } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import GridList from '@material-ui/core/GridList';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+
 import { useNowCols } from "../../../../common/MediaQueryHooks";
 import catDt from "./dump.json";
 import CardItem from "../CardItem";
@@ -22,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     height: "120%",
   },
 }));
+
 //삭제 예정
 const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);

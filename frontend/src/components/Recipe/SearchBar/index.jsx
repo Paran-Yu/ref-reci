@@ -75,7 +75,6 @@ export default function SearchBar(props) {
         getOptionLabel={(option) => option.name}
         filterSelectedOptions
         onChange={handleChange}
-        // onChange={(event, value) => console.log(value)}
         renderInput={(params) => (
           <TextField
             {...params}
