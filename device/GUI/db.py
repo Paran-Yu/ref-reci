@@ -451,7 +451,7 @@ class DB:
                 for d in range(6):
                     tmp[dict_keys[d]] = r[d]
                 data.append(tmp)
-
+            print("메롱")
             return data
         except:
             print("레시피 정보를 가져오는데 실패하였습니다.")
@@ -471,7 +471,7 @@ class DB:
         recipe_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
         cursor = self.db.cursor()
 
-        recipe_sql = "SELECT r.ID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
+        recipe_sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
                      "FROM Recipe r " \
                      "WHERE r.rID=%s;"
 
@@ -496,7 +496,6 @@ class DB:
         result = cursor.fetchall()[0]
         for d in range(3):
             data[phase_keys[d]] = result[d]
-
         return data
 
     def get_favo_reicpe(self, user_id):
