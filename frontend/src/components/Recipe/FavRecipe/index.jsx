@@ -10,11 +10,12 @@ import Typography from '@material-ui/core/Typography';
 
 // Server
 import server from '../../../server.json';
+import { ElementDragging } from '@fullcalendar/core';
 
 const useStyles = makeStyles({
   cardroot: {
     maxWidth: '100%',
-    height: 'h-100',
+    // height: 'h-100',
   },
   media: {
     height: 180,
@@ -27,11 +28,25 @@ const useStyles = makeStyles({
 
 const url = server.ip + "/img";
 
+const introTruncate = (txt, len, endwith) => {
+  if (len == null) {
+    len = 100;
+  }
+  if (endwith == null) {
+    endwith = '...';
+  }
+  if (txt.length > len) {
+    return txt.substring(0, len - endwith.length) + endwith;
+  } else {
+    return txt;
+  }
+};
+
 export default function FavRecipe(props) {
   const classes = useStyles();
+  const editedIntro = introTruncate(props.rIntroduce, 50);
 
   return (
-// grid -> grid item -> card -> cardactionarea
   <Card className={classes.cardroot}>
     <CardActionArea>
       <CardMedia
@@ -43,7 +58,7 @@ export default function FavRecipe(props) {
           {props.rName}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {props.rIntroduce}
+          {editedIntro}
         </Typography>
       </CardContent>
     </CardActionArea>

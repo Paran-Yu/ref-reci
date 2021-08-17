@@ -16,13 +16,10 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    height: '180px',
     position: 'relative',
     bottom: 0,
     display:'flex',
     justifyContent: 'center',
-    alignItems: 'flex-end',
     userSelect: 'none',
   },
 }));

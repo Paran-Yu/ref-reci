@@ -2,8 +2,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic import *
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
+import RPi.GPIO as GPIO
 from ref_item import RefItem
 from recipe_item import ReciItem
+from encoder import EncoderThread
 from db import DB
 import barcode_reader
 import sys
@@ -13,7 +15,7 @@ import datetime
 ## 전역변수
 # 유저정보
 # USER_ID - 나중에 텍스트로 빼든지 할 것
-USER_ID = 1
+# USER_ID = 0
 
 # 대분류 튜플
 category_list = ('육류', '채소류', '해물류', '달걀/유제품', '가공식품류', '곡류', '밀가루', '건어물류', '버섯류', '향신료/조미료류', '과일류', '소스류', '발효식품', '기타')
@@ -22,25 +24,37 @@ category_list = ('육류', '채소류', '해물류', '달걀/유제품', '가공
 today = datetime.date.today()
 print(today)
 
+# GPIO set
+LED = 23
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LED, GPIO.OUT)
+GPIO.output(LED, False)
+
 # 0 start
 class StartWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         loadUi("h_start.ui", self)
-        self.main()
+        # self.main()
 
+    # def main(self):
+    #     pass
 
-    def main(self):
-        pass
-
-    # QR 코드 인식
-    def login_with_QR(self):
-        pass
-
-
-    # 로그인 성공시
     def clicked_login(self):
-        mainWidget.setCurrentIndex(mainWidget.currentIndex()+1)
+        # QR Login
+        global USER_ID
+        GPIO.output(LED, True)
+        barcode_reader.barcode_recognition()
+        f = open("user.txt", "r")
+        USER_ID = int(f.read())
+        # 나중에 바코드 예외처리 해줄 것
+        GPIO.output(LED, False)
+        # 유저 정보 불러오기
+        global USER_NAME
+        USER_NAME = refDB.get_User_Name(USER_ID)
+        self.hide()
+        QCoreApplication.instance().quit()
 
 
 # 1 ref_list
@@ -249,6 +263,7 @@ class RefListWindow(QMainWindow):
                     if self.ref_list_list[i]['item_category2'] not in self.selected_item_name:
                         self.selected_item_name.append(self.ref_list_list[i]['item_category2'])
                         self.selected_item_id.append(self.ref_list_list[i]['item_category2_id'])
+                        break
 
             # 선택된 재료가 하나 이상일 경우 레시피 검색 버튼 활성화
             if len(self.selected_item_name) != 0:
@@ -405,6 +420,8 @@ class AddWindow(QMainWindow):
     def clicked_barcode(self):
         print("barcode reader start!!")
         self.barcode_btn.setEnabled(False)
+        # 바코드 조명 켜기
+        GPIO.output(LED, True)
         # 바코드 리더 함수 호출 - 제품명 가져오기
         item_name = barcode_reader.barcode_recognition()
         
@@ -427,7 +444,7 @@ class AddWindow(QMainWindow):
             pass
         
         self.barcode_btn.setEnabled(True)
-
+        GPIO.output(LED, False)
 
     # 뒤로가기, 다음 버튼 클릭 시 모든 값 초기화
     def reset_all(self):
@@ -595,21 +612,31 @@ class SearchWindow(QMainWindow):
         recipe_layout.setColumnMinimumWidth(0, 1232)
         for i in range(int(len(self.recipe_result))):
             recipe_layout.setRowMinimumHeight(i, 200)
-
+        print("레시피 총 개수")
+        print(len(self.recipe_result))
         # 위젯 그룹에 리스트 카드 하나씩 넣기
         recipe_groupBox = QGroupBox("")
         for i in range(len(self.recipe_result)):
-            print(i)
             self.recipe_item_list.append(ReciItem())
             # 데이터 플로팅
             self.recipe_item_list[i].recipe_item_name.setText(self.recipe_result[i]['recipe_name'])
-            self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'])
+            self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'].split(' ')[0])
+            self.recipe_item_list[i].recipe_item_time.setGeometry(QRect(len(self.recipe_result[i]['recipe_name']) * 28 + 320, 16, 144, 40))
             self.recipe_item_list[i].recipe_item_intro.setText(self.recipe_result[i]['recipe_intro'])
+            self.recipe_item_list[i].recipe_item_picture.setStyleSheet("background-color: #FFFFFF;\n"
+                                                                       "border-image: url(img/recipe/{});\n"
+                                                                       "border: 0px;".format(self.recipe_result[i]['recipe_image']))
+            self.recipe_item_list[i].recipe_item_picture.clicked.connect(self.clicked_item)
+            self.recipe_item_list[i].recipe_item_container.clicked.connect(self.clicked_item)
             recipe_layout.addWidget(self.recipe_item_list[i])
         recipe_groupBox.setLayout(recipe_layout)
-
         self.recipe_scroll.setWidget(recipe_groupBox)
+
         # self.scroll.setWidgetResizable(False)
+
+    def clicked_item(self):
+        sender = self.sender()
+        print(sender)
 
     def clear_list(self):
         self.recipe_scroll.takeWidget()
@@ -632,17 +659,18 @@ class RecipeResultWindow(QMainWindow):
         pass
 
 
+
 # main
 if __name__ == "__main__":
     # DB connect
     refDB = DB()
 
-    # 유저 정보 불러오기
-    global USER_NAME
-    USER_NAME = refDB.get_User_Name(USER_ID)
-
     # main class
     app = QApplication(sys.argv)
+    startWindow = StartWindow()
+    startWindow.show()
+    app.exec()
+
     mainWidget = QtWidgets.QStackedWidget()
 
     # sizing main widget
@@ -650,16 +678,19 @@ if __name__ == "__main__":
     mainWidget.setFixedHeight(720)
 
     # create page instances
-    startWindow = StartWindow()
     refListWindow = RefListWindow()
     addWindow = AddWindow()
     searchWindow = SearchWindow()
 
     # add pages to main widget stack
-    mainWidget.addWidget(startWindow)
+    #mainWidget.addWidget(startWindow)
     mainWidget.addWidget(refListWindow)
     mainWidget.addWidget(addWindow)
     mainWidget.addWidget(searchWindow)
+
+    # encoder thread
+    encoderThread = EncoderThread()
+    # encoderThread.start()
 
     mainWidget.show()
     app.exec()

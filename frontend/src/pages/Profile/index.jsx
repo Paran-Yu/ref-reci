@@ -62,7 +62,11 @@ const mytheme = createTheme({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-      height: '100vh',
+    height: '100vh',
+  },
+  gridItem: {
+    display: 'flex',
+    alignItems: 'stretch',
   },
   image: {
       backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
@@ -142,20 +146,7 @@ export default function Profile({history}) {
       setExpiredNum(userInfoData.expiredFoodCount);
 
       const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
-      console.log(favRecipeData);
-      // 배열로 만듬
-      // var tmpRecipeData = JSON.parse(favRecipeData.data);
-      // setPosts사용
       setPosts(favRecipeData)
-      // setPosts(tmpRecipeData);
-      // console.log("tmp",tmpRecipeData);
-      // setRecipeDatas(recipeItems);
-      
-    // }
-    // else {
-    //   console.log(loginData.value);
-    //   history.replace('/signin');
-    // }
   }, [])
   
   // 현재 페이지 가져오기
