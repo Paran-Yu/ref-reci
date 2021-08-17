@@ -107,7 +107,8 @@ app.post("/search", async(req, res) => {
 
         sql = "SELECT r.rID, r.recipeName, r.recipeImage, r.recipeTime \
         FROM Recipe r, (SELECT DISTINCT ri.rID, count(*) count FROM RecipeIngredient ri, Ingredient i \
-        WHERE ri.iID = i.iID and i.ingredientName REGEXP(SELECT REPLACE(GROUP_CONCAT(a.classification2Name), ',', '|') AS NAME FROM(SELECT c2.classification2Name FROM Classification2 c2 WHERE c2.c2ID in " + cl2Str + ") a) Group by ri.rID) rid WHERE r.rID = rid.rID Order by rid.count DESC;"
+        WHERE ri.iID = i.iID and i.ingredientName REGEXP(SELECT REPLACE(GROUP_CONCAT(a.classification2Name), ',', '|') AS NAME FROM(SELECT c2.classification2Name FROM Classification2 c2 WHERE c2.c2ID in " + cl2Str 
+        + ") a) Group by ri.rID) rid WHERE r.rID = rid.rID Order by rid.count DESC;"
     }
     
     
