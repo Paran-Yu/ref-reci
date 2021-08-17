@@ -127,10 +127,10 @@ background-color: rgba(0,0,0,0);</string>
    <widget class="QLabel" name="recipe_item_time">
     <property name="geometry">
      <rect>
-      <x>1144</x>
+      <x>1136</x>
       <y>104</y>
-      <width>105</width>
-      <height>49</height>
+      <width>113</width>
+      <height>65</height>
      </rect>
     </property>
     <property name="font">
@@ -149,7 +149,7 @@ width: 120px;
 height: 40px;
 padding-top: 2px;
 background-color: #F9BC15;
-border-radius: 18px;</string>
+border-radius: 24px;</string>
     </property>
     <property name="text">
      <string>50분</string>
@@ -161,7 +161,7 @@ border-radius: 18px;</string>
    <widget class="QTextBrowser" name="recipe_item_text">
     <property name="geometry">
      <rect>
-      <x>548</x>
+      <x>552</x>
       <y>240</y>
       <width>697</width>
       <height>457</height>
@@ -177,8 +177,8 @@ border: 0px;</string>
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'KoPubWorld돋움체 Medium'; font-size:20pt; font-weight:200; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span&gt;레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피소개글 레시피 소개글&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'KoPubWorld돋움체 Medium'; font-size:28pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Gulim'; font-size:18pt;&quot;&gt;레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피 소개글 레시피소개글 레시피 소개글&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
