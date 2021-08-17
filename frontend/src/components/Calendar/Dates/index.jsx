@@ -72,6 +72,7 @@ export default function Dates({onChildClick}) {
           //달력에 선택된게 아무것도 없을 때
           //리스트에 유효기간이 임박한 순으로 보여주기
           eventClick={onEventClick}
+          class="calendar"
         />
         <Box my={1}>
           <FormGroup>
