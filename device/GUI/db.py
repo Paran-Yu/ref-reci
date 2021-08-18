@@ -451,7 +451,7 @@ class DB:
                 for d in range(6):
                     tmp[dict_keys[d]] = r[d]
                 data.append(tmp)
-
+            print("메롱")
             return data
         except:
             print("레시피 정보를 가져오는데 실패하였습니다.")

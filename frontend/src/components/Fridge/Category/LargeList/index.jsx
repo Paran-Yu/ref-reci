@@ -1,13 +1,6 @@
 import Ract, { useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
-
-// Style
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import createTheme from "@material-ui/core/styles/createTheme";
-
-import catDt from "./dump.json";
 import CatItem from "../LargeItem";
-import catDt2 from "./dump copy.json";
 
 // Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +29,8 @@ const LargeList = (props) => {
     <div className={classes.root}>
       <Grid xs={10}>
         <GridList container>
-          {data.map((dt, idx) => { //dt: 대분류 전체를 쪼갬
+          {data.map((dt, idx) => {
+            //dt: 대분류 전체를 쪼갬
             let color;
             if (idx == 0) {
               color = "#F19920";
