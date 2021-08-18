@@ -16,24 +16,24 @@ import server from '../../server.json';
 
 const mytheme = createTheme({
   palette: {
-      primary: {
-          light: '#f2da9e',
-          main: '#f9bc15',
-          dark: '#f19920',
-          contrastText: '#fff',
-      },
-      secondary: {
-          light: '#f2ede7',
-          main: '#a29d97',
-          dark: '#45423c',
-          contrastText: '#fff',
-      },
-      success: {
-          light: '#f2ede7',
-          main: '#fee500',
-          dark: '#45423c',
-          contrastText: '#191600',
-      },
+    primary: {
+      light: '#f2da9e',
+      main: '#f9bc15',
+      dark: '#f19920',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#f2ede7',
+      main: '#a29d97',
+      dark: '#45423c',
+      contrastText: '#fff',
+    },
+    success: {
+      light: '#f2ede7',
+      main: '#fee500',
+      dark: '#45423c',
+      contrastText: '#191600',
+    },
   },
 });
 
@@ -83,7 +83,7 @@ const getDatas = async (url) => {
   }
 }
 
-let items; 
+let items;
 
 const Recipe = () => {
   const classes = useStyles();
@@ -92,33 +92,42 @@ const Recipe = () => {
   const [customSearchBar, setCustomSearchBar] = useState();
   const [customCardList, setCustomCardList] = useState();
 
-  const [recipeid, setrecipeid]   = useState([]);
+  const [recipeid1, setrecipeid1] = useState([]);
+  const [recipeid2, setrecipeid2] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage] = useState(12);
 
-  
-  
+
+
   function handleChildChange(recipes, selectedArr) {
     console.log('렌더 전')
-    setrecipeid(recipes)
+    console.log("recipes", recipes)
+    console.log('렌더 타이밍1')
+    setrecipeid2(recipes[1])
+    setrecipeid1(recipes[0])
+    // setrecipeid1(recipes)
+    // console.log(recipes)
+    console.log('렌더 타이밍2')
     console.log('렌더 후')
   }
-  
+
   useEffect(async () => {
     const allFoodItems = await getDatas(`${server.ip}/fridge/read`);
     items = allFoodItems;
     setAllFoodItems(items);
-    
+
     setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} />)
   }, [])
-  
+
   // 현재 페이지 가져오기
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentrecipes = recipeid.slice(indexOfFirstPost, indexOfLastPost);
-  
-    const paginate = (event, value) => {setCurrentPage(value)
-      setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} />)};
+  const currentrecipes = recipeid1.slice(indexOfFirstPost, indexOfLastPost);
+  const currentrecipes2 = recipeid2.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (event, value) => {
+    setCurrentPage(value)
+  };
 
   return (
     <Container fixed>
@@ -127,13 +136,13 @@ const Recipe = () => {
         <Typography variant="h2">레시피 정리</Typography>
         <Divider />
         {customSearchBar}
-        <CardList datas={currentrecipes}/>
+        <CardList datas={currentrecipes} datas2={currentrecipes2}/>
       </Box>
-      <Pagination onChange={paginate} 
-        page={currentPage} 
-        count={Math.ceil(recipeid.length/postPerPage)} 
-        color="primary" 
-        className={classes.paginate}/>
+      <Pagination onChange={paginate}
+        page={currentPage}
+        count={Math.ceil(recipeid1.length / postPerPage)}
+        color="primary"
+        className={classes.paginate} />
       <FloatingActionButton />
       <BottomBar />
     </Container>
