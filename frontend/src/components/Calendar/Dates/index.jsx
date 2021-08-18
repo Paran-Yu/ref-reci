@@ -42,7 +42,7 @@ export default function Dates({onChildClick, on7DayClick, onAllClick}) {
   const calendarRef = useRef(null)
   const [calendarData, setCalendarData]=useState([])
   useEffect(async()=>{
-    const data= await getEvents(`http://localhost:3001/calendar/getEvents`)
+    const data= await getEvents(`${server.ip}/calendar/getEvents`)
     setCalendarData(data)
   },[])
   const onDateClick = (info) => {
