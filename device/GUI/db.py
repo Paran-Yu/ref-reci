@@ -485,9 +485,10 @@ class DB:
                          "WHERE r.rID=%s and r.rID=ri.rID and ri.iID=i.iID;"
         ingredient_keys = ['ingre_id', 'ingredient_name', 'ingredient_amount']
         cursor.execute(ingredient_sql, rid)
-        result = cursor.fetchall()[0]
-        for d in range(3):
-            data[ingredient_keys[d]] = result[d]
+        result = cursor.fetchall()
+        data['ingredient'] = []
+        for d in result:
+            data['ingredient'].append(d)
 
         phase_sql = "SELECT rp.fdID, rp.recipephaseIntroduce, rp.recipephaseImage FROM RecipePhase rp " \
                     "WHERE rp.rID=%s;"
@@ -535,3 +536,6 @@ class DB:
         :return:
         '''
         pass
+
+db = DB()
+print(db.get_detail_recipe(2))
