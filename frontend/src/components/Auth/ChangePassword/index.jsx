@@ -16,6 +16,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 // Server
 import axios from 'axios';
@@ -50,6 +53,17 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
+    },
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    modalpaper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
     },
 }));
 
@@ -149,20 +163,38 @@ export default function ChangePassword({history}) {
   //서버에서 받아온 인증번호
   const [emailAuthData, setEmailAuthData] = useState('');
 
+  // HelperText & ErrorSign
+  const [idHelperText, setIdHelperText] = useState('');
+  const [verHelperText, setVerHelperText] = useState('');
+  const [pwHelperText, setPwHelperText] = useState('');
+  const [pwCheckHelperText, setPwCheckHelperText] = useState('');
+  const [idError, setIdError] = useState(false);
+  const [verError, setVerError] = useState(false);
+  const [pwError, setPwError] = useState(false);
+  const [pwCheckError, setPwCheckError] = useState(false);
+
+  // Modal 
+  const [modalOpen, setModalOpen] = useState(false);
+  const modalClose = () => {
+    setModalOpen(false);
+  };
+
   useEffect(()=>{
     if(password === passwordCheck && password !== ''){
-      console.log('비밀번호가 일치함');
       setPasswordSame(true);
+      setPwCheckHelperText('')
     }
     else{
-      console.log('비밀번호가 일치하지 않음');
       setPasswordSame(false);
+      if (password && passwordCheck) {
+        setPwCheckHelperText('비밀번호가 일치하지 않습니다.');
+        setPwCheckError(true);
+      }
     }
   }, [password, passwordCheck])
 
   useEffect(() => {
     if (emailAuth && passwordSame) {
-      console.log('두개 모두 true');
       setSignUpInactive(false);
     }
     else {
@@ -204,6 +236,8 @@ export default function ChangePassword({history}) {
                           required
                           fullWidth
                           id="email"
+                          helperText={idHelperText}
+                          error={idError}
                           margin="normal"
                           autoFocus
                           label="아이디(E-mail)"
@@ -211,38 +245,40 @@ export default function ChangePassword({history}) {
                           autoComplete="email"
                           onChange={(event) => {
                               setUserID(event.target.value);
+                              setIdHelperText('');
+                              setIdError(false);
                           }}
                         />
                       </Grid>
                       <Grid item xs={2}>
                             <Button
                               disabled={verButtonInactive}
-                              variant="outlined"
                               fullWidth
                               size="large"
                               onClick={async () => {
                                 const data = await postSearchID(`${server.ip}/user/searchID`, userID);
 
                                 if (data.value === 'Success') {
-                                  alert('가입되지 않은 이메일입니다.');
+                                  setIdHelperText('가입되지 않은 이메일입니다.');
+                                  setIdError(true);
                                 }
                                 else if (data.value === 'Duplicate Email'){
-                                  console.log('회원 정보 있음');
-                                  //이메일 인증 시작
                                   const emailDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
                                   if (emailDatas.value === 'Email Sent') {
-                                    alert('이메일이 전송되었습니다.');
+                                    setIdHelperText('이메일이 전송되었습니다.');
                                     setHiddenAuth(false);
                                     setEmailAuthData(emailDatas.number);
                                     console.log(emailDatas.number);
                                     setVerButtonInactive(true);
                                   }
                                   else if (emailDatas.value === 'Email Error') {
-                                    alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
+                                    setIdHelperText('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
+                                    setIdError(true);
                                   }
                                 }
                                 else if(data.value === 'Wrong Email'){
-                                  alert('이메일 형식이 잘못되었습니다.');
+                                  setIdHelperText('이메일 형식이 잘못되었습니다.');
+                                  setIdError(true);
                                 }
                               }}
                             >
@@ -258,13 +294,16 @@ export default function ChangePassword({history}) {
                           required
                           fullWidth
                           margin="normal"
-                          autoFocus
                           id="verification"
                           label="인증번호"
                           name="verification"
                           autoComplete="verification"
+                          helperText={verHelperText}
+                          error={verError}
                           onChange={(event) => {
                               setVerification(event.target.value);
+                              setVerHelperText('');
+                              setVerError(false);
                           }}
                         />
                       </Grid>
@@ -275,14 +314,15 @@ export default function ChangePassword({history}) {
                           fullWidth
                           size="large"
                           onClick={async () => {
-                            if(verification == emailAuthData){
-                                console.log('인증번호 일치');
+                            if(verification == emailAuthData) {
                                 setEmailAuth(true);
                                 setHiddenAuth(true);
-                            }
-                            else{
-                                alert('잘못된 인증번호입니다.');
+                                setVerHelperText('인증번호가 일치합니다.')
+                            } 
+                            else {
                                 setEmailAuth(false);
+                                setVerHelperText('잘못된 인증번호입니다.')
+                                setVerError(true);
                             }
                           }}
                         >
@@ -295,17 +335,25 @@ export default function ChangePassword({history}) {
                       required
                       fullWidth
                       margin="normal"
-                      autoFocus
                       name="password"
                       label="비밀번호"
                       type="password"
                       id="password"
                       autoComplete="current-password"
+                      helperText={pwHelperText}
+                      error={pwError}
                       onChange={(event) => {
                           setPassword(event.target.value);
-                          if (event.target.value.length > 20) {
-                              alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
-                              event.target.value = event.target.value.slice(0, -1);
+                          if (event.target.value.length < 8) {
+                            setPwHelperText('비밀번호는 8자 이상 20자 이하로 입력해주세요')
+                            setPwError(true);
+                          } else if (event.target.value.length > 20) {
+                            setPwHelperText('비밀번호는 8자 이상 20자 이하로 입력해주세요')
+                            setPwError(true);
+                            event.target.value = event.target.value.slice(0, -1);
+                          } else {
+                            setPwError(false);
+                            setPwHelperText('');
                           }
                       }}
                     />
@@ -313,15 +361,18 @@ export default function ChangePassword({history}) {
                       variant="outlined"
                       required
                       margin="normal"
-                      autoFocus
                       fullWidth
                       name="passwordcheck"
                       label="비밀번호확인"
                       type="password"
                       id="passwordcheck"
                       autoComplete="current-password-check"
+                      helperText={pwCheckHelperText}
+                      error={pwCheckError}
                       onChange={(event) => {
-                          setPasswordCheck(event.target.value);
+                        setPasswordCheck(event.target.value);
+                        setPwCheckHelperText('');
+                        setPwCheckError(false);
                       }}
                     />
                     <Button
@@ -337,13 +388,32 @@ export default function ChangePassword({history}) {
                           if(data.value === 'Success'){
                               history.push("/signin");
                           }
-                          else if (data.value === 'Short password'){
-                              alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                          else {
+                            setModalOpen(true);
                           }
                       }}
                     >
                       비밀번호 변경
                     </Button>
+                    <Modal
+                      aria-labelledby="transition-modal-title"
+                      aria-describedby="transition-modal-description"
+                      className={classes.modal}
+                      open={modalOpen}
+                      onClose={modalClose}
+                      closeAfterTransition
+                      BackdropComponent={Backdrop}
+                      BackdropProps={{
+                        timeout: 500,
+                      }}
+                    >
+                      <Fade in={modalOpen}>
+                        <div className={classes.modalpaper}>
+                          <h2 id="transition-modal-title">죄송합니다.</h2>
+                          <p id="transition-modal-description">오류가 발생했습니다. 다시 시도해주세요.</p>
+                        </div>
+                      </Fade>
+                    </Modal>
                     <Grid container justifyContent="flex-end">
                       <Grid item>
                         <Link component={RouterLink} to="/signin" variant="body2">
