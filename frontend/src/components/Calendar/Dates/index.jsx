@@ -71,7 +71,7 @@ export default function Dates({onChildClick, on7DayClick, onAllClick}) {
     return(
       <Box>
         <FullCalendar
-          // ref={calendarRef}
+          ref={calendarRef}
           plugins={[ dayGridPlugin, interactionPlugin ]}
           initialView="dayGridMonth"
           events={calendarData}
