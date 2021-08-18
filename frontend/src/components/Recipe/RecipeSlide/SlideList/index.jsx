@@ -120,7 +120,7 @@ export default function SlideList(props) {
 // <GridListTile alignItems="center" justify="center" ></GridListTile>
   const list2 = props.datas.map((idx) => {
     return (
-      <FavItem justify="center" alignItems="center" rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`} />
+      <FavItem justify="center" alignItems="center" rID={idx.rID} rName={idx.rName} rimg={`${server.ip}/img?id=${idx.rImage}`} />
     )
   })
 

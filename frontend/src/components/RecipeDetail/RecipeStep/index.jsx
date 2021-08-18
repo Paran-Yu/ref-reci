@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 
 import server from '../../../server.json'
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -32,18 +33,48 @@ const cardstyles = {
   media: {
     width: '100%',
     maxWidth: 500,
-  }
+    height: 'h-100',
+  },
 }
+
 
 
 export default function RecipeStep(props) {
   const classes = useStyles();
 
   const stepcards = props.datas.map((step, idx) => {
+    
+    // const imageSpace = () => {
+    //   if (step.recipephaseImage != '') {
+    //     return (
+    //       <img 
+    //       style={cardstyles.media} 
+    //       src={`${server.ip}/img?id=${step.recipephaseImage}`} 
+    //       />
+    //     )
+    //   } else {
+    //     return (
+    //       <Box className={cardstyles.media}>
+    //       </Box>
+    //     )
+    //     }
+    //   }
+
     return (
       <Grid container alignItems="center">
         <Grid item xs={12} md={6}>
-          <img style={cardstyles.media} src={`${server.ip}/img?id=${step.recipephaseImage}`} />
+          {/* {imageSpace} */}
+          { step.recipephaseImage ? 
+          (<img 
+          style={cardstyles.media} 
+          src={`${server.ip}/img?id=${step.recipephaseImage}`} 
+          />) 
+          :
+          (<img 
+            style={cardstyles.media} 
+            src={`${server.ip}/img?id=no_image2.png`}
+            />)
+          }
         </Grid>
         <Grid item xs={12} md={6}>
           <Box p={1}>

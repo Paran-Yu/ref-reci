@@ -1,11 +1,7 @@
 import React from 'react';
-import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
-import { createTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import positions from '@material-ui/system';
 import Box from '@material-ui/core/Box';
 
 import Fab from '@material-ui/core/Fab';
@@ -77,7 +73,6 @@ export default function FloatingActionButton() {
       color="primary"
       aria-label="fridge"
       component={RouterLink}
-      // to="/fridge"
         to={{
           pathname: "/fridge",
           state: {
