@@ -70,7 +70,8 @@ export default function FoodList(props) {
     )
   };
 
-  if (props) {
+  if (!props.foodName) {
+    console.log("props", props)
     return (
       <Box m={2}>
         <Card className={classes.root}>
@@ -109,8 +110,9 @@ export default function FoodList(props) {
       </Box>
     )
   } else {
+    console.log("암것도 안옴")
     return (
-      {blankPage}
+      blankPage()
     )
   }
 };

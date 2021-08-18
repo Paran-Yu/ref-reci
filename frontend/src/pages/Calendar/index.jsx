@@ -94,14 +94,35 @@ export default function Calendar() {
     setfoodDatas(foodItems)
   })
 
-  //받아온 dates에 배열을 생성
-  function getDates(dates) {
-    setDates(dates)
+  //받아온 dates에 배열을 생성, events 는 이벤트가 있는 전체 날짜 calender events
+  function getDates(dates, events) {
+    let flag = 0
+    for(let i = 0 ; i < events.length ; i++){
+      if(Date(events[i]).toString() != Date(dates).toString()){
+        console.log(Date(events[i]), Date(dates))
+      }
+      else{
+        console.log(Date(events[i]), Date(dates))
+        flag = 1
+        break
+      }
+    }
+    if(flag == 1){
+      console.log('이벤트 있음')
+
+      setDates(dates)
+    }
+    else {
+      console.log('이벤트 없음')
+
+    }
+    // setfoodDatas(<FoodList/>)
   }
   
   useEffect(async () => {
-    //console.log(dates)
+    console.log("dates", dates)
     const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
+    console.log("foodlist", foodlist)
     //다른거에 담아서 여러개를 보내는?
     // const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
 
@@ -111,6 +132,7 @@ export default function Calendar() {
         <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
       )
     })
+    console.log("foodItems", foodItems)
     setfoodDatas(foodItems);
   }, [dates])
 
