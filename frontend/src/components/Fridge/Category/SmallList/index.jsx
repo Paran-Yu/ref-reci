@@ -30,8 +30,8 @@ const SmallList = (props) => {
     cnt: 0,
     arr: [],
   });
-  const showDt = (re, flag) => {
-    props.addCnt(re, flag);
+  const showDt = (re) => {
+    props.addCnt(re);
   };
 
   return (
@@ -41,7 +41,13 @@ const SmallList = (props) => {
           {datas.map((dt, idx) => (
             <Grid item className={classes.MainGrid} key={idx} xs={4} lg={3}>
               <Paper className={classes.grid}>
-                <IngItem dt={dt} cnt={props.cnt} arr={arr} showDt={showDt.bind()} />
+                <IngItem
+                  selectIng={props.selectIng}
+                  dt={dt}
+                  cnt={props.cnt}
+                  arr={arr}
+                  showDt={showDt.bind()}
+                />
               </Paper>
             </Grid>
           ))}
