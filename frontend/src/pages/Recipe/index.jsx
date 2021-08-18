@@ -92,7 +92,7 @@ const Recipe = () => {
   const [customSearchBar, setCustomSearchBar] = useState();
   const [customCardList, setCustomCardList] = useState();
 
-  const [recipeid1, setrecipeid1] = useState([]);
+  const [recipeid1, setrecipeid1] = useState();
   const [recipeid2, setrecipeid2] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage] = useState(12);
@@ -103,10 +103,10 @@ const Recipe = () => {
     console.log('렌더 전')
     console.log("recipes", recipes)
     console.log('렌더 타이밍1')
-    setrecipeid2(recipes[1])
-    setrecipeid1(recipes[0])
+    // setrecipeid2(recipes[1])
+    setrecipeid1(recipes)
     // setrecipeid1(recipes)
-    // console.log(recipes)
+    console.log("id1",recipeid1)
     console.log('렌더 타이밍2')
     console.log('렌더 후')
   }
@@ -115,15 +115,24 @@ const Recipe = () => {
     const allFoodItems = await getDatas(`${server.ip}/fridge/read`);
     items = allFoodItems;
     setAllFoodItems(items);
-
-    setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} />)
+    console.log(items)
+    let sb = <SearchBar datas={items} onChildChange={handleChildChange} />;
+    setCustomSearchBar(sb);
   }, [])
 
   // 현재 페이지 가져오기
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentrecipes = recipeid1.slice(indexOfFirstPost, indexOfLastPost);
-  const currentrecipes2 = recipeid2.slice(indexOfFirstPost, indexOfLastPost);
+  // setrecipeid1([Array, Array])
+  const currentrecipes = [];
+  const currentrecipes2 = [];
+  if (recipeid1 != undefined){
+    console.log("tmp",recipeid1)
+    var tmp = recipeid1[0];
+    const currentrecipes = tmp.slice(indexOfFirstPost, indexOfLastPost);
+    var tmp2 = recipeid1[1];
+    const currentrecipes2 = tmp2.slice(indexOfFirstPost, indexOfLastPost);
+  }
 
   const paginate = (event, value) => {
     setCurrentPage(value)
@@ -140,7 +149,7 @@ const Recipe = () => {
       </Box>
       <Pagination onChange={paginate}
         page={currentPage}
-        count={Math.ceil(recipeid1.length / postPerPage)}
+        count={3}//Math.ceil(recipeid1.length / postPerPage)}
         color="primary"
         className={classes.paginate} />
       <FloatingActionButton />
