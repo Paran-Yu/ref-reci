@@ -114,14 +114,15 @@ export default function Calendar() {
   return (
     <Container fixed>
       <TopBar />
-      <Box my={2}>
+      <Box my={5}>
           <Grid container>
             <Grid item xs={12} md={6}>
-              <Box p={1}>
+              <Box p={3}>
                 <Dates onChildClick={getDates} on7DayClick={get7Days} onAllClick={getAll}/>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
+<<<<<<< HEAD
               <Box p={1}>
                 {currentPosts.map((foodData) => {
                 return (
@@ -132,6 +133,10 @@ export default function Calendar() {
               page={currentPage} 
               count={Math.ceil(posts.length/postPerPage)} 
               color="primary" />
+=======
+              <Box p={3}>
+                {foodDatas}
+>>>>>>> 819178ec15220079b47aecd72feaa089c16a9a50
               </Box>
             </Grid>
           </Grid>

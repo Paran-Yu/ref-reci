@@ -142,7 +142,7 @@ const Recipe = () => {
     <Container fixed>
       <TopBar />
       <Box my={3}>
-        <Typography variant="h2">레시피 정리</Typography>
+        <Typography variant="h4">레시피 정리</Typography>
         <Divider />
         {customSearchBar}
         <CardList datas={currentrecipes} datas2={currentrecipes2}/>

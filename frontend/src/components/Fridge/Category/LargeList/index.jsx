@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     margin: "auto",
     height: "100%",
+    width: '100%',
   },
   MainGrid: {
     marginBottom: theme.spacing(2),
@@ -27,10 +28,9 @@ const LargeList = (props) => {
   const data = props.datas; //대분류 전체(컬럼 2줄)
   return (
     <div className={classes.root}>
-      <Grid xs={10}>
+      <Grid xs={12}>
         <GridList container>
           {data.map((dt, idx) => {
-            //dt: 대분류 전체를 쪼갬
             let color;
             if (idx == 0) {
               color = "#F19920";

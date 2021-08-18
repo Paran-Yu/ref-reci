@@ -36,12 +36,7 @@ export default function CustomizedBreadcrumbs(props) {
         onClick={() => props.goBack("전체")}
         icon={<HomeIcon fontSize="small" />}
       />
-      <StyledBreadcrumb
-        component="a"
-        label={props.catName}
-        onClick={() => props.goBack("소분류")}
-      />
-      {props.catName != "전체" ? <StyledBreadcrumb label={props.subCatName} /> : ""}
+      <StyledBreadcrumb component="a" label={props.catName} />
     </Breadcrumbs>
   );
 }
