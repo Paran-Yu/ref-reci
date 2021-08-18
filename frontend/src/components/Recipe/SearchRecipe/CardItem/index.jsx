@@ -80,6 +80,9 @@ const CardItem = (props) => {
             <Typography variant="body2" color="textSecondary" component="p">
               {dt.recipeTime}
             </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {`포함된 검색 재료의 개수: ${dt.count}`}
+            </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>

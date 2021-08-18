@@ -33,39 +33,39 @@ const getItems = async (url,date) => {
   }
 }
 
-// const get7Items = async (url) => {
-//   try {    
-//     const data = await axios({
-//       method: 'GET',
-//       url: url,
-//       headers: { 
-//         accept: 'application/json'
-//       }
-//     })
-//     return data.data
-//   }
-//   catch (err) {
-//     console.log(url);
-//     console.log(`ERROR: ${err}`);
-//   }
-// }
+const get7Items = async (url) => {
+  try {    
+    const data = await axios({
+      method: 'GET',
+      url: url,
+      headers: { 
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
 
-// const getAllItems = async (url) => {
-//   try {    
-//     const data = await axios({
-//       method: 'GET',
-//       url: url,
-//       headers: { 
-//         accept: 'application/json'
-//       }
-//     })
-//     return data.data
-//   }
-//   catch (err) {
-//     console.log(url);
-//     console.log(`ERROR: ${err}`);
-//   }
-// }
+const getAllItems = async (url) => {
+  try {    
+    const data = await axios({
+      method: 'GET',
+      url: url,
+      headers: { 
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 export default function Calendar() {
   const [dates, setDates] = useState('')
