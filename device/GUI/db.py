@@ -471,7 +471,7 @@ class DB:
         recipe_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
         cursor = self.db.cursor()
 
-        recipe_sql = "SELECT r.ID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
+        recipe_sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
                      "FROM Recipe r " \
                      "WHERE r.rID=%s;"
 
@@ -491,11 +491,13 @@ class DB:
 
         phase_sql = "SELECT rp.fdID, rp.recipephaseIntroduce, rp.recipephaseImage FROM RecipePhase rp " \
                     "WHERE rp.rID=%s;"
-        phase_keys = ['phase_id', 'phase_intro', 'phase_img']
+        phase_keys = ['phase_intro', 'phase_img']
         cursor.execute(phase_sql, rid)
-        result = cursor.fetchall()[0]
-        for d in range(3):
-            data[phase_keys[d]] = result[d]
+        result = cursor.fetchall()
+        for n, r in enumerate(result):
+            data[r[0]] = dict()
+            for d in range(2):
+                data[r[0]][phase_keys[d]] = r[d + 1]
 
         return data
 
