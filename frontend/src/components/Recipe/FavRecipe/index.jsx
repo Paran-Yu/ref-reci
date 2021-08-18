@@ -11,12 +11,11 @@ import Typography from '@material-ui/core/Typography';
 
 // Server
 import server from '../../../server.json';
-import { ElementDragging } from '@fullcalendar/core';
 
 const useStyles = makeStyles({
   cardroot: {
     maxWidth: '100%',
-    // height: 'h-100',
+    height: 'h-100',
   },
   media: {
     height: 180,
@@ -47,14 +46,13 @@ const introTruncate = (txt, len, endwith) => {
 export default function FavRecipe(props) {
   const classes = useStyles();
   const editedIntro = introTruncate(props.rIntroduce, 50);
-  console.log(props)
+  const detailUrl = "/rec/" + props.rID
 
   return (
   <Card className={classes.cardroot}>
     <CardActionArea
-    // component={RouterLink}
-    // id가 없어요 지훈님 ㅠ.ㅠ
-    // to="/rec/{props.id}"
+    component={RouterLink}
+    to={detailUrl}
     >
       <CardMedia
         className={classes.media}

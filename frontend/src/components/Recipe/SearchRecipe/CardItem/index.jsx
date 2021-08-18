@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CardItem = (props) => {
-  const { dt, idx } = props;
+  const { dt, dt2, idx } = props;
   const classes = useStyles();
   const handleOpen = () => {
     setOpen(true);
@@ -68,6 +68,8 @@ const CardItem = (props) => {
   const handleDelete = (chipToDelete) => () => {
     setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
   };
+  console.log(handleDelete)
+  console.log("dt2",dt2)
   return (
     <div>
       <Card onClick={handleOpen}>
@@ -80,14 +82,17 @@ const CardItem = (props) => {
             <Typography variant="body2" color="textSecondary" component="p">
               {dt.recipeTime}
             </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {`포함된 검색 재료의 개수: ${dt.count}`}
+            </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Paper component="ul" className={classes.root}>
-            {chipData.map((data) => {
+            {dt2.map((data, idx) => {
               return (
                 <li key={data.key} className={classes.chip}>
-                  <Chip label={data.label} onDelete={undefined} className={classes.chip} />
+                  <Chip label={data} onDelete={undefined} className={classes.chip} />
                 </li>
               );
             })}

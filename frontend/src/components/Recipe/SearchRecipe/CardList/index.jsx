@@ -28,29 +28,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//삭제 예정
-const useGetdata = () => {
-  const [catItemDatas, setCatItemDatas] = useState([]);
-  const getDatas = async () => {
-    setCatItemDatas(catDt);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return catItemDatas;
-};
 
 const CardList = (props) => {
   const classes = useStyles();
-  // const data = useGetdata();
   const data = props.datas;
+  const data2 = props.datas2;
+
+  console.log("data2", data2);
+
   return (
     <div className={classes.root}>
       <Grid container>
         {data.map((dt, idx) => (
           <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
             <Paper className={classes.grid}>
-              <CardItem dt={dt} idx={idx} />
+              <CardItem dt={dt} idx={idx} dt2={data2[idx]}/>
             </Paper>
           </Grid>
         ))}

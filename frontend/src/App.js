@@ -19,6 +19,7 @@ import CheckPassword from './pages/Profile/CheckPassword';
 import { ThemeProvider } from '@material-ui/core/styles';
 import createTheme from '@material-ui/core/styles/createTheme';
 
+
 const mytheme = createTheme({
     palette: {
         primary: {
@@ -39,6 +40,7 @@ const mytheme = createTheme({
             dark: '#45423c',
             contrastText: '#191600',
         },
+        
     },
     typography: {
         fontFamily: "'KoPubWorld', Munhwajae, jeju",

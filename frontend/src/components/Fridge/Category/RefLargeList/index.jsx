@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     margin: "auto",
     height: "100%",
+    width: '100%',
   },
   MainGrid: {
     marginBottom: theme.spacing(2),
@@ -35,7 +36,7 @@ const RefLargeList = (props) => {
   };
   return (
     <div className={classes.root}>
-      <Grid xs={10}>
+      <Grid xs={12}>
         <GridList container>
           {data.map((dt, idx) => {
             //dt: 대분류 전체를 쪼갬

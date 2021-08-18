@@ -186,10 +186,10 @@ export default function Profile({history}) {
           {currentPosts.map((recipeData) => {
         return (
           <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
-            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+            <FavRecipe rID={recipeData.rID} rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
           </Grid>
         )
-      })}
+        })}
         </Grid>
       </Box>
       <div className={classes.pg}>

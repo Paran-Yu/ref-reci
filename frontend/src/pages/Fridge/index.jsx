@@ -1,4 +1,4 @@
-import { useState, React, useRef, useEffect } from "react";
+import { useState, React, useEffect } from "react";
 import { Divider, makeStyles, Typography } from "@material-ui/core";
 
 import Box from "@material-ui/core/Box";
@@ -14,9 +14,24 @@ import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 import SmallList from "../../components/Fridge/Category/SmallList";
 import RefLargeList from "../../components/Fridge/Category/RefLargeList";
+
+// Style
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import createTheme from "@material-ui/core/styles/createTheme";
+
 // server
 import axios from "axios";
 import server from "../../server.json";
+
+// Theme -------------------------------------
+const useStyles = makeStyles((theme) => ({
+  topper: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+}));
+// -------------------------------------------
 
 const getCl2Data = async (url) => {
   try {
@@ -34,6 +49,8 @@ const getCl2Data = async (url) => {
 };
 
 const Fridge = (props) => {
+  const classes = useStyles();
+
   let catName = "";
   let cl2Datas;
   let cl1Datas;
@@ -91,11 +108,14 @@ const Fridge = (props) => {
     setMainCatName(re);
     getRefDt();
   };
+
   return (
     <Container fixed>
       <TopBar />
       <Box my={3}>
-        <Typography variant="h2">나의 냉장고</Typography>
+        <Box my={2}>
+          <Typography variant="h4">나의 냉장고</Typography>
+        </Box>
         <Divider />
         <Box justifyContent="space-between" alignItems="center">
           <Breadcrumb catName={mainCatName} goBack={goBack.bind()} />
