@@ -62,7 +62,11 @@ const mytheme = createTheme({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-      height: '100vh',
+    height: '100vh',
+  },
+  gridItem: {
+    display: 'flex',
+    alignItems: 'stretch',
   },
   image: {
       backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
@@ -112,16 +116,6 @@ const getUserData = async (url) => {
 }
 
 
-// const Pagination = () => {
-//   const classes = useStyles();
-//   return (
-//     <div className={classes.pg}>
-//       <Pagination count={10} color="primary" />
-//       <Pagination count={10} color="secondary" />
-//     </div>
-//   );
-// };
-
 export default function Profile({history}) {
   const classes = useStyles();
 
@@ -132,7 +126,10 @@ export default function Profile({history}) {
   const [expire3Num, setExpire3Num] = useState('');
   const [expiredNum, setExpiredNum] = useState('');
 
-  const [recipeDatas, setRecipeDatas ] = useState();
+
+  const [posts, setPosts]   = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(12);
 
   useEffect(async () => {
     const loginData = await getUserData(`${server.ip}/user/isLogin`);
@@ -149,24 +146,16 @@ export default function Profile({history}) {
       setExpiredNum(userInfoData.expiredFoodCount);
 
       const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
-
-      const recipeItems = favRecipeData.map((recipeData) => {
-        return (
-          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
-            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
-          </Grid>
-        )
-      })
-
-      setRecipeDatas(recipeItems);
-    // }
-    // else {
-    //   console.log(loginData.value);
-    //   history.replace('/signin');
-    // }
-
+      setPosts(favRecipeData)
   }, [])
   
+  // 현재 페이지 가져오기
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (event, value) => setCurrentPage(value);
+
   return (
     <Container fixed >
       <TopBar />
@@ -194,7 +183,13 @@ export default function Profile({history}) {
         my={3}
       >
         <Grid container spacing={2}>
-          {recipeDatas}
+          {currentPosts.map((recipeData) => {
+        return (
+          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
+            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+          </Grid>
+        )
+      })}
         </Grid>
       </Box>
       <div className={classes.pg}>
@@ -204,7 +199,7 @@ export default function Profile({history}) {
           alignItems='center'
           my={2}
         >
-          <Pagination count={10} color="primary" />
+        <Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length/postPerPage)} color="primary" />
         </Box>
       </div>
       <Fab />

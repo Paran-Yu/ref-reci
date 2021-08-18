@@ -15,6 +15,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 // Server
 import axios from 'axios';
@@ -56,6 +59,21 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	modalpaper: {
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, 4, 3),
+	},
+	mdbutton: {
+		display: 'flex',
+		justifyContent: 'center',
+	}
 }));
 
 
@@ -176,20 +194,41 @@ export default function SignUpSide({history}) {
 	//서버에서 받아온 인증번호
 	const [emailAuthData, setEmailAuthData] = useState('');
 
+	// HelperText & ErrorSign
+	const [uNameHelperText, setUNameHelperText] = useState('');
+	const [idHelperText, setIdHelperText] = useState('');
+	const [verHelperText, setVerHelperText] = useState('');
+	const [pwHelperText, setPwHelperText] = useState('');
+	const [pwCheckHelperText, setPwCheckHelperText] = useState('');
+	const [uNameError, setUNameError] = useState(false);
+	const [idError, setIdError] = useState(false);
+	const [verError, setVerError] = useState(false);
+	const [pwError, setPwError] = useState(false);
+	const [pwCheckError, setPwCheckError] = useState(false);
+
+	// Modal 
+	const [modalOpen, setModalOpen] = useState(false);
+	const modalClose = () => {
+		setModalOpen(false);
+	};
+	const [modalTitle, setModalTitle] = useState('');
+	const [modalMessage, setModalMessage] = useState('');
+
 	useEffect(()=>{
 		if(password === passwordCheck && password !== ''){
-			console.log('비밀번호가 일치함');
 			setPasswordSame(true);
 		}
 		else{
-			console.log('비밀번호가 일치하지 않음');
 			setPasswordSame(false);
+			if (password && passwordCheck) {
+				setPwCheckHelperText('비밀번호가 일치하지 않습니다.');
+				setPwCheckError(true);
+			}
 		}
 	}, [password, passwordCheck])
 
 	useEffect(() => {
 		if (emailAuth && passwordSame) {
-			console.log('두개 모두 true');
 			setSignUpInactive(false);
 		}
 		else {
@@ -219,22 +258,30 @@ export default function SignUpSide({history}) {
 								<form className={classes.form}>
 									<Container maxWidth="md">
 										<TextField
-											autoComplete="fname"
-											name="firstName"
+											name="userName"
 											variant="outlined"
 											margin="normal"
 											required
 											fullWidth
+											autoComplete="fName"
 											autoFocus
-											id="firstName"
+											id="userName"
 											label="닉네임"
+											helperText={uNameHelperText}
+											error={uNameError}
 											onChange={(event) => {
-													setUserName(event.target.value);
-													console.log(event.target.value.length);
-													if (event.target.value.length > 20){
-															alert('20자 이하로 해주세요');
-															event.target.value = event.target.value.slice(0, -1);
-													}
+												setUserName(event.target.value);
+												if (event.target.value.length < 2) {
+													setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
+													setUNameError(true);
+												} else if (event.target.value.length > 20) {
+													setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
+													setUNameError(true);
+													event.target.value = event.target.value.slice(0, -1);
+												} else {
+													setUNameHelperText('');
+													setUNameError(false);
+												}
 											}}
 										/>
 										<Grid container spacing={2} alignItems="center">
@@ -242,25 +289,26 @@ export default function SignUpSide({history}) {
 														<TextField
 														disabled={verButtonInactive}
 														variant="outlined"
-														required
 														margin="normal"
 														required
 														fullWidth
-														autoFocus
 														id="email"
 														label="아이디(E-mail)"
 														name="email"
 														autoComplete="email"
+														helperText={idHelperText}
+														error={idError}
 														onChange={(event) => {
 																setUserID(event.target.value);
 																setEmailAuth(false);
+																setIdHelperText('');
+																setIdError(false);
 														}}
 														/>
 												</Grid>
 												<Grid item xs={2}>
 														<Button
 														disabled={verButtonInactive}
-														variant="outlined"
 														fullWidth
 														color="primary"
 														required
@@ -268,26 +316,26 @@ export default function SignUpSide({history}) {
 														onClick={async () => {
 																const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
 																if (userDatas.value === 'Success') {
-																		console.log('중복 이메일 없음');
-																		//이메일 인증 시작
 																		const emailDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
-
-																		if (emailDatas.value === 'Email Sent'){
-																				alert('이메일이 전송되었습니다.');
+																		if (emailDatas.value === 'Email Sent') {
+																				setIdHelperText('이메일이 전송되었습니다.');
 																				setHiddenAuth(false);
 																				setEmailAuthData(emailDatas.number);
 																				console.log(emailDatas.number);
 																				setVerButtonInactive(true);
 																		}
-																		else if(emailDatas.value === 'Email Error'){
-																				alert('이메일이 전송되지 못했습니다. 다시 인증 버튼을 눌러주세요.');
+																		else if(emailDatas.value === 'Email Error') {
+																				setIdHelperText('이메일이 전송되지 못했습니다. 다시 시도해 주세요.');
+																				setIdError(true);
 																		}
 																}
 																else if (userDatas.value === 'Duplicate Email'){
-																		alert('이미 가입된 계정입니다.');
+																		setIdHelperText('이미 가입된 계정입니다.');
+																		setIdError(true);
 																}
 																else if(userDatas.value === 'Wrong Email'){
-																		alert('이메일 형식이 잘못되었습니다.');
+																		setIdHelperText('이메일 형식이 잘못되었습니다.');
+																		setIdError(true);
 																}
 														}}
 														>
@@ -306,8 +354,12 @@ export default function SignUpSide({history}) {
 												label="인증번호"
 												name="verification"
 												autoComplete="verification"
+												helperText={verHelperText}
+												error={verError}
 												onChange={(event) => {
 														setVerification(event.target.value);
+														setVerHelperText('');
+														setVerError(false);
 												}}
 												/>
 											</Grid>
@@ -319,12 +371,13 @@ export default function SignUpSide({history}) {
 												size="large"
 												onClick={async () => {
 														if(verification == emailAuthData){
-																console.log('인증번호 일치');
+																setVerHelperText('인증번호가 일치합니다.');
 																setEmailAuth(true);
 																setHiddenAuth(true);
 														}
 														else{
-																alert('잘못된 인증번호입니다.');
+																setVerHelperText('잘못된 인증번호입니다.');
+																setVerError(true);
 														}
 												}}
 												>
@@ -337,18 +390,26 @@ export default function SignUpSide({history}) {
 											margin="normal"
 											required
 											fullWidth
-											autoFocus
-											fullWidth
 											name="password"
 											label="비밀번호"
 											type="password"
 											id="password"
 											autoComplete="current-password"
+											helperText={pwHelperText}
+											error={pwError}
 											onChange={(event) => {
 													setPassword(event.target.value);
-													if (event.target.value.length > 20) {
-															alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+													if (event.target.value.length < 8) {
+														setPwHelperText('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+														setPwError(true);
+													}
+													else if (event.target.value.length > 20) {
+															setPwHelperText('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+															setPwError(true);
 															event.target.value = event.target.value.slice(0, -1);
+													} else {
+														setPwHelperText('');
+														setPwError(false);
 													}
 											}}
 										/>
@@ -357,14 +418,17 @@ export default function SignUpSide({history}) {
 											margin="normal"
 											required
 											fullWidth
-											autoFocus
 											name="passwordcheck"
 											label="비밀번호확인"
 											type="password"
 											id="passwordcheck"
 											autoComplete="current-password-check"
+											helperText={pwCheckHelperText}
+											error={pwCheckError}
 											onChange={(event) => {
 													setPasswordCheck(event.target.value);
+													setPwCheckHelperText('');
+													setPwCheckError(false);
 											}}
 										/>
 										<Button
@@ -376,22 +440,43 @@ export default function SignUpSide({history}) {
 											className={classes.submit}
 											onClick={async () => {
 												const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
-												
+
 												if(userDatas.value === 'Success'){
 														const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
-														alert('회원가입 완료');
-														history.push("/");
+														setModalTitle('환영합니다.')
+														setModalMessage('회원가입이 완료되었습니다. 리프레시와 신선한 하루를 만드세요.');
+														setModalOpen(true);
 												}
-												else if (userDatas.value === 'Short userName'){
-														alert('닉네임은 2자 이상 20자 이하로 입력해주세요.');
-												}
-												else if (userDatas.value === 'Short password') {
-														alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.');
+												else {
+													setModalTitle('죄송합니다.')
+													setModalMessage('오류가 발생했습니다. 회원가입을 다시 시도해 주세요.');
 												}
 											}}
 										>
 											회원가입
 										</Button>
+										<Modal
+                      aria-labelledby="transition-modal-title"
+                      aria-describedby="transition-modal-description"
+                      className={classes.modal}
+                      open={modalOpen}
+                      onClose={modalClose}
+											disableBackdropClick
+                    >
+                      <Fade in={modalOpen}>
+                        <div className={classes.modalpaper}>
+                          <h2 id="transition-modal-title">{modalTitle}</h2>
+                          <p id="transition-modal-description">{modalMessage}</p>
+													<div className={classes.mdbutton}>
+														<Button
+														onClick={() => {
+															history.push("/");
+														}}
+														>확인</Button>
+													</div>
+												</div>
+                      </Fade>
+                    </Modal>
 										<Grid container justifyContent="flex-end">
 											<Grid item>
 												<Link component={RouterLink} to="/signin" color="secondary" variant="body2">

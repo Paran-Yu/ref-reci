@@ -98,12 +98,12 @@ const postLogin = async (url, userID, userPW) => {
 const checkLogin = async (url) => {
   try {
     const data = await axios({
-        method: 'get',
-        url: url,
-        withCredentials: true,
-        headers: {
-          accept: 'application/json',
-        },
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
     });
     console.log(data.data.value);
     return data.data;
@@ -113,7 +113,6 @@ const checkLogin = async (url) => {
   }
 }
 
-//콜백함수들
 
 function Copyright() {
   return (
@@ -135,6 +134,12 @@ export default function SignInSide({history}) {
 
   const [userID, setUserID] = useState('');
   const [password, setPassword] = useState('');
+
+  // HelperText & ErrorSign
+  const [idHelperText, setIdHelperText] = useState('');
+  const [pwHelperText, setPwHelperText] = useState('');
+  const [idError, setIdError] = useState(false);
+  const [pwError, setPwError] = useState(false);
 
   useEffect(async () => {
     const data = await checkLogin(`${server.ip}/user/isLogin`);
@@ -175,8 +180,12 @@ export default function SignInSide({history}) {
               type="email"
               autoComplete="email"
               autoFocus
+              helperText={idHelperText}
+              error={idError}
               onChange={(event) => {
                 setUserID(event.target.value);
+                setIdHelperText('');
+                setIdError(false);
               }}
             />
             <TextField
@@ -189,11 +198,17 @@ export default function SignInSide({history}) {
               type="password"
               id="password"
               autoComplete="current-password"
+              helperText={pwHelperText}
+              error={pwError}
               onChange={(event) => {
                 setPassword(event.target.value);
                 if (event.target.value.length > 20) {
-                  alert('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+                  setPwHelperText('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
+                  setPwError(true);
                   event.target.value = event.target.value.slice(0, -1);
+                } else {
+                  setPwHelperText('')
+                  setPwError(false);
                 }
               }}
             />
@@ -218,23 +233,23 @@ export default function SignInSide({history}) {
                 if(4 <= password.length && password.length <= 20){
                   const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
                   if (userDatas.value === 'Duplicate Email') {
-                    console.log('가입된 이메일입니다.');
                     const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
                     if (userDatas === true) {
-                      console.log('로그인 성공');
                       history.push("/");
                     }
                     else {
-                      alert('비밀번호가 틀렸습니다.');
+                      setPwHelperText('비밀번호가 틀렸습니다.');
+                      setPwError(true);
                     }
                   }
                   else {
-                    alert('가입되지 않은 이메일입니다.');
+                    setIdHelperText('가입되지 않은 이메일입니다.');
+                    setIdError(true);
                   }
                 }
                 else{
-                  alert('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
-                  console.log(`현재 비밀번호 자릿수: ${password.length}`)
+                  setPwHelperText('비밀번호는 4자 이상, 20자 이하로 입력해주세요.')
+                  setPwError(true);
                 }
               }}
             >

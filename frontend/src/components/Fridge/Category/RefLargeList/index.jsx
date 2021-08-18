@@ -5,9 +5,7 @@ import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import createTheme from "@material-ui/core/styles/createTheme";
 
-import MiddleItem from "../MiddleItem";
-// import data from "./dump.json";
-// Theme ------------------------------------
+import RefLargeItem from "../RefLargeItem";
 
 // Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({
@@ -29,21 +27,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 // -------------------------------------------
 
-const MiddleList = (props) => {
+const RefLargeList = (props) => {
   const classes = useStyles();
-  const data = props.cl2Datas;
-  const setSub = (c2ID, classification2Name) => {
-    props.subCheck(c2ID, classification2Name);
+  const data = props.datas; //대분류 전체(컬럼 2줄)
+  const setMain = (c1ID, classification1Name) => {
+    props.mainCheck(c1ID, classification1Name);
   };
   return (
     <div className={classes.root}>
       <Grid xs={10}>
         <GridList container>
           {data.map((dt, idx) => {
+            //dt: 대분류 전체를 쪼갬
+            let color;
+            if (idx == 0) {
+              color = "#F19920";
+            }
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
-                <Paper className={classes.grid} fullwidth>
-                  <MiddleItem dt={dt} idx={idx} setSub={setSub.bind()} />
+                <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
+                  <RefLargeItem dt={dt} idx={idx} data={data} setMain={setMain.bind()} />
                 </Paper>
               </Grid>
             );
@@ -53,4 +56,4 @@ const MiddleList = (props) => {
     </div>
   );
 };
-export default MiddleList;
+export default RefLargeList;
