@@ -8,6 +8,7 @@ import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 import Box from '@material-ui/core/Box';
+import Carousel from '../../components/Carousel';
 
 // server
 import axios from "axios";
@@ -76,10 +77,11 @@ const Main = () => {
         <Grid>
           <Grid container mt={5} spacing={2} alignItems="center" justify="center">
             <Grid item xs={12} className={st.image}>
-              <img
+              {/* <img
                 src={process.env.PUBLIC_URL + "/images/background.png"}
                 style={{ flex: 1, height: "auto", width: "100%" }}
-              />
+              /> */}
+              <Carousel />
             </Grid>
             <Grid item xs={12} className={st.Fav} id={1} style={{ maxWidth: "100%", width: "100%" }}>
               <Typography align="left" variant="h6" gutterBottom className={st.word}>
