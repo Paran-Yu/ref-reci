@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
-import FavRecList from "../../components/Recipe/RecipeSlide/SlideList";
+// import FavRecList from "../../components/Recipe/RecipeSlide/SlideList";
+import Slide from "../../components/Recipe/RecipeSlide/NewSlide";
 import LargeList from "../../components/Fridge/Category/LargeList";
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
@@ -63,8 +64,8 @@ const Main = () => {
     const largeListData = await getFavData(`${server.ip}/fridge/classification1`);
 
     // const favRecipes = ;
-    setFavRecipes(<FavRecList datas={favRecipeData} />);
-    setRecentRecipes(<FavRecList datas={recentRecipeData} />);
+    setFavRecipes(<Slide datas={favRecipeData} />);
+    setRecentRecipes(<Slide datas={recentRecipeData} />);
     setLargeList(<LargeList datas={largeListData} />);
   }, []);
 

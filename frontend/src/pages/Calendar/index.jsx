@@ -12,6 +12,7 @@ import Dates from '../../components/Calendar/Dates';
 import FoodList from '../../components/Calendar/FoodList';
 import server from '../../server.json'
 import { computeSegDraggable } from '@fullcalendar/react';
+import Pagination from '@material-ui/lab/Pagination';
 
 const getItems = async (url,date) => {
   try {    
@@ -71,27 +72,19 @@ export default function Calendar() {
   const [dates, setDates] = useState('')
   const [foodDatas, setfoodDatas] = useState();
 
+  const [posts, setPosts]   = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(6);
+
   const get7Days = (async () => {
     const foodlist = await get7Items(`${server.ip}/foodlist/get7days`)
     console.log(foodlist)
-    const foodItems = foodlist.map((foodData) => {
-      // console.log(`${foodData.Name}.jpg`)
-      return (
-        <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
-      )
-    })
-    setfoodDatas(foodItems)
+    setPosts(foodlist);
   })
   const getAll = (async () => {
     const foodlist = await getAllItems(`${server.ip}/foodlist/getAllItem`)
     console.log(foodlist)
-    const foodItems = foodlist.map((foodData) => {
-      // console.log(`${foodData.Name}.jpg`)
-      return (
-        <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
-      )
-    })
-    setfoodDatas(foodItems)
+    setPosts(foodlist);
   })
 
   //받아온 dates에 배열을 생성, events 는 이벤트가 있는 전체 날짜 calender events
@@ -125,16 +118,19 @@ export default function Calendar() {
     console.log("foodlist", foodlist)
     //다른거에 담아서 여러개를 보내는?
     // const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
+    setPosts(foodlist);
 
-    const foodItems = foodlist.map((foodData) => {
-      // console.log(`${foodData.Name}.jpg`)
-      return (
-        <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
-      )
-    })
-    console.log("foodItems", foodItems)
-    setfoodDatas(foodItems);
   }, [dates])
+
+  // 현재 페이지 가져오기
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+
+  const paginate = (event, value) => {
+    setCurrentPage(value)
+  };
 
   return (
     <Container fixed>
@@ -147,8 +143,16 @@ export default function Calendar() {
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box p={3}>
-                {foodDatas}
+              <Box p={1}>
+                {currentPosts.map((foodData) => {
+                return (
+                  <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
+                )
+              })}
+              <Pagination onChange={paginate} 
+              page={currentPage} 
+              count={Math.ceil(posts.length/postPerPage)} 
+              color="primary" />
               </Box>
             </Grid>
           </Grid>

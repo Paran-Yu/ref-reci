@@ -13,7 +13,6 @@ import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 import SmallList from "../../components/Fridge/Category/SmallList";
-import MiddleList from "../../components/Fridge/Category/MiddleList";
 import RefLargeList from "../../components/Fridge/Category/RefLargeList";
 
 // Style
@@ -27,10 +26,10 @@ import server from "../../server.json";
 // Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({
   topper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  }
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 }));
 // -------------------------------------------
 
@@ -57,8 +56,6 @@ const Fridge = (props) => {
   let cl1Datas;
   const [cnt, setCnt] = useState(0);
   const [mainCatName, setMainCatName] = useState("");
-  const [subCatName, setSubCatName] = useState("소분류");
-  const [customMiddleList, setCustomMiddleList] = useState();
   const [customSmallList, setCustomSmallList] = useState();
   const [refLargeList, setRefLargeList] = useState();
   const [selectIng, setSelectIng] = useState([]);
@@ -75,49 +72,41 @@ const Fridge = (props) => {
       setRefLargeList(<RefLargeList datas={cl1Datas} mainCheck={mainCheck.bind()} />);
     } else {
       cl2Datas = await getCl2Data(
-        `${server.ip}/fridge/classification2?cl1ID=${props.location.state.catID}`
+        `${server.ip}/fridge/searchUserProduct?cl1ID=${props.location.state.catID}`
       );
-      setCustomMiddleList(<MiddleList subCheck={subCheck.bind()} cl2Datas={cl2Datas} />);
+      setCustomSmallList(
+        <SmallList selectIng={tmp} cnt={cnt} addCnt={addCnt.bind()} datas={cl2Datas} />
+      );
     }
   }, []);
 
-  const addCnt = (re, flag) => {
-    if (flag) {
-      console.log("ㅇㅇ :" + selectIng);
-      setSelectIng(selectIng.concat(re));
-    } else {
-      console.log("false");
-      setSelectIng(selectIng.filter((Ing) => Ing != re));
-      console.log(selectIng);
-    }
-  };
-
-  const subCheck = async (c2ID, classification2Name) => {
-    setSubCatName(classification2Name);
-
-    const datas = await getCl2Data(`${server.ip}/fridge/searchUserProduct?cl2ID=${c2ID}`);
-    setCustomSmallList(<SmallList cnt={cnt} addCnt={addCnt.bind()} datas={datas} />);
+  let tmp = [];
+  // console.log(largeList);
+  const addCnt = (re) => {
+    console.log("frigde", re);
+    tmp = re;
+    setSelectIng(re);
   };
 
   const mainCheck = async (c1ID, classification1Name) => {
     catName = classification1Name;
+    tmp = selectIng;
     setMainCatName(classification1Name);
-    cl2Datas = await getCl2Data(`${server.ip}/fridge/classification2?cl1ID=${c1ID}`);
-    setSubCatName("소분류");
-    setCustomMiddleList(<MiddleList subCheck={subCheck.bind()} cl2Datas={cl2Datas} />);
+    const datas = await getCl2Data(`${server.ip}/fridge/searchUserProduct?cl1ID=${c1ID}`);
+    setCustomSmallList(
+      <SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={datas} />
+    );
   };
 
   const getRefDt = async () => {
     cl1Datas = await getCl2Data(`${server.ip}/fridge/classification1`);
+    tmp = selectIng;
     setRefLargeList(<RefLargeList datas={cl1Datas} mainCheck={mainCheck.bind()} />);
   };
 
   const goBack = (re) => {
-    if (re == "소분류") setSubCatName(re);
-    else {
-      setMainCatName(re);
-      getRefDt();
-    }
+    setMainCatName(re);
+    getRefDt();
   };
 
   return (
@@ -128,12 +117,12 @@ const Fridge = (props) => {
           <Typography variant="h4">나의 냉장고</Typography>
         </Box>
         <Divider />
-        <Box my={2} className={classes.topper}>
-          <Breadcrumb catName={mainCatName} subCatName={subCatName} goBack={goBack.bind()} />
+        <Box justifyContent="space-between" alignItems="center">
+          <Breadcrumb catName={mainCatName} goBack={goBack.bind()} />
           <ShowChoiceButton selectIng={selectIng} />
         </Box>
-          <RadioButton />
-        {mainCatName == "전체" ? refLargeList : subCatName == "소분류" ? customMiddleList : customSmallList}
+        <RadioButton />
+        {mainCatName == "전체" ? refLargeList : customSmallList}
       </Box>
       <FloatingActionButton />
       <BottomBar />
