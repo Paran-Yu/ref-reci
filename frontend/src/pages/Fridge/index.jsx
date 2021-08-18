@@ -15,9 +15,24 @@ import FloatingActionButton from "../../layout/FloatingActionButton";
 import SmallList from "../../components/Fridge/Category/SmallList";
 import MiddleList from "../../components/Fridge/Category/MiddleList";
 import RefLargeList from "../../components/Fridge/Category/RefLargeList";
+
+// Style
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import createTheme from "@material-ui/core/styles/createTheme";
+
 // server
 import axios from "axios";
 import server from "../../server.json";
+
+// Theme -------------------------------------
+const useStyles = makeStyles((theme) => ({
+  topper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
+}));
+// -------------------------------------------
 
 const getCl2Data = async (url) => {
   try {
@@ -35,6 +50,8 @@ const getCl2Data = async (url) => {
 };
 
 const Fridge = (props) => {
+  const classes = useStyles();
+
   let catName = "";
   let cl2Datas;
   let cl1Datas;
@@ -64,7 +81,6 @@ const Fridge = (props) => {
     }
   }, []);
 
-  // console.log(largeList);
   const addCnt = (re, flag) => {
     if (flag) {
       console.log("ㅇㅇ :" + selectIng);
@@ -103,22 +119,21 @@ const Fridge = (props) => {
       getRefDt();
     }
   };
+
   return (
     <Container fixed>
       <TopBar />
       <Box my={3}>
-        <Typography variant="h2">나의 냉장고</Typography>
+        <Box my={2}>
+          <Typography variant="h4">나의 냉장고</Typography>
+        </Box>
         <Divider />
-        <Box justifyContent="space-between" alignItems="center">
+        <Box my={2} className={classes.topper}>
           <Breadcrumb catName={mainCatName} subCatName={subCatName} goBack={goBack.bind()} />
           <ShowChoiceButton selectIng={selectIng} />
         </Box>
-        <RadioButton />
-        {mainCatName == "전체"
-          ? refLargeList
-          : subCatName == "소분류"
-          ? customMiddleList
-          : customSmallList}
+          <RadioButton />
+        {mainCatName == "전체" ? refLargeList : subCatName == "소분류" ? customMiddleList : customSmallList}
       </Box>
       <FloatingActionButton />
       <BottomBar />

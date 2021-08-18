@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     margin: "auto",
     height: "100%",
+    width: '100%',
   },
   list: {
     height: "120%",

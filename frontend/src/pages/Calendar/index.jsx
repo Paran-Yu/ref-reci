@@ -33,39 +33,39 @@ const getItems = async (url,date) => {
   }
 }
 
-// const get7Items = async (url) => {
-//   try {    
-//     const data = await axios({
-//       method: 'GET',
-//       url: url,
-//       headers: { 
-//         accept: 'application/json'
-//       }
-//     })
-//     return data.data
-//   }
-//   catch (err) {
-//     console.log(url);
-//     console.log(`ERROR: ${err}`);
-//   }
-// }
+const get7Items = async (url) => {
+  try {    
+    const data = await axios({
+      method: 'GET',
+      url: url,
+      headers: { 
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
 
-// const getAllItems = async (url) => {
-//   try {    
-//     const data = await axios({
-//       method: 'GET',
-//       url: url,
-//       headers: { 
-//         accept: 'application/json'
-//       }
-//     })
-//     return data.data
-//   }
-//   catch (err) {
-//     console.log(url);
-//     console.log(`ERROR: ${err}`);
-//   }
-// }
+const getAllItems = async (url) => {
+  try {    
+    const data = await axios({
+      method: 'GET',
+      url: url,
+      headers: { 
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 export default function Calendar() {
   const [dates, setDates] = useState('')
@@ -117,15 +117,15 @@ export default function Calendar() {
   return (
     <Container fixed>
       <TopBar />
-      <Box my={2}>
+      <Box my={5}>
           <Grid container>
             <Grid item xs={12} md={6}>
-              <Box p={1}>
+              <Box p={3}>
                 <Dates onChildClick={getDates} on7DayClick={get7Days} onAllClick={getAll}/>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box p={1}>
+              <Box p={3}>
                 {foodDatas}
               </Box>
             </Grid>

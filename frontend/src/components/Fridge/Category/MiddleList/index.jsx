@@ -1,5 +1,6 @@
 import Ract, { useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
+import Box from '@material-ui/core/Box';
 
 // Style
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     margin: "auto",
     height: "100%",
+    width: '100%',
   },
   MainGrid: {
     marginBottom: theme.spacing(2),
@@ -36,8 +38,8 @@ const MiddleList = (props) => {
     props.subCheck(c2ID, classification2Name);
   };
   return (
-    <div className={classes.root}>
-      <Grid xs={10}>
+    <Box className={classes.root} m={1}>
+      <Grid xs={12}>
         <GridList container>
           {data.map((dt, idx) => {
             return (
@@ -50,7 +52,7 @@ const MiddleList = (props) => {
           })}
         </GridList>
       </Grid>
-    </div>
+    </Box>
   );
 };
 export default MiddleList;
