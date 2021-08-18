@@ -65,7 +65,6 @@ app.get("/", function (req, res) {
 
 app.get("/img", function(req, res){
   const rID = req.query.id;
-  console.log(rID); 
   fs.readFile(`../../images/${rID}`, function(err, data){
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(data);
