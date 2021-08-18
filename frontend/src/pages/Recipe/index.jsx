@@ -117,8 +117,7 @@ const Recipe = () => {
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentrecipes = recipeid.slice(indexOfFirstPost, indexOfLastPost);
   
-    const paginate = (event, value) => {setCurrentPage(value)
-      setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} />)};
+    const paginate = (event, value) => {setCurrentPage(value)};
 
   return (
     <Container fixed>
