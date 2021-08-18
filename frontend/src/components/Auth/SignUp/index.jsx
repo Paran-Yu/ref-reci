@@ -289,7 +289,6 @@ export default function SignUpSide({history}) {
 														<TextField
 														disabled={verButtonInactive}
 														variant="outlined"
-														required
 														margin="normal"
 														required
 														fullWidth
@@ -391,8 +390,6 @@ export default function SignUpSide({history}) {
 											margin="normal"
 											required
 											fullWidth
-											autoFocus
-											fullWidth
 											name="password"
 											label="비밀번호"
 											type="password"
@@ -421,7 +418,6 @@ export default function SignUpSide({history}) {
 											margin="normal"
 											required
 											fullWidth
-											autoFocus
 											name="passwordcheck"
 											label="비밀번호확인"
 											type="password"
@@ -444,7 +440,7 @@ export default function SignUpSide({history}) {
 											className={classes.submit}
 											onClick={async () => {
 												const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
-												
+
 												if(userDatas.value === 'Success'){
 														const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
 														setModalTitle('환영합니다.')
@@ -465,11 +461,7 @@ export default function SignUpSide({history}) {
                       className={classes.modal}
                       open={modalOpen}
                       onClose={modalClose}
-                      closeAfterTransition
-                      BackdropComponent={Backdrop}
-                      BackdropProps={{
-                        timeout: 500,
-                      }}
+											disableBackdropClick
                     >
                       <Fade in={modalOpen}>
                         <div className={classes.modalpaper}>

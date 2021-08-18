@@ -1,11 +1,20 @@
 import { React, useState, useEffect } from "react";
-import { Fade, Backdrop, CardActionArea, makeStyles, Modal, Card, Button, Typography, CardMedia, CardContent } from "@material-ui/core";
-import { Router, Link } from "react-router-dom";
+import {
+  Fade,
+  Backdrop,
+  CardActionArea,
+  makeStyles,
+  Modal,
+  Card,
+  Button,
+  Typography,
+  CardMedia,
+  CardContent,
+} from "@material-ui/core";
 import IngTask from "../DetailModal";
 import AddIcon from "@material-ui/icons/Add";
 
-import axios from "axios";
-import server from "../../../../server.json"
+import server from "../../../../server.json";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -58,14 +67,15 @@ const SmallItem = (props) => {
     setOpen(false);
   };
 
-  const addDt = (event) => {
+  const addDt = () => {
     setFlag(!flag);
     handleClose();
-    if (flag) {
+    console.log(dt.productName + " " + flag);
+    if (!flag) {
       // props.arr.showA(props.arr.concat(dt.CatName))
-      props.showDt(props.cnt - 1);
+      props.showDt(dt.productName, true);
     } else {
-      props.showDt(props.cnt + 1);
+      props.showDt(dt.productName, false);
     }
   };
   return (

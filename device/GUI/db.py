@@ -451,7 +451,7 @@ class DB:
                 for d in range(6):
                     tmp[dict_keys[d]] = r[d]
                 data.append(tmp)
-
+            # print("메롱")
             return data
         except:
             print("레시피 정보를 가져오는데 실패하였습니다.")
@@ -471,7 +471,7 @@ class DB:
         recipe_keys = ['recipe_id', 'recipe_name', 'recipe_intro', 'recipe_amount', 'recipe_image', 'recipe_time']
         cursor = self.db.cursor()
 
-        recipe_sql = "SELECT r.ID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
+        recipe_sql = "SELECT r.rID, r.recipeName, r.recipeIntroduce, r.recipeAmount, r.recipeImage, r.recipeTime " \
                      "FROM Recipe r " \
                      "WHERE r.rID=%s;"
 
@@ -485,17 +485,20 @@ class DB:
                          "WHERE r.rID=%s and r.rID=ri.rID and ri.iID=i.iID;"
         ingredient_keys = ['ingre_id', 'ingredient_name', 'ingredient_amount']
         cursor.execute(ingredient_sql, rid)
-        result = cursor.fetchall()[0]
-        for d in range(3):
-            data[ingredient_keys[d]] = result[d]
+        result = cursor.fetchall()
+        data['ingredient'] = []
+        for d in result:
+            data['ingredient'].append(d)
 
         phase_sql = "SELECT rp.fdID, rp.recipephaseIntroduce, rp.recipephaseImage FROM RecipePhase rp " \
                     "WHERE rp.rID=%s;"
-        phase_keys = ['phase_id', 'phase_intro', 'phase_img']
+        phase_keys = ['phase_intro', 'phase_img']
         cursor.execute(phase_sql, rid)
-        result = cursor.fetchall()[0]
-        for d in range(3):
-            data[phase_keys[d]] = result[d]
+        result = cursor.fetchall()
+        for n, r in enumerate(result):
+            data[n + 1] = dict()
+            for d in range(2):
+                data[n + 1][phase_keys[d]] = r[d + 1]
 
         return data
 
@@ -533,3 +536,6 @@ class DB:
         :return:
         '''
         pass
+
+db = DB()
+print(db.get_detail_recipe(2))

@@ -36,27 +36,25 @@ class ReciItem(QWidget):
         self.recipe_item_name.setObjectName("recipe_item_name")
 
         self.recipe_item_ingre = QLabel(self)
-        self.recipe_item_ingre.setGeometry(QRect(272, 64, 512, 33))
+        self.recipe_item_ingre.setGeometry(QRect(272, 64, 936, 33))
         self.recipe_item_ingre.setStyleSheet("font: 20pt \"KoPubWorld돋움체 Medium\";\n"
                                              "color: #45423C;\n"
                                              "background-color: rgba(0,0,0,0);")
         self.recipe_item_ingre.setObjectName("recipe_item_ingre")
 
         self.recipe_item_time = QLabel(self)
-        self.recipe_item_time.setGeometry(QRect(1074, 16, 144, 32))
+        self.recipe_item_time.setGeometry(QRect(1074, 16, 80, 32))
         self.recipe_item_time.setStyleSheet("font: 18pt \"KoPubWorld돋움체 Bold\";\n"
                                             "color: #ffffff;\n"
                                             "text-align: center;\n"
-                                            "width: 120px;\n"
-                                            "height: 40px;\n"
                                             "padding-top: 2px;\n"
                                             "background-color: #F9BC15;\n"
-                                            "border-radius: 15px;")
+                                            "border-radius: 18px;")
         self.recipe_item_time.setAlignment(Qt.AlignCenter)
         self.recipe_item_time.setObjectName("recipe_item_time")
 
         self.recipe_item_intro = QTextBrowser(self)
-        self.recipe_item_intro.setGeometry(QRect(272, 112, 780, 65))
+        self.recipe_item_intro.setGeometry(QRect(272, 112, 936, 65))
         self.recipe_item_intro.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.recipe_item_intro.setStyleSheet("font: 14pt \"KoPubWorld돋움체 Medium\";\n"
                                              "color: #45423C;\n"

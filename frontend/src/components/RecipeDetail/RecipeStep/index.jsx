@@ -9,14 +9,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 
+import server from '../../../server.json'
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
 
 }));
-
-function createStepData(num, contents, imageurl) {
-  return { num, contents, imageurl };
-};
 
 const cardstyles = {
   root: {
@@ -35,33 +33,59 @@ const cardstyles = {
   media: {
     width: '100%',
     maxWidth: 500,
-  }
+    height: 'h-100',
+  },
 }
-const steps = [
-  createStepData('1', '닭봉 2팩, 갯수로는 20개를 준비해요중불', "http://img.danawa.com/cms/img/images/000389/20171108024157592_IBYNSQCZ.jpg"),
-  createStepData('2', '닭봉이 잠기게 우유를 부은 후 30분간 재워 잡내를 제거해줍니다', "http://img.danawa.com/cms/img/images/000389/20171108024157592_IBYNSQCZ.jpg"),
-  createStepData('3', '30분 후, 우유를 헹궈내고 체에 밭쳐 물기를 빼주세요', "http://img.danawa.com/cms/img/images/000389/20171108024157592_IBYNSQCZ.jpg"),
-]
-
-const stepcards = steps.map((step) => {
-  return (
-    <Grid container alignItems="center">
-      <Grid item xs={12} md={6}>
-        <img style={cardstyles.media} src={step.imageurl} />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Box p={1}>
-          <Chip label={step.num} />
-          {step.contents}
-        </Box>
-      </Grid>
-    </Grid>
-  )
-})
 
 
-export default function RecipeStep() {
+
+export default function RecipeStep(props) {
   const classes = useStyles();
+
+  const stepcards = props.datas.map((step, idx) => {
+    
+    // const imageSpace = () => {
+    //   if (step.recipephaseImage != '') {
+    //     return (
+    //       <img 
+    //       style={cardstyles.media} 
+    //       src={`${server.ip}/img?id=${step.recipephaseImage}`} 
+    //       />
+    //     )
+    //   } else {
+    //     return (
+    //       <Box className={cardstyles.media}>
+    //       </Box>
+    //     )
+    //     }
+    //   }
+
+    return (
+      <Grid container alignItems="center">
+        <Grid item xs={12} md={6}>
+          {/* {imageSpace} */}
+          { step.recipephaseImage ? 
+          (<img 
+          style={cardstyles.media} 
+          src={`${server.ip}/img?id=${step.recipephaseImage}`} 
+          />) 
+          :
+          (<img 
+            style={cardstyles.media} 
+            src={`${server.ip}/img?id=no_image2.png`}
+            />)
+          }
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box p={1}>
+            <Chip label={idx+1} />
+            {step.recipephaseIntroduce}
+          </Box>
+        </Grid>
+      </Grid>
+    )
+  })
+
   return (
     <Box p={5}>
       {stepcards}
