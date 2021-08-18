@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Box, Typography, Paper, Grid, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -42,19 +42,30 @@ const getRecipe = async (url) => {
 
 export default function RecipeDetail({match}) {
   const classes = useStyles();
+
+  const [customRecipeTitle, setCustomRecipeTitle] = useState();
+  const [customRecipeContent, setCustomRecipeContent] = useState();
   let rID;
 
 
-  useEffect(() => {
+  useEffect(async () => {
     rID = match.params.rid;
-    const datas = getRecipe(`${server.ip}/recipe/`)
+    const datas = await getRecipe(`${server.ip}/recipe/detail?rID=${rID}`);
+    console.log(datas);
+    console.log(datas[0]);
+    console.log(datas[1]);
+    console.log(datas[2]);
+
+    setCustomRecipeTitle(<RecipeTitle datas={datas[0]} />)
+    setCustomRecipeContent(<RecipeContent datas1={datas[1]} datas2={datas[2]} />)
+    
   }, [])
 
   return (
     <Container fixed>
       <TopBar />
-      <RecipeTitle />
-      <RecipeContent />
+      {customRecipeTitle}
+      {customRecipeContent}
       <BottomBar />
       <FloatingActionButton />
     </Container>

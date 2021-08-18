@@ -7,6 +7,7 @@ import { Typography, Divider } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 
+import server from '../../../server.json'
 
 const useStyles = makeStyles((theme) => ({
   img: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function RecipeTitle() {
+export default function RecipeTitle(props) {
   const classes = useStyles()
   const handleClick = () => {
     console.log('hi')
@@ -31,28 +32,28 @@ export default function RecipeTitle() {
 
   return (
   <Box mt={3} mb={1}>
-    <Typography color="primary" variant="h3">레시피 제목</Typography>
+    <Typography color="primary" variant="h3">{props.datas[0].recipeName}</Typography>
     <Box my={2}>
       <Divider />
     </Box>
     <Paper>
       <Grid container alignItems="center" className={classes.intro}>
         <Grid item xs={12} md={6}>
-          <img className={classes.img} src="https://t1.daumcdn.net/cfile/tistory/9956783F5B712EE92F" />
+            <img className={classes.img} src={`${server.ip}/img?id=${props.datas[0].recipeImage}`} />
         </Grid>
         <Grid item xs={12} md={6}>
           <Box p={1}>
-            레시피 한줄 소개입니다. 레시피 한줄 소개입니다. 레시피 한줄 소개입니다. 레시피 한줄 소개입니다. 레시피 한줄 소개입니다. 레시피 한줄 소개입니다. 
+              {props.datas[0].recipeIntroduce}
           </Box>
           <Box p={1}>
             <Chip
               icon={<FaceIcon />}
-              label="인분"
+              label={`${props.datas[0].recipeAmount}인분`}
               className={classes.chip}
             />
             <Chip
               icon={<FaceIcon />}
-              label="시간"
+              label={`${props.datas[0].recipeTime}`}
               className={classes.chip}
             />
             <Chip

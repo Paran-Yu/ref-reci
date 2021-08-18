@@ -8,7 +8,7 @@ import RecipeIng from '../RecipeIng';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
-export default function RecipeContent() {
+export default function RecipeContent(props) {
 
   return (
     <Box my={1}>
@@ -17,7 +17,7 @@ export default function RecipeContent() {
           재료
         </Typography> */}
         <Box m={2}>
-          <RecipeIng />
+          <RecipeIng datas={props.datas1}/>
         </Box>
       </Paper>
       <Paper>
@@ -25,7 +25,7 @@ export default function RecipeContent() {
           순서
         </Typography> */}
         <Box>
-          <RecipeStep />
+          <RecipeStep datas={props.datas2}/>
         </Box>
       </Paper>
     </Box>

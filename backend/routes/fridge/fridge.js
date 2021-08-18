@@ -100,6 +100,37 @@ app.get("/searchUserProduct", async (req, res) => {
     }
 })
 
+app.get("/allUserProduct", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+    const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name \
+                FROM UserProduct AS up \
+                JOIN Classification1 AS c1 \
+                ON up.productClassification1 = c1.c1ID \
+                JOIN Classification2 AS c2 \
+                ON up.productClassification2 = c2.c2ID \
+                WHERE up.uID = ?'
+
+    try {
+        let list;
+        const [rows, fields] = await pool.query(sql, [
+            uID,
+        ])
+
+        const len = rows.length;
+
+        for (let i = 0; i < len; i++) {
+            list.push({ big: rows[i].classification1Name, small: rows[i].classification2Name, product: rows[i].productName});
+        }
+        console.log(list);
+        res.json(list);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
 //재료 삽입
 app.post("/", async (req, res) =>{
     const nowDay = getCurrentDate()
