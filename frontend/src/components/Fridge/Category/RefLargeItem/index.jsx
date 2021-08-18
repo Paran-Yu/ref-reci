@@ -16,25 +16,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LargeItem = (props) => {
+const RegLargeItem = (props) => {
   const { dt, idx, data } = props;
   const st = useStyles();
-
+  const btn = () => {
+    props.setMain(dt.c1ID, dt.classification1Name);
+  };
   return (
-    <Link
-      to={{
-        pathname: "/fridge",
-        state: {
-          catID: dt.c1ID,
-          catName: dt.classification1Name,
-          data: data,
-        },
-      }}
-      className={st.link}
-      style={{ textDecoration: "none" }}
-    >
-      <ButtonBase className={st.catIt}>{dt.classification1Name}</ButtonBase>
-    </Link>
+    <ButtonBase className={st.catIt} onClick={btn}>
+      {dt.classification1Name}
+    </ButtonBase>
   );
 };
-export default LargeItem;
+export default RegLargeItem;

@@ -1,6 +1,11 @@
 import Ract, { useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
-import CatItem from "../LargeItem";
+
+// Style
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import createTheme from "@material-ui/core/styles/createTheme";
+
+import RefLargeItem from "../RefLargeItem";
 
 // Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({
@@ -22,9 +27,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 // -------------------------------------------
 
-const LargeList = (props) => {
+const RefLargeList = (props) => {
   const classes = useStyles();
   const data = props.datas; //대분류 전체(컬럼 2줄)
+  const setMain = (c1ID, classification1Name) => {
+    props.mainCheck(c1ID, classification1Name);
+  };
   return (
     <div className={classes.root}>
       <Grid xs={10}>
@@ -38,7 +46,7 @@ const LargeList = (props) => {
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
                 <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
-                  <CatItem dt={dt} idx={idx} data={data} />
+                  <RefLargeItem dt={dt} idx={idx} data={data} setMain={setMain.bind()} />
                 </Paper>
               </Grid>
             );
@@ -48,4 +56,4 @@ const LargeList = (props) => {
     </div>
   );
 };
-export default LargeList;
+export default RefLargeList;

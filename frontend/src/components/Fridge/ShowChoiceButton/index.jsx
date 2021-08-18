@@ -1,15 +1,17 @@
-//수정 예정
 import React from "react";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
-import { Badge, makeStyles, Typography } from "@material-ui/core";
+import Badge from "@material-ui/core/Badge";
 
 export default function ShowChoiceButton(props) {
   const [count, setCount] = React.useState(0);
 
-  if (props.cnt != count) setCount(props.cnt);
+  if (props.selectIng.length != count) {
+    console.log(props.selectIng);
+    setCount(props.selectIng.length);
+  }
   return (
     <div>
-      <Badge color="secondary" badgeContent={count}>
+      <Badge color="error" badgeContent={count}>
         <RestaurantMenuIcon />
       </Badge>
     </div>

@@ -6,15 +6,18 @@ import axios from 'axios';
 import server from '../../../server.json';
 import './index.css'
 import Box from '@material-ui/core/Box';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
-import Switch from '@material-ui/core/Switch';
 
-//날짜를 하나 씩 add
+// Theme & Style
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+}));
+
+
 const getEvents = async (url) => {
   try {
     const data = await axios({
@@ -31,7 +34,6 @@ const getEvents = async (url) => {
     console.log(`ERROR: ${err}`);
   }
 }
-
 
 //백에서 달 꺼를 날짜를 가져와서 캘린더에 뿌리고
 //캘린더 클릭 시 백에서 해당 날짜에 유통기한마감 상품을 다른 창에 뿌림
@@ -80,6 +82,7 @@ export default function Dates({onChildClick, on7DayClick, onAllClick}) {
           //달력에 선택된게 아무것도 없을 때
           //리스트에 유효기간이 임박한 순으로 보여주기
           eventClick={onEventClick}
+          class="calendar"
         />
         <Box my={1}>
           <FormGroup>

@@ -68,23 +68,23 @@ export default function CheckPassword({history, match}) {
       </div>
       <form>
         <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        name="password"
-        label="비밀번호"
-        type="password"
-        id="password"
-        autoComplete="current-password"
-        onChange={onChangePW}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="비밀번호"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          onChange={onChangePW}
         />
         <Button
-        fullWidth
-        size="large"
-        variant="contained"
-        color= "primary"
-        onClick={onClickPW}
+          fullWidth
+          size="large"
+          variant="contained"
+          color= "primary"
+          onClick={onClickPW}
         >
           확인
         </Button>

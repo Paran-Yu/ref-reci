@@ -44,6 +44,93 @@ app.get("/read", async (req, res) =>{
     }
 })
 
+app.get("/classification1", async (req, res) => {
+    try {
+        const list = [{c1ID: 0, classification1Name: "전체"}];
+        const [rows, fields] = await pool.query('SELECT c1ID, classification1Name FROM Classification1', [])
+        const len = rows.length;
+
+        for(let i=0; i<len; i++){
+            list.push(rows[i]);
+        }
+        console.log(list);
+        res.json(list);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
+app.get("/classification2", async (req, res) => {
+    const cl1 = req.query.cl1ID;
+
+    try {
+        const [rows, fields] = await pool.query('SELECT c2ID, classification2Name FROM Classification2 WHERE classification2to1 = ?', [
+            cl1
+        ])
+        
+        console.log(rows);
+        res.json(rows);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
+app.get("/searchUserProduct", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+    
+    const cl2 = req.query.cl2ID;
+
+    try {
+        const [rows, fields] = await pool.query('SELECT productName, productCount, productShelfLife, productImage FROM UserProduct WHERE uID = ? AND productClassification2 = ?', [
+            uID,
+            cl2
+        ])
+
+        console.log(rows);
+        res.json(rows);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
+app.get("/allUserProduct", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+    const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name \
+                FROM UserProduct AS up \
+                JOIN Classification1 AS c1 \
+                ON up.productClassification1 = c1.c1ID \
+                JOIN Classification2 AS c2 \
+                ON up.productClassification2 = c2.c2ID \
+                WHERE up.uID = ?'
+
+    try {
+        let list;
+        const [rows, fields] = await pool.query(sql, [
+            uID,
+        ])
+
+        const len = rows.length;
+
+        for (let i = 0; i < len; i++) {
+            list.push({ big: rows[i].classification1Name, small: rows[i].classification2Name, product: rows[i].productName});
+        }
+        console.log(list);
+        res.json(list);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
 //재료 삽입
 app.post("/", async (req, res) =>{
     const nowDay = getCurrentDate()

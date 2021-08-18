@@ -1,9 +1,13 @@
-import { React, useState, useEffect } from "react";
-import { Grid, makeStyles, GridList, Paper, Button, createMuiTheme } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import GridList from '@material-ui/core/GridList';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+
 import { useNowCols } from "../../../../common/MediaQueryHooks";
 import catDt from "./dump.json";
 import CardItem from "../CardItem";
-
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -19,7 +23,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginTop: theme.spacing(1),
   },
+  list: {
+    height: "120%",
+  },
 }));
+
+//삭제 예정
 const useGetdata = () => {
   const [catItemDatas, setCatItemDatas] = useState([]);
   const getDatas = async () => {
@@ -31,20 +40,20 @@ const useGetdata = () => {
   return catItemDatas;
 };
 
-
-const CardList = () => {
+const CardList = (props) => {
   const classes = useStyles();
-  const data = useGetdata();
+  // const data = useGetdata();
+  const data = props.datas;
   return (
     <div className={classes.root}>
       <Grid container>
-          {data.map((dt, idx) => (
-            <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
-              <Paper className={classes.grid}>
-                <CardItem dt={dt} idx={idx} />
-              </Paper>
-            </Grid>
-          ))}
+        {data.map((dt, idx) => (
+          <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
+            <Paper className={classes.grid}>
+              <CardItem dt={dt} idx={idx} />
+            </Paper>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

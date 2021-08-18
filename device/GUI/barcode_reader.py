@@ -69,4 +69,4 @@ def barcode_recognition():
     #   i += 1
     #   cv2.imwrite('testdata/c_%03d.jpg' % i, img)
 
-#barcode_recognition()
+barcode_recognition()
