@@ -28,15 +28,16 @@ app.get("/detail", async(req, res)=>{
         datas.push(rows3);
 
         console.log(datas);
+        res.send(datas);
     }
     catch(e){
-
+        console.log(e);
     }
 })
 
 app.get("/tenRecentRecipe", async(req, res) => {
     try {
-        const [rows, fields] = await pool.query("SELECT recipeName AS rName, recipeImage AS rImage FROM Recipe ORDER BY rID DESC LIMIT 10;");
+        const [rows, fields] = await pool.query("SELECT rID, recipeName AS rName, recipeImage AS rImage FROM Recipe ORDER BY rID DESC LIMIT 10;");
 
         res.json(rows);
     }
@@ -48,7 +49,7 @@ app.get("/tenRecentRecipe", async(req, res) => {
 
 app.get("/tenFavorRecipe", async(req, res) => {
     try {
-        const [rows, fields] = await pool.query("SELECT r.recipeName AS rName, r.recipeImage AS rImage, count(*) FROM Favorites AS f JOIN Recipe AS r ON f.rID = r.rID GROUP BY r.rID ORDER BY count(*) DESC LIMIT 10;");
+        const [rows, fields] = await pool.query("SELECT r.rID, r.recipeName AS rName, r.recipeImage AS rImage, count(*) FROM Favorites AS f JOIN Recipe AS r ON f.rID = r.rID GROUP BY r.rID ORDER BY count(*) DESC LIMIT 10;");
         
         console.log("탑텐 레시피")
         console.log(rows);
@@ -66,7 +67,7 @@ app.get("/favorRecipe", async (req, res) => {
     const uID = 1;
 
     try {
-        const [rows1, fields1] = await pool.query("SELECT r.recipeName AS rName, r.recipeIntroduce AS rIntroduce, r.recipeImage AS rImage FROM Favorites AS f JOIN Recipe AS r ON r.rID = f.rID WHERE f.uID = ?", [
+        const [rows1, fields1] = await pool.query("SELECT r.rID, r.recipeName AS rName, r.recipeIntroduce AS rIntroduce, r.recipeImage AS rImage FROM Favorites AS f JOIN Recipe AS r ON r.rID = f.rID WHERE f.uID = ?", [
             uID
         ]);
 

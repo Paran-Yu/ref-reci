@@ -8,6 +8,68 @@ const { pool } = require(`../../mysql`)
 
 //dueday 음식 수량 photo
 //classification
+app.get('/get7days', async (req, res) => {
+
+    const sql = `SELECT a.Classification2Image as Img, DATEDIFF(productShelfLife, now()) as Dday, b.productName as Name, b.productCount as Count
+    FROM refreci.UserProduct as b
+    right join refreci.Classification2 as a
+    on b.productClassification2 = a.c2ID
+    Where b.uID=1 AND DATEDIFF(productShelfLife, now()) <= 7
+    Order by DATEDIFF(productShelfLife, now()) ASC`
+
+    try {
+        const data = await pool.query(sql)
+        console.log(data[0])
+        let jsonArray 	= new Array();
+        for (let i=0; i<data[0].length; i++) {
+            let jsonObj		= new Object();
+            jsonObj.Img = data[0][i].Img
+            jsonObj.Dday = data[0][i].Dday;
+            jsonObj.Name = data[0][i].Name;
+            jsonObj.Count = data[0][i].Count;
+            jsonObj = JSON.stringify(jsonObj);
+            //String 형태로 파싱한 객체를 다시 json으로 변환
+            jsonArray.push(JSON.parse(jsonObj));
+        }
+        console.log(jsonArray);
+        res.send(jsonArray)
+
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
+app.get('/getAllItem', async (req, res) => {
+    const sql = `SELECT a.Classification2Image as Img, DATEDIFF(productShelfLife, now()) as Dday, b.productName as Name, b.productCount as Count
+    FROM refreci.UserProduct as b
+    right join refreci.Classification2 as a
+    on b.productClassification2 = a.c2ID
+    Where b.uID=1
+    Order by DATEDIFF(productShelfLife, now()) ASC`
+    try {
+        const data = await pool.query(sql)
+        let jsonArray 	= new Array();
+        for (let i=0; i<data[0].length; i++) {
+            let jsonObj		= new Object();
+            jsonObj.Img = data[0][i].Img
+            jsonObj.Dday = data[0][i].Dday;
+            jsonObj.Name = data[0][i].Name;
+            jsonObj.Count = data[0][i].Count;
+            jsonObj = JSON.stringify(jsonObj);
+            //String 형태로 파싱한 객체를 다시 json으로 변환
+            jsonArray.push(JSON.parse(jsonObj));
+        }
+        res.send(jsonArray)
+
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
 app.post("/getItems", async (req, res) =>{
     console.log(req.body)
     let type
