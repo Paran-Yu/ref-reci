@@ -1,6 +1,5 @@
 // React, Router
 import React, { useEffect, useState } from 'react';
-// import { Route } from "react-router";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Style

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
 import server from '../../../server.json';
 import './index.css'
@@ -12,7 +12,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 // Theme & Style
 import { makeStyles } from '@material-ui/core/styles';
-
 
 const useStyles = makeStyles((theme) => ({
 }));
@@ -41,18 +40,18 @@ const getEvents = async (url) => {
 export default function Dates({onChildClick, on7DayClick, onAllClick}) {
   const calendarRef = useRef(null)
   const [calendarData, setCalendarData]=useState([])
+  
   useEffect(async()=>{
-    const data= await getEvents(`http://localhost:3001/calendar/getEvents`)
+    const data= await getEvents(`${server.ip}/calendar/getEvents`)
     setCalendarData(data)
   },[])
+
   const onDateClick = (info) => {
     onChildClick(info.dateStr)
   }
   const onEventClick = (info) => {
     onChildClick(info.event.startStr)
   }
-  // console.log('캘린더')
-  // console.log(typeof(calendarData), calendarData)
   
   const [showExpire, setShowExpire] = useState(false);
   const [showAll, setShowAll] = useState(false);
