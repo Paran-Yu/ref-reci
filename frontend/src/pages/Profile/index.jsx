@@ -189,7 +189,7 @@ export default function Profile({history}) {
             <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
           </Grid>
         )
-      })}
+        })}
         </Grid>
       </Box>
       <div className={classes.pg}>

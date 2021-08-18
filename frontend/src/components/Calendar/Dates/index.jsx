@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { createRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -39,7 +39,7 @@ const getEvents = async (url) => {
 //캘린더 클릭 시 백에서 해당 날짜에 유통기한마감 상품을 다른 창에 뿌림
 
 export default function Dates({onChildClick}) {
-  const calendarRef = useRef(null)
+  // const calendarRef = createRef(null)
   const [calendarData, setCalendarData]=useState([])
   useEffect(async()=>{
     const data= await getEvents(`${server.ip}/calendar/getEvents`)
@@ -70,7 +70,7 @@ export default function Dates({onChildClick}) {
     return(
       <Box>
         <FullCalendar
-          ref={calendarRef}
+          // ref={calendarRef}
           plugins={[ dayGridPlugin, interactionPlugin ]}
           initialView="dayGridMonth"
           events={calendarData}
@@ -80,8 +80,9 @@ export default function Dates({onChildClick}) {
           //달력에 선택된게 아무것도 없을 때
           //리스트에 유효기간이 임박한 순으로 보여주기
           eventClick={onEventClick}
-          class="calendar"
-        />
+          className="calendar"
+          >
+        </FullCalendar>
         <Box my={1}>
           <FormGroup>
             <FormControlLabel
