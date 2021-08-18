@@ -110,7 +110,7 @@ color: #45423C;</string>
     <property name="geometry">
      <rect>
       <x>552</x>
-      <y>184</y>
+      <y>192</y>
       <width>697</width>
       <height>41</height>
      </rect>
@@ -162,9 +162,9 @@ border-radius: 24px;</string>
     <property name="geometry">
      <rect>
       <x>552</x>
-      <y>240</y>
+      <y>264</y>
       <width>697</width>
-      <height>457</height>
+      <height>432</height>
      </rect>
     </property>
     <property name="styleSheet">

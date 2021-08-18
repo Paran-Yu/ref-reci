@@ -48,10 +48,10 @@ export default function Dates({onChildClick, on7DayClick, onAllClick}) {
   },[])
 
   const onDateClick = (info) => {
-    onChildClick(info.dateStr)
+    onChildClick(info.dateStr, calendarData)
   }
   const onEventClick = (info) => {
-    onChildClick(info.event.startStr)
+    onChildClick(info.event.startStr, calendarData)
   }
   
   const [showExpire, setShowExpire] = useState(false);
