@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
 
 // Theme & Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,10 +48,10 @@ export default function Dates({onChildClick, on7DayClick, onAllClick}) {
   },[])
 
   const onDateClick = (info) => {
-    onChildClick(info.dateStr)
+    onChildClick(info.dateStr, calendarData)
   }
   const onEventClick = (info) => {
-    onChildClick(info.event.startStr)
+    onChildClick(info.event.startStr, calendarData)
   }
   
   const [showExpire, setShowExpire] = useState(false);
@@ -77,9 +78,6 @@ export default function Dates({onChildClick, on7DayClick, onAllClick}) {
           events={calendarData}
           locale={'ko'}
           dateClick={onDateClick}
-          //foodlist로 날짜 전달
-          //달력에 선택된게 아무것도 없을 때
-          //리스트에 유효기간이 임박한 순으로 보여주기
           eventClick={onEventClick}
           className="calendar"
           >
