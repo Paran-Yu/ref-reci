@@ -72,7 +72,7 @@ export default function Calendar() {
   const [foodDatas, setfoodDatas] = useState();
 
   const get7Days = (async () => {
-    const foodlist = await get7Items(`http://localhost:3001/foodlist/get7days`)
+    const foodlist = await get7Items(`${server.ip}/foodlist/get7days`)
     console.log(foodlist)
     const foodItems = foodlist.map((foodData) => {
       // console.log(`${foodData.Name}.jpg`)
@@ -83,7 +83,7 @@ export default function Calendar() {
     setfoodDatas(foodItems)
   })
   const getAll = (async () => {
-    const foodlist = await getAllItems(`http://localhost:3001/foodlist/getAllItem`)
+    const foodlist = await getAllItems(`${server.ip}/foodlist/getAllItem`)
     console.log(foodlist)
     const foodItems = foodlist.map((foodData) => {
       // console.log(`${foodData.Name}.jpg`)
@@ -101,7 +101,7 @@ export default function Calendar() {
   
   useEffect(async () => {
     //console.log(dates)
-    const foodlist = await getItems(`http://localhost:3001/foodlist/getItems`, `${dates}`);
+    const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
     //다른거에 담아서 여러개를 보내는?
     // const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
 

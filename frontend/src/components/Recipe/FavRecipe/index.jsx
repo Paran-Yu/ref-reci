@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 
 // Server
 import server from '../../../server.json';
-import { ElementDragging } from '@fullcalendar/core';
 
 const useStyles = makeStyles({
   cardroot: {

@@ -1,4 +1,4 @@
-import { useState, React, useRef, useEffect } from "react";
+import { useState, React, useEffect } from "react";
 import { Divider, makeStyles, Typography } from "@material-ui/core";
 
 import Box from "@material-ui/core/Box";
