@@ -105,6 +105,7 @@ const Recipe = () => {
     console.log('렌더 타이밍1')
     setrecipeid2(recipes[1])
     setrecipeid1(recipes[0])
+    
     // setrecipeid1(recipes)
     // console.log(recipes)
     console.log('렌더 타이밍2')
