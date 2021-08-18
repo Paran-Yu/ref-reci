@@ -1,8 +1,7 @@
-import { React, useState, useEffect } from "react";
-import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
+import { React, useState } from "react";
+import { Grid, makeStyles, Paper } from "@material-ui/core";
 // import catDt from "./dump.json";
 import IngItem from "../SmallItem";
-import { PropTypes } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const SmallList = (props) => {
   const classes = useStyles();
   // const data = catDt;
@@ -32,8 +30,8 @@ const SmallList = (props) => {
     cnt: 0,
     arr: [],
   });
-  const showDt = (re) => {
-    props.addCnt(re);
+  const showDt = (re, flag) => {
+    props.addCnt(re, flag);
   };
 
   return (
