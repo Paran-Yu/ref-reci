@@ -451,7 +451,7 @@ class DB:
                 for d in range(6):
                     tmp[dict_keys[d]] = r[d]
                 data.append(tmp)
-            print("메롱")
+            # print("메롱")
             return data
         except:
             print("레시피 정보를 가져오는데 실패하였습니다.")
@@ -495,9 +495,9 @@ class DB:
         cursor.execute(phase_sql, rid)
         result = cursor.fetchall()
         for n, r in enumerate(result):
-            data[r[0]] = dict()
+            data[n + 1] = dict()
             for d in range(2):
-                data[r[0]][phase_keys[d]] = r[d + 1]
+                data[n + 1][phase_keys[d]] = r[d + 1]
 
         return data
 
