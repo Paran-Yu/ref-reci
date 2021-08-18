@@ -32,6 +32,11 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED, GPIO.OUT)
 GPIO.output(LED, False)
 
+# encoder thread
+tm = QTimer()
+# encoderThread = EncoderThread()
+
+
 # 0 start
 class StartWindow(QMainWindow):
     def __init__(self):
@@ -219,6 +224,8 @@ class RefListWindow(QMainWindow):
 
     # 리스트 모드 - Add 버튼 클릭 시
     def clicked_title_add(self):
+        #global encoderThread
+        #encoderThread.start()
         mainWidget.setCurrentIndex(mainWidget.currentIndex() + 1)
 
     # 리스트 모드 - Search 버튼 클릭 시
@@ -703,6 +710,33 @@ class RecipeDetailWindow(QMainWindow):
             recipe_ingre += ", "
         self.recipe_item_ingre.setText(recipe_ingre)
 
+class EncoderConnectThread(QThread):
+    def __init__(self):
+        super().__init__()
+        self.encoder_th = EncoderThread()
+        self.encoder_th.sw_detected.connect(self.connect_sw)
+        self.encoder_th.dir_detected.connect(self.connect_direction)
+
+    def run(self):
+        self.encoder_th.start()
+
+    def connect_sw(self):
+        print(mainWidget.currentIndex())
+
+    def connect_direction(self, direction):
+        print(mainWidget.currentIndex())
+        print(direction)
+
+encoderConnectThread = EncoderConnectThread()
+
+def welcome():
+    msg = QMessageBox()
+    msg.setText("어서오세요!")
+    msg.exec_()
+    tm.stop()
+    encoderConnectThread.start()
+
+
 # main
 if __name__ == "__main__":
     # DB connect
@@ -733,10 +767,11 @@ if __name__ == "__main__":
     mainWidget.addWidget(searchWindow)
     mainWidget.addWidget(detailWindow)
 
-    # encoder thread
-    encoderThread = EncoderThread()
-    # encoderThread.start()
-
     mainWidget.show()
     startWindow.hide()
+
+    tm.setInterval(10)
+    tm.timeout.connect(welcome)
+    tm.start()
+
     app.exec()
