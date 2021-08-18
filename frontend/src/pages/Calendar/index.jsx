@@ -122,7 +122,6 @@ export default function Calendar() {
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-<<<<<<< HEAD
               <Box p={1}>
                 {currentPosts.map((foodData) => {
                 return (
@@ -133,10 +132,6 @@ export default function Calendar() {
               page={currentPage} 
               count={Math.ceil(posts.length/postPerPage)} 
               color="primary" />
-=======
-              <Box p={3}>
-                {foodDatas}
->>>>>>> 819178ec15220079b47aecd72feaa089c16a9a50
               </Box>
             </Grid>
           </Grid>
