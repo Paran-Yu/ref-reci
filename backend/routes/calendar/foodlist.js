@@ -41,6 +41,8 @@ app.post('/changeCount', async (req, res) =>{
 //classification
 app.get('/get7days', async (req, res) => {
 
+    const uID = 1;
+
     const sql = `SELECT a.Classification2Image as Img, DATEDIFF(productShelfLife, now()) as Dday, b.productName as Name, b.productCount as Count
     FROM refreci.UserProduct as b
     right join refreci.Classification2 as a
