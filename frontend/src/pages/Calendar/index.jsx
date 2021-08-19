@@ -10,7 +10,7 @@ import FloatingActionButton from '../../layout/FloatingActionButton';
 import axios from 'axios';
 import Dates from '../../components/Calendar/Dates';
 import FoodList from '../../components/Calendar/FoodList';
-import server from '../../server.json'
+import server from '../../server.json';
 import { computeSegDraggable } from '@fullcalendar/react';
 import Pagination from '@material-ui/lab/Pagination';
 
@@ -75,6 +75,7 @@ export default function Calendar() {
   const [posts, setPosts]   = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage] = useState(6);
+  const [flagState, setFlagState] = useState(false);
 
   const get7Days = (async () => {
     const foodlist = await get7Items(`${server.ip}/foodlist/get7days`)
@@ -86,30 +87,10 @@ export default function Calendar() {
     console.log(foodlist)
     setPosts(foodlist);
   })
-
+  
   //받아온 dates에 배열을 생성, events 는 이벤트가 있는 전체 날짜 calender events
-  function getDates(dates, events) {
-    let flag = 0
-    for(let i = 0 ; i < events.length ; i++){
-      if(Date(events[i]).toString() != Date(dates).toString()){
-        console.log(Date(events[i]), Date(dates))
-      }
-      else{
-        console.log(Date(events[i]), Date(dates))
-        flag = 1
-        break
-      }
-    }
-    if(flag == 1){
-      console.log('이벤트 있음')
-
-      setDates(dates)
-    }
-    else {
-      console.log('이벤트 없음')
-
-    }
-    // setfoodDatas(<FoodList/>)
+  function getDates(dates) {
+    setDates(dates)
   }
   
   useEffect(async () => {
@@ -119,6 +100,12 @@ export default function Calendar() {
     //다른거에 담아서 여러개를 보내는?
     // const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
     setPosts(foodlist);
+    setFlagState(false)
+    console.log("foodlist.length",foodlist.length)
+    if (foodlist.length === 0){
+      setPosts([{ Name: "undefined", Dday: "", Count: "", Img: "" }])
+      setFlagState(true)
+    }
 
   }, [dates])
 
@@ -131,7 +118,6 @@ export default function Calendar() {
   const paginate = (event, value) => {
     setCurrentPage(value)
   };
-
   return (
     <Container fixed>
       <TopBar />
@@ -149,10 +135,12 @@ export default function Calendar() {
                   <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
                 )
               })}
-              <Pagination onChange={paginate} 
-              page={currentPage} 
-              count={Math.ceil(posts.length/postPerPage)} 
-              color="primary" />
+              {flagState?
+                null
+              :
+                (<Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length / postPerPage)} color="primary" />)
+              }
+              
               </Box>
             </Grid>
           </Grid>

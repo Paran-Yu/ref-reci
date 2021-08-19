@@ -18,17 +18,14 @@ function Project(props) {
 
 const items = [
   {
-    imgurl: "/images/background.png",
+    imgurl: "/images/image1.jpg",
   },
   {
-    imgurl: "/images/background.png",
+    imgurl: "/images/image2.jpg",
   },
   {
-    imgurl: "/images/background.png",
+    imgurl: "/images/image3.jpg",
   },
-  {
-    imgurl: "/images/background.png",
-  }
 ]
 
 export default class MyProjectsExample extends React.Component {

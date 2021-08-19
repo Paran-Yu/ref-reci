@@ -77,8 +77,8 @@ export default function TopBar() {
       <div className={classes.root} >
         <AppBar elevation={0} position="static" color="info">
           <Toolbar className={classes.toolbar}>
-          <NavLink to={"/"}>
-            <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
+            <NavLink to={"/"}>
+              <img width={150} src={process.env.PUBLIC_URL + '/logo_kr.png'} className={classes.logo} />
             </NavLink>
             <Button 
             color="secondary"
