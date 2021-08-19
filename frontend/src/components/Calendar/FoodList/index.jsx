@@ -64,6 +64,7 @@ const postCount = async (url, Name, Type) => {
         Name : Name,
         Type : Type
       },
+      withCredentials: true,
       headers: { 
         accept: 'application/json'
       }

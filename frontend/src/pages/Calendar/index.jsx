@@ -29,7 +29,8 @@ const getItems = async (url,date) => {
       },
       headers: { 
         accept: 'application/json'
-      }
+      },
+      withCredentials: true,
     })
     return data.data
   }
@@ -46,7 +47,8 @@ const get7Items = async (url) => {
       url: url,
       headers: { 
         accept: 'application/json'
-      }
+      },
+      withCredentials: true,
     })
     return data.data
   }
@@ -64,7 +66,8 @@ const getAllItems = async (url) => {
       url: url,
       headers: { 
         accept: 'application/json'
-      }
+      },
+      withCredentials: true,
     })
     return data.data
   }
