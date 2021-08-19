@@ -57,19 +57,20 @@ const CardItem = (props) => {
     setOpen(false);
   };
   const [open, setOpen] = useState(false);
-  const [chipData, setChipData] = useState([
-    { key: 0, label: "우유" },
-    { key: 1, label: "계란" },
-    { key: 2, label: "달걀" },
-    { key: 3, label: "우유" },
-    { key: 4, label: "계란" },
-    { key: 5, label: "달걀" },
-  ]);
-  const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
-  console.log(handleDelete)
+  // const [chipData, setChipData] = useState([
+  //   { key: 0, label: "우유" },
+  //   { key: 1, label: "계란" },
+  //   { key: 2, label: "달걀" },
+  //   { key: 3, label: "우유" },
+  //   { key: 4, label: "계란" },
+  //   { key: 5, label: "달걀" },
+  // ]);
+  // const handleDelete = (chipToDelete) => () => {
+  //   setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  // };
+  // console.log(handleDelete)
   console.log("dt2",dt2)
+  if (dt2.count === undefined) dt2.count = 0;
   return (
     <div>
       <Card onClick={handleOpen}>
@@ -83,7 +84,7 @@ const CardItem = (props) => {
               {dt.recipeTime}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {`포함된 검색 재료의 개수: ${dt.count}`}
+              {dt.count===undefined? "포함된 검색 재료의 개수: 0" : `포함된 검색 재료의 개수: ${dt.count}`}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -92,7 +93,7 @@ const CardItem = (props) => {
             {dt2.map((data, idx) => {
               return (
                 <li key={data.key} className={classes.chip}>
-                  <Chip label={data} onDelete={undefined} className={classes.chip} />
+                  <Chip label={data} className={classes.chip} />
                 </li>
               );
             })}

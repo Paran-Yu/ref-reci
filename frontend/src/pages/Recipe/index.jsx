@@ -83,7 +83,6 @@ const getDatas = async (url) => {
 }
 
 let items;
-
 const Recipe = (props) => {
   const classes = useStyles();
 
@@ -94,11 +93,17 @@ const Recipe = (props) => {
   const [recipeid1, setrecipeid1] = useState([]);
   const [recipeid2, setrecipeid2] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage] = useState(12);
-
+  const [postPerPage, setPostPerPage] = useState(12);
+//가져온 개수에 맞게 부르기
 
 
   function handleChildChange(recipes, selectedArr) {
+    if (recipes[1].length < 12){
+      setPostPerPage(recipes[1].length)
+    }
+    else{
+      setPostPerPage(12)
+    }
     setrecipeid2(recipes[1])
     setrecipeid1(recipes[0])
   }
@@ -111,8 +116,10 @@ const Recipe = (props) => {
     let sb = <SearchBar datas={items} onChildChange={handleChildChange} />;
     setCustomSearchBar(sb);
 
-    const cl2Datas = props.location.state.cl2IDDatas;
-    console.log(cl2Datas)
+    if (props.location.state){
+      const cl2Datas = props.location.state.cl2IDDatas;
+      console.log("cl2Datas",cl2Datas)
+    }
   }, [])
 
   // 현재 페이지 가져오기

@@ -176,6 +176,7 @@ app.post("/search", async(req, res) => {
         else {
             const rows1_len = rows1.length;
             for (let i = 0; i < rows1_len; i++){
+                let temp = [];
                 sql = "SELECT i.ingredientName \
                 FROM Ingredient AS i JOIN RecipeIngredient AS ri \
                 ON i.iID = ri.iID \

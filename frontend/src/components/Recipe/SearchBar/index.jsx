@@ -58,7 +58,7 @@ export default function SearchBar(props) {
     
     //소분류로 레시피들을 찾아옴
     const recipes = await postDatas(`${server.ip}/recipe/search`, selectedArr)
-    console.log(recipes);
+    console.log("selectedArr", selectedArr);
     //부모에서 내려준 함수로  레시피 아이디들, 선택된 재료의 소분류를 넘김
     props.onChildChange(recipes, selectedArr);
     
