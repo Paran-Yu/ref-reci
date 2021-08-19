@@ -9,15 +9,9 @@ import Box from '@material-ui/core/Box';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 
-// Theme & Style
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-}));
-
-
+// 음식의 유통기한을 가져오기 위한 함수
+// 
 const getEvents = async (url) => {
   try {
     const data = await axios({
@@ -38,13 +32,13 @@ const getEvents = async (url) => {
 export default function Dates({onChildClick, on7DayClick, onAllClick}) {
   const calendarRef = useRef(null)
   const [calendarData, setCalendarData]=useState([])
-  const classes = useStyles();
 
   useEffect(async()=>{
     const data= await getEvents(`${server.ip}/calendar/getEvents`)
     setCalendarData(data)
   },[])
-
+  
+  // 날짜와 이벤트가 클릭되었을 때 클릭된  날짜의 정보를 부모로 올려준다.
   const onDateClick = (info) => {
     onChildClick(info.dateStr)
   }
@@ -52,6 +46,7 @@ export default function Dates({onChildClick, on7DayClick, onAllClick}) {
     onChildClick(info.event.startStr)
   }
   
+  // 유통기한이 7일 남은 제품, 전체 제품에 대한 정보를 사용자가 클릭했다고 부모에게 알려준다.
   const [showExpire, setShowExpire] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
