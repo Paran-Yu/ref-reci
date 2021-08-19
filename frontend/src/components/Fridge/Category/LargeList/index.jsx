@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Box from '@material-ui/core/Box';
 import LargeItem from "../LargeItem";
+import Grid from '@material-ui/core/Grid';
 
 // Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({

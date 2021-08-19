@@ -1,10 +1,6 @@
-import Ract, { useState, useEffect } from "react";
-import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
-
-// Style
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import createTheme from "@material-ui/core/styles/createTheme";
-
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from '@material-ui/core/Grid';
 import RefLargeItem from "../RefLargeItem";
 
 // Theme -------------------------------------
