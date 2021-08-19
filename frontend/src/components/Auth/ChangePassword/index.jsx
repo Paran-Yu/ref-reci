@@ -71,9 +71,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <span color="inherit">
         Ref:reci
-      </Link>{' '}
+      </span>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -218,12 +218,12 @@ export default function ChangePassword({history}) {
             alignItems="center"
           >
               <div className={classes.paper}>
-                <Typography color="primary" variant="h2">
+                <Typography color="primary" variant="h2" style={{fontFamily:'Munhwajae', fontStyle:'normal', fontWeight:'normal'}}>
                   <b>Ref:Reci</b>
                 </Typography>
                 <br></br>
                 <Typography component="h1" variant="h5">
-                  비밀번호 변경
+                  <b>비밀번호 변경</b>
                 </Typography>
                 <form className={classes.form}>
                   <Container maxWidth="md">

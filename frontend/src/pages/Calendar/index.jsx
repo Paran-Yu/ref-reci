@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+
 // Layout
 import TopBar from '../../layout/TopBar';
 import BottomBar from '../../layout/BottomBar';
@@ -121,6 +126,20 @@ export default function Calendar() {
   return (
     <Container fixed>
       <TopBar />
+      <Box mt={5}>
+        <Typography
+        variant="h4"
+        color="primary"
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+        component={RouterLink}
+        to="/calendar"
+        >
+          유통기한 관리
+        </Typography>
+      </Box>
+      <Box my={2}>
+        <Divider variant="middle" />
+      </Box>
       <Box my={5}>
           <Grid container>
             <Grid item xs={12} md={6}>
@@ -138,7 +157,12 @@ export default function Calendar() {
               {flagState?
                 null
               :
-                (<Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length / postPerPage)} color="primary" />)
+                (<Pagination onChange={paginate} page={currentPage} 
+                  count={Math.ceil(posts.length / postPerPage)} 
+                  color="primary" 
+                  style={{      display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'}} />)
               }
               
               </Box>

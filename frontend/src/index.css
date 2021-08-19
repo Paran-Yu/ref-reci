@@ -30,7 +30,7 @@ code {
   font-family: 'KoPubWorld';
   font-style: normal;
   font-weight: Bold;
-  src: url(./styles/font/KoPubWorld-Dotum-Bold.ttf) /* format('truetype') */
+  src: url(./styles/font/KoPubWorld-Dotum-Bold.ttf) format('truetype')
 }
 
 @font-face {

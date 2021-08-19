@@ -35,13 +35,11 @@ const getEvents = async (url) => {
   }
 }
 
-//백에서 달 꺼를 날짜를 가져와서 캘린더에 뿌리고
-//캘린더 클릭 시 백에서 해당 날짜에 유통기한마감 상품을 다른 창에 뿌림
-
 export default function Dates({onChildClick, on7DayClick, onAllClick}) {
   const calendarRef = useRef(null)
   const [calendarData, setCalendarData]=useState([])
-  
+  const classes = useStyles();
+
   useEffect(async()=>{
     const data= await getEvents(`${server.ip}/calendar/getEvents`)
     setCalendarData(data)

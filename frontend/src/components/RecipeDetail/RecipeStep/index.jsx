@@ -35,6 +35,12 @@ const cardstyles = {
     maxWidth: 500,
     height: 'h-100',
   },
+  text: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
 }
 
 
@@ -44,26 +50,9 @@ export default function RecipeStep(props) {
 
   const stepcards = props.datas.map((step, idx) => {
     
-    // const imageSpace = () => {
-    //   if (step.recipephaseImage != '') {
-    //     return (
-    //       <img 
-    //       style={cardstyles.media} 
-    //       src={`${server.ip}/img?id=${step.recipephaseImage}`} 
-    //       />
-    //     )
-    //   } else {
-    //     return (
-    //       <Box className={cardstyles.media}>
-    //       </Box>
-    //     )
-    //     }
-    //   }
-
     return (
-      <Grid container alignItems="center">
+      <Grid container alignItems="center" spacing={2}>
         <Grid item xs={12} md={6}>
-          {/* {imageSpace} */}
           { step.recipephaseImage ? 
           (<img 
           style={cardstyles.media} 
@@ -78,8 +67,12 @@ export default function RecipeStep(props) {
         </Grid>
         <Grid item xs={12} md={6}>
           <Box p={1}>
-            <Chip label={idx+1} />
-            {step.recipephaseIntroduce}
+            <Box p={1} display="inline">
+              <Chip color="primary" label={idx+1} />
+            </Box>
+            <Typography display="inline" color="secondary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'normal'}}>
+              {step.recipephaseIntroduce}
+            </Typography>
           </Box>
         </Grid>
       </Grid>
