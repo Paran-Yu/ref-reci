@@ -344,7 +344,6 @@ export default function SignUpSide({history}) {
                         margin="normal"
                         required
                         fullWidth
-                        autoFocus
                         id="email"
                         label="아이디(E-mail)"
                         name="email"
@@ -406,8 +405,6 @@ export default function SignUpSide({history}) {
                     margin="normal"
                     required
                     fullWidth
-                    autoFocus
-                    fullWidth
                     name="password"
                     label="비밀번호"
                     type="password"
@@ -420,7 +417,6 @@ export default function SignUpSide({history}) {
                     margin="normal"
                     required
                     fullWidth
-                    autoFocus
                     name="passwordcheck"
                     label="비밀번호확인"
                     type="password"
