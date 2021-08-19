@@ -68,9 +68,9 @@ border: 0px;</string>
     <property name="geometry">
      <rect>
       <x>856</x>
-      <y>392</y>
+      <y>384</y>
       <width>193</width>
-      <height>81</height>
+      <height>97</height>
      </rect>
     </property>
     <property name="font">

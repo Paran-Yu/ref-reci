@@ -16,7 +16,8 @@ import datetime
 ## 전역변수
 # 유저정보
 # USER_ID - 나중에 텍스트로 빼든지 할 것
-# USER_ID = 0
+USER_ID = 0
+USER_NAME = ""
 
 # 대분류 튜플
 category_list = ('육류', '채소류', '해물류', '달걀/유제품', '가공식품류', '곡류', '밀가루', '건어물류', '버섯류', '향신료/조미료류', '과일류', '소스류', '발효식품', '기타')
@@ -114,9 +115,9 @@ class RefListWindow(QMainWindow):
         else:
             # 카테고리 선택시
             self.ref_list_list = refDB.get_UserProducts_Classifi1(USER_ID, self.title_category_index)
-        print(self.title_category_index)
-        print("새로 불러온 리스트")
-        print(self.ref_list_list)
+        #print(self.title_category_index)
+        #print("새로 불러온 리스트")
+        #print(self.ref_list_list)
 
         # 정렬
         if self.ref_list_sort_index == 1:
@@ -129,8 +130,8 @@ class RefListWindow(QMainWindow):
             # 이름역순
             self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_name']), reverse=True)
 
-        print("정렬 후")
-        print(self.ref_list_list)
+        #print("정렬 후")
+        #print(self.ref_list_list)
 
         self.count = len(self.ref_list_list)
         self.ref_list_count.setText('총 %d개' % self.count)
@@ -158,7 +159,7 @@ class RefListWindow(QMainWindow):
         for i in range(self.count):
             self.ref_item_list.append(RefItem())
             # 데이터 플로팅
-            print(self.ref_list_list[i]['item_category2'])
+            # print(self.ref_list_list[i]['item_category2'])
             # print("border-image: url(img/category2/%s.jpg)" % self.ref_list_list[i]['item_category2'])
             self.ref_item_list[i].set_upID(self.ref_list_list[i]['upID'])
             self.ref_item_list[i].ref_item_picture.setStyleSheet("border-image: url(img/category2/{}.jpg);\n".format(self.ref_list_list[i]['item_category2']))
@@ -176,9 +177,9 @@ class RefListWindow(QMainWindow):
             self.ref_item_list[i].ref_item_delete.clicked.connect(self.clicked_delete)
             ref_list_layout.addWidget(self.ref_item_list[i])
         ref_list_groupBox.setLayout(ref_list_layout)
-        print("생성된 아이템 카드")
-        print(ref_list_groupBox)
-        print(self.ref_item_list)
+        #print("생성된 아이템 카드")
+        #print(ref_list_groupBox)
+        #print(self.ref_item_list)
         ref_list_groupBox.raise_()
 
         # Scroll Area 생성하여 리스트 집어넣기
@@ -258,7 +259,7 @@ class RefListWindow(QMainWindow):
     def clicked_ref_items(self):
         ## 선택한 재료 표시
         sender = self.sender()
-        print(sender)
+        #print(sender)
 
         # 리스트 모드 -> 다이얼로 수량 조정 가능
 
@@ -392,6 +393,14 @@ class AddWindow(QMainWindow):
         self.btn_num_list = (self.add_item_1, self.add_item_10, self.add_item_100)
         self.count_unit = (1, 10, 100)
         self.btn_num_index = 0
+        # encoder signal 연결
+        encoderConnectThread.sw_1.connect(self.encoder_sw)
+        encoderConnectThread.dir_1.connect(self.encoder_dir)
+        self.widget_list = [self.add_item_category, self.add_item_name, self.add_item_exp_year, self.add_item_exp_month,
+                            self.add_item_exp_day, self.add_item_count, self.add_item_next]
+        self.widget_list_index = 0
+        self.widget_list[0].setFocus()
+
 
     def main(self):
         pass
@@ -416,7 +425,7 @@ class AddWindow(QMainWindow):
         data['item_category1_id'] = self.category_index + 1
         classifi2_idx = refDB.get_Classifi2_id(data['item_category2'])
         data['item_category2_id'] = classifi2_idx
-        print([data])
+        #print([data])
         refDB.add_UserProducts([data])
         self.reset_all()
 
@@ -496,7 +505,7 @@ class AddWindow(QMainWindow):
 
         # 대분류 안의 소분류 불러오기
         self.name_list = refDB.get_Classifi1_To_Classifi2(category_list[self.category_index])
-        print(self.name_list)
+        #print(self.name_list)
         # 소분류 인덱스 초기화 - 대분류가 바뀔 때 마다 인덱스 초기화!
         self.name_list_index = 0
         # 대분류 화면에 표시
@@ -504,8 +513,8 @@ class AddWindow(QMainWindow):
 
     # 제품명 클릭시 소분류 이동
     def clicked_name(self):
-        print(self.name_list)
-        print(self.name_list_index)
+        #print(self.name_list)
+        #print(self.name_list_index)
         if self.category_index > -1:
             self.add_item_name.setText(self.name_list[self.name_list_index][1])
 
@@ -514,7 +523,6 @@ class AddWindow(QMainWindow):
         else:
             self.name_list_index += 1
         self.add_item_category2 = self.name_list[self.name_list_index - 1][1]
-        print("border-image: url(img/category2/{})".format(self.name_list[self.name_list_index][2]))
         self.add_item_image.setStyleSheet("border-image: url(img/category2/{});".format(self.name_list[self.name_list_index - 1][2]))
 
     # 제품 등록일 변경
@@ -526,14 +534,14 @@ class AddWindow(QMainWindow):
         pass
 
     def clicked_exp_year(self):
-        print("exp_year")
+        #print("exp_year")
         if self.add_item_exp_year.text() == "0000":
             self.add_item_exp_year.setText(str(today.year))
         else:
             self.add_item_exp_year.setText(str(int(self.add_item_exp_year.text()) + 1))
 
     def clicked_exp_month(self):
-        print("exp_month")
+        #print("exp_month")
         if self.add_item_exp_month.text() == "00":
             self.add_item_exp_month.setText(str(today.month).zfill(2))
         elif self.add_item_exp_month.text() == "12":
@@ -542,25 +550,25 @@ class AddWindow(QMainWindow):
             self.add_item_exp_month.setText(str(int(self.add_item_exp_month.text()) + 1).zfill(2))
 
     def clicked_exp_day(self):
-        print("exp_day")
+        #print("exp_day")
+        last_day = ""
         if self.add_item_exp_day.text() == "00":
             self.add_item_exp_day.setText(str(today.day).zfill(2))
-        elif self.add_item_exp_month.text() in ("01", "03", "05", "07", "08", "10", "12"):
-            if self.add_item_exp_day.text() == "31":
-                self.add_item_exp_day.setText("01")
-            else:
-                self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
-        elif self.add_item_exp_month.text() in ("04", "06", "09", "11"):
-            if self.add_item_exp_day.text() == "30":
-                self.add_item_exp_day.setText("01")
-            else:
-                self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
         else:
-            if self.add_item_exp_day.text() == "28":
-                self.add_item_exp_day.setText("01")
+            if self.add_item_exp_month.text() in ("01", "03", "05", "07", "08", "10", "12"):
+                last_day = "31"
+            elif self.add_item_exp_month.text() in ("04", "06", "09", "11"):
+                last_day = "30"
             else:
-                self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
-
+                # 윤년
+                if int(self.add_item_exp_year.text()) % 4 == 0:
+                    last_day = "29"
+                else:
+                    last_day = "28"
+        if self.add_item_exp_day.text() == last_day:
+            self.add_item_exp_day.setText("01")
+        else:
+            self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
 
     # 수량 마이너스 - 선택된 단위에 따라
     def clicked_minus(self):
@@ -597,6 +605,117 @@ class AddWindow(QMainWindow):
 
         self.btn_num_index = new_btn_num_index
 
+    def encoder_sw(self):
+        print("ADD SW")
+        if self.widget_list_index == len(self.widget_list) - 1:
+            self.widget_list_index = 0
+        else:
+            self.widget_list_index += 1
+        self.widget_list[self.widget_list_index].setFocus()
+
+
+    def encoder_dir(self, direction):
+        print("ADD ROTATE")
+        # category
+        if self.widget_list_index == 0:
+            if direction == 1:
+                if self.category_index == len(category_list) - 1:
+                    self.category_index = 0
+                else:
+                    self.category_index += 1
+            elif direction == -1:
+                if self.category_index == 0:
+                    self.category_index = len(category_list) - 1
+                else:
+                    self.category_index -= 1
+            # 대분류 안의 소분류 불러오기
+            self.name_list = refDB.get_Classifi1_To_Classifi2(category_list[self.category_index])
+            # print(self.name_list)
+            # 소분류 인덱스 초기화 - 대분류가 바뀔 때 마다 인덱스 초기화!
+            self.name_list_index = 0
+            # 대분류 화면에 표시
+            self.add_item_category.setText(category_list[self.category_index])
+
+        # name
+        elif self.widget_list_index == 1:
+            if self.category_index > -1:
+                self.add_item_name.setText(self.name_list[self.name_list_index][1])
+
+            if direction == 1:
+                if self.name_list_index == len(self.name_list) - 1:
+                    self.name_list_index = 0
+                else:
+                    self.name_list_index += 1
+            elif direction == -1:
+                if self.name_list_index == 0:
+                    self.name_list_index = len(self.name_list) - 1
+                else:
+                    self.name_list_index -= 1
+            self.add_item_category2 = self.name_list[self.name_list_index - 1][1]
+            self.add_item_image.setStyleSheet(
+                "border-image: url(img/category2/{});".format(self.name_list[self.name_list_index - 1][2]))
+
+        # exp_year
+        elif self.widget_list_index == 2:
+            if self.add_item_exp_year.text() == "0000":
+                self.add_item_exp_year.setText(str(today.year))
+            else:
+                if direction == 1:
+                    self.add_item_exp_year.setText(str(int(self.add_item_exp_year.text()) + 1))
+                elif direction == -1:
+                    self.add_item_exp_year.setText(str(int(self.add_item_exp_year.text()) - 1))
+
+        # exp_month
+        elif self.widget_list_index == 3:
+            if self.add_item_exp_month.text() == "00":
+                self.add_item_exp_month.setText(str(today.month).zfill(2))
+            else:
+                if direction == 1:
+                    if self.add_item_exp_month.text() == "12":
+                        self.add_item_exp_month.setText("01")
+                    else:
+                        self.add_item_exp_month.setText(str(int(self.add_item_exp_month.text()) + 1).zfill(2))
+                elif direction == -1:
+                    if self.add_item_exp_month.text() == "01":
+                        self.add_item_exp_month.setText("12")
+                    else:
+                        self.add_item_exp_month.setText(str(int(self.add_item_exp_month.text()) - 1).zfill(2))
+
+        # exp_day
+        elif self.widget_list_index == 4:
+            last_day = ""
+            if self.add_item_exp_day.text() == "00":
+                self.add_item_exp_day.setText(str(today.day).zfill(2))
+            else:
+                if self.add_item_exp_month.text() in ("01", "03", "05", "07", "08", "10", "12"):
+                    last_day = "31"
+                elif self.add_item_exp_month.text() in ("04", "06", "09", "11"):
+                    last_day = "30"
+                else:
+                    # 윤년
+                    if int(self.add_item_exp_year.text()) % 4 == 0:
+                        last_day = "29"
+                    else:
+                        last_day = "28"
+
+                if direction == 1:
+                    if self.add_item_exp_day.text() == last_day:
+                        self.add_item_exp_day.setText("01")
+                    else:
+                        self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) + 1).zfill(2))
+                elif direction == -1:
+                    if self.add_item_exp_day.text() == "01":
+                        self.add_item_exp_day.setText(last_day)
+                    else:
+                        self.add_item_exp_day.setText(str(int(self.add_item_exp_day.text()) - 1).zfill(2))
+
+        # count
+        elif self.widget_list_index == 5:
+            if direction == 1:
+                self.clicked_plus()
+            elif direction == -1:
+                self.clicked_minus()
+
 
 # 3 search items
 class SearchWindow(QMainWindow):
@@ -622,7 +741,7 @@ class SearchWindow(QMainWindow):
         else:
             self.recipe_result = refDB.get_recipe(tuple(refListWindow.selected_item_id))
         print("레시피 검색 결과")
-        print(self.recipe_result)
+        # print(self.recipe_result)
 
         # 총 n개
         self.recipe_count.setText("총 {}개".format(len(self.recipe_result)))
@@ -711,6 +830,14 @@ class RecipeDetailWindow(QMainWindow):
         self.recipe_item_ingre.setText(recipe_ingre)
 
 class EncoderConnectThread(QThread):
+    # encoder signals
+    sw_0 = pyqtSignal()
+    dir_0 = pyqtSignal(int)
+    sw_1 = pyqtSignal()
+    dir_1 = pyqtSignal(int)
+    sw_2 = pyqtSignal()
+    dir_2 = pyqtSignal(int)
+
     def __init__(self):
         super().__init__()
         self.encoder_th = EncoderThread()
@@ -721,17 +848,41 @@ class EncoderConnectThread(QThread):
         self.encoder_th.start()
 
     def connect_sw(self):
-        print(mainWidget.currentIndex())
+        now_page = mainWidget.currentIndex()
+        # 0_ RefList
+        if now_page == 0:
+            self.sw_0.emit()
+        # 1_ Add
+        elif now_page == 1:
+            self.sw_1.emit()
+        # 2_ Search
+        elif now_page == 2:
+            self.sw_2.emit()
+
+        # print(mainWidget.currentIndex())
 
     def connect_direction(self, direction):
-        print(mainWidget.currentIndex())
-        print(direction)
+        now_page = mainWidget.currentIndex()
+        # 0_ RefList
+        if now_page == 0:
+            self.dir_0.emit(direction)
+        # 1_ Add
+        elif now_page == 1:
+            self.dir_1.emit(direction)
+        # 2_ Search
+        elif now_page == 2:
+            self.dir_2.emit(direction)
+
+        # print(mainWidget.currentIndex())
+        # print(direction)
 
 encoderConnectThread = EncoderConnectThread()
 
 def welcome():
+    global USER_NAME
     msg = QMessageBox()
-    msg.setText("어서오세요!")
+    msg.setWindowTitle("Welcome")
+    msg.setText("어서오세요, {}님!".format(USER_NAME))
     msg.exec_()
     tm.stop()
     encoderConnectThread.start()

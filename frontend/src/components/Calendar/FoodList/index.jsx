@@ -89,13 +89,13 @@ export default function FoodList(props) {
   async function onMinusClick (){
     console.log(props.foodName, props.foodCount)
     console.log('마이너스 클릭')
-    const cnt = await postCount(`http://localhost:3001/foodlist/changeCount`, props.foodName, 1)
+    const cnt = await postCount(`${server.ip}/foodlist/changeCount`, props.foodName, 1)
     console.log(cnt[0].Count)
     setCount(cnt[0].Count)
   }
   async function onPlusClick (){
     console.log('플러스 클릭')
-    const cnt = await postCount(`http://localhost:3001/foodlist/changeCount`, props.foodName, 2)
+    const cnt = await postCount(`${server.ip}/foodlist/changeCount`, props.foodName, 2)
     console.log(cnt[0].Count)
     setCount(cnt[0].Count)
   }
