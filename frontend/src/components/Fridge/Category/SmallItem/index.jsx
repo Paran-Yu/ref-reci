@@ -11,6 +11,7 @@ import {
   CardMedia,
   CardContent,
 } from "@material-ui/core";
+import IngTask from "../DetailModal";
 import AddIcon from "@material-ui/icons/Add";
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
@@ -72,7 +73,6 @@ const SmallItem = (props) => {
   const { dt, idx } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [cnt, setCnt] = useState(0);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -82,13 +82,15 @@ const SmallItem = (props) => {
   let check = false;
   const addDt = () => {
     handleClose();
-    props.showDt(dt.productName, dt.productClassification2);
+    props.showDt(dt.productName);
   };
   const editShelfLife = dt.productShelfLife.slice(0, 10)
 
   return (
     <div className={classes.btn}>
       <Card onClick={handleOpen} className={!check ? classes.card : classes.card2}>
+        {/* <CardActionArea className={classes.card}>{dt.productName}</CardActionArea> */}
+
         <CardActionArea>
           <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.productImage}`} />
           <CardContent>
@@ -160,6 +162,3 @@ const SmallItem = (props) => {
   );
 };
 export default SmallItem;
-
-// 유통기한 조절 (날짜 조정)
-// 수량 조절 (캘린더랑 똑같이 함)
