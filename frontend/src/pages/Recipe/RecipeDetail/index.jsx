@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Box, Typography, Paper, Grid, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -8,6 +8,9 @@ import FloatingActionButton from '../../../layout/FloatingActionButton';
 import RecipeTitle from '../../../components/RecipeDetail/RecipeTitle';
 import RecipeContent from '../../../components/RecipeDetail/RecipeContent';
 
+// server
+import axios from 'axios';
+import server from '../../server.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,14 +23,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getDatas = async (url) => {
+  try {
+    const data = await axios({
+      method: "get",
+      url: url,
+      headers: {
+        accept: "application/json",
+      },
+    });
+    return data.data;
+  } catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+};
 
-export default function RecipeDetail() {
+export default function RecipeDetail(props) {
   const classes = useStyles();
+
+  const [star, setStar] = useState(false);
+
+  useEffect(async () => {
+    console.log("HI");
+    const rID = props.match.params.rid;
+
+    const isFavor = await getDatas(`${server.ip}/recipe/addFavorRecipe?rID=${rID}`);
+    console.log("isFavor", isFavor);
+    if (isFavor){
+      setStar(true)
+    }
+    else{
+      setStar(false)
+    }
+  }, []);
 
   return (
     <Container fixed>
       <TopBar />
-      <RecipeTitle />
+      <RecipeTitle isStar={star}/>
       <RecipeContent />
       <BottomBar />
       <FloatingActionButton />

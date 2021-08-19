@@ -75,6 +75,66 @@ app.get("/favorRecipe", async (req, res) => {
     }
 })
 
+app.get("/checkFavorRecipe", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+    const rID = req.query.rID;
+
+    try {
+        const [rows1, fields1] = await pool.query("SELECT rID FROM Favorites WHERE uID = ? AND rID = ?", [
+            uID,
+            rID,
+        ]);
+        console.log("rows1", rows1);
+        if(rows1.length === 0){
+            res.send(false);
+        }
+        else{
+            res.send(true);
+        }
+    }
+    catch (err) {
+        console.log('===========즐겨찾기 레시피 조회 중 에러 발생===========');
+        console.log(err);
+    }
+})
+
+app.post("/addFavorRecipe", async (req, res) => {
+    // const uID = req.session.uid;
+    const uID = 1;
+    const rID = req.body.rID;
+    const isStar = req.body.isStar;
+
+    console.log("uID", uID)
+    console.log("rID", rID)
+    console.log("isStar", isStar)
+
+    try {
+        let sql;
+        if (isStar === true){
+            sql = "DELETE FROM Favorites WHERE uID = ? AND rID = ?"
+            const [rows1, fields1] = await pool.query(sql, [
+                uID,
+                rID,
+            ]);
+            res.send(false)
+        }
+        else{
+            sql = "INSERT INTO Favorites VALUES (?, ?)"
+            const [rows1, fields1] = await pool.query(sql, [
+                uID,
+                rID,
+            ]);
+            res.send(true)
+        }
+       
+    }
+    catch (err) {
+        console.log('===========즐겨찾기 추가 중 에러 발생===========');
+        console.log(err);
+    }
+})
+
 app.post("/search", async(req, res) => {
 
     const cl2 = req.body.cl2;

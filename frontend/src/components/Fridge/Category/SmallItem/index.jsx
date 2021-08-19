@@ -10,18 +10,20 @@ import {
   Typography,
   CardMedia,
   CardContent,
+  TextField,
 } from "@material-ui/core";
 import IngTask from "../DetailModal";
 import AddIcon from "@material-ui/icons/Add";
-import Divider from '@material-ui/core/Divider';
-import Chip from '@material-ui/core/Chip';
-import IconButton from '@material-ui/core/IconButton';
-import RemoveIcon from '@material-ui/icons/Remove';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import Divider from "@material-ui/core/Divider";
+import Chip from "@material-ui/core/Chip";
+import IconButton from "@material-ui/core/IconButton";
+import RemoveIcon from "@material-ui/icons/Remove";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
-
-import server from "../../../../server.json";
+import axios from 'axios';
+import server from '../../../../server.json'
+import DetailModal from "../DetailModal";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -43,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   title: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   image: {
-    width: '100%',
+    width: "100%",
     maxWidth: 300,
   },
   media: {
@@ -69,38 +71,76 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const postCount = async (url, Name, Type) => {
+  try {
+    const data = await axios({
+      method: 'POST',
+      url: url,
+      data: {
+        Name: Name,
+        Type: Type
+      },
+      headers: {
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 const SmallItem = (props) => {
   const { dt, idx } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [count, setCount] = useState(dt.productCount)
+  
   const handleOpen = () => {
     setOpen(true);
   };
+  
   const handleClose = () => {
     setOpen(false);
   };
-  let check = false;
   const addDt = () => {
     handleClose();
-    props.showDt(dt.productName);
+    props.showDt(dt.productName, dt.productClassification2);
   };
-  const editShelfLife = dt.productShelfLife.slice(0, 10)
+  const editShelfLife = dt.productShelfLife.slice(0, 10);
+
+  async function onMinusClick() {
+    // console.log(dt.productName, dt.productCount)
+    // console.log('마이너스 클릭')
+    const cnt = await postCount(`${server.ip}/foodlist/changeCount`, dt.productName, 1)
+    // console.log(cnt[0].Count)
+    setCount(cnt[0].Count)
+  }
+
+  async function onPlusClick() {
+    // console.log('플러스 클릭')
+    const cnt = await postCount(`${server.ip}/foodlist/changeCount`, dt.productName, 2)
+    // console.log(cnt[0].Count)
+    setCount(cnt[0].Count)
+  }
 
   return (
     <div className={classes.btn}>
-      <Card onClick={handleOpen} className={!check ? classes.card : classes.card2}>
+      <Card onClick={handleOpen} elevation={0}>
         {/* <CardActionArea className={classes.card}>{dt.productName}</CardActionArea> */}
 
         <CardActionArea>
           <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.productImage}`} />
           <CardContent>
             <Box>
-              <Typography variant="h5" component="h2" >
+              <Typography variant="h5" component="h2">
                 {dt.productName}
               </Typography>
             </Box>
             <Box p={2}>
-              <Chip size="small" label={`수량 | ${dt.productCount}`} />
+              <Chip size="small" label={`수량 | ${count}`} />
               <Typography variant="body2" color="textSecondary" component="p">
                 유통기한 | {editShelfLife}
               </Typography>
@@ -126,26 +166,25 @@ const SmallItem = (props) => {
               </Grid>
               <Grid item>
                 <Box>
-                  <Box p={1} className={classes.title}>
+                  <Box p={1} className={classes.modal}>
                     <Typography component="h5" variant="h5">
                       {dt.productName}
                     </Typography>
-                    <Chip 
-                      label="d-day"
-                      color="primary"
-                    />
                   </Box>
-                  <Divider orientation="horizontal" variant="middle"/>
+                  <Divider orientation="horizontal" variant="middle" />
                   <Box p={1} className={classes.title}>
-                    <IconButton>
+                    <IconButton onClick={onMinusClick}>
                       <RemoveIcon />
                     </IconButton>
                     <Typography variant="h5" color="textSecondary">
-                      {dt.productCount}
+                      {count}
                     </Typography>
-                    <IconButton>
+                    <IconButton onClick={onPlusClick}>
                       <AddIcon />
                     </IconButton>
+                  </Box>
+                  <Box p={1}>
+                    <DetailModal dt={dt} />
                   </Box>
                 </Box>
               </Grid>
