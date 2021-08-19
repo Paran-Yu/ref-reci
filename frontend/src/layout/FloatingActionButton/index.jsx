@@ -10,7 +10,6 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import BookIcon from '@material-ui/icons/Book';
 import PersonIcon from '@material-ui/icons/Person';
 
-import datas from './dump.json'
 
 const useStyles = makeStyles(theme => ({
   fab: {
@@ -77,7 +76,6 @@ export default function FloatingActionButton() {
           pathname: "/fridge",
           state: {
             catName: "전체",
-            data: datas,
           },
         }}
       style={

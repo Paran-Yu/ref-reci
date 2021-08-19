@@ -1,49 +1,39 @@
-import Ract, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
+import Box from '@material-ui/core/Box';
 import LargeItem from "../LargeItem";
 
 // Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    flexWrap: "wrap",
     justifyContent: "center",
-  },
-  grid: {
-    border: "1px solid #dfdfdf",
-    textAlign: "center",
-    borderRadius: "15px",
-    margin: "auto",
-    height: "100%",
-    width: '100%',
   },
   MainGrid: {
     marginBottom: theme.spacing(2),
+  },
+  media: {
+    width: '100%',
+    height: '100%',
   },
 }));
 // -------------------------------------------
 
 const LargeList = (props) => {
   const classes = useStyles();
-  const data = props.datas; //대분류 전체(컬럼 2줄)
+  const data = props.datas;
   return (
-    <div className={classes.root}>
-      <Grid xs={12}>
-        <GridList container>
-          {data.map((dt, idx) => {
-            let color;
-            if (idx == 0) {
-              color = "#F19920";
-            }
-            return (
-              <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
-                <LargeItem dt={dt} idx={idx} data={data} />
-              </Grid>
-            );
-          })}
-        </GridList>
+    <Box m={3} className={classes.root}>
+      <Grid container>
+        {data.map((dt, idx) => {
+          return (
+            <Grid item key={idx} dt={dt} xs={4} lg={3} className={classes.MainGrid}>
+              <LargeItem dt={dt} idx={idx} data={data} className={classes.media} />
+            </Grid>
+          );
+        })}
       </Grid>
-    </div>
+    </Box>
   );
 };
 export default LargeList;
