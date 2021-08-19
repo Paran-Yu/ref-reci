@@ -33,7 +33,7 @@ export default function MyProfile (props) {
             fullWidth
             size="normal"
             variant="outlined"
-            color= "primary"
+            color= "secondary"
             component={RouterLink}
             to="/usr/check/update"
           >
@@ -45,7 +45,7 @@ export default function MyProfile (props) {
             fullWidth
             size="normal"
             variant="outlined"
-            color= "primary"
+            color= "secondary"
             component={RouterLink}
             to="/usr/check/delete"
           >

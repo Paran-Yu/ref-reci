@@ -24,7 +24,7 @@ const LargeList = (props) => {
   const classes = useStyles();
   const data = props.datas;
   return (
-    <Box m={3} className={classes.root}>
+    <Box px={3} className={classes.root}>
       <Grid container>
         {data.map((dt, idx) => {
           return (

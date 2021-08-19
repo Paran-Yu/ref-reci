@@ -16,7 +16,7 @@ import server from '../../../server.json';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     elevation: 5,
   },
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: '100%',
     maxWidth: 200,
+    objectFit: 'cover',
   }
 }));
 
@@ -47,7 +48,6 @@ const showDday = (date) => {
     return ('미정')
   }
   else if (date < 0) {
-    // console.log('음수')
     return ('D + ' + String(Math.abs(date)))
   } else if (date >= 0) {
     return ('D - ' + String(date))
@@ -99,7 +99,7 @@ export default function FoodList(props) {
   }
 
   // 이벤트가 없는 날짜를 클릭하면 메시지를 띄우는 컴포넌트
-  const blankPage = <Box>달력에서 유통기한이 있는 날짜를 선택해 주세요.</Box>;
+  const blankPage = <Box><Typography variant="h6" color="secondary">달력에서 유통기한이 있는 날짜를 선택해 주세요.</Typography></Box>;
 
   //음식이름이 아무것도 들어오지 않으면 (이벤트가 없으면) blankpage를 아니라면 foodlist를 띄워준다.
   if (props.foodName !== "undefined") {
@@ -124,17 +124,23 @@ export default function FoodList(props) {
                 />
               </Box>
               <Divider orientation="horizontal" variant="middle"/>
-              <Box p={1} className={classes.title}>
-                <IconButton>
-                  <RemoveIcon onClick={onMinusClick}/>
-                </IconButton>
-                <Typography variant="subtitle1" color="textSecondary">
-                  {count}
-                </Typography>
-                <IconButton>
-                  <AddIcon onClick={onPlusClick}/>
-                </IconButton>
-              </Box>
+              <Grid p={1} container>
+                <Grid item xs={4}>
+                  <IconButton>
+                    <RemoveIcon onClick={onMinusClick}/>
+                  </IconButton>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {count}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <IconButton>
+                    <AddIcon onClick={onPlusClick}/>
+                  </IconButton>
+                </Grid>
+              </Grid>
             </CardContent>
           </div>
         </Card>
