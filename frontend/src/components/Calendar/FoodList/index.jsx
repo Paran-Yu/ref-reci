@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -16,9 +18,20 @@ import server from '../../../server.json';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     elevation: 5,
+  },
+  img: {
+    width: '100%',
+  },
+  chip: {
+    margin: '3px',
+  },
+  intro: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'space-around'
   },
   details: {
     display: 'flex',
@@ -38,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: '100%',
     maxWidth: 200,
+    objectFit: 'cover',
   }
 }));
 
@@ -47,7 +61,6 @@ const showDday = (date) => {
     return ('미정')
   }
   else if (date < 0) {
-    // console.log('음수')
     return ('D + ' + String(Math.abs(date)))
   } else if (date >= 0) {
     return ('D - ' + String(date))
@@ -100,13 +113,51 @@ export default function FoodList(props) {
   }
 
   // 이벤트가 없는 날짜를 클릭하면 메시지를 띄우는 컴포넌트
-  const blankPage = <Box>달력에서 유통기한이 있는 날짜를 선택해 주세요.</Box>;
+  const blankPage = <Box><Typography variant="h6" color="secondary">달력에서 유통기한이 있는 날짜를 선택해 주세요.</Typography></Box>;
 
   //음식이름이 아무것도 들어오지 않으면 (이벤트가 없으면) blankpage를 아니라면 foodlist를 띄워준다.
   if (props.foodName !== "undefined") {
     return (
       <Box m={2}>
-        <Card className={classes.root}>
+        <Paper>
+          <Grid container alignItems="center" className={classes.intro}>
+            <Grid item xs={12} md={6}>
+                <img className={classes.img} src={props.url} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box p={1} className={classes.title}>
+                <Typography component="h5" variant="h5">
+                  {props.foodName}
+                </Typography>
+                <Chip 
+                  label={dDay}
+                  color="primary"
+                />
+              </Box>
+              <Divider orientation="horizontal" variant="middle"/>
+              <Box>
+                <Grid p={1} container>
+                  <Grid item xs={4}>
+                    <IconButton>
+                      <RemoveIcon onClick={onMinusClick}/>
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {count}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <IconButton>
+                      <AddIcon onClick={onPlusClick}/>
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+        {/* <Card className={classes.root}>
           <CardMedia
             component="img"
             alt="recipe-image"
@@ -125,20 +176,26 @@ export default function FoodList(props) {
                 />
               </Box>
               <Divider orientation="horizontal" variant="middle"/>
-              <Box p={1} className={classes.title}>
-                <IconButton>
-                  <RemoveIcon onClick={onMinusClick}/>
-                </IconButton>
-                <Typography variant="subtitle1" color="textSecondary">
-                  {count}
-                </Typography>
-                <IconButton>
-                  <AddIcon onClick={onPlusClick}/>
-                </IconButton>
-              </Box>
+              <Grid p={1} container>
+                <Grid item xs={4}>
+                  <IconButton>
+                    <RemoveIcon onClick={onMinusClick}/>
+                  </IconButton>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {count}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <IconButton>
+                    <AddIcon onClick={onPlusClick}/>
+                  </IconButton>
+                </Grid>
+              </Grid>
             </CardContent>
           </div>
-        </Card>
+        </Card> */}
       </Box>
     )
   } else {

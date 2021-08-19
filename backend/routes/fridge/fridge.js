@@ -116,6 +116,7 @@ app.get("/searchUserProduct", async (req, res) => {
 
 app.get("/allUserProduct", async (req, res) => {
     const uID = req.session.uid;
+    let list = [];
     const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name, up.productClassification2 \
                 FROM UserProduct AS up \
                 JOIN Classification1 AS c1 \
@@ -130,12 +131,25 @@ app.get("/allUserProduct", async (req, res) => {
             uID,
         ])
 
-        const len = rows.length;
-
+        let len = rows.length;
         for (let i = 0; i < len; i++) {
-            list.push({ big: rows[i].classification1Name, small: rows[i].classification2Name, product: rows[i].productName});
+            let tmp_obj = new Object();
+            tmp_obj.productName = rows[i].productName;
+            tmp_obj.productCount = rows[i].productCount;
+            tmp_obj.productImage = rows[i].productImage;
+            tmp_obj.classification1Name = rows[i].classification1Name;
+            tmp_obj.classification2Name = rows[i].classification2Name;
+            tmp_obj.productClassification2 = rows[i].productClassification2;
+            if (rows[i].productShelfLife === null) {
+                tmp_obj.productShelfLife = "0000-00-00"
+            }
+            else {
+                tmp_obj.productShelfLife = rows[i].productShelfLife;
+            }
+            list.push(tmp_obj)
         }
-        // console.log(list);
+
+        console.log("list", list)
         res.json(list);
     }
     catch (err) {
