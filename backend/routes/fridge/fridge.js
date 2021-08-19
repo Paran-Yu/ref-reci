@@ -116,7 +116,6 @@ app.get("/searchUserProduct", async (req, res) => {
 
 app.get("/allUserProduct", async (req, res) => {
     const uID = req.session.uid;
-    let list = [];
     const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name, up.productClassification2 \
                 FROM UserProduct AS up \
                 JOIN Classification1 AS c1 \
@@ -126,7 +125,7 @@ app.get("/allUserProduct", async (req, res) => {
                 WHERE up.uID = ?'
 
     try {
-        let list;
+        let list = [];
         const [rows, fields] = await pool.query(sql, [
             uID,
         ])
