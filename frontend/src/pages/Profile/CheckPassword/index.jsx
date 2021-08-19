@@ -21,6 +21,7 @@ const postCheck = async(url, password) => {
       data: {
         password: password,
       },
+      withCredentials: true,
       headers: {
         accept: 'application/json',
       },
