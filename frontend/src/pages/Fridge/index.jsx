@@ -123,6 +123,8 @@ const Fridge = (props) => {
       console.log('데이터 요청 끝')
       setCustomAllList(<SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={allDatas} />)
       setIsRef(props.location.state.isRef)
+
+      console.log("props.location.state.isRef", props.location.state.isRef)
     }
     else{
       const datas = await getCl2Data(`${server.ip}/fridge/searchUserProduct?cl1ID=${c1ID}`);
@@ -181,7 +183,7 @@ const Fridge = (props) => {
           </IconButton>
         </Box>
         {/* <RadioButton color="primary" justifyContent="flex-start"/> */}
-        <Box m={3}>{(isRef) ? customAllList :(mainCatName == "전체" ? refLargeList : customSmallList)}</Box>
+        <Box m={3}>{(props.location.state.isRef && mainCatName == "전체") ? customAllList :(mainCatName == "전체" ? refLargeList : customSmallList)}</Box>
       </Box>
       <FloatingActionButton />
       <BottomBar />
