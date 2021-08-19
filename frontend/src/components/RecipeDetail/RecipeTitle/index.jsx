@@ -66,7 +66,7 @@ export default function RecipeTitle(props) {
   return (
   <Box mt={3} mb={1}>
     <Box mt={5}>
-      <Typography color="primary" variant="h4" style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold'}}>{props.datas[0].recipeName}</Typography>
+      <Typography color="secondary" variant="h4" style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold'}}>{props.datas[0].recipeName}</Typography>
     </Box>
     <Box my={2}>
       <Divider />
