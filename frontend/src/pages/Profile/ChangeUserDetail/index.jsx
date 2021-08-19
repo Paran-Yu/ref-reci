@@ -306,7 +306,7 @@ export default function SignUpSide({history}) {
               textDecoration: "none",
             }}
           >
-            회원 탈퇴
+            회원 정보 수정
           </Typography>
         </Box>
         <Grid container component="main" className={classes.root}>
