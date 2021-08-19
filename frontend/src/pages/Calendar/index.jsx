@@ -97,6 +97,13 @@ export default function Calendar() {
     setDates(dates)
   }
   
+  useEffect(async()=>{
+    const loginData = await getAllItems(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+  }, [])
+
   useEffect(async () => {
     console.log("dates", dates)
     const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
