@@ -97,6 +97,7 @@ const Fridge = (props) => {
 
       const allDatas = await getCl2Data(`${server.ip}/fridge/allUserProduct`)
       setCustomAllList(<SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={allDatas} />)
+      console.log("allDatas",allDatas)
     } else {
       cl2Datas = await getCl2Data(
         `${server.ip}/fridge/searchUserProduct?cl1ID=${props.location.state.catID}`
