@@ -61,6 +61,11 @@ const Fridge = (props) => {
     catName = "전체";
   }
   useEffect(async () => {
+    const loginData = await getFavData(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+    
     catName = props.location.state == undefined ? "전체" : props.location.state.catName;
     setMainCatName(catName);
     if (catName == "전체" || catName == undefined) {
