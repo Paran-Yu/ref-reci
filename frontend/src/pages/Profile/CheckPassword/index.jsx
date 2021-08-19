@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TopBar from "../../../layout/TopBar";
 import BottomBar from "../../../layout/BottomBar";
 import Fab from '../../../layout/FloatingActionButton';
@@ -32,8 +32,30 @@ const postCheck = async(url, password) => {
   }
 }
 
+const getFavData = async (url) => {
+  try {
+    const data = await axios({
+      method: "get",
+      url: url,
+      headers: {
+        accept: "application/json",
+      },
+    });
+    return data.data;
+  } catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+};
+
 export default function CheckPassword({history, match}) {
   const [password, setPassword] = useState('');
+
+  useEffect(async()=>{
+    const loginData = await getFavData(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+  })
 
   const onChangePW = (event) => {
     setPassword(event.target.value);

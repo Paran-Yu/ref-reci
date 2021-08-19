@@ -122,6 +122,11 @@ const Recipe = (props) => {
   }
 
   useEffect(async () => {
+    const loginData = await getDatas(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+    
     const allFoodItems = await getDatas(`${server.ip}/fridge/read`);
     items = allFoodItems;
     setAllFoodItems(items);

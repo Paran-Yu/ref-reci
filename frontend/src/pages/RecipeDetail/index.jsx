@@ -49,6 +49,11 @@ export default function RecipeDetail({match}) {
 
 
   useEffect(async () => {
+    const loginData = await getRecipe(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+    
     rID = match.params.rid;
     const datas = await getRecipe(`${server.ip}/recipe/detail?rID=${rID}`);
     const isFavor = await getRecipe(`${server.ip}/recipe/checkFavorRecipe?rID=${rID}`);

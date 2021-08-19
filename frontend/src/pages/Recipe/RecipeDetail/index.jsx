@@ -44,6 +44,11 @@ export default function RecipeDetail(props) {
   const [star, setStar] = useState(false);
 
   useEffect(async () => {
+    const loginData = await getDatas(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+    
     console.log("HI");
     const rID = props.match.params.rid;
 

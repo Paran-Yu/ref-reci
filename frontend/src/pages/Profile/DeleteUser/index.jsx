@@ -33,6 +33,14 @@ const clickHandler = async () => {
 }
 
 export default function DeleteUser() {
+  
+  useEffect(async () => {
+    const loginData = await getDelete(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+  })
+
   return (
     <div>
       <div>
