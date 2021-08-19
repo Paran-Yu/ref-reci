@@ -12,7 +12,6 @@ app.post('/changeCount', async (req, res) =>{
     if (req.body.Type === 1){
         sql1 = `UPDATE refreci.UserProduct
         SET productCount = productCount-1
-        WHEN productCount-1 < 0 THEN productCount = 0
         Where uID = ? AND productName = ?`
 
         sql2 = `SELECT productCount as Count
@@ -20,7 +19,8 @@ app.post('/changeCount', async (req, res) =>{
         WHERE uID=? AND productName=?`
     }
     else if (req.body.Type === 2){
-        sql1 = `UPDATE refreci.UserProduct SET productCount = productCount+1
+        sql1 = `UPDATE refreci.UserProduct 
+        SET productCount = productCount+1
         Where uID = ? AND productName = ?`
 
         sql2 = `SELECT productCount as Count
