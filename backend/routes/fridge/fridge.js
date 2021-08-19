@@ -23,7 +23,7 @@ function getCurrentDate()
 
 app.get("/read", async (req, res) =>{
     try {
-        const uID = req.session.uID;
+        const uID = req.session.uid;
         // const uID = 1;
         
         const [rows, fields] = await pool.query('SELECT productName, productClassification2 FROM UserProduct WHERE uID = ?', [
@@ -90,8 +90,9 @@ app.get("/searchUserProduct", async (req, res) => {
             uID,
             cl1
         ])
-
-        // console.log(rows);
+        console.log("uID", uID)
+        console.log("cl1", cl1)
+        console.log("rows",rows);
         res.json(rows);
     }
     catch (err) {

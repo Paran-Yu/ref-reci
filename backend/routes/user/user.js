@@ -206,21 +206,22 @@ app.post("/changePassword", async (req, res) => {
 
 app.get("/isLogin", async (req, res) => {
     if(req.session.uid){
-        console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
+        // console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
     }
     else{
-        console.log('로그인이 되어있지 않습니다.')
+        // console.log('로그인이 되어있지 않습니다.')
     }
     
-    console.log(req.sessionID)
-    console.log(req.session);
+    console.log("req.session.uid", req.session.uid);
+    // console.log(req.sessionID)
+    // console.log(req.session);
     res.send({value:req.session.uid});
 })
 
 app.get("/userInfo", async (req, res) => {
     const uID = req.session.uid;
     // const uID = 1;
-
+    // console.log("uID",uID)
     try {
         const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
             uID
