@@ -5,13 +5,13 @@ const { pool } = require(`../../mysql`)
 
 
 app.get("/getEvents", async (req, res) =>{
-
+    const uID = 1
     const sql = `SELECT DISTINCT(productShelfLife)
     FROM refreci.UserProduct 
-    WHERE uID = 1`
+    WHERE uID = ?`
     try {
 
-        const data = await pool.query(sql)
+        const data = await pool.query(sql, [uID])
         // console.log(data)
         let jsonArray 	= new Array();
         for (let i=0; i<data[0].length; i++) {
@@ -24,7 +24,7 @@ app.get("/getEvents", async (req, res) =>{
             if (data[0][i].productShelfLife == null){
                 jsonObj.title = '';
                 jsonObj.start = "0000-00-00";
-                jsonObj.end	= "0000-00-00"
+                jsonObj.end	= "0000-00-00";
                 console.log(data[0][i])
             }
             jsonObj = JSON.stringify(jsonObj);
