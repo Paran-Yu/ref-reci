@@ -26,6 +26,7 @@ const LargeItem = (props) => {
           catID: dt.c1ID,
           catName: dt.classification1Name,
           data: data,
+          isRef: false,
         },
       }}
       className={classes.media}

@@ -73,6 +73,9 @@ const Fridge = (props) => {
   const [mainCatName, setMainCatName] = useState("");
   const [customSmallList, setCustomSmallList] = useState();
   const [refLargeList, setRefLargeList] = useState();
+
+  const [customAllList, setCustomAllList] = useState();
+
   const [selectIng, setSelectIng] = useState([]);
   const [cl2List, setCl2List] = useState();
 
@@ -91,6 +94,9 @@ const Fridge = (props) => {
       setMainCatName(props.location.state.catName);
       cl1Datas = await getCl2Data(`${server.ip}/fridge/classification1`);
       setRefLargeList(<RefLargeList datas={cl1Datas} mainCheck={mainCheck.bind()} />);
+
+      const allDatas = await getCl2Data(`${server.ip}/fridge/allUserProduct`)
+      setCustomAllList(<SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={allDatas} />)
     } else {
       cl2Datas = await getCl2Data(
         `${server.ip}/fridge/searchUserProduct?cl1ID=${props.location.state.catID}`
@@ -166,7 +172,7 @@ const Fridge = (props) => {
           </IconButton>
         </Box>
         {/* <RadioButton color="primary" justifyContent="flex-start"/> */}
-        <Box my={2}>{mainCatName == "전체" ? refLargeList : customSmallList}</Box>
+        <Box my={2}>{props.location.state.isRef ? customAllList :(mainCatName == "전체" ? refLargeList : customSmallList)}</Box>
       </Box>
       <FloatingActionButton />
       <BottomBar />

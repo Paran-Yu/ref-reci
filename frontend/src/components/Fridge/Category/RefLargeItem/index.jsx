@@ -28,6 +28,7 @@ const RegLargeItem = (props) => {
           catID: dt.c1ID,
           catName: dt.classification1Name,
           data: data,
+          isRef: true,
         },
       }}
       onClick={btn}
