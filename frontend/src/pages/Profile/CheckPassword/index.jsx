@@ -104,7 +104,7 @@ export default function CheckPassword({history, match}) {
             비밀번호 확인
           </Typography>
         </Box>
-        <Container maxWidth="md">
+        <Container maxWidth="sm">
           <Typography>
             회원정보를 수정하시려면 비밀번호를 입력하세요.
           </Typography>
