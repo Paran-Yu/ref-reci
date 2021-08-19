@@ -41,6 +41,7 @@ const postData = async (url, rID, isStar) => {
         rID: rID,
         isStar: isStar
       },
+      withCredentials: true,
       headers: {
         accept: 'application/json',
       },

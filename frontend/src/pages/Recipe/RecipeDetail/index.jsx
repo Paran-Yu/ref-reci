@@ -28,6 +28,7 @@ const getDatas = async (url) => {
     const data = await axios({
       method: "get",
       url: url,
+      withCredentials: true,
       headers: {
         accept: "application/json",
       },
