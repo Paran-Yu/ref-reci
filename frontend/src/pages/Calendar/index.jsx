@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+
 // Layout
 import TopBar from '../../layout/TopBar';
 import BottomBar from '../../layout/BottomBar';
@@ -10,7 +13,7 @@ import FloatingActionButton from '../../layout/FloatingActionButton';
 import axios from 'axios';
 import Dates from '../../components/Calendar/Dates';
 import FoodList from '../../components/Calendar/FoodList';
-import server from '../../server.json'
+import server from '../../server.json';
 import { computeSegDraggable } from '@fullcalendar/react';
 import Pagination from '@material-ui/lab/Pagination';
 
@@ -75,6 +78,7 @@ export default function Calendar() {
   const [posts, setPosts]   = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage] = useState(6);
+  const [flagState, setFlagState] = useState(false);
 
   const get7Days = (async () => {
     const foodlist = await get7Items(`${server.ip}/foodlist/get7days`)
@@ -86,18 +90,25 @@ export default function Calendar() {
     console.log(foodlist)
     setPosts(foodlist);
   })
-
-  //받아온 dates에 배열을 생성
+  
+  //받아온 dates에 배열을 생성, events 는 이벤트가 있는 전체 날짜 calender events
   function getDates(dates) {
     setDates(dates)
   }
   
   useEffect(async () => {
-    //console.log(dates)
+    console.log("dates", dates)
     const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
+    console.log("foodlist", foodlist)
     //다른거에 담아서 여러개를 보내는?
     // const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
     setPosts(foodlist);
+    setFlagState(false)
+    console.log("foodlist.length",foodlist.length)
+    if (foodlist.length === 0){
+      setPosts([{ Name: "undefined", Dday: "", Count: "", Img: "" }])
+      setFlagState(true)
+    }
 
   }, [dates])
 
@@ -110,10 +121,21 @@ export default function Calendar() {
   const paginate = (event, value) => {
     setCurrentPage(value)
   };
-
   return (
     <Container fixed>
       <TopBar />
+      <Box mt={5}>
+        <Typography
+        variant="h4"
+        color="primary"
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold'}}
+        >
+          유통기한 관리
+        </Typography>
+      </Box>
+      <Box my={2}>
+        <Divider variant="middle" />
+      </Box>
       <Box my={5}>
           <Grid container>
             <Grid item xs={12} md={6}>
@@ -128,10 +150,12 @@ export default function Calendar() {
                   <FoodList foodName={foodData.Name} foodDday={foodData.Dday} foodCount={foodData.Count} url={`${server.ip}/img?id=${foodData.Img}`}/>
                 )
               })}
-              <Pagination onChange={paginate} 
-              page={currentPage} 
-              count={Math.ceil(posts.length/postPerPage)} 
-              color="primary" />
+              {flagState?
+                null
+              :
+                (<Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length / postPerPage)} color="primary" />)
+              }
+              
               </Box>
             </Grid>
           </Grid>

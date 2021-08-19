@@ -8,6 +8,7 @@ from recipe_item import ReciItem
 from encoder import EncoderThread
 from db import DB
 import barcode_reader
+import voice
 import sys
 import datetime
 
@@ -30,6 +31,11 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED, GPIO.OUT)
 GPIO.output(LED, False)
+
+# encoder thread
+tm = QTimer()
+# encoderThread = EncoderThread()
+
 
 # 0 start
 class StartWindow(QMainWindow):
@@ -218,6 +224,8 @@ class RefListWindow(QMainWindow):
 
     # 리스트 모드 - Add 버튼 클릭 시
     def clicked_title_add(self):
+        #global encoderThread
+        #encoderThread.start()
         mainWidget.setCurrentIndex(mainWidget.currentIndex() + 1)
 
     # 리스트 모드 - Search 버튼 클릭 시
@@ -414,11 +422,26 @@ class AddWindow(QMainWindow):
 
     # 음성인식 입력 모드
     def clicked_voice(self):
-        pass
+        self.voice_btn.setEnabled(False)
+        self.barcode_btn.setEnabled(False)
+        item_name = voice.run()
+        print(item_name)
+
+        # 바코드 API 성공하면
+        if item_name != -1:
+            self.set_category2(item_name)
+
+        # 바코드 API 실패하면
+        else:
+            pass
+
+        self.voice_btn.setEnabled(True)
+        self.barcode_btn.setEnabled(True)
 
     # 바코드 입력 모드
     def clicked_barcode(self):
         print("barcode reader start!!")
+        self.voice_btn.setEnabled(False)
         self.barcode_btn.setEnabled(False)
         # 바코드 조명 켜기
         GPIO.output(LED, True)
@@ -427,24 +450,27 @@ class AddWindow(QMainWindow):
         
         # 바코드 API 성공하면
         if item_name != -1:
-            # 제품명으로 소분류, 대분류 찾기
-            result = refDB.get_Product_category(item_name)
-            
-            # 소분류 찾기가 성공하면
-            # print(result[-1])
-            self.add_item_name.setText(item_name)
-            self.add_item_category.setText(result[-1][0])
-            self.add_item_count.setText("1")
-            self.add_item_category2 = result[-1][2]
-            self.category_index = result[-1][4] - 1
-            #self.name_list_index = result[-1][5]
-            self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
+            self.set_category2(item_name)
         # 바코드 API 실패하면
         else:
             pass
         
         self.barcode_btn.setEnabled(True)
         GPIO.output(LED, False)
+
+    def set_category2(self, item_name):
+        # 제품명으로 소분류, 대분류 찾기
+        result = refDB.get_Product_category(item_name)
+
+        # 소분류 찾기가 성공하면
+        # print(result[-1])
+        self.add_item_name.setText(item_name)
+        self.add_item_category.setText(result[-1][0])
+        self.add_item_count.setText("1")
+        self.add_item_category2 = result[-1][2]
+        self.category_index = result[-1][4] - 1
+        # self.name_list_index = result[-1][5]
+        self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
 
     # 뒤로가기, 다음 버튼 클릭 시 모든 값 초기화
     def reset_all(self):
@@ -621,7 +647,7 @@ class SearchWindow(QMainWindow):
             # 데이터 플로팅
             self.recipe_item_list[i].recipe_item_name.setText(self.recipe_result[i]['recipe_name'])
             self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'].split(' ')[0])
-            self.recipe_item_list[i].recipe_item_time.setGeometry(QRect(len(self.recipe_result[i]['recipe_name']) * 28 + 320, 16, 80, 40))
+            self.recipe_item_list[i].recipe_item_time.setGeometry(QRect(len(self.recipe_result[i]['recipe_name']) * 28 + 312, 16, 80, 40))
             self.recipe_item_list[i].recipe_item_intro.setText(self.recipe_result[i]['recipe_intro'])
             self.recipe_item_list[i].recipe_item_picture.setStyleSheet("background-color: #FFFFFF;\n"
                                                                        "border-image: url(img/recipe/{});\n"
@@ -671,10 +697,45 @@ class RecipeDetailWindow(QMainWindow):
 
     def draw_detail(self, id):
         recipe_detail = refDB.get_detail_recipe(id)
+        # print(recipe_detail)
         self.recipe_picture.setStyleSheet("border-image: url(img/recipe/{})".format(recipe_detail['recipe_image']))
         self.recipe_item_name.setText(recipe_detail['recipe_name'])
-        # print(recipe_detail['recipe_ingredient'])
-        # print(recipe_detail['recipe_phase'])
+        recipe_text = ""
+        for i in range(1, len(recipe_detail) - 8):
+            recipe_text += "{}. ".format(i) + recipe_detail[i]['phase_intro'] + "\n"
+        self.recipe_item_text.setText(recipe_text)
+        recipe_ingre = ""
+        for i in range(len(recipe_detail['ingredient'])):
+            recipe_ingre += recipe_detail['ingredient'][i][1]
+            recipe_ingre += ", "
+        self.recipe_item_ingre.setText(recipe_ingre)
+
+class EncoderConnectThread(QThread):
+    def __init__(self):
+        super().__init__()
+        self.encoder_th = EncoderThread()
+        self.encoder_th.sw_detected.connect(self.connect_sw)
+        self.encoder_th.dir_detected.connect(self.connect_direction)
+
+    def run(self):
+        self.encoder_th.start()
+
+    def connect_sw(self):
+        print(mainWidget.currentIndex())
+
+    def connect_direction(self, direction):
+        print(mainWidget.currentIndex())
+        print(direction)
+
+encoderConnectThread = EncoderConnectThread()
+
+def welcome():
+    msg = QMessageBox()
+    msg.setText("어서오세요!")
+    msg.exec_()
+    tm.stop()
+    encoderConnectThread.start()
+
 
 # main
 if __name__ == "__main__":
@@ -706,10 +767,11 @@ if __name__ == "__main__":
     mainWidget.addWidget(searchWindow)
     mainWidget.addWidget(detailWindow)
 
-    # encoder thread
-    encoderThread = EncoderThread()
-    # encoderThread.start()
-
     mainWidget.show()
     startWindow.hide()
+
+    tm.setInterval(10)
+    tm.timeout.connect(welcome)
+    tm.start()
+
     app.exec()

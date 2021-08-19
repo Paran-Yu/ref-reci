@@ -55,12 +55,15 @@ const size = 250
 export default function QRCode(props) {
   return (
     <Container fixed>
-      <div>
+      <Box my={3}>
         <Typography
-        variant="h4">
+        variant="h5"
+        color="secondary"
+        style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'Bold'}}
+        >
           나의 QR 코드
         </Typography>
-      </div>
+      </Box>
       <Box p={2}>
         <img width={size} height={size} src={'http://api.qrserver.com/v1/create-qr-code?size='+size+'x'+size+'&data=' + props.uid} ></img>
       </Box>

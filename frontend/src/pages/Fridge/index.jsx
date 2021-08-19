@@ -75,22 +75,18 @@ const Fridge = (props) => {
         `${server.ip}/fridge/searchUserProduct?cl1ID=${props.location.state.catID}`
       );
       setCustomSmallList(
-        <SmallList selectIng={tmp} cnt={cnt} addCnt={addCnt.bind()} datas={cl2Datas} />
+        <SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={cl2Datas} />
       );
     }
   }, []);
 
-  let tmp = [];
   // console.log(largeList);
   const addCnt = (re) => {
-    console.log("frigde", re);
-    tmp = re;
     setSelectIng(re);
   };
 
   const mainCheck = async (c1ID, classification1Name) => {
     catName = classification1Name;
-    tmp = selectIng;
     setMainCatName(classification1Name);
     const datas = await getCl2Data(`${server.ip}/fridge/searchUserProduct?cl1ID=${c1ID}`);
     setCustomSmallList(
@@ -100,7 +96,6 @@ const Fridge = (props) => {
 
   const getRefDt = async () => {
     cl1Datas = await getCl2Data(`${server.ip}/fridge/classification1`);
-    tmp = selectIng;
     setRefLargeList(<RefLargeList datas={cl1Datas} mainCheck={mainCheck.bind()} />);
   };
 

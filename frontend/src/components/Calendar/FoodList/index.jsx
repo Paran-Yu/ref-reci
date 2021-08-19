@@ -62,15 +62,10 @@ export default function FoodList(props) {
   const classes = useStyles();
   const dDay = showDday(props.foodDday);
   // 빈 페이지 화면
-  const blankPage = () => {
-    return (
-      <Box>
-        달력에서 유통기한이 있는 날짜를 선택해 주세요.
-      </Box>
-    )
-  };
+  const blankPage = <Box>달력에서 유통기한이 있는 날짜를 선택해 주세요.</Box>;
 
-  if (props) {
+  if (props.foodName !== "undefined") {
+    console.log("props", props)
     return (
       <Box m={2}>
         <Card className={classes.root}>
@@ -110,7 +105,7 @@ export default function FoodList(props) {
     )
   } else {
     return (
-      {blankPage}
+      blankPage
     )
   }
 };
