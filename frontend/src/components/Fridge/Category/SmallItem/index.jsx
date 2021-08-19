@@ -68,11 +68,11 @@ const SmallItem = (props) => {
   let check = false;
   const addDt = () => {
     handleClose();
-    props.showDt(dt.productName);
+    props.showDt(dt.productName, dt.productClassification2);
   };
   return (
     <div className={classes.btn}>
-      <Card onClick={handleOpen} className={!check ? classes.card : classes.card2}>
+      <Card onClick={handleOpen} elevation={0} className={!check ? classes.card : classes.card2}>
         {/* <CardActionArea className={classes.card}>{dt.productName}</CardActionArea> */}
 
         <CardActionArea>

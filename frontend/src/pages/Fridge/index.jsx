@@ -8,7 +8,7 @@ import Container from "@material-ui/core/Container";
 import Breadcrumb from "../../components/Fridge/Breadcrumb";
 import RadioButton from "../../components/Fridge/RadioButton";
 import ShowChoiceButton from "../../components/Fridge/ShowChoiceButton";
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from "@material-ui/core/IconButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
@@ -80,10 +80,9 @@ const Fridge = (props) => {
   let sendDatas = [];
   const addCnt = (re) => {
     setSelectIng(re);
-    console.log("re",re);
-    setCl2List(re)
+    console.log("re", re);
+    setCl2List(re);
     //여기서 소분류 아이디와 유저 제품 이름을 하나씩 객체로 싸서 객체들의 모임으로 배열을 만들어서 보내야함
-
   };
 
   const mainCheck = async (c1ID, classification1Name) => {
@@ -111,11 +110,16 @@ const Fridge = (props) => {
       <Box my={3}>
         <Box mt={5}>
           <Typography
-          variant="h4"
-          color="primary"
-          component={RouterLink}
-          to="/fridge"
-          style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+            variant="h4"
+            color="primary"
+            component={RouterLink}
+            to="/fridge"
+            style={{
+              fontFamily: "Jeju",
+              fontStyle: "normal",
+              fontWeight: "bold",
+              textDecoration: "none",
+            }}
           >
             나의 냉장고
           </Typography>
@@ -128,10 +132,10 @@ const Fridge = (props) => {
           <IconButton
             component={RouterLink}
             to={{
-              pathname:"/recipe",
+              pathname: "/recipe",
               state: {
-                cl2IDDatas: cl2List
-              }
+                cl2IDDatas: selectIng,
+              },
             }}
             // onClick={()=>{
             //   console.log(cl2List)
@@ -141,9 +145,7 @@ const Fridge = (props) => {
           </IconButton>
         </Box>
         {/* <RadioButton color="primary" justifyContent="flex-start"/> */}
-        <Box my={2}>
-          {mainCatName == "전체" ? refLargeList : customSmallList}
-        </Box>
+        <Box my={2}>{mainCatName == "전체" ? refLargeList : customSmallList}</Box>
       </Box>
       <FloatingActionButton />
       <BottomBar />

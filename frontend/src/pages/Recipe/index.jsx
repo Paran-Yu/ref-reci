@@ -7,32 +7,32 @@ import CardList from "../../components/Recipe/SearchRecipe/CardList";
 import Container from "@material-ui/core/Container";
 import SearchBar from "../../components/Recipe/SearchBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
-import Pagination from '@material-ui/lab/Pagination';
-import createTheme from '@material-ui/core/styles/createTheme';
+import Pagination from "@material-ui/lab/Pagination";
+import createTheme from "@material-ui/core/styles/createTheme";
 
-// Server 
-import axios from 'axios';
-import server from '../../server.json';
+// Server
+import axios from "axios";
+import server from "../../server.json";
 
 const mytheme = createTheme({
   palette: {
     primary: {
-      light: '#f2da9e',
-      main: '#f9bc15',
-      dark: '#f19920',
-      contrastText: '#fff',
+      light: "#f2da9e",
+      main: "#f9bc15",
+      dark: "#f19920",
+      contrastText: "#fff",
     },
     secondary: {
-      light: '#f2ede7',
-      main: '#a29d97',
-      dark: '#45423c',
-      contrastText: '#fff',
+      light: "#f2ede7",
+      main: "#a29d97",
+      dark: "#45423c",
+      contrastText: "#fff",
     },
     success: {
-      light: '#f2ede7',
-      main: '#fee500',
-      dark: '#45423c',
-      contrastText: '#191600',
+      light: "#f2ede7",
+      main: "#fee500",
+      dark: "#45423c",
+      contrastText: "#191600",
     },
   },
 });
@@ -60,51 +60,48 @@ const useStyles = makeStyles((theme) => ({
   },
   paginate: {
     display: "flex",
-    flexDirection: 'column',
-    alignItems: 'center',
-  }
+    flexDirection: "column",
+    alignItems: "center",
+  },
 }));
 
 const getDatas = async (url) => {
   try {
     const data = await axios({
-      method: 'get',
+      method: "get",
       url: url,
       withCredentials: true,
       headers: {
-        accept: 'application/json',
+        accept: "application/json",
       },
     });
     return data.data;
-  }
-  catch (err) {
+  } catch (err) {
     console.log(`ERROR: ${err}`);
   }
-}
+};
 
 const postDatas = async (url, cl2) => {
   try {
     const data = await axios({
-      method: 'post',
+      method: "post",
       url: url,
       data: {
-        cl2: cl2
+        cl2: cl2,
       },
       headers: {
-        accept: 'application/json',
+        accept: "application/json",
       },
-    })
+    });
     return data.data;
-  }
-  catch (e) {
+  } catch (e) {
     console.log(`ERROR: ${e}`);
   }
-}
+};
 
 let items;
 const Recipe = (props) => {
   const classes = useStyles();
-
   const [allFoodItem, setAllFoodItems] = useState([]);
   const [customSearchBar, setCustomSearchBar] = useState();
   const [customCardList, setCustomCardList] = useState();
@@ -113,53 +110,54 @@ const Recipe = (props) => {
   const [recipeid2, setrecipeid2] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(12);
-//가져온 개수에 맞게 부르기
-
+  //가져온 개수에 맞게 부르기
 
   function handleChildChange(recipes, selectedArr) {
-    if (recipes[1].length < 12){
-      setPostPerPage(recipes[1].length)
+    if (recipes[1].length < 12) {
+      setPostPerPage(recipes[1].length);
+    } else {
+      setPostPerPage(12);
     }
-    else{
-      setPostPerPage(12)
-    }
-    setrecipeid2(recipes[1])
-    setrecipeid1(recipes[0])
+    setrecipeid2(recipes[1]);
+    setrecipeid1(recipes[0]);
   }
 
   useEffect(async () => {
     const allFoodItems = await getDatas(`${server.ip}/fridge/read`);
     items = allFoodItems;
     setAllFoodItems(items);
-    console.log(items)
-    setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} defaultDatas={[]} />);
+    console.log(items);
+    setCustomSearchBar(
+      <SearchBar datas={items} onChildChange={handleChildChange} defaultDatas={[]} />
+    );
 
-    if (props.location.state){
+    if (props.location.state != undefined) {
       const cl2Datas = props.location.state.cl2IDDatas;
-      console.log("cl2Datas",cl2Datas)
+      console.log("cl2Datas", cl2Datas);
 
       //서치바 렌더링
-      setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} defaultDatas={cl2Datas}/>);
+      setCustomSearchBar(
+        <SearchBar datas={items} onChildChange={handleChildChange} defaultDatas={cl2Datas} />
+      );
 
-      let selectedArr = []
-      let len = props.location.state.cl2IDDatas.length
-      for(let i=0; i<len; i++){
+      let selectedArr = [];
+      let len = props.location.state.cl2IDDatas.length;
+      for (let i = 0; i < len; i++) {
         selectedArr[i] = props.location.state.cl2IDDatas[i].category;
       }
 
-      const recipes = await postDatas(`${server.ip}/recipe/search`, selectedArr)
-      console.log(recipes)
-      
+      const recipes = await postDatas(`${server.ip}/recipe/search`, selectedArr);
+      console.log(recipes);
+
       if (recipes[1].length < 12) {
-        setPostPerPage(recipes[1].length)
+        setPostPerPage(recipes[1].length);
+      } else {
+        setPostPerPage(12);
       }
-      else {
-        setPostPerPage(12)
-      }
-      setrecipeid2(recipes[1])
-      setrecipeid1(recipes[0])
+      setrecipeid2(recipes[1]);
+      setrecipeid1(recipes[0]);
     }
-  }, [])
+  }, []);
 
   // 현재 페이지 가져오기
   const indexOfLastPost = currentPage * postPerPage;
@@ -168,7 +166,7 @@ const Recipe = (props) => {
   const currentrecipes2 = recipeid2.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (event, value) => {
-    setCurrentPage(value)
+    setCurrentPage(value);
   };
 
   return (
@@ -177,11 +175,16 @@ const Recipe = (props) => {
       <Box my={3}>
         <Box mt={5}>
           <Typography
-          variant="h4"
-          color="primary"
-          style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
-          component={RouterLink}
-          to="/recipe"
+            variant="h4"
+            color="primary"
+            style={{
+              fontFamily: "Jeju",
+              fontStyle: "normal",
+              fontWeight: "bold",
+              textDecoration: "none",
+            }}
+            component={RouterLink}
+            to="/recipe"
           >
             레시피 검색
           </Typography>
@@ -190,13 +193,15 @@ const Recipe = (props) => {
           <Divider variant="middle" />
         </Box>
         {customSearchBar}
-        <CardList datas={currentrecipes} datas2={currentrecipes2}/>
+        <CardList datas={currentrecipes} datas2={currentrecipes2} />
       </Box>
-      <Pagination onChange={paginate}
+      <Pagination
+        onChange={paginate}
         page={currentPage}
         count={Math.ceil(recipeid1.length / postPerPage)}
         color="primary"
-        className={classes.paginate} />
+        className={classes.paginate}
+      />
       <FloatingActionButton />
       <BottomBar />
     </Container>

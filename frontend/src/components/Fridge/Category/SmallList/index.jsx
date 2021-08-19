@@ -27,7 +27,7 @@ const SmallList = (props) => {
   // const data = catDt;
   const datas = props.datas;
   let list = [];
-  
+
   const showDt = (productName, productID) => {
     let check = false;
     if (list.length == 0) list = props.selectIng;
@@ -38,18 +38,13 @@ const SmallList = (props) => {
       }
     }
 
-    if (!check){
+    if (!check) {
       list = list.concat({ name: productName, category: productID });
-      console.log("추가됨")
-    } 
-    else {
+    } else {
       list = list.filter((Ing) => Ing.name != productName);
-      console.log("삭제됨")
     }
     props.addCnt(list);
     // console.log("list", list);//선택되어 있는 유저제품 아이디들, 이름들이 담겨 있음
-
-
   };
 
   return (
