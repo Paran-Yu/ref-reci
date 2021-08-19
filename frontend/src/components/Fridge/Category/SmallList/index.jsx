@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { react, useState } from "react";
 import { Grid, makeStyles, Paper } from "@material-ui/core";
 import IngItem from "../SmallItem";
 
@@ -27,20 +27,25 @@ const SmallList = (props) => {
   // const data = catDt;
   const datas = props.datas;
   let list = [];
-  const showDt = (re) => {
+  
+  const showDt = (productName, productID) => {
     let check = false;
     if (list.length == 0) list = props.selectIng;
     for (let i = 0; i < list.length; i++) {
-      if (list[i] == re) {
+      if (list[i] == productID) {
         check = true;
         break;
       }
     }
 
-    if (!check) list = list.concat(re);
-    else list = list.filter((Ing) => Ing != re);
+    if (!check) list = list.concat(productID);
+    else list = list.filter((Ing) => Ing != productID);
     props.addCnt(list);
-    console.log("re", re);//유저제품 이름만 담겨 있음
+    // console.log("productID", productID);//방금 선택한 유저제품 아이디만 담겨 있음
+    // console.log("datas", datas);//현재 대분류에 있는 유저 제품들의 이름이 들어있음
+    console.log("list", list);//선택되어 있는 유저제품 아이디들이 담겨 있음
+
+
   };
 
   return (

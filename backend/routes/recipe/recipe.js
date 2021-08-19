@@ -121,55 +121,80 @@ app.post("/search", async(req, res) => {
             cl2Name.push(rows3[0].classification2Name)
         }
 
-        const rows1_len = rows1.length;
-        for (let i = 0; i < rows1_len; i++){//레시피마다 반복
-            //레시피마다 인그리디언트 이름들을 가져옴
-            sql = "SELECT i.ingredientName \
+        if (len !== 0) {
+            const rows1_len = rows1.length;
+            for (let i = 0; i < rows1_len; i++) {//레시피마다 반복
+
+                //레시피마다 인그리디언트 이름들을 가져옴
+                sql = "SELECT i.ingredientName \
                 FROM Ingredient AS i JOIN RecipeIngredient AS ri \
                 ON i.iID = ri.iID \
                 WHERE ri.rID = ?"
-            const [rows2, fields2] = await pool.query(sql, [
-                rows1[i].rID
-            ]); 
-            // console.log("인그리디언트 이름들",rows2);
+                const [rows2, fields2] = await pool.query(sql, [
+                    rows1[i].rID
+                ]);
+                // console.log("인그리디언트 이름들",rows2);
 
-            let temp = [];
-            const rows2_len = rows2.length;
-            let sqlarr = "(";
-            for (let j = 0; j < rows2_len; j++) { //인그리디언트 이름
-                for (let k = 0; k < len; k++) { //소분류 이름
-                    let check = rows2[j].ingredientName.indexOf(cl2Name[k]);
-                    //인그리디언트안에 소분류 이름이 포함되어있음!!
-                    // console.log("재료 이름", rows2[j].ingredientName);
-                    // console.log("소분류 이름", cl2Name[k]);
-                    // console.log("check",check);
-                    if(check !== -1){
-                        temp.push(rows2[j].ingredientName)
-                        sqlarr += "'" + rows2[j].ingredientName + "'" + ","
-                        
+                let temp = [];
+                const rows2_len = rows2.length;
+                let sqlarr = "(";
+                for (let j = 0; j < rows2_len; j++) { //인그리디언트 이름
+                    for (let k = 0; k < len; k++) { //소분류 이름
+                        let check = rows2[j].ingredientName.indexOf(cl2Name[k]);
+                        //인그리디언트안에 소분류 이름이 포함되어있음!!
+                        // console.log("재료 이름", rows2[j].ingredientName);
+                        // console.log("소분류 이름", cl2Name[k]);
+                        // console.log("check",check);
+                        if (check !== -1) {
+                            temp.push(rows2[j].ingredientName)
+                            sqlarr += "'" + rows2[j].ingredientName + "'" + ","
+
+                        }
                     }
                 }
-            }
-            sqlarr = sqlarr.slice(0, -1);
-            sqlarr += ")";
-            sql = "SELECT i.ingredientName \
-            FROM Ingredient AS i JOIN RecipeIngredient AS ri \
-            ON i.iID = ri.iID \
-            WHERE ri.rID = ? AND i.ingredientName NOT IN " + sqlarr + " \
-            LIMIT ?"
-            const [rows4, fields4] = await pool.query(sql, [
-                rows1[i].rID,
-                6 - rows1[i].count,
-            ]);
+                sqlarr = sqlarr.slice(0, -1);
+                sqlarr += ")";
+                sql = "SELECT i.ingredientName \
+                FROM Ingredient AS i JOIN RecipeIngredient AS ri \
+                ON i.iID = ri.iID \
+                WHERE ri.rID = ? AND i.ingredientName NOT IN " + sqlarr + " \
+                LIMIT ?"
+                const [rows4, fields4] = await pool.query(sql, [
+                    rows1[i].rID,
+                    6 - rows1[i].count,
+                ]);
 
-            const rows4_len = rows4.length;
-            for (let j = 0; j < rows4_len; j++){
-                temp.push(rows4[j].ingredientName);
+                const rows4_len = rows4.length;
+                for (let j = 0; j < rows4_len; j++) {
+                    temp.push(rows4[j].ingredientName);
+                }
+                selIngredient.push(temp);
             }
-            selIngredient.push(temp);
+            list.push(selIngredient);
+            res.json(list);
         }
-        list.push(selIngredient);
-        res.json(list);
+        else {
+            const rows1_len = rows1.length;
+            for (let i = 0; i < rows1_len; i++){
+                sql = "SELECT i.ingredientName \
+                FROM Ingredient AS i JOIN RecipeIngredient AS ri \
+                ON i.iID = ri.iID \
+                WHERE ri.rID = ? \
+                LIMIT 6"
+                const [rows4, fields4] = await pool.query(sql, [
+                    rows1[i].rID,
+                ]);
+                
+                const rows4_len = rows4.length;
+                for (let j = 0; j < rows4_len; j++) {
+                    temp.push(rows4[j].ingredientName);
+                }
+                selIngredient.push(temp);
+            }
+            list.push(selIngredient);
+            res.json(list);
+        }
+        
 
     }
     catch (err) {

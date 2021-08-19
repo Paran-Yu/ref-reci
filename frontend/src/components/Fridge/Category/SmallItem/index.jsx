@@ -69,8 +69,7 @@ const SmallItem = (props) => {
   let check = false;
   const addDt = () => {
     handleClose();
-    props.showDt(dt.productName);
-    console.log("선택한 제품의 소분류 아이디는",dt.productClassification2)
+    props.showDt(dt.productName, dt.productClassification2);
   };
   return (
     <div className={classes.btn}>

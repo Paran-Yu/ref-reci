@@ -55,6 +55,7 @@ const Fridge = (props) => {
   const [customSmallList, setCustomSmallList] = useState();
   const [refLargeList, setRefLargeList] = useState();
   const [selectIng, setSelectIng] = useState([]);
+  const [cl2List, setCl2List] = useState();
 
   if (props.location.state == undefined) {
     catName = "전체";
@@ -79,6 +80,10 @@ const Fridge = (props) => {
   // console.log(largeList);
   const addCnt = (re) => {
     setSelectIng(re);
+    console.log("re",re);
+    console.log("selecting:", selectIng);
+    console.log("props.location.state", props.location.state)
+    setCl2List(re)
   };
 
   const mainCheck = async (c1ID, classification1Name) => {
@@ -120,7 +125,18 @@ const Fridge = (props) => {
         </Box>
         <Box mx={1} display="flex" justifyContent="space-between" alignItems="center">
           <Breadcrumb catName={mainCatName} goBack={goBack.bind()} />
-          <IconButton>
+          <IconButton
+            component={RouterLink}
+            to={{
+              pathname:"/recipe",
+              state: {
+                cl2IDDatas: cl2List
+              }
+            }}
+            // onClick={()=>{
+            //   console.log(cl2List)
+            // }}
+          >
             <ShowChoiceButton selectIng={selectIng} />
           </IconButton>
         </Box>
