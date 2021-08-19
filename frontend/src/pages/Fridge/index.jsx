@@ -75,7 +75,7 @@ const Fridge = (props) => {
   const [refLargeList, setRefLargeList] = useState();
 
   const [customAllList, setCustomAllList] = useState();
-  const [isRef, setIsRef] = useState();
+  const [isRef, setIsRef] = useState(props.location.state.isRef);
 
   const [selectIng, setSelectIng] = useState([]);
   const [cl2List, setCl2List] = useState();
@@ -175,7 +175,7 @@ const Fridge = (props) => {
           </IconButton>
         </Box>
         {/* <RadioButton color="primary" justifyContent="flex-start"/> */}
-        <Box my={2}>{isRef ? customAllList :(mainCatName == "전체" ? refLargeList : customSmallList)}</Box>
+        <Box my={2}>{(isRef && mainCatName== "전체") ? customAllList :(mainCatName == "전체" ? refLargeList : customSmallList)}</Box>
       </Box>
       <FloatingActionButton />
       <BottomBar />
