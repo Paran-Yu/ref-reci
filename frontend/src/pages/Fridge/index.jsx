@@ -75,7 +75,6 @@ const Fridge = (props) => {
   const [refLargeList, setRefLargeList] = useState();
 
   const [customAllList, setCustomAllList] = useState();
-  const [isRef, setIsRef] = useState(props.location.state.isRef);
 
   const [selectIng, setSelectIng] = useState([]);
   const [cl2List, setCl2List] = useState();
@@ -105,7 +104,6 @@ const Fridge = (props) => {
     }
   }, []);
 
-  let sendDatas = [];
   const addCnt = (re) => {
     setSelectIng(re);
     console.log("re", re);
@@ -122,7 +120,6 @@ const Fridge = (props) => {
       const allDatas = await getCl2Data(`${server.ip}/fridge/allUserProduct`)
       console.log('데이터 요청 끝')
       setCustomAllList(<SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={allDatas} />)
-      setIsRef(props.location.state.isRef)
 
       console.log("props.location.state.isRef", props.location.state.isRef)
     }
@@ -144,7 +141,7 @@ const Fridge = (props) => {
     setMainCatName(re);
     getRefDt();
   };
-
+  console.log("props.location.state", props.location.state)
   return (
     <Container fixed>
       <TopBar />
