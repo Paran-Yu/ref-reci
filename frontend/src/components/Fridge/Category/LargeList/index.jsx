@@ -37,9 +37,7 @@ const LargeList = (props) => {
             }
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
-                <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
-                  <LargeItem dt={dt} idx={idx} data={data} />
-                </Paper>
+                <LargeItem dt={dt} idx={idx} data={data} />
               </Grid>
             );
           })}

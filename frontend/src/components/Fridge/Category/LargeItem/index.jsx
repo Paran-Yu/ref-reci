@@ -31,10 +31,13 @@ const LargeItem = (props) => {
         },
       }}
       className={st.link}
-      style={{ textDecoration: "none" }}
+      style={{ 
+      height: '100%',
+      textDecoration: "none" 
+      }}
     >
-      {/* <img src={process.env.PUBLIC_URL + '/CatImage/dairy.jpg'} style={{ height: '100%', width: '100%' }}/> */}
-      <ButtonBase className={st.catIt}>{dt.classification1Name}</ButtonBase>
+      <img src={process.env.PUBLIC_URL + `/category_icon/${dt.c1ID}.jpg`} style={{ height: '100%' }}/>
+      {/* <ButtonBase className={st.catIt}>{dt.classification1Name}</ButtonBase> */}
     </NavLink>
   );
 };
