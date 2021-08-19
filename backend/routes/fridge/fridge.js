@@ -23,8 +23,8 @@ function getCurrentDate()
 
 app.get("/read", async (req, res) =>{
     try {
-        const uID = 1;
-        // const uID = req.session.uID;
+        const uID = req.session.uID;
+        // const uID = 1;
         
         const [rows, fields] = await pool.query('SELECT productName, productClassification2 FROM UserProduct WHERE uID = ?', [
             uID
@@ -80,8 +80,8 @@ app.get("/classification2", async (req, res) => {
 })
 
 app.get("/searchUserProduct", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    // const uID = 1;
     
     const cl1 = req.query.cl1ID;
 
@@ -101,8 +101,8 @@ app.get("/searchUserProduct", async (req, res) => {
 })
 
 app.get("/allUserProduct", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    // const uID = 1;
     const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name \
                 FROM UserProduct AS up \
                 JOIN Classification1 AS c1 \

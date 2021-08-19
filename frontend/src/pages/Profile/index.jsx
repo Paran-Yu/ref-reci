@@ -111,19 +111,19 @@ export default function Profile({history}) {
   useEffect(async () => {
     const loginData = await getUserData(`${server.ip}/user/isLogin`);
     console.log(loginData);
-    setUID(1);
-    // if (loginData.value) {
-    //   setUID(loginData.value);
-    //필요한 데이터 가져오기
-      const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
-      setUserID(userInfoData.userID);
-      setUserName(userInfoData.userName);
-      setMyFridgeNum(userInfoData.foodCount);
-      setExpire3Num(userInfoData.expire3FoodCount);
-      setExpiredNum(userInfoData.expiredFoodCount);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+    setUID(loginData.value);
+    const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
+    setUserID(userInfoData.userID);
+    setUserName(userInfoData.userName);
+    setMyFridgeNum(userInfoData.foodCount);
+    setExpire3Num(userInfoData.expire3FoodCount);
+    setExpiredNum(userInfoData.expiredFoodCount);
 
-      const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
-      setPosts(favRecipeData)
+    const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
+    setPosts(favRecipeData)
   }, [])
   
   // 현재 페이지 가져오기

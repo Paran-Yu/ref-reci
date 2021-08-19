@@ -59,8 +59,8 @@ app.get("/tenFavorRecipe", async(req, res) => {
 })
 
 app.get("/favorRecipe", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    // const uID = 1;
 
     try {
         const [rows1, fields1] = await pool.query("SELECT r.rID, r.recipeName AS rName, r.recipeIntroduce AS rIntroduce, r.recipeImage AS rImage FROM Favorites AS f JOIN Recipe AS r ON r.rID = f.rID WHERE f.uID = ?", [
@@ -76,8 +76,8 @@ app.get("/favorRecipe", async (req, res) => {
 })
 
 app.get("/checkFavorRecipe", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    // const uID = 1;
     const rID = req.query.rID;
 
     try {
@@ -100,8 +100,8 @@ app.get("/checkFavorRecipe", async (req, res) => {
 })
 
 app.post("/addFavorRecipe", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    // const uID = 1;
     const rID = req.body.rID;
     const isStar = req.body.isStar;
 

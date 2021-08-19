@@ -218,8 +218,8 @@ app.get("/isLogin", async (req, res) => {
 })
 
 app.get("/userInfo", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    // const uID = 1;
 
     try {
         const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
@@ -262,8 +262,8 @@ app.get("/userInfo", async (req, res) => {
 })
 
 app.post("/checkPassword", async(req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
+    // const uID = 1;
     const inputPassword = req.body.password;
 
     try{
@@ -290,8 +290,8 @@ app.post("/checkPassword", async(req, res) => {
 })
 
 app.post("/changeUserName", async(req, res) => {
-    // const uID = req.session.uID;
-    const uID = 1;
+    const uID = req.session.uID;
+    // const uID = 1;
     
     const userName = req.body.userName;
 
@@ -308,8 +308,8 @@ app.post("/changeUserName", async(req, res) => {
 })
 
 app.post("/changeUserID", async (req, res) => {
-    // const uID = req.session.uID;
-    const uID = 1;
+    const uID = req.session.uID;
+    // const uID = 1;
     
     const userID = req.body.userID;
 
@@ -320,8 +320,8 @@ app.post("/changeUserID", async (req, res) => {
 })
 
 app.post("/changeUserPW", async (req, res) => {
-    // const uID = req.session.uID;
-    const uID = 1;
+    const uID = req.session.uID;
+    // const uID = 1;
     
     const userPW = req.body.userPW;
 
@@ -339,8 +339,8 @@ app.post("/changeUserPW", async (req, res) => {
 })
 
 app.get("/deleteUser", async (req, res) => {
-    // const uID = req.session.uID;
-    const uID = 54;
+    const uID = req.session.uID;
+    // const uID = 54;
     try{
         await pool.query("DELETE FROM User WHERE uID = ?", [
             uID,
