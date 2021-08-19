@@ -58,7 +58,7 @@ export default function RecipeTitle(props) {
   const [isFavorite, setIsFavorite] = useState(props.isStar);
 
   const handleClick = async () => {
-    const datas = await postData(`${server.ip}/recipe/addFavorRecipe`, props.rID, props.isStar);
+    const datas = await postData(`${server.ip}/recipe/addFavorRecipe`, props.rID, isFavorite);
     setIsFavorite(datas)
   }
 
