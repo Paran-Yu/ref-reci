@@ -122,6 +122,7 @@ const Fridge = (props) => {
   const mainCheck = async (c1ID, classification1Name) => {
     catName = classification1Name;
     setMainCatName(classification1Name);
+    console.log(c1ID,classification1Name)
     const datas = await getCl2Data(`${server.ip}/fridge/searchUserProduct?cl1ID=${c1ID}`);
     setCustomSmallList(
       <SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={datas} />
