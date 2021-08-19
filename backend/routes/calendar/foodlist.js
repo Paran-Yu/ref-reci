@@ -5,6 +5,37 @@ const { pool } = require(`../../mysql`)
 
 
 
+app.post('/changeCount', async (req, res) =>{
+    console.log(req.body)
+    let  sql1, sql2;
+    if (req.body.Type === 1){
+        sql1 = `UPDATE refreci.UserProduct SET productCount = productCount-1
+        Where uID = 1 AND productName = ?`
+
+        sql2 = `SELECT productCount as Count
+        FROM refreci.UserProduct
+        WHERE uID=1 AND productName=?`
+    }
+    else if (req.body.Type === 2){
+        sql1 = `UPDATE refreci.UserProduct SET productCount = productCount+1
+        Where uID = 1 AND productName = ?`
+
+        sql2 = `SELECT productCount as Count
+        FROM refreci.UserProduct
+        WHERE uID=1 AND productName=?`
+    }
+    try {
+        await pool.query(sql1, req.body.Name)
+        const data = await pool.query(sql2, req.body.Name)
+        console.log(data[0])
+        res.send(data[0])
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
 
 //dueday 음식 수량 photo
 //classification
