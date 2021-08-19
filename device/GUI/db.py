@@ -98,19 +98,35 @@ class DB:
 
         for d in data:
             print(d)
-            sql = "INSERT INTO UserProduct(uID, productName, productCount, createdDate, productClassification1," \
+            if d['item_expDay'] == "0000-00-00":
+                sql = "INSERT INTO UserProduct(uID, productName, productCount, createdDate, productClassification1," \
                   " productClassification2, productShelfLife, productImage, isDeleted) " \
-                  "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, 0);"
-            try:
-                print((d['user_id'], d['item_name'], d['item_count'], now, d['item_category1_id'],
-                       d['item_category2_id'], d['item_expDay'],d['item_image']))
-                cursor.execute(sql, (d['user_id'],
-                d['item_name'], d['item_count'], now, d['item_category1_id'], d['item_category2_id'], d['item_expDay'],
-                d['item_image']))
-                self.db.commit()
-            except:
-                print(d['item_name'] + "를(을) DB에 정상적으로 추가하지 못했습니다.")
-                return 0
+                  "VALUES(%s, %s, %s, %s, %s, %s, null, %s, 0);"
+                try:
+                    print((d['user_id'], d['item_name'], d['item_count'], now, d['item_category1_id'],
+                           d['item_category2_id'], d['item_image']))
+                    cursor.execute(sql, (d['user_id'],
+                                         d['item_name'], d['item_count'], now, d['item_category1_id'],
+                                         d['item_category2_id'],
+                                         d['item_image']))
+                    self.db.commit()
+                except:
+                    print(d['item_name'] + "를(을) DB에 정상적으로 추가하지 못했습니다.")
+                    return 0
+            else:
+                sql = "INSERT INTO UserProduct(uID, productName, productCount, createdDate, productClassification1," \
+                      " productClassification2, productShelfLife, productImage, isDeleted) " \
+                      "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, 0);"
+                try:
+                    print((d['user_id'], d['item_name'], d['item_count'], now, d['item_category1_id'],
+                           d['item_category2_id'], d['item_expDay'],d['item_image']))
+                    cursor.execute(sql, (d['user_id'],
+                    d['item_name'], d['item_count'], now, d['item_category1_id'], d['item_category2_id'], d['item_expDay'],
+                    d['item_image']))
+                    self.db.commit()
+                except:
+                    print(d['item_name'] + "를(을) DB에 정상적으로 추가하지 못했습니다.")
+                    return 0
 
         return 1
 
@@ -134,6 +150,7 @@ class DB:
               "FROM UserProduct WHERE uID=%s;"
         cursor.execute(sql, user_id)
         result = cursor.fetchall()
+        print(result)
 
         for r in result:
             tmp = dict()
@@ -457,6 +474,25 @@ class DB:
             print("레시피 정보를 가져오는데 실패하였습니다.")
             return 0
 
+    def get_recipe_ingre(self, rid):
+        '''
+        :param rid: 레시피 id
+
+        :return: data: 사용되는 식재료 리스트
+        '''
+        data = []
+        cursor = self.db.cursor()
+
+        ingredient_sql = "SELECT i.ingredientName " \
+                         "FROM Recipe r, Ingredient i, RecipeIngredient ri " \
+                         "WHERE r.rID=%s and r.rID=ri.rID and ri.iID=i.iID;"
+        cursor.execute(ingredient_sql, rid)
+        result = cursor.fetchall()
+        for d in result:
+            data.append(d[0])
+
+        return data
+
     def get_detail_recipe(self, rid):
         '''
         :param rid: 레시피 id
@@ -537,5 +573,6 @@ class DB:
         '''
         pass
 
-db = DB()
-print(db.get_detail_recipe(2))
+
+#db = DB()
+#print(db.get_UserProducts_ShelfLife_sort(1))

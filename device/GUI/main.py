@@ -11,6 +11,7 @@ import barcode_reader
 import voice
 import sys
 import datetime
+import time
 
 
 ## 전역변수
@@ -35,6 +36,7 @@ GPIO.output(LED, False)
 
 # encoder thread
 tm = QTimer()
+tm_login = QTimer()
 # encoderThread = EncoderThread()
 
 
@@ -49,6 +51,13 @@ class StartWindow(QMainWindow):
     #     pass
 
     def clicked_login(self):
+        pass
+
+
+isLogin = 0
+def login():
+    global isLogin
+    if isLogin == 0:
         # QR Login
         global USER_ID
         GPIO.output(LED, True)
@@ -62,6 +71,10 @@ class StartWindow(QMainWindow):
         USER_NAME = refDB.get_User_Name(USER_ID)
         #self.hide()
         QCoreApplication.instance().quit()
+        isLogin = 1
+    else:
+        tm_login.stop()
+
 
 
 # 1 ref_list
@@ -97,6 +110,12 @@ class RefListWindow(QMainWindow):
         self.title_category_list = (self.category_all, self.category_meat, self.category_vegi, self.category_fish, self.category_egg, self.category_other)
         self.title_category_index = 0
         self.main()
+        # encoder signal 연결
+        encoderConnectThread.sw_0.connect(self.encoder_sw)
+        encoderConnectThread.dir_0.connect(self.encoder_dir)
+        self.list_focus_index = 1
+        self.focused = 0
+
 
     def main(self):
         self.read_ref_list()
@@ -121,14 +140,23 @@ class RefListWindow(QMainWindow):
 
         # 정렬
         if self.ref_list_sort_index == 1:
+            now = datetime.date(1000, 1, 1)
+            for ref_list in self.ref_list_list:
+                if ref_list['item_expDay'] == None:
+                    ref_list['item_expDay'] = now
             # 유통기한순
             self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_expDay']))
+            for ref_list in self.ref_list_list:
+                if ref_list['item_expDay'] == now:
+                    ref_list['item_expDay'] = None
         elif self.ref_list_sort_index == 2:
             # 이름순
             self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_name']))
         elif self.ref_list_sort_index == 3:
             # 이름역순
             self.ref_list_list = sorted(self.ref_list_list, key=lambda item: (item['item_name']), reverse=True)
+
+
 
         #print("정렬 후")
         #print(self.ref_list_list)
@@ -166,10 +194,34 @@ class RefListWindow(QMainWindow):
             self.ref_item_list[i].set_ref_item_name(self.ref_list_list[i]['item_name'])
             self.ref_item_list[i].set_ref_item_category(self.ref_list_list[i]['item_category1'])
 
-            self.dday = self.ref_list_list[i]['item_expDay'] - today
-            # print(self.dday)
-            # print(self.dday.days)
-            self.ref_item_list[i].set_ref_item_day("D-{}".format(self.dday.days))
+            if self.ref_list_list[i]['item_expDay']:
+                self.dday = self.ref_list_list[i]['item_expDay'] - today
+                # print(self.dday)
+                # print(self.dday.days)
+                dday_int = int(self.dday.days)
+                if dday_int >= 0:
+                    self.ref_item_list[i].set_ref_item_day("D-{}".format(dday_int))
+                    self.ref_item_list[i].ref_item_day.setStyleSheet("color: #ffffff;\n"
+                                                                     "text-align: center;\n"
+                                                                     "width: 120px;\n"
+                                                                     "height: 40px;\n"
+                                                                     "padding-top: 2px;\n"
+                                                                     "background-color: #29C6EF;\n"
+                                                                     "border-radius: 15px;")
+                else:
+                    dday_int *= -1
+                    self.ref_item_list[i].set_ref_item_day("D+{}".format(dday_int))
+                    self.ref_item_list[i].ref_item_day.setStyleSheet("color: #ffffff;\n"
+                                                                     "text-align: center;\n"
+                                                                     "width: 120px;\n"
+                                                                     "height: 40px;\n"
+                                                                     "padding-top: 2px;\n"
+                                                                     "background-color: #FE3C25;\n"
+                                                                     "border-radius: 15px;")
+            else:
+                self.dday = today - self.ref_list_list[i]['item_createDay']
+                self.ref_item_list[i].set_ref_item_day("D+{}".format(int(self.dday.days)))
+
             self.ref_item_list[i].set_ref_item_count(str(self.ref_list_list[i]['item_count']))
             # click event slot 추가
             self.ref_item_list[i].ref_item_container.clicked.connect(self.clicked_ref_items)
@@ -370,6 +422,49 @@ class RefListWindow(QMainWindow):
         refDB.del_UserProducts(self.ref_item_list[delete_index].upID)
         self.read_ref_list()
 
+    def encoder_sw(self):
+        print("LIST SW")
+        if self.focused == 0:
+            self.ref_item_list[self.list_focus_index].ref_item_container.setStyleSheet("background-color: #F2EDE7;\n"
+                                                                                       "border: 2px solid #F19920")
+            self.focused = 1
+        else:
+            self.ref_item_list[self.list_focus_index].ref_item_container.setStyleSheet("background-color: #F2EDE7;\n"
+                                                                                       "border: 2px solid #CCCCCC")
+
+            self.focused = 0
+
+
+    def encoder_dir(self, direction):
+        print("LIST ROTATE")
+
+        # 0_ semi focus: 제품간 이동
+        if self.focused == 0:
+            self.ref_item_list[self.list_focus_index].ref_item_container.setStyleSheet("background-color: #F2EDE7;\n"
+                                                                                       "border: 0px;")
+            if direction == 1:
+                if self.list_focus_index == len(self.ref_item_list) - 1:
+                    self.list_focus_index = 0
+                else:
+                    self.list_focus_index += 1
+                if self.list_focus_index % 2 == 0:
+                    self.scroll.verticalScrollBar().setValue(192 * self.list_focus_index / 2)
+            elif direction == -1:
+                if self.list_focus_index == 0:
+                    self.list_focus_index = len(self.ref_item_list) - 1
+                else:
+                    self.list_focus_index -= 1
+                if self.list_focus_index % 2 == 1:
+                    self.scroll.verticalScrollBar().setValue(192 * (self.list_focus_index - 1) / 2)
+            self.ref_item_list[self.list_focus_index].ref_item_container.setStyleSheet("background-color: #F2EDE7;\n"
+                                                                                       "border: 2px solid #CCCCCC;")
+
+        # 1_ focus: 수량 변경
+        if self.focused == 1:
+            if direction == 1:
+                self.ref_item_list[self.list_focus_index].clicked_plus()
+            elif direction == -1:
+                self.ref_item_list[self.list_focus_index].clicked_minus()
 
 
 # 2 add items
@@ -431,6 +526,7 @@ class AddWindow(QMainWindow):
 
     # 음성인식 입력 모드
     def clicked_voice(self):
+        print("voice recognition start!!")
         self.voice_btn.setEnabled(False)
         self.barcode_btn.setEnabled(False)
         item_name = voice.run()
@@ -442,7 +538,11 @@ class AddWindow(QMainWindow):
 
         # 바코드 API 실패하면
         else:
-            pass
+            msg = QMessageBox()
+            msg.setWindowTitle("알림")
+            msg.setText("인식에 실패하였습니다.")
+            msg.setStyleSheet("font-size: 24px")
+            msg.exec_()
 
         self.voice_btn.setEnabled(True)
         self.barcode_btn.setEnabled(True)
@@ -462,8 +562,13 @@ class AddWindow(QMainWindow):
             self.set_category2(item_name)
         # 바코드 API 실패하면
         else:
-            pass
-        
+            msg = QMessageBox()
+            msg.setWindowTitle("알림")
+            msg.setText("등록되지 않은 바코드입니다.")
+            msg.setStyleSheet("font-size: 24px")
+            msg.exec_()
+
+        self.voice_btn.setEnabled(True)
         self.barcode_btn.setEnabled(True)
         GPIO.output(LED, False)
 
@@ -472,14 +577,21 @@ class AddWindow(QMainWindow):
         result = refDB.get_Product_category(item_name)
 
         # 소분류 찾기가 성공하면
-        # print(result[-1])
-        self.add_item_name.setText(item_name)
-        self.add_item_category.setText(result[-1][0])
-        self.add_item_count.setText("1")
-        self.add_item_category2 = result[-1][2]
-        self.category_index = result[-1][4] - 1
-        # self.name_list_index = result[-1][5]
-        self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
+        if len(result) != 0:
+            # print(result[-1])
+            self.add_item_name.setText(item_name)
+            self.add_item_category.setText(result[-1][0])
+            self.add_item_count.setText("1")
+            self.add_item_category2 = result[-1][2]
+            self.category_index = result[-1][4] - 1
+            # self.name_list_index = result[-1][5]
+            self.add_item_image.setStyleSheet("border-image: url(img/category2/%s)" % result[-1][3])
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle("알림")
+            msg.setText("등록되지 않은 제품군입니다.")
+            msg.setStyleSheet("font-size: 24px")
+            msg.exec_()
 
     # 뒤로가기, 다음 버튼 클릭 시 모든 값 초기화
     def reset_all(self):
@@ -495,6 +607,8 @@ class AddWindow(QMainWindow):
         self.category_index = -1
         self.name_list_index = 0
         self.count = 0
+        # encoder
+        self.widget_list_index = 0
 
     # 제품분류 클릭시 대분류 이동
     def clicked_category(self):
@@ -640,6 +754,9 @@ class AddWindow(QMainWindow):
         elif self.widget_list_index == 1:
             if self.category_index > -1:
                 self.add_item_name.setText(self.name_list[self.name_list_index][1])
+                self.add_item_category2 = self.name_list[self.name_list_index][1]
+                self.add_item_image.setStyleSheet(
+                    "border-image: url(img/category2/{});".format(self.name_list[self.name_list_index][2]))
 
             if direction == 1:
                 if self.name_list_index == len(self.name_list) - 1:
@@ -651,9 +768,7 @@ class AddWindow(QMainWindow):
                     self.name_list_index = len(self.name_list) - 1
                 else:
                     self.name_list_index -= 1
-            self.add_item_category2 = self.name_list[self.name_list_index - 1][1]
-            self.add_item_image.setStyleSheet(
-                "border-image: url(img/category2/{});".format(self.name_list[self.name_list_index - 1][2]))
+
 
         # exp_year
         elif self.widget_list_index == 2:
@@ -716,6 +831,10 @@ class AddWindow(QMainWindow):
             elif direction == -1:
                 self.clicked_minus()
 
+        # next
+        elif self.widget_list_index == 6:
+            self.clicked_next()
+
 
 # 3 search items
 class SearchWindow(QMainWindow):
@@ -758,15 +877,25 @@ class SearchWindow(QMainWindow):
         for i in range(int(len(self.recipe_result))):
             recipe_layout.setRowMinimumHeight(i, 200)
         print("레시피 총 개수")
-        print(len(self.recipe_result))
+        # print(len(self.recipe_result))
+        # print(len(self.recipe_item_list))
+        self.recipe_item_list = []
         # 위젯 그룹에 리스트 카드 하나씩 넣기
         recipe_groupBox = QGroupBox("")
         for i in range(len(self.recipe_result)):
+            print(self.recipe_result[i]['recipe_id'])
+            ingre = refDB.get_recipe_ingre(self.recipe_result[i]['recipe_id'])
+            print(', '.join(ingre))
+            if i == 50:
+                break
             self.recipe_item_list.append(ReciItem())
             # 데이터 플로팅
+            # print(self.recipe_item_list[i],self.recipe_item_list[i].recipe_item_name )
+            # print(self.recipe_result[i]['recipe_name'])
             self.recipe_item_list[i].recipe_item_name.setText(self.recipe_result[i]['recipe_name'])
             self.recipe_item_list[i].recipe_item_time.setText(self.recipe_result[i]['recipe_time'].split(' ')[0])
             self.recipe_item_list[i].recipe_item_time.setGeometry(QRect(len(self.recipe_result[i]['recipe_name']) * 28 + 312, 16, 80, 40))
+            self.recipe_item_list[i].recipe_item_ingre.setText(', '.join(ingre))
             self.recipe_item_list[i].recipe_item_intro.setText(self.recipe_result[i]['recipe_intro'])
             self.recipe_item_list[i].recipe_item_picture.setStyleSheet("background-color: #FFFFFF;\n"
                                                                        "border-image: url(img/recipe/{});\n"
@@ -877,15 +1006,19 @@ class EncoderConnectThread(QThread):
         # print(direction)
 
 encoderConnectThread = EncoderConnectThread()
-
+isStarted = 0
 def welcome():
-    global USER_NAME
-    msg = QMessageBox()
-    msg.setWindowTitle("Welcome")
-    msg.setText("어서오세요, {}님!".format(USER_NAME))
-    msg.exec_()
-    tm.stop()
-    encoderConnectThread.start()
+    global isStarted
+    # global USER_NAME
+    # msg = QMessageBox()
+    # msg.setWindowTitle("Welcome")
+    # msg.setText("어서오세요, {}님!".format(USER_NAME))
+    # msg.exec_()
+    if isStarted == 0:
+        encoderConnectThread.start()
+        isStarted = 1
+    else:
+        tm.stop()
 
 
 # main
@@ -896,7 +1029,11 @@ if __name__ == "__main__":
     # main class
     app = QApplication(sys.argv)
     startWindow = StartWindow()
+    startWindow.move(0, -24)
     startWindow.show()
+    tm_login.setInterval(100)
+    tm_login.timeout.connect(login)
+    tm_login.start()
     app.exec()
 
     mainWidget = QtWidgets.QStackedWidget()
@@ -904,6 +1041,7 @@ if __name__ == "__main__":
     # sizing main widget
     mainWidget.setFixedWidth(1280)
     mainWidget.setFixedHeight(720)
+    mainWidget.move(0, -24)
 
     # create page instances
     refListWindow = RefListWindow()

@@ -1,9 +1,12 @@
 // React, Router
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import TopBar from "../../../layout/TopBar";
 import BottomBar from "../../../layout/BottomBar";
 import Fab from '../../../layout/FloatingActionButton';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,10 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 
 // Server
 import axios from 'axios';
@@ -293,6 +293,22 @@ export default function SignUpSide({history}) {
     return (
       <Container fixed>
         <TopBar />
+        <Box mt={5}>
+          <Typography
+            variant="h4"
+            color="primary"
+            component={RouterLink}
+            to="/fridge"
+            style={{
+              fontFamily: "Jeju",
+              fontStyle: "normal",
+              fontWeight: "bold",
+              textDecoration: "none",
+            }}
+          >
+            회원 정보 수정
+          </Typography>
+        </Box>
         <Grid container component="main" className={classes.root}>
           <CssBaseline />
           <div className={classes.paper}>
@@ -328,7 +344,6 @@ export default function SignUpSide({history}) {
                         margin="normal"
                         required
                         fullWidth
-                        autoFocus
                         id="email"
                         label="아이디(E-mail)"
                         name="email"
@@ -390,8 +405,6 @@ export default function SignUpSide({history}) {
                     margin="normal"
                     required
                     fullWidth
-                    autoFocus
-                    fullWidth
                     name="password"
                     label="비밀번호"
                     type="password"
@@ -404,7 +417,6 @@ export default function SignUpSide({history}) {
                     margin="normal"
                     required
                     fullWidth
-                    autoFocus
                     name="passwordcheck"
                     label="비밀번호확인"
                     type="password"

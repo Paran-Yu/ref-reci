@@ -37,7 +37,7 @@ const CardList = (props) => {
     <div className={classes.root}>
       <Grid container spacing={2}>
         {data.map((dt, idx) => (
-          <Grid item justifyContent="center" alignItems="center" key={idx} xs={12} sm={6} md={4}>
+          <Grid item justifyContent="center" alignItems="center" key={idx} xs={12} md={6} lg={4}>
             <CardItem dt={dt} idx={idx} dt2={data2[idx]}/>
           </Grid>
         ))}

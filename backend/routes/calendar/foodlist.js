@@ -46,7 +46,7 @@ app.get('/get7days', async (req, res) => {
     FROM refreci.UserProduct as b
     right join refreci.Classification2 as a
     on b.productClassification2 = a.c2ID
-    Where b.uID=? AND DATEDIFF(productShelfLife, now()) <= 7
+    Where b.uID=? AND DATEDIFF(productShelfLife, now()) <= 8
     Order by DATEDIFF(productShelfLife, now()) ASC`
 
     try {
@@ -56,7 +56,7 @@ app.get('/get7days', async (req, res) => {
         for (let i=0; i<data[0].length; i++) {
             let jsonObj		= new Object();
             jsonObj.Img = data[0][i].Img
-            jsonObj.Dday = data[0][i].Dday;
+            jsonObj.Dday = data[0][i].Dday-1;
             jsonObj.Name = data[0][i].Name;
             jsonObj.Count = data[0][i].Count;
             jsonObj = JSON.stringify(jsonObj);
@@ -87,7 +87,7 @@ app.get('/getAllItem', async (req, res) => {
         for (let i=0; i<data[0].length; i++) {
             let jsonObj		= new Object();
             jsonObj.Img = data[0][i].Img
-            jsonObj.Dday = data[0][i].Dday;
+            jsonObj.Dday = data[0][i].Dday-1;
             jsonObj.Name = data[0][i].Name;
             jsonObj.Count = data[0][i].Count;
             
@@ -106,6 +106,7 @@ app.get('/getAllItem', async (req, res) => {
 
 app.post("/getItems", async (req, res) =>{
     const uID = 1
+    let diffDay;
     console.log(req.body)
     let type
     let  sql
@@ -129,6 +130,8 @@ app.post("/getItems", async (req, res) =>{
         right join refreci.Classification2 as a
         on b.productClassification2 = a.c2ID
         Where b.uID=? AND productShelfLife = ?;`
+
+        diffDay = Math.floor((getDate - date) / 1000 / 60 / 60 / 24)
 
         getyear = getDate.getFullYear().toString();
         getmonth = getDate.getMonth() + 1;
@@ -158,7 +161,7 @@ app.post("/getItems", async (req, res) =>{
         for (let i=0; i<data[0].length; i++) {
             let jsonObj		= new Object();
             jsonObj.Img = data[0][i].Img
-            jsonObj.Dday = data[0][i].Dday;
+            jsonObj.Dday = diffDay;
             jsonObj.Name = data[0][i].Name;
             jsonObj.Count = data[0][i].Count;
             jsonObj = JSON.stringify(jsonObj);

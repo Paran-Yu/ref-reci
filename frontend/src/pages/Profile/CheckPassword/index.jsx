@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import { Link as RouterLink } from "react-router-dom";
 import TopBar from "../../../layout/TopBar";
 import BottomBar from "../../../layout/BottomBar";
 import Fab from '../../../layout/FloatingActionButton';
-
 
 import Typography  from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -88,7 +88,23 @@ export default function CheckPassword({history, match}) {
     <Container fixed>
       <TopBar />
       <Box m={5} justifyContent="center" alignItems="center">
-        <Container maxWidth="md">
+        <Box mt={5}>
+          <Typography
+            variant="h4"
+            color="primary"
+            component={RouterLink}
+            to="/fridge"
+            style={{
+              fontFamily: "Jeju",
+              fontStyle: "normal",
+              fontWeight: "bold",
+              textDecoration: "none",
+            }}
+          >
+            비밀번호 확인
+          </Typography>
+        </Box>
+        <Container maxWidth="sm">
           <Typography>
             회원정보를 수정하시려면 비밀번호를 입력하세요.
           </Typography>

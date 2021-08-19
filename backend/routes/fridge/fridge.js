@@ -84,11 +84,29 @@ app.get("/searchUserProduct", async (req, res) => {
     const cl1 = req.query.cl1ID;
 
     try {
+        let list = [];
         const [rows, fields] = await pool.query('SELECT upID, productClassification2, productName, productCount, productShelfLife, productImage FROM UserProduct WHERE uID = ? AND productClassification1 = ?', [
             uID,
             cl1
         ])
-        res.json(rows);
+        let len = rows.length;
+        for(let i=0; i<len; i++){
+            let tmp_obj = new Object();
+            tmp_obj.upID = rows[i].upID;
+            tmp_obj.productClassification2 = rows[i].productClassification2;
+            tmp_obj.productName = rows[i].productName;
+            tmp_obj.productCount = rows[i].productCount;
+            tmp_obj.productImage = rows[i].productImage;
+            if (rows[i].productShelfLife === null){
+                tmp_obj.productShelfLife = "0000-00-00"
+            }
+            else{
+                tmp_obj.productShelfLife = rows[i].productShelfLife;
+            }
+            list.push(tmp_obj)
+        }
+
+        res.json(list);
     }
     catch (err) {
         console.log(err)
@@ -98,7 +116,7 @@ app.get("/searchUserProduct", async (req, res) => {
 
 app.get("/allUserProduct", async (req, res) => {
     const uID = req.session.uid;
-    const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name \
+    const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name, up.productClassification2 \
                 FROM UserProduct AS up \
                 JOIN Classification1 AS c1 \
                 ON up.productClassification1 = c1.c1ID \
