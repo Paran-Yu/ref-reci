@@ -82,7 +82,7 @@ const SmallItem = (props) => {
   let check = false;
   const addDt = () => {
     handleClose();
-    props.showDt(dt.productName);
+    props.showDt(dt.productName, dt.productClassification2);
   };
   const editShelfLife = dt.productShelfLife.slice(0, 10)
 

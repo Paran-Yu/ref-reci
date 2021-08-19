@@ -51,10 +51,11 @@ export default function RecipeDetail({match}) {
   useEffect(async () => {
     rID = match.params.rid;
     const datas = await getRecipe(`${server.ip}/recipe/detail?rID=${rID}`);
+    const isFavor = await getRecipe(`${server.ip}/recipe/checkFavorRecipe?rID=${rID}`);
+    console.log("isFavor", isFavor);
 
-    setCustomRecipeTitle(<RecipeTitle datas={datas[0]} />)
+    setCustomRecipeTitle(<RecipeTitle datas={datas[0]} isStar={isFavor} rID={rID}/>)
     setCustomRecipeContent(<RecipeContent datas1={datas[1]} datas2={datas[2]} />)
-    
   }, [])
 
   return (
