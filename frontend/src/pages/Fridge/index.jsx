@@ -114,7 +114,9 @@ const Fridge = (props) => {
         <Divider />
         <Box justifyContent="space-between" alignItems="center">
           <Breadcrumb catName={mainCatName} goBack={goBack.bind()} />
-          <ShowChoiceButton selectIng={selectIng} />
+          <ShowChoiceButton selectIng={selectIng} onClick={() => {
+            console.log("HI 나는 recipe로 넘어가는 버튼")
+          }} />
         </Box>
         <RadioButton />
         {mainCatName == "전체" ? refLargeList : customSmallList}
