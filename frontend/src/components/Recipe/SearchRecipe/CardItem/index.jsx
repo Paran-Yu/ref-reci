@@ -76,7 +76,8 @@ const CardItem = (props) => {
             {dt2.map((data, idx) => {
               return (
                 <li key={data.key} className={classes.chip}>
-                  <Chip label={data} className={classes.chip} />
+                  {(idx < dt.count) ? (<Chip label={data} className={classes.chip} />) :
+                  (<Chip label={data} className={classes.chip} />)}
                 </li>
               );
             })}
