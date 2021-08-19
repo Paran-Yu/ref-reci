@@ -87,14 +87,18 @@ export default function DeleteUser() {
             회원 탈퇴
           </Typography>
         </Box>
-        <Typography>
-          정말로 탈퇴하시겠습니까?
-          냉장고를 효과적으로 관리하기에는 리프레시가 짱이에요
-        </Typography>
+        <Box my={5}>
+          <Typography>
+            정말로 탈퇴하시겠습니까?
+          </Typography>
+          <Typography>
+            모든 정보는 탈퇴 즉시 삭제되며 탈퇴를 취소할 수 없습니다.
+          </Typography>
+        </Box>
         <Button
           onClick={clickHandler}
         >
-          확인
+          탈퇴
         </Button>
       </Box>
       <Fab />
