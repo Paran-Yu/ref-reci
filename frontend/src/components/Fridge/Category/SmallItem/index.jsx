@@ -11,7 +11,6 @@ import {
   CardMedia,
   CardContent,
 } from "@material-ui/core";
-import IngTask from "../DetailModal";
 import AddIcon from "@material-ui/icons/Add";
 
 import server from "../../../../server.json";
@@ -75,8 +74,6 @@ const SmallItem = (props) => {
   return (
     <div className={classes.btn}>
       <Card onClick={handleOpen} className={!check ? classes.card : classes.card2}>
-        {/* <CardActionArea className={classes.card}>{dt.productName}</CardActionArea> */}
-
         <CardActionArea>
           <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.productImage}`} />
           <CardContent>
@@ -108,7 +105,6 @@ const SmallItem = (props) => {
             <Button size="small" onClick={addDt.bind()}>
               <AddIcon />
             </Button>
-            <IngTask />
           </div>
         </Fade>
       </Modal>
@@ -116,3 +112,6 @@ const SmallItem = (props) => {
   );
 };
 export default SmallItem;
+
+// 유통기한 조절 (날짜 조정)
+// 수량 조절 (캘린더랑 똑같이 함)

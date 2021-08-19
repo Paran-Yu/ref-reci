@@ -1,6 +1,6 @@
 import React from "react";
 import { ButtonBase, makeStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   catIt: {
@@ -21,7 +21,7 @@ const LargeItem = (props) => {
   const st = useStyles();
 
   return (
-    <Link
+    <NavLink
       to={{
         pathname: "/fridge",
         state: {
@@ -33,8 +33,12 @@ const LargeItem = (props) => {
       className={st.link}
       style={{ textDecoration: "none" }}
     >
+      {/* <img src={process.env.PUBLIC_URL + '/CatImage/dairy.jpg'} style={{ height: '100%', width: '100%' }}/> */}
       <ButtonBase className={st.catIt}>{dt.classification1Name}</ButtonBase>
-    </Link>
+    </NavLink>
   );
 };
 export default LargeItem;
+
+
+{/* <a href="https://kr.freepik.com/photos/food">Food 사진는 Racool_studio - kr.freepik.com가 제작함</a> */}

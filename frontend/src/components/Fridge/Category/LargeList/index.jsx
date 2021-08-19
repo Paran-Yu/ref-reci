@@ -1,6 +1,6 @@
 import Ract, { useState, useEffect } from "react";
 import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
-import CatItem from "../LargeItem";
+import LargeItem from "../LargeItem";
 
 // Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,7 @@ const LargeList = (props) => {
             return (
               <Grid item key={idx} dt={dt} xs={4} lg={3} spacing={3} className={classes.MainGrid}>
                 <Paper className={classes.grid} fullwidth style={{ backgroundColor: color }}>
-                  <CatItem dt={dt} idx={idx} data={data} />
+                  <LargeItem dt={dt} idx={idx} data={data} />
                 </Paper>
               </Grid>
             );
