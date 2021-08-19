@@ -26,7 +26,7 @@ class EncoderThread(QThread):
         GPIO.setup(self.CLK, GPIO.IN)
 
     def clicked_sw(self, pin):
-        print("CLICK")
+        #print("CLICK")
         self.sw_detected.emit()
 
     def get_direction(self):
