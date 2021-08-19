@@ -1,6 +1,8 @@
-import { react, useState } from "react";
-import { Grid, makeStyles, Paper } from "@material-ui/core";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from '@material-ui/core/Grid';
 import IngItem from "../SmallItem";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SmallList = (props) => {
   const classes = useStyles();
-  // const data = catDt;
   const datas = props.datas;
   let list = [];
   
@@ -40,35 +41,26 @@ const SmallList = (props) => {
 
     if (!check){
       list = list.concat({ name: productName, category: productID });
-      console.log("추가됨")
     } 
     else {
       list = list.filter((Ing) => Ing.name != productName);
-      console.log("삭제됨")
     }
     props.addCnt(list);
-    // console.log("list", list);//선택되어 있는 유저제품 아이디들, 이름들이 담겨 있음
-
-
   };
 
   return (
     <div className={classes.root}>
-      <Grid xs={12}>
-        <Grid container>
-          {datas.map((dt, idx) => (
-            <Grid item className={classes.MainGrid} key={idx} xs={4} lg={3}>
-              <Paper className={classes.grid}>
-                <IngItem
-                  selectIng={props.selectIng}
-                  dt={dt}
-                  cnt={props.cnt}
-                  showDt={showDt.bind()}
-                />
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+      <Grid container spacing={2}>
+        {datas.map((dt, idx) => (
+          <Grid item key={idx} xs={4} lg={3}>
+            <IngItem
+              selectIng={props.selectIng}
+              dt={dt}
+              cnt={props.cnt}
+              showDt={showDt.bind()}
+            />
+          </Grid>
+        ))}
       </Grid>
     </div>
   );
