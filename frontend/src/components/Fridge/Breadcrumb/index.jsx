@@ -8,6 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import HomeIcon from "@material-ui/icons/Home";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { ButtonBase } from "@material-ui/core";
+
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.grey[100],
@@ -22,10 +23,9 @@ const StyledBreadcrumb = withStyles((theme) => ({
       backgroundColor: emphasize(theme.palette.grey[300], 0.12),
     },
   },
-}))(Chip); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
-function handleCli(re) {
-  console.info("You clicked a breadcrumb.");
-}
+}))(Chip);
+
+
 
 export default function CustomizedBreadcrumbs(props) {
   return (

@@ -140,7 +140,9 @@ export default function Profile({history}) {
         <Typography
         variant="h4"
         color="primary"
-        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold'}}
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+        component={RouterLink}
+        to="/profile"
         >
           마이페이지
         </Typography>

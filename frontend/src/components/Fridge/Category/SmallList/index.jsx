@@ -1,6 +1,5 @@
 import { React, useState } from "react";
 import { Grid, makeStyles, Paper } from "@material-ui/core";
-// import catDt from "./dump.json";
 import IngItem from "../SmallItem";
 
 const useStyles = makeStyles((theme) => ({

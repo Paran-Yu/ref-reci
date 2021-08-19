@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
@@ -128,7 +130,9 @@ export default function Calendar() {
         <Typography
         variant="h4"
         color="primary"
-        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold'}}
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+        component={RouterLink}
+        to="/calendar"
         >
           유통기한 관리
         </Typography>
