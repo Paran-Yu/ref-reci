@@ -31,28 +31,29 @@ const useStyles = makeStyles((theme) => ({
   intro: {
     display: 'flex',
     justifyContent: 'flex-start',
-    alignItems: 'space-around'
+    alignItems: 'space-around',
+    maxHeight: 300,
   },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  content: {
-    flex: '1 0 auto',
-  },
-  cover: {
-    width: '100%',
-    maxWidth: 200,
-    objectFit: 'cover',
-  }
+  // details: {
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  // title: {
+  //   display: 'flex',
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  // },
+  // content: {
+  //   flex: '1 0 auto',
+  // },
+  // cover: {
+  //   width: '100%',
+  //   maxWidth: 200,
+  //   objectFit: 'cover',
+  // }
 }));
 
 const showDday = (date) => {
@@ -121,22 +122,26 @@ export default function FoodList(props) {
       <Box m={2}>
         <Paper>
           <Grid container alignItems="center" className={classes.intro}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6}>
                 <img className={classes.img} src={props.url} />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6}>
               <Box p={1} className={classes.title}>
-                <Typography component="h5" variant="h5">
-                  {props.foodName}
-                </Typography>
-                <Chip 
-                  label={dDay}
-                  color="primary"
-                />
+                <Box p={1}>
+                  <Typography component="h5" variant="h5">
+                    {props.foodName}
+                  </Typography>
+                </Box>
+                <Box p={1}>
+                  <Chip 
+                    label={dDay}
+                    color="primary"
+                  />
+                </Box>
               </Box>
               <Divider orientation="horizontal" variant="middle"/>
               <Box>
-                <Grid p={1} container>
+                <Grid p={1} container alignItems="center">
                   <Grid item xs={4}>
                     <IconButton>
                       <RemoveIcon onClick={onMinusClick}/>
