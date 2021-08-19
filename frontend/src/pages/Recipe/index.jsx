@@ -220,7 +220,30 @@ const Recipe = (props) => {
       <Box>
         {recipeid1.length === 0 ? (
           <Box>
-            아직 선택하신 식재료로 만들 수 있는 레시피가 없습니다. 다른 재료로 검색해보세요!
+            <Typography
+              variant="h6"
+              color="secondary"
+              style={{
+                fontFamily: "KoPubWorld",
+                fontStyle: "normal",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+            >
+              아직 선택하신 식재료로 만들 수 있는 레시피가 없습니다.
+            </Typography>
+            <Typography
+              variant="h6"
+              color="secondary"
+              style={{
+                fontFamily: "KoPubWorld",
+                fontStyle: "normal",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+            >
+              다른 재료로 검색해보세요!
+            </Typography>
           </Box>
         ) : (
           <Pagination
