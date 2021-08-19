@@ -79,6 +79,20 @@ const postPW = async (url, userPW) => {
     }
 }
 
+const getFavData = async (url) => {
+  try {
+    const data = await axios({
+      method: "get",
+      url: url,
+      headers: {
+        accept: "application/json",
+      },
+    });
+    return data.data;
+  } catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+};
 
 function Copyright() {
     return (
@@ -163,6 +177,13 @@ export default function SignUpSide({history}) {
         setPasswordSame(true);
       }
     }, [password, passwordCheck])
+
+    useEffect(()=>{
+      const loginData = await getFavData(`${server.ip}/user/isLogin`);
+      if (loginData.value === undefined) {
+        window.location.replace("http://i5a203.p.ssafy.io/signin")
+      }
+    })
 
     const onChangeUserName = (e) => {
       setUserName(e.target.value);
