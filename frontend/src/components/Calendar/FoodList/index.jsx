@@ -42,8 +42,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const showDday = (date) => {
+  console.log(date)
   if (date < 0) {
-    console.log('음수')
+    // console.log('음수')
     return ('D + ' + String(Math.abs(date)))
   } else {
     return ('D - ' + String(date))
@@ -78,10 +79,8 @@ export default function FoodList(props) {
   const [count, setCount] = useState(props.foodCount)
   const classes = useStyles();
   const dDay = showDday(props.foodDday);
-
   //- 버튼이 클릭됐을 때 동작하는 함수
   async function onMinusClick (){
-    console.log(props.foodName, props.foodCount)
     // console.log('마이너스 클릭')
     const cnt = await postCount(`${server.ip}/foodlist/changeCount`, props.foodName, 1)
     // console.log(cnt[0].Count)
