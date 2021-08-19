@@ -42,11 +42,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const showDday = (date) => {
-  console.log(date)
-  if (date < 0) {
+  if(date == null){
+    return ('미정')
+  }
+  else if (date < 0) {
     // console.log('음수')
     return ('D + ' + String(Math.abs(date)))
-  } else {
+  } else if (date >= 0) {
     return ('D - ' + String(date))
   }
 };
