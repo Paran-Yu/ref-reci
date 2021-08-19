@@ -266,63 +266,69 @@ export default function SignInSide({history}) {
                 </Grid>
               </Grid>
               <hr></hr>
-              <Grid className={classes.socialbtn}>
-                <Button>
-                  <img 
-                  src={process.env.PUBLIC_URL + '/images/github.png'}
-                  onClick={()=>{
-                    window.location.href="https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"
-                  }}
-                  />
-                </Button>
-                <br></br>
-                <Button>
-                  <img 
-                  src={process.env.PUBLIC_URL + '/images/google.png'}
-                  onClick={()=>{
-                    window.location.href="https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"
-                  }}
-                  />
-                </Button>
-                <br />
-                <Button>
-                  <img 
-                  src={process.env.PUBLIC_URL + '/images/kakao.png'}
-                  onClick={() => {
-                    Kakao.Auth.login({
-                      success: function (response) {
-                        Kakao.API.request({
-                          url: '/v2/user/me',
-                          success: async function (response) {
-                            console.log(response)
-                            const data = await axios({
-                              method: 'post',
-                              url: `${server.ip}/callback/kakao`,
-                              data: {
-                                id: response.id,
-                                userName: response.properties.nickname
+              <Box my={2}>
+                <Grid className={classes.socialbtn}>
+                  <Grid item xs={12}>
+                    <Button>
+                      <img 
+                      src={process.env.PUBLIC_URL + '/images/github.png'}
+                      onClick={()=>{
+                        window.location.href="https://github.com/login/oauth/authorize?client_id=2d34711451a62f8f967d&redirect_uri="+server.ip+"/callback/github"
+                      }}
+                      />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button>
+                      <img 
+                      src={process.env.PUBLIC_URL + '/images/google.png'}
+                      onClick={()=>{
+                        window.location.href="https://accounts.google.com/o/oauth2/v2/auth?client_id=14050797265-gchj4gpfqu6fmdet41v1g34mc53hdoic.apps.googleusercontent.com&redirect_uri="+server.ip+"/callback/google&response_type=code&scope=profile"
+                      }}
+                      />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button>
+                      <img 
+                      src={process.env.PUBLIC_URL + '/images/kakao.png'}
+                      onClick={() => {
+                        Kakao.Auth.login({
+                          success: function (response) {
+                            Kakao.API.request({
+                              url: '/v2/user/me',
+                              success: async function (response) {
+                                console.log(response)
+                                const data = await axios({
+                                  method: 'post',
+                                  url: `${server.ip}/callback/kakao`,
+                                  data: {
+                                    id: response.id,
+                                    userName: response.properties.nickname
+                                  },
+                                  headers: {
+                                    accept: 'application/json',
+                                  },
+                                });
+                                console.log(data);
+                                if (data.data.value === 'Success') history.push("/");
+                                else if (data.data.value === 'Error') alert('로그인 과정에서 예상치 못한 문제가 발생했습니다.');
                               },
-                              headers: {
-                                accept: 'application/json',
+                              fail: function (error) {
+                                alert('로그인 중 에러 발생')
                               },
-                            });
-                            console.log(data);
-                            if (data.data.value === 'Success') history.push("/");
-                            else if (data.data.value === 'Error') alert('로그인 과정에서 예상치 못한 문제가 발생했습니다.');
+                            })
                           },
                           fail: function (error) {
                             alert('로그인 중 에러 발생')
                           },
                         })
-                      },
-                      fail: function (error) {
-                        alert('로그인 중 에러 발생')
-                      },
-                    })
-                  }}
-                  />
-                  </Button>
-              </Grid>
+                      }}
+                      />
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
               <Box mt={5}>
                 <Copyright />
               </Box>
