@@ -157,7 +157,12 @@ export default function Calendar() {
               {flagState?
                 null
               :
-                (<Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length / postPerPage)} color="primary" />)
+                (<Pagination onChange={paginate} page={currentPage} 
+                  count={Math.ceil(posts.length / postPerPage)} 
+                  color="primary" 
+                  style={{      display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'}} />)
               }
               
               </Box>
