@@ -17,6 +17,7 @@ const getEvents = async (url) => {
     const data = await axios({
       method: 'GET',
       url: url,
+      withCredentials: true,
       headers: { 
         accept: 'application/json'
       }
