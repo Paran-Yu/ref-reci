@@ -20,6 +20,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     elevation: 5,
   },
+  img: {
+    width: '100%',
+  },
+  chip: {
+    margin: '3px',
+  },
+  intro: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'space-around'
+  },
   details: {
     display: 'flex',
     flexDirection: 'column',
@@ -105,7 +116,45 @@ export default function FoodList(props) {
   if (props.foodName !== "undefined") {
     return (
       <Box m={2}>
-        <Card className={classes.root}>
+        <Paper>
+          <Grid container alignItems="center" className={classes.intro}>
+            <Grid item xs={12} md={6}>
+                <img className={classes.img} src={props.url} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box p={1} className={classes.title}>
+                <Typography component="h5" variant="h5">
+                  {props.foodName}
+                </Typography>
+                <Chip 
+                  label={dDay}
+                  color="primary"
+                />
+              </Box>
+              <Divider orientation="horizontal" variant="middle"/>
+              <Box>
+                <Grid p={1} container>
+                  <Grid item xs={4}>
+                    <IconButton>
+                      <RemoveIcon onClick={onMinusClick}/>
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {count}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <IconButton>
+                      <AddIcon onClick={onPlusClick}/>
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+        {/* <Card className={classes.root}>
           <CardMedia
             component="img"
             alt="recipe-image"
@@ -143,7 +192,7 @@ export default function FoodList(props) {
               </Grid>
             </CardContent>
           </div>
-        </Card>
+        </Card> */}
       </Box>
     )
   } else {
