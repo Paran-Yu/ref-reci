@@ -178,7 +178,7 @@ export default function SignUpSide({history}) {
       }
     }, [password, passwordCheck])
 
-    useEffect(()=>{
+    useEffect(async ()=>{
       const loginData = await getFavData(`${server.ip}/user/isLogin`);
       if (loginData.value === undefined) {
         window.location.replace("http://i5a203.p.ssafy.io/signin")
