@@ -10,18 +10,20 @@ import {
   Typography,
   CardMedia,
   CardContent,
+  TextField,
 } from "@material-ui/core";
 import IngTask from "../DetailModal";
 import AddIcon from "@material-ui/icons/Add";
-import Divider from '@material-ui/core/Divider';
-import Chip from '@material-ui/core/Chip';
-import IconButton from '@material-ui/core/IconButton';
-import RemoveIcon from '@material-ui/icons/Remove';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import Divider from "@material-ui/core/Divider";
+import Chip from "@material-ui/core/Chip";
+import IconButton from "@material-ui/core/IconButton";
+import RemoveIcon from "@material-ui/icons/Remove";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
 import axios from 'axios';
 import server from '../../../../server.json'
+import DetailModal from "../DetailModal";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -43,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   title: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   image: {
-    width: '100%',
+    width: "100%",
     maxWidth: 300,
   },
   media: {
@@ -103,13 +105,11 @@ const SmallItem = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  
-  let check = false;
   const addDt = () => {
     handleClose();
     props.showDt(dt.productName, dt.productClassification2);
   };
-  const editShelfLife = dt.productShelfLife.slice(0, 10)
+  const editShelfLife = dt.productShelfLife.slice(0, 10);
 
   async function onMinusClick() {
     // console.log(dt.productName, dt.productCount)
@@ -128,14 +128,14 @@ const SmallItem = (props) => {
 
   return (
     <div className={classes.btn}>
-      <Card onClick={handleOpen} className={!check ? classes.card : classes.card2}>
+      <Card onClick={handleOpen} elevation={0}>
         {/* <CardActionArea className={classes.card}>{dt.productName}</CardActionArea> */}
 
         <CardActionArea>
           <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.productImage}`} />
           <CardContent>
             <Box>
-              <Typography variant="h5" component="h2" >
+              <Typography variant="h5" component="h2">
                 {dt.productName}
               </Typography>
             </Box>
@@ -166,16 +166,12 @@ const SmallItem = (props) => {
               </Grid>
               <Grid item>
                 <Box>
-                  <Box p={1} className={classes.title}>
+                  <Box p={1} className={classes.modal}>
                     <Typography component="h5" variant="h5">
                       {dt.productName}
                     </Typography>
-                    <Chip 
-                      label="d-day"
-                      color="primary"
-                    />
                   </Box>
-                  <Divider orientation="horizontal" variant="middle"/>
+                  <Divider orientation="horizontal" variant="middle" />
                   <Box p={1} className={classes.title}>
                     <IconButton onClick={onMinusClick}>
                       <RemoveIcon />
@@ -186,6 +182,9 @@ const SmallItem = (props) => {
                     <IconButton onClick={onPlusClick}>
                       <AddIcon />
                     </IconButton>
+                  </Box>
+                  <Box p={1}>
+                    <DetailModal dt={dt} />
                   </Box>
                 </Box>
               </Grid>

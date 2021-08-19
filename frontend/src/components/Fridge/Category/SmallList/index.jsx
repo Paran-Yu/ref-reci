@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from '@material-ui/core/Grid';
+import { react, useState } from "react";
+import { Grid, makeStyles, Paper } from "@material-ui/core";
 import IngItem from "../SmallItem";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,9 +24,10 @@ const useStyles = makeStyles((theme) => ({
 
 const SmallList = (props) => {
   const classes = useStyles();
+  // const data = catDt;
   const datas = props.datas;
   let list = [];
-  
+
   const showDt = (productName, productID) => {
     let check = false;
     if (list.length == 0) list = props.selectIng;
@@ -38,29 +37,32 @@ const SmallList = (props) => {
         break;
       }
     }
-
-    if (!check){
+    if (!check) {
       list = list.concat({ name: productName, category: productID });
-    } 
-    else {
+    } else {
       list = list.filter((Ing) => Ing.name != productName);
     }
     props.addCnt(list);
+    // console.log("list", list);//선택되어 있는 유저제품 아이디들, 이름들이 담겨 있음
   };
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={2}>
-        {datas.map((dt, idx) => (
-          <Grid item key={idx} xs={4} lg={3}>
-            <IngItem
-              selectIng={props.selectIng}
-              dt={dt}
-              cnt={props.cnt}
-              showDt={showDt.bind()}
-            />
-          </Grid>
-        ))}
+      <Grid xs={12}>
+        <Grid container>
+          {datas.map((dt, idx) => (
+            <Grid item className={classes.MainGrid} key={idx} xs={4} lg={3}>
+              <Paper className={classes.grid}>
+                <IngItem
+                  selectIng={props.selectIng}
+                  dt={dt}
+                  cnt={props.cnt}
+                  showDt={showDt.bind()}
+                />
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
     </div>
   );
