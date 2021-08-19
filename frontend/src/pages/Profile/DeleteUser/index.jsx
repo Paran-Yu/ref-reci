@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
+import { Link as RouterLink } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import TopBar from '../../../layout/TopBar';
+import BottomBar from '../../../layout/BottomBar';
+import Fab from '../../../layout/FloatingActionButton';
 
 import axios from 'axios';
 import server from '../../../server.json';
@@ -60,16 +67,37 @@ export default function DeleteUser() {
   })
 
   return (
-    <div>
-      <div>
-        정말로 탈퇴하시겠습니까?
-        냉장고를 효과적으로 관리하기에는 리프레시가 짱이에요
-      </div>
-      <Button
-        onClick={clickHandler}
-      >
-        확인
-      </Button>
-    </div>
+    <Container fixed>
+      <TopBar />
+      <Box my={3}>
+        <Box mt={5}>
+          <Typography
+            variant="h4"
+            color="primary"
+            component={RouterLink}
+            to="/fridge"
+            style={{
+              fontFamily: "Jeju",
+              fontStyle: "normal",
+              fontWeight: "bold",
+              textDecoration: "none",
+            }}
+          >
+            회원 탈퇴
+          </Typography>
+        </Box>
+        <Typography>
+          정말로 탈퇴하시겠습니까?
+          냉장고를 효과적으로 관리하기에는 리프레시가 짱이에요
+        </Typography>
+        <Button
+          onClick={clickHandler}
+        >
+          확인
+        </Button>
+      </Box>
+      <Fab />
+      <BottomBar />
+    </Container>
   )
 }
