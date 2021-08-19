@@ -175,7 +175,7 @@ const Fridge = (props) => {
           </IconButton>
         </Box>
         {/* <RadioButton color="primary" justifyContent="flex-start"/> */}
-        <Box my={2}>{(isRef && mainCatName== "전체") ? customAllList :(mainCatName == "전체" ? refLargeList : customSmallList)}</Box>
+        <Box m={3}>{(isRef && mainCatName== "전체") ? customAllList :(mainCatName == "전체" ? refLargeList : customSmallList)}</Box>
       </Box>
       <FloatingActionButton />
       <BottomBar />
