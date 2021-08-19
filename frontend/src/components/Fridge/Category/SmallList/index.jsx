@@ -1,6 +1,5 @@
-import { React, useState } from "react";
+import { react, useState } from "react";
 import { Grid, makeStyles, Paper } from "@material-ui/core";
-// import catDt from "./dump.json";
 import IngItem from "../SmallItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,19 +27,29 @@ const SmallList = (props) => {
   // const data = catDt;
   const datas = props.datas;
   let list = [];
-  const showDt = (re) => {
+  
+  const showDt = (productName, productID) => {
     let check = false;
     if (list.length == 0) list = props.selectIng;
     for (let i = 0; i < list.length; i++) {
-      if (list[i] == re) {
+      if (list[i].category == productID) {
         check = true;
         break;
       }
     }
 
-    if (!check) list = list.concat(re);
-    else list = list.filter((Ing) => Ing != re);
+    if (!check){
+      list = list.concat({ name: productName, category: productID });
+      console.log("추가됨")
+    } 
+    else {
+      list = list.filter((Ing) => Ing.name != productName);
+      console.log("삭제됨")
+    }
     props.addCnt(list);
+    // console.log("list", list);//선택되어 있는 유저제품 아이디들, 이름들이 담겨 있음
+
+
   };
 
   return (

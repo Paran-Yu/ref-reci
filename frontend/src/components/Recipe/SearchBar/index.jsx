@@ -40,13 +40,12 @@ const postDatas = async (url, cl2) => {
 export default function SearchBar(props) {
   const classes = useStyles();
   const [selectedOptions, setSelectedOptions] = useState([]);
+  // const [defaultDatas, setDefaultDatas] = useState([]);
   
 
   const handleChange = async (event, value) => {
     setSelectedOptions(value);
-
-    console.log(event);
-    console.log(value);
+    console.log("value",value);
   
     const len = value.length;
     let selectedSet = new Set();
@@ -58,13 +57,14 @@ export default function SearchBar(props) {
     
     //소분류로 레시피들을 찾아옴
     const recipes = await postDatas(`${server.ip}/recipe/search`, selectedArr)
-    console.log(recipes);
+    console.log("selectedArr", selectedArr);
     //부모에서 내려준 함수로  레시피 아이디들, 선택된 재료의 소분류를 넘김
     props.onChildChange(recipes, selectedArr);
     
   }
   
   const allFoodItems = props.datas;
+  const defaultDatas = props.defaultDatas;
   
   return (
     <div className={classes.root}>
@@ -75,6 +75,7 @@ export default function SearchBar(props) {
         getOptionLabel={(option) => option.name}
         filterSelectedOptions
         onChange={handleChange}
+        defaultValue={defaultDatas}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -83,6 +84,7 @@ export default function SearchBar(props) {
             placeholder="식재료를 검색하여 레시피 재료로 추가해 보세요."
           />
         )}
+        
       />
     </div>
   );

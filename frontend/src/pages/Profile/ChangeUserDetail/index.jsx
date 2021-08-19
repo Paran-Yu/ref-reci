@@ -1,6 +1,9 @@
 // React, Router
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import TopBar from "../../../layout/TopBar";
+import BottomBar from "../../../layout/BottomBar";
+import Fab from '../../../layout/FloatingActionButton';
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -81,9 +84,9 @@ function Copyright() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
+        <span color="inherit">
           Ref:reci
-        </Link>{' '}
+        </span>{' '}
         {new Date().getFullYear()}
         {'.'}
       </Typography>
@@ -261,147 +264,152 @@ export default function SignUpSide({history}) {
     }
 
     return (
-      <Grid container component="main" className={classes.root}>
-        <CssBaseline />
-        <div className={classes.paper}>
-            <form className={classes.form}>
-              <Container maxWidth="md">
-                <TextField
-                    autoComplete="fname"
-                    name="firstName"
+      <Container fixed>
+        <TopBar />
+        <Grid container component="main" className={classes.root}>
+          <CssBaseline />
+          <div className={classes.paper}>
+              <form className={classes.form}>
+                <Container maxWidth="md">
+                  <TextField
+                      autoComplete="fname"
+                      name="firstName"
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      autoFocus
+                      id="firstName"
+                      label="닉네임"
+                      onChange={onChangeUserName}
+                  />
+                  <Button
+                      disabled={userNameShort}
+                      color="primary"
+                      fullWidth
+                      size="large"
+                      onClick={onClickUserNameChangeBtn}
+                  >
+                      변경완료
+                  </Button>
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={10}>
+                      <TextField
+                        disabled={verButtonInactive}
+                        variant="outlined"
+                        required
+                        margin="normal"
+                        required
+                        fullWidth
+                        autoFocus
+                        id="email"
+                        label="아이디(E-mail)"
+                        name="email"
+                        autoComplete="email"
+                        onChange={onChangeUserID}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button
+                          disabled={verButtonInactive}
+                          variant="outlined"
+                          fullWidth
+                          color="primary"
+                          required
+                          size="large"
+                          onClick={onClickUserIDBtn}
+                        >
+                        인증
+                        </Button>
+                      </Grid>
+                  </Grid>
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={10}>
+                        <TextField
+                          disabled={hiddenAuth}
+                          variant="outlined"
+                          required
+                          fullWidth
+                          id="verification"
+                          label="인증번호"
+                          name="verification"
+                          autoComplete="verification"
+                          onChange={onChangeVer}
+                        />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button
+                          color="primary"
+                          disabled={hiddenAuth}
+                          fullWidth
+                          size="large"
+                          onClick={onClickVerBtn}
+                        >
+                          확인
+                        </Button>
+                    </Grid>
+                    <Button
+                      disabled={emailAuth}
+                      color="primary"
+                      fullWidth
+                      size="large"
+                      onClick={onClickUserIDChangeBtn}
+                    >
+                      변경완료
+                    </Button>
+                  </Grid>
+                  <TextField
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
                     autoFocus
-                    id="firstName"
-                    label="닉네임"
-                    onChange={onChangeUserName}
-                />
-                <Button
-                    disabled={userNameShort}
-                    color="primary"
                     fullWidth
-                    size="large"
-                    onClick={onClickUserNameChangeBtn}
-                >
-                    변경완료
-                </Button>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={10}>
-                    <TextField
-                      disabled={verButtonInactive}
-                      variant="outlined"
-                      required
-                      margin="normal"
-                      required
-                      fullWidth
-                      autoFocus
-                      id="email"
-                      label="아이디(E-mail)"
-                      name="email"
-                      autoComplete="email"
-                      onChange={onChangeUserID}
-                    />
-                  </Grid>
-                  <Grid item xs={2}>
-                      <Button
-                        disabled={verButtonInactive}
-                        variant="outlined"
-                        fullWidth
-                        color="primary"
-                        required
-                        size="large"
-                        onClick={onClickUserIDBtn}
-                      >
-                      인증
-                      </Button>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={10}>
-                      <TextField
-                        disabled={hiddenAuth}
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="verification"
-                        label="인증번호"
-                        name="verification"
-                        autoComplete="verification"
-                        onChange={onChangeVer}
-                      />
-                  </Grid>
-                  <Grid item xs={2}>
-                      <Button
-                        color="primary"
-                        disabled={hiddenAuth}
-                        fullWidth
-                        size="large"
-                        onClick={onClickVerBtn}
-                      >
-                        확인
-                      </Button>
-                  </Grid>
+                    name="password"
+                    label="비밀번호"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    onChange={onChangeUserPW}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    autoFocus
+                    name="passwordcheck"
+                    label="비밀번호확인"
+                    type="password"
+                    id="passwordcheck"
+                    autoComplete="current-password-check"
+                    onChange={onChangeUserPWCheck}
+                  />
                   <Button
-                    disabled={emailAuth}
+                    disabled={passwordSame}
                     color="primary"
                     fullWidth
                     size="large"
-                    onClick={onClickUserIDChangeBtn}
+                    onClick={onClickUserPWChangeBtn}
                   >
                     변경완료
                   </Button>
-                </Grid>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  autoFocus
-                  fullWidth
-                  name="password"
-                  label="비밀번호"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={onChangeUserPW}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  autoFocus
-                  name="passwordcheck"
-                  label="비밀번호확인"
-                  type="password"
-                  id="passwordcheck"
-                  autoComplete="current-password-check"
-                  onChange={onChangeUserPWCheck}
-                />
-                <Button
-                  disabled={passwordSame}
-                  color="primary"
-                  fullWidth
-                  size="large"
-                  onClick={onClickUserPWChangeBtn}
-                >
-                  변경완료
-                </Button>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  size="large"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={onClickOkBtn}
-                >
-                  확인
-                </Button>
-              </Container>
-            </form>
-        </div>
-      </Grid>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={onClickOkBtn}
+                  >
+                    확인
+                  </Button>
+                </Container>
+              </form>
+          </div>
+        </Grid>
+        <BottomBar />
+        <Fab />
+      </Container>
     );
 }

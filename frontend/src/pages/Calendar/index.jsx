@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+
 // Layout
 import TopBar from '../../layout/TopBar';
 import BottomBar from '../../layout/BottomBar';
@@ -33,7 +38,7 @@ const getItems = async (url,date) => {
     console.log(`ERROR: ${err}`);
   }
 }
-
+// 유통기한 7일 이내의 상품의 Dday, count, Name을 가져온다
 const get7Items = async (url) => {
   try {    
     const data = await axios({
@@ -51,6 +56,7 @@ const get7Items = async (url) => {
   }
 }
 
+// 모든 상품의 정보를 가져온다
 const getAllItems = async (url) => {
   try {    
     const data = await axios({
@@ -70,8 +76,6 @@ const getAllItems = async (url) => {
 
 export default function Calendar() {
   const [dates, setDates] = useState('')
-  const [foodDatas, setfoodDatas] = useState();
-
   const [posts, setPosts]   = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage] = useState(6);
@@ -79,12 +83,12 @@ export default function Calendar() {
 
   const get7Days = (async () => {
     const foodlist = await get7Items(`${server.ip}/foodlist/get7days`)
-    console.log(foodlist)
+    // console.log(foodlist)
     setPosts(foodlist);
   })
   const getAll = (async () => {
     const foodlist = await getAllItems(`${server.ip}/foodlist/getAllItem`)
-    console.log(foodlist)
+    // console.log(foodlist)
     setPosts(foodlist);
   })
   
@@ -98,7 +102,6 @@ export default function Calendar() {
     const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
     console.log("foodlist", foodlist)
     //다른거에 담아서 여러개를 보내는?
-    // const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
     setPosts(foodlist);
     setFlagState(false)
     console.log("foodlist.length",foodlist.length)
@@ -121,6 +124,20 @@ export default function Calendar() {
   return (
     <Container fixed>
       <TopBar />
+      <Box mt={5}>
+        <Typography
+        variant="h4"
+        color="primary"
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+        component={RouterLink}
+        to="/calendar"
+        >
+          유통기한 관리
+        </Typography>
+      </Box>
+      <Box my={2}>
+        <Divider variant="middle" />
+      </Box>
       <Box my={5}>
           <Grid container>
             <Grid item xs={12} md={6}>
@@ -138,7 +155,12 @@ export default function Calendar() {
               {flagState?
                 null
               :
-                (<Pagination onChange={paginate} page={currentPage} count={Math.ceil(posts.length / postPerPage)} color="primary" />)
+                (<Pagination onChange={paginate} page={currentPage} 
+                  count={Math.ceil(posts.length / postPerPage)} 
+                  color="primary" 
+                  style={{      display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'}} />)
               }
               
               </Box>

@@ -1,31 +1,40 @@
 import React from "react";
 import { ButtonBase, makeStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  catIt: {
-    width: "100%",
-    height: "100%",
-    color: "#45423C",
-    fontWeight: "bold",
-    fontSize: "large",
+  meida: {
+    width: '100%',
+    height: '100%'
   },
-  link: {
-    width: "100%",
-    height: "100%",
-  },
+  image: {
+    width: '100%',
+    height: '100%'
+  }
 }));
 
 const RegLargeItem = (props) => {
   const { dt, idx, data } = props;
-  const st = useStyles();
   const btn = () => {
     props.setMain(dt.c1ID, dt.classification1Name);
   };
+  const classes = useStyles();
+
   return (
-    <ButtonBase className={st.catIt} onClick={btn}>
-      {dt.classification1Name}
-    </ButtonBase>
+    <NavLink
+      to={{
+        pathname: "/fridge",
+        state: {
+          catID: dt.c1ID,
+          catName: dt.classification1Name,
+          data: data,
+        },
+      }}
+      onClick={btn}
+      className={classes.media}
+    >
+      <img className={classes.image} src={process.env.PUBLIC_URL + `/category_icon/${dt.c1ID}.jpg`}/>
+    </NavLink>
   );
 };
 export default RegLargeItem;

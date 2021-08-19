@@ -34,7 +34,7 @@ export default function RecipeIng(props) {
         <Table className={classes.table} aria-label="ingredient table">
           <TableHead>
             <TableRow>
-              <TableCell>재료</TableCell>
+              <TableCell >재료</TableCell>
               <TableCell align="right">양</TableCell>
             </TableRow>
           </TableHead>

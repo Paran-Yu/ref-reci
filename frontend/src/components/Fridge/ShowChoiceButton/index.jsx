@@ -10,7 +10,7 @@ export default function ShowChoiceButton(props) {
   }
   return (
     <div>
-      <Badge color="error" badgeContent={count}>
+      <Badge color="error" badgeContent={count} >
         <RestaurantMenuIcon />
       </Badge>
     </div>

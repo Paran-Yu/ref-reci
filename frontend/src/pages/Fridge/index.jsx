@@ -1,23 +1,19 @@
 import { useState, React, useEffect } from "react";
 import { Divider, makeStyles, Typography } from "@material-ui/core";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Breadcrumb from "../../components/Fridge/Breadcrumb";
-import SearchBar from "../../components/Fridge/Category/SearchBar";
 import RadioButton from "../../components/Fridge/RadioButton";
 import ShowChoiceButton from "../../components/Fridge/ShowChoiceButton";
-
+import IconButton from '@material-ui/core/IconButton';
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
 import SmallList from "../../components/Fridge/Category/SmallList";
 import RefLargeList from "../../components/Fridge/Category/RefLargeList";
-
-// Style
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import createTheme from "@material-ui/core/styles/createTheme";
 
 // server
 import axios from "axios";
@@ -59,6 +55,7 @@ const Fridge = (props) => {
   const [customSmallList, setCustomSmallList] = useState();
   const [refLargeList, setRefLargeList] = useState();
   const [selectIng, setSelectIng] = useState([]);
+  const [cl2List, setCl2List] = useState();
 
   if (props.location.state == undefined) {
     catName = "전체";
@@ -80,9 +77,13 @@ const Fridge = (props) => {
     }
   }, []);
 
-  // console.log(largeList);
+  let sendDatas = [];
   const addCnt = (re) => {
     setSelectIng(re);
+    console.log("re",re);
+    setCl2List(re)
+    //여기서 소분류 아이디와 유저 제품 이름을 하나씩 객체로 싸서 객체들의 모임으로 배열을 만들어서 보내야함
+
   };
 
   const mainCheck = async (c1ID, classification1Name) => {
@@ -108,16 +109,41 @@ const Fridge = (props) => {
     <Container fixed>
       <TopBar />
       <Box my={3}>
+        <Box mt={5}>
+          <Typography
+          variant="h4"
+          color="primary"
+          component={RouterLink}
+          to="/fridge"
+          style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+          >
+            나의 냉장고
+          </Typography>
+        </Box>
         <Box my={2}>
-          <Typography variant="h4">나의 냉장고</Typography>
+          <Divider variant="middle" />
         </Box>
-        <Divider />
-        <Box justifyContent="space-between" alignItems="center">
+        <Box mx={1} display="flex" justifyContent="space-between" alignItems="center">
           <Breadcrumb catName={mainCatName} goBack={goBack.bind()} />
-          <ShowChoiceButton selectIng={selectIng} />
+          <IconButton
+            component={RouterLink}
+            to={{
+              pathname:"/recipe",
+              state: {
+                cl2IDDatas: cl2List
+              }
+            }}
+            // onClick={()=>{
+            //   console.log(cl2List)
+            // }}
+          >
+            <ShowChoiceButton selectIng={selectIng} />
+          </IconButton>
         </Box>
-        <RadioButton />
-        {mainCatName == "전체" ? refLargeList : customSmallList}
+        {/* <RadioButton color="primary" justifyContent="flex-start"/> */}
+        <Box my={2}>
+          {mainCatName == "전체" ? refLargeList : customSmallList}
+        </Box>
       </Box>
       <FloatingActionButton />
       <BottomBar />
