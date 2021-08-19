@@ -172,4 +172,20 @@ app.post("/getItems", async (req, res) =>{
 
 })
 
+app.post("/updateDate", async(req, res) => {
+    const upID = req.body.upID;
+    const date = req.body.date;
+    const newDate = new Date(date)
+
+    try{
+        await pool.query("UPDATE UserProduct SET productShelfLife = ? WHERE upID = ?", [
+            newDate,
+            upID,
+        ])
+    }
+    catch(e){
+        console.log(e);
+    }
+})
+
 module.exports = app;

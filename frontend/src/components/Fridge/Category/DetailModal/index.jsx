@@ -8,7 +8,8 @@ import {
   CardContent,
   CardMedia,
 } from "@material-ui/core";
-import server from "../../../../server.json";
+import axios from 'axios';
+import server from '../../../../server.json'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +41,48 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
+
+const postData = async (url, upID, date) => {
+  try {
+    const data = await axios({
+      method: 'post',
+      url: url,
+      data: {
+        upID: upID,
+        date: date,
+      },
+      headers: {
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 const DetailModal = (props) => {
   const classes = useStyles();
-  const { dt } = props;
+  const { dt, childClickHandler } = props;
+  const [dateData, setDateData] = useState(dt.productShelfLife.split("T")[0]);
+  const [renderDate, setRenderDate] = useState(dt.productShelfLife.split("T")[0]);
+
+  const changeHandler = (e) => {
+    setDateData(e.target.value)
+  }
+
+  const clickHandler = () => {
+    console.log(dateData)
+    // const finishDate = new Date(dateData);
+    // const nowDate = new Date();
+    // const diff = Math.floor((finishDate - nowDate) / 1000 / 60 / 60 / 24);
+    const datas = postData(`${server.ip}/foodlist/updateDate`, dt.upID, dateData);
+    // setRenderDate(dateData)
+    childClickHandler(dateData)
+  }
+
   return (
     <Card elevation={0} className={classes.root}>
       <div className={classes.details}>
@@ -56,8 +96,9 @@ const DetailModal = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
+            onChange={changeHandler}
           />
-          <Button variant="contained">변경하기</Button>
+          <Button variant="contained" onClick={clickHandler}>변경하기</Button>
         </CardContent>
       </div>
     </Card>

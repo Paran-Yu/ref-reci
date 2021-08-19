@@ -12,7 +12,6 @@ import {
   CardContent,
   TextField,
 } from "@material-ui/core";
-import IngTask from "../DetailModal";
 import AddIcon from "@material-ui/icons/Add";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
@@ -97,6 +96,7 @@ const SmallItem = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [count, setCount] = useState(dt.productCount)
+  const [dateData, setDateData] = useState(dt.productShelfLife.slice(0, 10));
   
   const handleOpen = () => {
     setOpen(true);
@@ -126,6 +126,10 @@ const SmallItem = (props) => {
     setCount(cnt[0].Count)
   }
 
+  const clickHandler = (date) =>{
+    setDateData(date)
+  }
+
   return (
     <div className={classes.btn}>
       <Card onClick={handleOpen} elevation={0}>
@@ -142,7 +146,7 @@ const SmallItem = (props) => {
             <Box p={2}>
               <Chip size="small" label={`수량 | ${count}`} />
               <Typography variant="body2" color="textSecondary" component="p">
-                유통기한 | {editShelfLife}
+                유통기한 | {dateData}
               </Typography>
             </Box>
           </CardContent>
@@ -184,7 +188,7 @@ const SmallItem = (props) => {
                     </IconButton>
                   </Box>
                   <Box p={1}>
-                    <DetailModal dt={dt} />
+                    <DetailModal dt={dt} childClickHandler={clickHandler}/>
                   </Box>
                 </Box>
               </Grid>
