@@ -16,7 +16,7 @@ import server from '../../../server.json';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     elevation: 5,
   },
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: '100%',
     maxWidth: 200,
+    objectFit: 'cover',
   }
 }));
 
@@ -123,17 +124,23 @@ export default function FoodList(props) {
                 />
               </Box>
               <Divider orientation="horizontal" variant="middle"/>
-              <Box p={1} className={classes.title}>
-                <IconButton>
-                  <RemoveIcon onClick={onMinusClick}/>
-                </IconButton>
-                <Typography variant="subtitle1" color="textSecondary">
-                  {count}
-                </Typography>
-                <IconButton>
-                  <AddIcon onClick={onPlusClick}/>
-                </IconButton>
-              </Box>
+              <Grid p={1} container>
+                <Grid item xs={4}>
+                  <IconButton>
+                    <RemoveIcon onClick={onMinusClick}/>
+                  </IconButton>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {count}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <IconButton>
+                    <AddIcon onClick={onPlusClick}/>
+                  </IconButton>
+                </Grid>
+              </Grid>
             </CardContent>
           </div>
         </Card>
