@@ -15,7 +15,6 @@ import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 
 
-import DetailModal from "../DetailModal";
 import server from '../../../../server.json';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,25 +50,9 @@ const CardItem = (props) => {
   const { dt, dt2, idx } = props;
   const classes = useStyles();
   const handleOpen = () => {
-    setOpen(true);
+    window.location.href = `http://localhost:3000/rec/${dt.rID}`
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const [open, setOpen] = useState(false);
-  // const [chipData, setChipData] = useState([
-  //   { key: 0, label: "우유" },
-  //   { key: 1, label: "계란" },
-  //   { key: 2, label: "달걀" },
-  //   { key: 3, label: "우유" },
-  //   { key: 4, label: "계란" },
-  //   { key: 5, label: "달걀" },
-  // ]);
-  // const handleDelete = (chipToDelete) => () => {
-  //   setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  // };
-  // console.log(handleDelete)
-  console.log("dt2",dt2)
+
   if (dt2.count === undefined) dt2.count = 0;
   return (
     <div>
@@ -100,23 +83,6 @@ const CardItem = (props) => {
           </Paper>
         </CardActions>
       </Card>
-      <Modal
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <h2>{dt.CatName}</h2>
-            <DetailModal />
-          </div>
-        </Fade>
-      </Modal>
     </div>
   );
 };

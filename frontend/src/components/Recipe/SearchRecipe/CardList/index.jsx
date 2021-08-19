@@ -6,7 +6,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import { useNowCols } from "../../../../common/MediaQueryHooks";
-import catDt from "./dump.json";
 import CardItem from "../CardItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +32,6 @@ const CardList = (props) => {
   const classes = useStyles();
   const data = props.datas;
   const data2 = props.datas2;
-
-  console.log("data2", data2);
 
   return (
     <div className={classes.root}>

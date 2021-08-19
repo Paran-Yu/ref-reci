@@ -82,6 +82,25 @@ const getDatas = async (url) => {
   }
 }
 
+const postDatas = async (url, cl2) => {
+  try {
+    const data = await axios({
+      method: 'post',
+      url: url,
+      data: {
+        cl2: cl2
+      },
+      headers: {
+        accept: 'application/json',
+      },
+    })
+    return data.data;
+  }
+  catch (e) {
+    console.log(`ERROR: ${e}`);
+  }
+}
+
 let items;
 const Recipe = (props) => {
   const classes = useStyles();
@@ -113,12 +132,32 @@ const Recipe = (props) => {
     items = allFoodItems;
     setAllFoodItems(items);
     console.log(items)
-    let sb = <SearchBar datas={items} onChildChange={handleChildChange} />;
-    setCustomSearchBar(sb);
+    setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} defaultDatas={[]} />);
 
     if (props.location.state){
       const cl2Datas = props.location.state.cl2IDDatas;
       console.log("cl2Datas",cl2Datas)
+
+      //서치바 렌더링
+      setCustomSearchBar(<SearchBar datas={items} onChildChange={handleChildChange} defaultDatas={cl2Datas}/>);
+
+      let selectedArr = []
+      let len = props.location.state.cl2IDDatas.length
+      for(let i=0; i<len; i++){
+        selectedArr[i] = props.location.state.cl2IDDatas[i].category;
+      }
+
+      const recipes = await postDatas(`${server.ip}/recipe/search`, selectedArr)
+      console.log(recipes)
+      
+      if (recipes[1].length < 12) {
+        setPostPerPage(recipes[1].length)
+      }
+      else {
+        setPostPerPage(12)
+      }
+      setrecipeid2(recipes[1])
+      setrecipeid1(recipes[0])
     }
   }, [])
 

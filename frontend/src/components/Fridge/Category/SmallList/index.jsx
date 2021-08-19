@@ -32,18 +32,22 @@ const SmallList = (props) => {
     let check = false;
     if (list.length == 0) list = props.selectIng;
     for (let i = 0; i < list.length; i++) {
-      if (list[i] == productID) {
+      if (list[i].category == productID) {
         check = true;
         break;
       }
     }
 
-    if (!check) list = list.concat(productID);
-    else list = list.filter((Ing) => Ing != productID);
+    if (!check){
+      list = list.concat({ name: productName, category: productID });
+      console.log("추가됨")
+    } 
+    else {
+      list = list.filter((Ing) => Ing.name != productName);
+      console.log("삭제됨")
+    }
     props.addCnt(list);
-    // console.log("productID", productID);//방금 선택한 유저제품 아이디만 담겨 있음
-    // console.log("datas", datas);//현재 대분류에 있는 유저 제품들의 이름이 들어있음
-    console.log("list", list);//선택되어 있는 유저제품 아이디들이 담겨 있음
+    // console.log("list", list);//선택되어 있는 유저제품 아이디들, 이름들이 담겨 있음
 
 
   };
