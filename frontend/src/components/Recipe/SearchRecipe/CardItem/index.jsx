@@ -50,7 +50,7 @@ const CardItem = (props) => {
   const { dt, dt2, idx } = props;
   const classes = useStyles();
   const handleOpen = () => {
-    window.location.href = `http://localhost:3000/rec/${dt.rID}`
+    window.location.href = `http://i5a203.p.ssafy.io/rec/${dt.rID}`
   };
 
   if (dt2.count === undefined) dt2.count = 0;

@@ -145,6 +145,7 @@ const postLogin = async (url, userID, userPW) => {
 					userID: userID,
 					userPW: userPW
 			},
+			withCredentials: true,
 			headers: {
 					accept: 'application/json',
 			},

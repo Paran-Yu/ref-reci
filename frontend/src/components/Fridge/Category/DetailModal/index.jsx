@@ -67,7 +67,8 @@ const DetailModal = (props) => {
   const classes = useStyles();
   const { dt, childClickHandler } = props;
   const [dateData, setDateData] = useState(dt.productShelfLife.split("T")[0]);
-  const [renderDate, setRenderDate] = useState(dt.productShelfLife.split("T")[0]);
+  // const [dateData, setDateData] = useState(dt.productShelfLife);
+
 
   const changeHandler = (e) => {
     setDateData(e.target.value)

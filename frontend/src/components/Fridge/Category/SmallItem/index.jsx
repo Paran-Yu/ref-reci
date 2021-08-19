@@ -97,6 +97,7 @@ const SmallItem = (props) => {
   const [open, setOpen] = useState(false);
   const [count, setCount] = useState(dt.productCount)
   const [dateData, setDateData] = useState(dt.productShelfLife.slice(0, 10));
+  // const [dateData, setDateData] = useState(dt.productShelfLife);
   
   const handleOpen = () => {
     setOpen(true);
@@ -110,6 +111,7 @@ const SmallItem = (props) => {
     props.showDt(dt.productName, dt.productClassification2);
   };
   const editShelfLife = dt.productShelfLife.slice(0, 10);
+  // const editShelfLife = dt.productShelfLife;
 
   async function onMinusClick() {
     // console.log(dt.productName, dt.productCount)

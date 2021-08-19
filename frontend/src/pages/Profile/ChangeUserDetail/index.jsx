@@ -30,6 +30,7 @@ const postName = async (url, userName) => {
         data: {
           userName: userName,
         },
+        withCredentials: true,
         headers: {
           accept: 'application/json',
         },
@@ -49,6 +50,7 @@ const postID = async (url, userID) => {
         data: {
           userID: userID,
         },
+        withCredentials:true,
         headers: {
           accept: 'application/json',
         },
@@ -68,6 +70,7 @@ const postPW = async (url, userPW) => {
         data: {
           userPW: userPW
         },
+        withCredentials: true,
         headers: {
           accept: 'application/json',
         },
