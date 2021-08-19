@@ -69,37 +69,7 @@ const SmallItem = (props) => {
   let check = false;
   const addDt = () => {
     handleClose();
-    console.log("item");
-    console.log(props.selectIng);
-    for (let i = 0; i < props.selectIng.length; i++) {
-      if (props.selectIng[i] == dt.productName) {
-        check = true;
-        break;
-      }
-    }
-    let ex = props.selectIng;
-    console.log("같은게 있습니까?: " + check);
-    if (!check) {
-      ex = ex.concat(dt.productName);
-      /*if (cnt % 2 == 1) {
-        ex = props.selectIng.filter((Ing) => Ing != dt.productName);
-        setCnt(cnt - 1);
-      } else setCnt(cnt + 1);*/
-      console.log("add");
-    } else {
-      ex = ex.filter((Ing) => Ing != dt.productName);
-      /*if (cnt % 2 == 0) {
-        ex = props.selectIng.concat(dt.productName);
-        setCnt(cnt + 1);
-      } else setCnt(cnt - 1);*/
-      console.log("delete");
-    }
-    console.log("change");
-    console.log(ex);
-    // console.log("t/f");
-    // console.log(cnt);
-
-    props.showDt(ex);
+    props.showDt(dt.productName);
   };
   return (
     <div className={classes.btn}>

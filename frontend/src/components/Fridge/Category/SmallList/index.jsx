@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     margin: "auto",
     height: "100%",
-    width: '100%',
+    width: "100%",
   },
   list: {
     height: "120%",
@@ -27,12 +27,20 @@ const SmallList = (props) => {
   const classes = useStyles();
   // const data = catDt;
   const datas = props.datas;
-  const [arr, setArr] = useState({
-    cnt: 0,
-    arr: [],
-  });
+  let list = [];
   const showDt = (re) => {
-    props.addCnt(re);
+    let check = false;
+    if (list.length == 0) list = props.selectIng;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i] == re) {
+        check = true;
+        break;
+      }
+    }
+
+    if (!check) list = list.concat(re);
+    else list = list.filter((Ing) => Ing != re);
+    props.addCnt(list);
   };
 
   return (
@@ -46,7 +54,6 @@ const SmallList = (props) => {
                   selectIng={props.selectIng}
                   dt={dt}
                   cnt={props.cnt}
-                  arr={arr}
                   showDt={showDt.bind()}
                 />
               </Paper>

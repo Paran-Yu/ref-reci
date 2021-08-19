@@ -6,8 +6,6 @@ export default function ShowChoiceButton(props) {
   const [count, setCount] = React.useState(0);
 
   if (props.selectIng.length != count) {
-    console.log("chocie button");
-    console.log(props.selectIng);
     setCount(props.selectIng.length);
   }
   return (
