@@ -101,6 +101,7 @@ const Fridge = (props) => {
       console.log("allDatas",allDatas)
       setIsRef(props.location.state.isRef)
     } else {
+      console.log("HIHI")
       cl2Datas = await getCl2Data(
         `${server.ip}/fridge/searchUserProduct?cl1ID=${props.location.state.catID}`
       );
