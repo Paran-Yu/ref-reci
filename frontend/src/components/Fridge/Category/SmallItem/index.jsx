@@ -20,8 +20,8 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
-
-import server from "../../../../server.json";
+import axios from 'axios';
+import server from '../../../../server.json'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -69,22 +69,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const postCount = async (url, Name, Type) => {
+  try {
+    const data = await axios({
+      method: 'POST',
+      url: url,
+      data: {
+        Name: Name,
+        Type: Type
+      },
+      headers: {
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 const SmallItem = (props) => {
   const { dt, idx } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [count, setCount] = useState(dt.productCount)
+  
   const handleOpen = () => {
     setOpen(true);
   };
+  
   const handleClose = () => {
     setOpen(false);
   };
+  
   let check = false;
   const addDt = () => {
     handleClose();
     props.showDt(dt.productName, dt.productClassification2);
   };
   const editShelfLife = dt.productShelfLife.slice(0, 10)
+
+  async function onMinusClick() {
+    // console.log(dt.productName, dt.productCount)
+    // console.log('마이너스 클릭')
+    const cnt = await postCount(`${server.ip}/foodlist/changeCount`, dt.productName, 1)
+    // console.log(cnt[0].Count)
+    setCount(cnt[0].Count)
+  }
+
+  async function onPlusClick() {
+    // console.log('플러스 클릭')
+    const cnt = await postCount(`${server.ip}/foodlist/changeCount`, dt.productName, 2)
+    // console.log(cnt[0].Count)
+    setCount(cnt[0].Count)
+  }
 
   return (
     <div className={classes.btn}>
@@ -100,7 +140,7 @@ const SmallItem = (props) => {
               </Typography>
             </Box>
             <Box p={2}>
-              <Chip size="small" label={`수량 | ${dt.productCount}`} />
+              <Chip size="small" label={`수량 | ${count}`} />
               <Typography variant="body2" color="textSecondary" component="p">
                 유통기한 | {editShelfLife}
               </Typography>
@@ -137,13 +177,13 @@ const SmallItem = (props) => {
                   </Box>
                   <Divider orientation="horizontal" variant="middle"/>
                   <Box p={1} className={classes.title}>
-                    <IconButton>
+                    <IconButton onClick={onMinusClick}>
                       <RemoveIcon />
                     </IconButton>
                     <Typography variant="h5" color="textSecondary">
-                      {dt.productCount}
+                      {count}
                     </Typography>
-                    <IconButton>
+                    <IconButton onClick={onPlusClick}>
                       <AddIcon />
                     </IconButton>
                   </Box>

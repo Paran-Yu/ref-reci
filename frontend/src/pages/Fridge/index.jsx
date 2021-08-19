@@ -133,9 +133,6 @@ const Fridge = (props) => {
                 cl2IDDatas: cl2List
               }
             }}
-            // onClick={()=>{
-            //   console.log(cl2List)
-            // }}
           >
             <ShowChoiceButton selectIng={selectIng} />
           </IconButton>
