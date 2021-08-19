@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const showDday = (date) => {
+  console.log(date)
   if(date == null){
     return ('미정')
   }

@@ -23,8 +23,8 @@ app.get("/getEvents", async (req, res) =>{
             jsonObj.end	= new Date(data[0][i].productShelfLife);
             if (data[0][i].productShelfLife == null){
                 jsonObj.title = '';
-                jsonObj.start = new Date();
-                jsonObj.end	= new Date()
+                jsonObj.start = "0000-00-00";
+                jsonObj.end	= "0000-00-00"
                 console.log(data[0][i])
             }
             jsonObj = JSON.stringify(jsonObj);
