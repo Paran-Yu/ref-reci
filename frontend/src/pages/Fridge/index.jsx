@@ -120,6 +120,7 @@ const Fridge = (props) => {
   };
 
   const mainCheck = async (c1ID, classification1Name) => {
+    console.log("HIHI2")
     catName = classification1Name;
     setMainCatName(classification1Name);
     console.log(c1ID,classification1Name)
