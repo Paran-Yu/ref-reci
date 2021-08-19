@@ -35,7 +35,12 @@ export default function MyInfo(props) {
         <Grid container justifyContent="space-around" alignItems="center">
           <Grid item xs={4}>
             <Typography variant="h3" color="primary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'Bold', textDecoration: 'none'}}
-              component={RouterLink} to="/fridge">
+              component={RouterLink} to={{
+                pathname: "/fridge",
+                state: {
+                  catName: '전체',
+                },
+              }}>
               {props.myFridgeNum}
             </Typography>
           </Grid>

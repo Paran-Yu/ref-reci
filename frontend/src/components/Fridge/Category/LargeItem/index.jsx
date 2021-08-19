@@ -1,24 +1,22 @@
 import React from "react";
 import { ButtonBase, makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import { mergeClasses } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
-  catIt: {
-    width: "100%",
-    height: "100%",
-    color: "#45423C",
-    fontWeight: "bold",
-    fontSize: "large",
+  meida: {
+    width: '100%',
+    height: '100%'
   },
-  link: {
-    width: "100%",
-    height: "100%",
-  },
+  image: {
+    width: '100%',
+    height: '100%'
+  }
 }));
 
 const LargeItem = (props) => {
   const { dt, idx, data } = props;
-  const st = useStyles();
+  const classes = useStyles();
 
   return (
     <NavLink
@@ -30,11 +28,9 @@ const LargeItem = (props) => {
           data: data,
         },
       }}
-      className={st.link}
-      style={{ textDecoration: "none" }}
+      className={classes.media}
     >
-      {/* <img src={process.env.PUBLIC_URL + '/CatImage/dairy.jpg'} style={{ height: '100%', width: '100%' }}/> */}
-      <ButtonBase className={st.catIt}>{dt.classification1Name}</ButtonBase>
+      <img className={classes.image} src={process.env.PUBLIC_URL + `/category_icon/${dt.c1ID}.jpg`}/>
     </NavLink>
   );
 };
