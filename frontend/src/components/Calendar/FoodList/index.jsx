@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
@@ -10,7 +10,9 @@ import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-
+import axios from 'axios';
+import server from '../../../server.json';
+import { applyStyleProp } from '@fullcalendar/react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +51,27 @@ const showDday = (date) => {
   }
 };
 
+const postCount = async (url, Name, Type) => {
+  try {
+    const data = await axios({
+      method: 'POST',
+      url: url,
+      data: {
+        Name : Name,
+        Type : Type
+      },
+      headers: { 
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 // 유통기한 정보가 없는 날짜는 회색으로 색을 바꾸고 클릭했을 때 요 문구가 뜬다.  (플랜 A)
 const blankPage = () => {
   return (
@@ -59,13 +82,28 @@ const blankPage = () => {
 }
 
 export default function FoodList(props) {
+  const [count, setCount] = useState(props.foodCount)
   const classes = useStyles();
   const dDay = showDday(props.foodDday);
+
+  async function onMinusClick (){
+    console.log(props.foodName, props.foodCount)
+    console.log('마이너스 클릭')
+    const cnt = await postCount(`http://localhost:3001/foodlist/changeCount`, props.foodName, 1)
+    console.log(cnt[0].Count)
+    setCount(cnt[0].Count)
+  }
+  async function onPlusClick (){
+    console.log('플러스 클릭')
+    const cnt = await postCount(`http://localhost:3001/foodlist/changeCount`, props.foodName, 2)
+    console.log(cnt[0].Count)
+    setCount(cnt[0].Count)
+  }
+
   // 빈 페이지 화면
   const blankPage = <Box>달력에서 유통기한이 있는 날짜를 선택해 주세요.</Box>;
-
   if (props.foodName !== "undefined") {
-    console.log("props", props)
+    console.log(`count = `, count)
     return (
       <Box m={2}>
         <Card className={classes.root}>
@@ -89,13 +127,15 @@ export default function FoodList(props) {
               <Divider orientation="horizontal" variant="middle"/>
               <Box p={1} className={classes.title}>
                 <IconButton>
-                  <RemoveIcon />
+                {/* onClick={onMinusClick(props.foodName, props.foodCount)} */}
+                  <RemoveIcon onClick={onMinusClick}/>
                 </IconButton>
                 <Typography variant="subtitle1" color="textSecondary">
-                  {props.foodCount}
+                  {count}
+                  {/* {postCount(`${server.ip}/foodlist/changeCount`, props.foodName, props.foodCount)} */}
                 </Typography>
                 <IconButton>
-                  <AddIcon />
+                  <AddIcon onClick={onPlusClick}/>
                 </IconButton>
               </Box>
             </CardContent>

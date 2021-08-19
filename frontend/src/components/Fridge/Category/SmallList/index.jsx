@@ -40,6 +40,7 @@ const SmallList = (props) => {
     if (!check) list = list.concat(re);
     else list = list.filter((Ing) => Ing != re);
     props.addCnt(list);
+    console.log("re", re);//유저제품 이름만 담겨 있음
   };
 
   return (
