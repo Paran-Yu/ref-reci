@@ -96,7 +96,8 @@ const SmallItem = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [count, setCount] = useState(dt.productCount)
-  const [dateData, setDateData] = useState(dt.productShelfLife.slice(0, 10));
+  // const [dateData, setDateData] = useState(dt.productShelfLife.slice(0, 10));
+  const [dateData, setDateData] = useState(dt.productShelfLife);
   
   const handleOpen = () => {
     setOpen(true);
