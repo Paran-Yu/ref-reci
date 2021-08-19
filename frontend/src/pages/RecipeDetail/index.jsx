@@ -40,6 +40,24 @@ const getRecipe = async (url) => {
   }
 }
 
+const checkLogin = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    console.log(data.data.value);
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 export default function RecipeDetail({match}) {
   const classes = useStyles();
 
@@ -49,7 +67,7 @@ export default function RecipeDetail({match}) {
 
 
   useEffect(async () => {
-    const loginData = await getRecipe(`${server.ip}/user/isLogin`);
+    const loginData = await checkLogin(`${server.ip}/user/isLogin`);
     if (loginData.value === undefined) {
       window.location.replace("http://i5a203.p.ssafy.io/signin")
     }

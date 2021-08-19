@@ -79,20 +79,23 @@ const postPW = async (url, userPW) => {
     }
 }
 
-const getFavData = async (url) => {
+const checkLogin = async (url) => {
   try {
     const data = await axios({
-      method: "get",
+      method: 'get',
       url: url,
+      withCredentials: true,
       headers: {
-        accept: "application/json",
+        accept: 'application/json',
       },
     });
+    console.log(data.data.value);
     return data.data;
-  } catch (err) {
+  }
+  catch (err) {
     console.log(`ERROR: ${err}`);
   }
-};
+}
 
 function Copyright() {
     return (
@@ -179,7 +182,7 @@ export default function SignUpSide({history}) {
     }, [password, passwordCheck])
 
     useEffect(async ()=>{
-      const loginData = await getFavData(`${server.ip}/user/isLogin`);
+      const loginData = await checkLogin(`${server.ip}/user/isLogin`);
       if (loginData.value === undefined) {
         window.location.replace("http://i5a203.p.ssafy.io/signin")
       }

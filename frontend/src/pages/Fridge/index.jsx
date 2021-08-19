@@ -44,6 +44,24 @@ const getCl2Data = async (url) => {
   }
 };
 
+const checkLogin = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    console.log(data.data.value);
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 const Fridge = (props) => {
   const classes = useStyles();
 
@@ -61,7 +79,7 @@ const Fridge = (props) => {
     catName = "전체";
   }
   useEffect(async () => {
-    const loginData = await getCl2Data(`${server.ip}/user/isLogin`);
+    const loginData = await checkLogin(`${server.ip}/user/isLogin`);
     if (loginData.value === undefined) {
       window.location.replace("http://i5a203.p.ssafy.io/signin")
     }

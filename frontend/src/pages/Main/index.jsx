@@ -50,6 +50,24 @@ const getFavData = async (url) => {
   }
 };
 
+const checkLogin = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    console.log(data.data.value);
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 const Main = () => {
   const st = useStyles();
   const [favRecipe, setFavRecipes] = useState();
@@ -57,7 +75,7 @@ const Main = () => {
   const [largeList, setLargeList] = useState();
 
   useEffect(async () => {
-    const loginData = await getFavData(`${server.ip}/user/isLogin`);
+    const loginData = await checkLogin(`${server.ip}/user/isLogin`);
     // if (loginData.value === undefined) {
     //   window.location.replace("http://i5a203.p.ssafy.io/signin")
     // }

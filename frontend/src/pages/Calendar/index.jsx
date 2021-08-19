@@ -74,6 +74,24 @@ const getAllItems = async (url) => {
   }
 }
 
+const checkLogin = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    console.log(data.data.value);
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
+
 export default function Calendar() {
   const [dates, setDates] = useState('')
   const [posts, setPosts]   = useState([]);
@@ -98,7 +116,7 @@ export default function Calendar() {
   }
   
   useEffect(async()=>{
-    const loginData = await getAllItems(`${server.ip}/user/isLogin`);
+    const loginData = await checkLogin(`${server.ip}/user/isLogin`);
     if (loginData.value === undefined) {
       window.location.replace("http://i5a203.p.ssafy.io/signin")
     }

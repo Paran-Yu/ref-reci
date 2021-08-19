@@ -53,7 +53,7 @@ app.get("/classification1", async (req, res) => {
         for(let i=0; i<len; i++){
             list.push(rows[i]);
         }
-        console.log(list);
+        // console.log(list);
         res.json(list);
     }
     catch (err) {
@@ -70,7 +70,7 @@ app.get("/classification2", async (req, res) => {
             cl1
         ])
         
-        console.log(rows);
+        // console.log(rows);
         res.json(rows);
     }
     catch (err) {
@@ -91,7 +91,7 @@ app.get("/searchUserProduct", async (req, res) => {
             cl1
         ])
 
-        console.log(rows);
+        // console.log(rows);
         res.json(rows);
     }
     catch (err) {
@@ -122,7 +122,7 @@ app.get("/allUserProduct", async (req, res) => {
         for (let i = 0; i < len; i++) {
             list.push({ big: rows[i].classification1Name, small: rows[i].classification2Name, product: rows[i].productName});
         }
-        console.log(list);
+        // console.log(list);
         res.json(list);
     }
     catch (err) {
