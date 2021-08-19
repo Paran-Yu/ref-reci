@@ -8,7 +8,7 @@ import FavRecipe from "../../components/Recipe/FavRecipe";
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
-
+import MyProfile from '../../components/Auth/Profile/MyProfile';
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,29 +36,6 @@ import Pagination from '@material-ui/lab/Pagination';
 import axios from 'axios';
 import server from '../../server.json';
 
-
-const mytheme = createTheme({
-  palette: {
-      primary: {
-          light: '#f2da9e',
-          main: '#f9bc15',
-          dark: '#f19920',
-          contrastText: '#fff',
-      },
-      secondary: {
-          light: '#f2ede7',
-          main: '#a29d97',
-          dark: '#45423c',
-          contrastText: '#fff',
-      },
-      success: {
-          light: '#f2ede7',
-          main: '#fee500',
-          dark: '#45423c',
-          contrastText: '#191600',
-      },
-  },
-});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -159,23 +136,38 @@ export default function Profile({history}) {
   return (
     <Container fixed >
       <TopBar />
-      <Typography
-      variant="h3"
-      >
-        마이페이지
-      </Typography>
-      <Divider variant="middle" />
+      <Box mt={5}>
+        <Typography
+        variant="h4"
+        color="primary"
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold'}}
+        >
+          마이페이지
+        </Typography>
+      </Box>
+      <Box my={2}>
+        <Divider variant="middle" />
+      </Box>
+      <MyProfile userID={userID} userName={userName}/>
       <Box m={3}>
         <Grid container>
           <Grid item xs={12} md={6}>
             <QRCode uid={uID}/>
           </Grid>
           <Grid item xs={12} md={6}>
-            <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
+            <MyInfo myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
           </Grid>
         </Grid>
       </Box>
-      <h1>즐겨찾기한 레시피</h1>
+      <Box my={3}>
+        <Typography
+        variant="h5"
+        color="secondary"
+        style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'bold'}}
+        >
+          즐겨찾기한 레시피
+        </Typography>
+      </Box>
       <Box 
         display="flex"
         justifyContent="center"

@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+
 // Layout
 import TopBar from '../../layout/TopBar';
 import BottomBar from '../../layout/BottomBar';
@@ -121,6 +124,18 @@ export default function Calendar() {
   return (
     <Container fixed>
       <TopBar />
+      <Box mt={5}>
+        <Typography
+        variant="h4"
+        color="primary"
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold'}}
+        >
+          유통기한 관리
+        </Typography>
+      </Box>
+      <Box my={2}>
+        <Divider variant="middle" />
+      </Box>
       <Box my={5}>
           <Grid container>
             <Grid item xs={12} md={6}>

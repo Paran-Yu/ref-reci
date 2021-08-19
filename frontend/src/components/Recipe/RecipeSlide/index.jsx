@@ -1,13 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 
-import server from '../../../../server.json';
+import server from '../../../server.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     width: '100%',
-    maxWidth: 200,
-    // margin: theme.
+    maxWidth: 280,
   },
   title: {
-    color: theme.palette.primary.light,
+    color: theme.white,
   },
   titleBar: {
     background:
@@ -36,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SingleLineImageList(props) {
+export default function SlideList(props) {
   const classes = useStyles();
 
   return (
