@@ -57,6 +57,11 @@ const Main = () => {
   const [largeList, setLargeList] = useState();
 
   useEffect(async () => {
+    const loginData = await getFavData(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+
     const favRecipeData = await getFavData(`${server.ip}/recipe/tenFavorRecipe`);
     const recentRecipeData = await getFavData(`${server.ip}/recipe/tenRecentRecipe`);
     const largeListData = await getFavData(`${server.ip}/fridge/classification1`);

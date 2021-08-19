@@ -110,7 +110,6 @@ export default function Profile({history}) {
 
   useEffect(async () => {
     const loginData = await getUserData(`${server.ip}/user/isLogin`);
-    console.log(loginData);
     if (loginData.value === undefined) {
       window.location.replace("http://i5a203.p.ssafy.io/signin")
     }
