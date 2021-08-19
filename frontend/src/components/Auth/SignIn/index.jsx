@@ -221,22 +221,11 @@ export default function SignInSide({history}) {
                   }
                 }}
               />
-              <FormControlLabel
-              control={
-              <Checkbox 
-                checked={checked}
-                onChange={(e) => setChecked(e.target.checked)}
-                value="remember"
-                color="primary"
-              />
-              }
-              label="아이디 / 비밀번호 저장"
-              />
               <Button
                 fullWidth
-                size="large"
                 variant="contained"
-                color= "primary"
+                size="large"
+                color="primary"
                 className={classes.submit}
                 onClick={async()=>{
                   if(4 <= password.length && password.length <= 20){
@@ -275,7 +264,7 @@ export default function SignInSide({history}) {
                     회원가입
                   </Link>
                 </Grid>
-              </Grid> */}
+              </Grid>
               <hr></hr>
               <Grid className={classes.socialbtn}>
                 <Button>
@@ -286,6 +275,7 @@ export default function SignInSide({history}) {
                   }}
                   />
                 </Button>
+                <br></br>
                 <Button>
                   <img 
                   src={process.env.PUBLIC_URL + '/images/google.png'}
@@ -294,6 +284,7 @@ export default function SignInSide({history}) {
                   }}
                   />
                 </Button>
+                <br />
                 <Button>
                   <img 
                   src={process.env.PUBLIC_URL + '/images/kakao.png'}
