@@ -1,6 +1,5 @@
 import { React, useState } from "react";
 import { Grid, makeStyles, Paper } from "@material-ui/core";
-// import catDt from "./dump.json";
 import IngItem from "../SmallItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +40,7 @@ const SmallList = (props) => {
     if (!check) list = list.concat(re);
     else list = list.filter((Ing) => Ing != re);
     props.addCnt(list);
+    console.log("re", re);//유저제품 이름만 담겨 있음
   };
 
   return (

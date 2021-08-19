@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 import { Grid, makeStyles, Typography, Divider, Box } from "@material-ui/core";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
 import CardList from "../../components/Recipe/SearchRecipe/CardList";
-import { ThemeProvider } from "@material-ui/styles";
 import Container from "@material-ui/core/Container";
 import SearchBar from "../../components/Recipe/SearchBar";
 import FloatingActionButton from "../../layout/FloatingActionButton";
@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: 'column',
     alignItems: 'center',
-    // justifyContent: 'center'
   }
 }));
 
@@ -142,8 +141,20 @@ const Recipe = () => {
     <Container fixed>
       <TopBar />
       <Box my={3}>
-        <Typography variant="h4">레시피 정리</Typography>
-        <Divider />
+        <Box mt={5}>
+          <Typography
+          variant="h4"
+          color="primary"
+          style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+          component={RouterLink}
+          to="/recipe"
+          >
+            레시피 검색
+          </Typography>
+        </Box>
+        <Box my={2}>
+          <Divider variant="middle" />
+        </Box>
         {customSearchBar}
         <CardList datas={currentrecipes} datas2={currentrecipes2}/>
       </Box>
