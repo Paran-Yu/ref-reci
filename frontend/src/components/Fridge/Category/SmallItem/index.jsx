@@ -110,7 +110,8 @@ const SmallItem = (props) => {
     handleClose();
     props.showDt(dt.productName, dt.productClassification2);
   };
-  const editShelfLife = dt.productShelfLife.slice(0, 10);
+  // const editShelfLife = dt.productShelfLife.slice(0, 10);
+  const editShelfLife = dt.productShelfLife;
 
   async function onMinusClick() {
     // console.log(dt.productName, dt.productCount)
