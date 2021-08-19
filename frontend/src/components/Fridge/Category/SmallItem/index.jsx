@@ -59,7 +59,6 @@ const SmallItem = (props) => {
   const { dt, idx } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [cnt, setCnt] = useState(0);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -107,7 +106,7 @@ const SmallItem = (props) => {
             <Button size="small" onClick={addDt.bind()}>
               <AddIcon />
             </Button>
-            <IngTask />
+            <IngTask dt={dt} />
           </div>
         </Fade>
       </Modal>

@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
-import { Chip, Paper, makeStyles, Grid } from "@material-ui/core";
+import { TextField, Paper, makeStyles, Card, CardContent, CardMedia } from "@material-ui/core";
+import server from "../../../../server.json";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,35 +14,41 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(0.5),
   },
+  details: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  content: {
+    flex: "1 0 auto",
+  },
+  cover: {
+    width: 151,
+    height: 100,
+  },
 }));
-const DetailModal = () => {
-  const [chipData, setChipData] = useState([
-    { key: 0, label: "2021.07.21" },
-    { key: 1, label: "2021.07.15" },
-    { key: 2, label: "2021.07.3" },
-  ]);
-  const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
+const DetailModal = (props) => {
   const classes = useStyles();
+  const { dt } = props;
   return (
-    <div>
-      <Paper component="ul" className={classes.root}>
-        {chipData.map((data) => {
-          let icon;
-          return (
-            <li key={data.key}>
-              <Chip
-                icon={icon}
-                label={data.label}
-                onDelete={handleDelete(data)}
-                className={classes.chip}
-              />
-            </li>
-          );
-        })}
-      </Paper>
-    </div>
+    <Paper component="ul" className={classes.root}>
+      <div className={classes.details}>
+        <Card elevation={0}>
+          <CardContent className={classes.content}>
+            <TextField
+              id="date"
+              label="유통 기한"
+              type="date"
+              defaultValue={dt.productShelfLife.split("T")[0]}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </CardContent>
+        </Card>
+      </div>
+      <CardMedia className={classes.cover} image={`${server.ip}/img?id=${dt.productImage}`} />
+    </Paper>
   );
 };
 export default DetailModal;
