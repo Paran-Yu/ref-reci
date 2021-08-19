@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     width: '100%',
+    maxHeight: 250,
   },
   chip: {
     margin: '3px',
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'space-around',
-    maxHeight: 300,
+    maxHeight: 250,
   },
   // details: {
   //   display: 'flex',
