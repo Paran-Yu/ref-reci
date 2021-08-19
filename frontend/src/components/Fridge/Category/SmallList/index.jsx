@@ -37,7 +37,6 @@ const SmallList = (props) => {
         break;
       }
     }
-
     if (!check) {
       list = list.concat({ name: productName, category: productID });
     } else {

@@ -10,10 +10,18 @@ import {
   Typography,
   CardMedia,
   CardContent,
+  TextField,
 } from "@material-ui/core";
 import IngTask from "../DetailModal";
 import AddIcon from "@material-ui/icons/Add";
-
+import Divider from "@material-ui/core/Divider";
+import Chip from "@material-ui/core/Chip";
+import IconButton from "@material-ui/core/IconButton";
+import RemoveIcon from "@material-ui/icons/Remove";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
+import DetailModal from "../DetailModal";
 import server from "../../../../server.json";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -36,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5),
     margin: 0,
   },
+  title: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   chip: {
     margin: theme.spacing(0.5),
   },
@@ -44,11 +56,14 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   card: {
-    // height: "100%",
+    height: "100%",
   },
   card2: {
-    // height: "100%",
-    border: "3px solid #F19920 ",
+    height: "100%",
+  },
+  image: {
+    width: "100%",
+    maxWidth: 300,
   },
   media: {
     height: 200,
@@ -65,28 +80,32 @@ const SmallItem = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  let check = false;
+
   const addDt = () => {
     handleClose();
     props.showDt(dt.productName, dt.productClassification2);
   };
+  const editShelfLife = dt.productShelfLife.slice(0, 10);
+
   return (
     <div className={classes.btn}>
-      <Card onClick={handleOpen} elevation={0} className={!check ? classes.card : classes.card2}>
+      <Card onClick={handleOpen} elevation={0}>
         {/* <CardActionArea className={classes.card}>{dt.productName}</CardActionArea> */}
 
         <CardActionArea>
           <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.productImage}`} />
           <CardContent>
-            <Typography variant="h5" component="h2">
-              {dt.productName}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              수량: {dt.productCount}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              유통기한: {dt.productShelfLife}
-            </Typography>
+            <Box>
+              <Typography variant="h5" component="h2">
+                {dt.productName}
+              </Typography>
+            </Box>
+            <Box p={2}>
+              <Chip size="small" label={`수량 | ${dt.productCount}`} />
+              <Typography variant="body2" color="textSecondary" component="p">
+                유통기한 | {editShelfLife}
+              </Typography>
+            </Box>
           </CardContent>
         </CardActionArea>
       </Card>
@@ -102,11 +121,30 @@ const SmallItem = (props) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2>{dt.productName}</h2>
-            <Button size="small" onClick={addDt.bind()}>
-              <AddIcon />
-            </Button>
-            <IngTask dt={dt} />
+            <Grid>
+              <Grid item>
+                <img className={classes.image} src={`${server.ip}/img?id=${dt.productImage}`} />
+              </Grid>
+              <Grid item>
+                <Box>
+                  <Box p={1} className={classes.title}>
+                    <Typography component="h5" variant="h5">
+                      {dt.productName}
+                    </Typography>
+                    <Chip label="d-day" color="primary" />
+                  </Box>
+                  <Divider orientation="horizontal" variant="middle" />
+                  <Box p={1} className={classes.title}>
+                    <DetailModal dt={dt} />
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+            <Box display="flex" justifyContent="center">
+              <Button variant="outlined" startIcon={<RestaurantMenuIcon />} onClick={addDt.bind()}>
+                레시피 재료로 추가하기
+              </Button>
+            </Box>
           </div>
         </Fade>
       </Modal>

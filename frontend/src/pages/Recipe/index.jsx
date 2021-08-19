@@ -110,7 +110,6 @@ const Recipe = (props) => {
   const [recipeid2, setrecipeid2] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(12);
-  //가져온 개수에 맞게 부르기
 
   function handleChildChange(recipes, selectedArr) {
     if (recipes[1].length < 12) {
@@ -195,13 +194,21 @@ const Recipe = (props) => {
         {customSearchBar}
         <CardList datas={currentrecipes} datas2={currentrecipes2} />
       </Box>
-      <Pagination
-        onChange={paginate}
-        page={currentPage}
-        count={Math.ceil(recipeid1.length / postPerPage)}
-        color="primary"
-        className={classes.paginate}
-      />
+      <Box>
+        {recipeid1.length === 0 ? (
+          <Box>
+            아직 선택하신 식재료로 만들 수 있는 레시피가 없습니다. 다른 재료로 검색해보세요!
+          </Box>
+        ) : (
+          <Pagination
+            onChange={paginate}
+            page={currentPage}
+            count={Math.ceil(recipeid1.length / postPerPage)}
+            color="primary"
+            className={classes.paginate}
+          />
+        )}
+      </Box>
       <FloatingActionButton />
       <BottomBar />
     </Container>

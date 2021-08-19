@@ -35,12 +35,10 @@ const CardList = (props) => {
 
   return (
     <div className={classes.root}>
-      <Grid container>
+      <Grid container spacing={2}>
         {data.map((dt, idx) => (
-          <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
-            <Paper className={classes.grid}>
-              <CardItem dt={dt} idx={idx} dt2={data2[idx]}/>
-            </Paper>
+          <Grid item justifyContent="center" alignItems="center" key={idx} xs={12} sm={6} md={4}>
+            <CardItem dt={dt} idx={idx} dt2={data2[idx]}/>
           </Grid>
         ))}
       </Grid>

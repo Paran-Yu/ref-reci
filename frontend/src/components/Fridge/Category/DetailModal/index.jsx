@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
+  textField: {
+    marginRight: theme.spacing(2),
+  },
 }));
 const DetailModal = (props) => {
   const classes = useStyles();
@@ -54,12 +57,9 @@ const DetailModal = (props) => {
               shrink: true,
             }}
           />
-        </CardContent>
-        <div className={classes.controls}>
           <Button variant="contained">변경하기</Button>
-        </div>
+        </CardContent>
       </div>
-      <CardMedia className={classes.cover} image={`${server.ip}/img?id=${dt.productImage}`} />
     </Card>
   );
 };

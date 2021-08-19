@@ -14,7 +14,9 @@ import TimerIcon from '@material-ui/icons/Timer';
 import GroupIcon from '@material-ui/icons/Group';
 import StarHalfIcon from '@material-ui/icons/StarHalf';
 
-import server from '../../../server.json'
+// Server
+import axios from 'axios';
+import server from '../../../server.json';
 
 const useStyles = makeStyles((theme) => ({
   img: {
@@ -30,13 +32,35 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const postData = async (url, rID, isStar) => {
+  try {
+    const data = await axios({
+      method: 'post',
+      url: url,
+      data: {
+        rID: rID,
+        isStar: isStar
+      },
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 export default function RecipeTitle(props) {
   const classes = useStyles()
-  const handleClick = () => {
-    console.log('hi')
+  
+  const [isFavorite, setIsFavorite] = useState(props.isStar);
+
+  const handleClick = async () => {
+    const datas = await postData(`${server.ip}/recipe/addFavorRecipe`, props.rID, props.isStar);
+    setIsFavorite(datas)
   }
-  const [isFavorite, setIsFavorite] = useState('');
 
   return (
   <Box mt={3} mb={1}>
@@ -60,10 +84,11 @@ export default function RecipeTitle(props) {
           <Box>
             <IconButton
               color="primary"
+              onClick={handleClick}
             >
-              {/* <StarIcon /> */}
-              {/* <StarHalfIcon /> */}
-              <StarBorderIcon />
+              {
+                  isFavorite ? (<StarIcon />) : (<StarBorderIcon />)
+              }
             </IconButton>
           </Box>
           <Box p={1}>

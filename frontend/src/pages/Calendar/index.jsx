@@ -78,7 +78,7 @@ export default function Calendar() {
   const [dates, setDates] = useState('')
   const [posts, setPosts]   = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage] = useState(6);
+  const [postPerPage] = useState(3);
   const [flagState, setFlagState] = useState(false);
 
   const get7Days = (async () => {
