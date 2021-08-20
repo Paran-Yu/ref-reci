@@ -1,5 +1,15 @@
 import { React, useState, useEffect } from "react";
-import { Chip, Paper, makeStyles, Grid } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Paper,
+  makeStyles,
+  Card,
+  CardContent,
+  CardMedia,
+} from "@material-ui/core";
+import axios from 'axios';
+import server from '../../../../server.json'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,38 +20,84 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5),
     margin: 0,
   },
-  chip: {
-    margin: theme.spacing(0.5),
+  details: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  content: {
+    flex: "1 0 auto",
+  },
+  cover: {
+    width: 151,
+    height: 100,
+  },
+  controls: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  textField: {
+    marginRight: theme.spacing(2),
   },
 }));
-const DetailModal = () => {
-  const [chipData, setChipData] = useState([
-    { key: 0, label: "2021.07.21" },
-    { key: 1, label: "2021.07.15" },
-    { key: 2, label: "2021.07.3" },
-  ]);
-  const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
+
+const postData = async (url, upID, date) => {
+  try {
+    const data = await axios({
+      method: 'post',
+      url: url,
+      data: {
+        upID: upID,
+        date: date,
+      },
+      headers: {
+        accept: 'application/json'
+      }
+    })
+    return data.data
+  }
+  catch (err) {
+    console.log(url);
+    console.log(`ERROR: ${err}`);
+  }
+}
+
+const DetailModal = (props) => {
   const classes = useStyles();
+  const { dt, childClickHandler } = props;
+  const [dateData, setDateData] = useState(dt.productShelfLife.split("T")[0]);
+  // const [dateData, setDateData] = useState(dt.productShelfLife);
+
+
+  const changeHandler = (e) => {
+    setDateData(e.target.value)
+  }
+
+  const clickHandler = () => {
+    const datas = postData(`${server.ip}/foodlist/updateDate`, dt.upID, dateData);
+    childClickHandler(dateData)
+  }
+
   return (
-    <div>
-      <Paper component="ul" className={classes.root}>
-        {chipData.map((data) => {
-          let icon;
-          return (
-            <li key={data.key}>
-              <Chip
-                icon={icon}
-                label={data.label}
-                onDelete={handleDelete(data)}
-                className={classes.chip}
-              />
-            </li>
-          );
-        })}
-      </Paper>
-    </div>
+    <Card elevation={0} className={classes.root}>
+      <div className={classes.details}>
+        <CardContent className={classes.content}>
+          <TextField
+            id="date"
+            label="유통 기한"
+            type="date"
+            defaultValue={dt.productShelfLife.split("T")[0]}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={changeHandler}
+          />
+          <Button variant="contained" onClick={clickHandler}>변경하기</Button>
+        </CardContent>
+      </div>
+    </Card>
   );
 };
 export default DetailModal;

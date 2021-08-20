@@ -1,10 +1,9 @@
 // React
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import React from 'react';
+import { Link as RouterLink } from "react-router-dom";
 
 // Material-UI
 import Typography  from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
@@ -23,48 +22,52 @@ export default function MyInfo(props) {
 
   return (
     <div>
-      <Typography
-      variant="h4">
-        내 정보
-      </Typography>
+      <Box my={3}>
+        <Typography
+        variant="h5"
+        color="secondary"
+        style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'Bold'}}
+        >
+          내 리프레시 정보
+        </Typography>
+      </Box>
       <Box textAlign="center" p={2}>
-        <p>냉장고 속에 {props.myFridgeNum}개의 식재료가 있습니다.</p>
-        <p>유효기간이 3일 미만인 식재료가 {props.expire3Num}개 있습니다.</p>
-        <p>유효기간이 지난 식재료가 {props.expiredNum}개 있습니다.</p>
-      </Box>
-      <Box textAlign="left">
-        <p>닉네임: {props.userName}</p>
-        <p>아이디(Email): {props.userID}</p>
-      </Box>
-      <Box p={2}>
-        <div >
-          <Grid container>
-            <Grid item xs={5} className={classes.btn}>
-            <Button
-              fullWidth
-              size="normal"
-              variant="contained"
-              color= "primary"
-              component={RouterLink}
-              to="/usr/check/update"
-            >
-              회원정보수정
-            </Button>
-            </Grid>
-            <Grid item xs={5} className={classes.btn}>
-            <Button
-              fullWidth
-              size="normal"
-              variant="outlined"
-              color= "primary"
-              component={RouterLink}
-              to="/usr/check/delete"
-            >
-              회원탈퇴
-            </Button>
-            </Grid>
+        <Grid container justifyContent="space-around" alignItems="center">
+          <Grid item xs={4}>
+            <Typography variant="h3" color="primary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'Bold', textDecoration: 'none'}}
+              component={RouterLink} to={{
+                pathname: "/fridge",
+                state: {
+                  catName: '전체',
+                },
+              }}>
+              {props.myFridgeNum}
+            </Typography>
           </Grid>
-        </div>
+          <Grid item xs={4}>
+            <Typography variant="h3" color="primary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'Bold', textDecoration: 'none'}}
+              component={RouterLink} to="/calendar">
+              {props.expire3Num}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="h3" color="primary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'Bold', textDecoration: 'none'}}
+              component={RouterLink} to="/calendar">
+              {props.expiredNum}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Box m={2}>
+          <Typography color="secondary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'normal'}}>
+            냉장고 속에 {props.myFridgeNum}개의 식재료가 있습니다.
+          </Typography>
+          <Typography color="secondary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'normal'}}>
+            유효기간이 3일 미만인 식재료가 {props.expire3Num}개 있습니다.
+          </Typography>
+          <Typography color="secondary" style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'normal'}}>
+            유효기간이 지난 식재료가 {props.expiredNum}개 있습니다.
+          </Typography>
+        </Box>
       </Box>
     </div>
   )

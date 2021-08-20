@@ -2,17 +2,20 @@ import RPi.GPIO as GPIO
 from PyQt5.QtCore import *
 import time
 
-class Encoder:
+class EncoderThread(QThread):
+    sw_detected = pyqtSignal()
+    dir_detected = pyqtSignal(int)
+
     def __init__(self):
-        self.SW = 17         # switch
-        self.DT = 27         # signal
-        self.CLK = 22        # clock
+        super().__init__()
+        self.SW = 17  # switch
+        self.DT = 27  # signal
+        self.CLK = 22  # clock
 
         self.oldCLK = 0
         self.oldDT = 0
 
         self.setup()
-        self.main()
 
     def setup(self):
         GPIO.setwarnings(False)
@@ -23,7 +26,8 @@ class Encoder:
         GPIO.setup(self.CLK, GPIO.IN)
 
     def clicked_sw(self, pin):
-        print("CLICK")
+        #print("CLICK")
+        self.sw_detected.emit()
 
     def get_direction(self):
         direction = 0
@@ -31,27 +35,22 @@ class Encoder:
         newDT = GPIO.input(self.DT)
         # if clk low -> high => change direction
         if (newCLK != self.oldCLK):
-                if(self.oldCLK == 0):
-                        direction = self.oldDT * 2 - 1
+            if (self.oldCLK == 0):
+                direction = self.oldDT * 2 - 1
         self.oldCLK = newCLK
         self.oldDT = newDT
 
         # CW: -1, CCW: +1
         return direction
 
-    def main(self):
+    def run(self):
         GPIO.add_event_detect(self.SW, GPIO.FALLING, callback=self.clicked_sw, bouncetime=200)
         while True:
-            print(self.get_direction())
+            direction = self.get_direction()
+            # print(direction)
+            if direction != 0:
+                self.dir_detected.emit(direction)
             time.sleep(0.01)
 
-class MyThread(QThread):
-    # mySignal = Signal(int)
 
-    def __init__(self):
-        super().__init__()
-
-    # Thread start 누르면 자동 호출
-    def run(self):
-        self.encoder = Encoder()
 

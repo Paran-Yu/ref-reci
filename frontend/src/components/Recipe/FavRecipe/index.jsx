@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 // Core
 import Card from '@material-ui/core/Card';
@@ -27,13 +28,32 @@ const useStyles = makeStyles({
 
 const url = server.ip + "/img";
 
+const introTruncate = (txt, len, endwith) => {
+  if (len == null) {
+    len = 100;
+  }
+  if (endwith == null) {
+    endwith = '...';
+  }
+  if (txt.length > len) {
+    return txt.substring(0, len - endwith.length) + endwith;
+  } else {
+    return txt;
+  }
+};
+
+
 export default function FavRecipe(props) {
   const classes = useStyles();
+  const editedIntro = introTruncate(props.rIntroduce, 50);
+  const detailUrl = "/rec/" + props.rID
 
   return (
-// grid -> grid item -> card -> cardactionarea
   <Card className={classes.cardroot}>
-    <CardActionArea>
+    <CardActionArea
+    component={RouterLink}
+    to={detailUrl}
+    >
       <CardMedia
         className={classes.media}
         image={props.url}
@@ -43,7 +63,7 @@ export default function FavRecipe(props) {
           {props.rName}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {props.rIntroduce}
+          {editedIntro}
         </Typography>
       </CardContent>
     </CardActionArea>

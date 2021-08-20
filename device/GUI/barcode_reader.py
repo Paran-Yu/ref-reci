@@ -3,6 +3,7 @@ import cv2
 import urllib.request
 import json
 
+
 def barcode_API(barcodenum):
   url = "http://openapi.foodsafetykorea.go.kr/api/9280ea8f04404b9caa96/C005/json/1/5/BAR_CD=" + barcodenum
   response = urllib.request.urlopen(url)
@@ -11,8 +12,9 @@ def barcode_API(barcodenum):
 
   json_object = json.loads(json_str)
   print(json_object)
-  print(len(json_object['C005']['row']))
+  # print(len(json_object['C005']['row']))
   return json_object
+
 
 
 def barcode_recognition():
@@ -69,4 +71,4 @@ def barcode_recognition():
     #   i += 1
     #   cv2.imwrite('testdata/c_%03d.jpg' % i, img)
 
-barcode_recognition()
+# barcode_recognition()

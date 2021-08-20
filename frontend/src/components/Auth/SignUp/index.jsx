@@ -16,7 +16,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
 // Server
@@ -40,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(8, 4),
 		display: 'flex',
 		flexDirection: 'column',
+		alignItems: 'center'
 	},
 	avatar: {
 		margin: theme.spacing(1),
@@ -145,6 +145,7 @@ const postLogin = async (url, userID, userPW) => {
 					userID: userID,
 					userPW: userPW
 			},
+			withCredentials: true,
 			headers: {
 					accept: 'application/json',
 			},
@@ -161,9 +162,9 @@ function Copyright() {
 	return (
 		<Typography variant="body2" color="textSecondary" align="center">
 			{'Copyright © '}
-			<Link color="inherit" href="https://material-ui.com/">
+			<span color="inherit">
 				Ref:reci
-			</Link>{' '}
+			</span>{' '}
 			{new Date().getFullYear()}
 			{'.'}
 		</Typography>
@@ -252,251 +253,242 @@ export default function SignUpSide({history}) {
 						alignItems="center"
 					>
 						<div className={classes.paper}>
-								<Typography color="primary" variant="h2"><b>Ref:Reci</b></Typography>
-								<br></br>
-								<Typography component="h1" variant="h5">회원가입</Typography>
-								<form className={classes.form}>
-									<Container maxWidth="md">
-										<TextField
-											name="userName"
-											variant="outlined"
-											margin="normal"
-											required
-											fullWidth
-											autoComplete="fName"
-											autoFocus
-											id="userName"
-											label="닉네임"
-											helperText={uNameHelperText}
-											error={uNameError}
-											onChange={(event) => {
-												setUserName(event.target.value);
-												if (event.target.value.length < 2) {
-													setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
-													setUNameError(true);
-												} else if (event.target.value.length > 20) {
-													setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
-													setUNameError(true);
-													event.target.value = event.target.value.slice(0, -1);
-												} else {
-													setUNameHelperText('');
-													setUNameError(false);
-												}
-											}}
-										/>
-										<Grid container spacing={2} alignItems="center">
-												<Grid item xs={10}>
-														<TextField
-														disabled={verButtonInactive}
-														variant="outlined"
-														required
-														margin="normal"
-														required
-														fullWidth
-														id="email"
-														label="아이디(E-mail)"
-														name="email"
-														autoComplete="email"
-														helperText={idHelperText}
-														error={idError}
-														onChange={(event) => {
-																setUserID(event.target.value);
-																setEmailAuth(false);
-																setIdHelperText('');
-																setIdError(false);
-														}}
-														/>
-												</Grid>
-												<Grid item xs={2}>
-														<Button
-														disabled={verButtonInactive}
-														fullWidth
-														color="primary"
-														required
-														size="large"
-														onClick={async () => {
-																const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
-																if (userDatas.value === 'Success') {
-																		const emailDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
-																		if (emailDatas.value === 'Email Sent') {
-																				setIdHelperText('이메일이 전송되었습니다.');
-																				setHiddenAuth(false);
-																				setEmailAuthData(emailDatas.number);
-																				console.log(emailDatas.number);
-																				setVerButtonInactive(true);
-																		}
-																		else if(emailDatas.value === 'Email Error') {
-																				setIdHelperText('이메일이 전송되지 못했습니다. 다시 시도해 주세요.');
-																				setIdError(true);
-																		}
-																}
-																else if (userDatas.value === 'Duplicate Email'){
-																		setIdHelperText('이미 가입된 계정입니다.');
-																		setIdError(true);
-																}
-																else if(userDatas.value === 'Wrong Email'){
-																		setIdHelperText('이메일 형식이 잘못되었습니다.');
-																		setIdError(true);
-																}
-														}}
-														>
-														인증
-														</Button>
-												</Grid>
-										</Grid>
-										<Grid container spacing={2} alignItems="center">
+							<Typography color="primary" variant="h2" style={{fontFamily:'Munhwajae', fontStyle:'normal', fontWeight:'nomal'}} ><b>Ref:Reci</b></Typography>
+							<br></br>
+							<Typography component="h1" variant="h5" style={{fontWeight:'Bold'}}>회원가입</Typography>
+							<form className={classes.form}>
+								<Container maxWidth="md">
+									<TextField
+										name="userName"
+										variant="outlined"
+										margin="normal"
+										required
+										fullWidth
+										autoComplete="fName"
+										autoFocus
+										id="userName"
+										label="닉네임"
+										helperText={uNameHelperText}
+										error={uNameError}
+										onChange={(event) => {
+											setUserName(event.target.value);
+											if (event.target.value.length < 2) {
+												setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
+												setUNameError(true);
+											} else if (event.target.value.length > 20) {
+												setUNameHelperText('닉네임은 2자 이상 20자 이하로 설정해주세요.');
+												setUNameError(true);
+												event.target.value = event.target.value.slice(0, -1);
+											} else {
+												setUNameHelperText('');
+												setUNameError(false);
+											}
+										}}
+									/>
+									<Grid container spacing={2} alignItems="center">
 											<Grid item xs={10}>
-												<TextField
-												disabled={hiddenAuth}
-												variant="outlined"
-												required
-												fullWidth
-												id="verification"
-												label="인증번호"
-												name="verification"
-												autoComplete="verification"
-												helperText={verHelperText}
-												error={verError}
-												onChange={(event) => {
-														setVerification(event.target.value);
-														setVerHelperText('');
-														setVerError(false);
-												}}
-												/>
+													<TextField
+													disabled={verButtonInactive}
+													variant="outlined"
+													margin="normal"
+													required
+													fullWidth
+													id="email"
+													label="아이디(E-mail)"
+													name="email"
+													autoComplete="email"
+													helperText={idHelperText}
+													error={idError}
+													onChange={(event) => {
+															setUserID(event.target.value);
+															setEmailAuth(false);
+															setIdHelperText('');
+															setIdError(false);
+													}}
+													/>
 											</Grid>
 											<Grid item xs={2}>
-												<Button
-												color="primary"
-												disabled={hiddenAuth}
-												fullWidth
-												size="large"
-												onClick={async () => {
-														if(verification == emailAuthData){
-																setVerHelperText('인증번호가 일치합니다.');
-																setEmailAuth(true);
-																setHiddenAuth(true);
-														}
-														else{
-																setVerHelperText('잘못된 인증번호입니다.');
-																setVerError(true);
-														}
-												}}
-												>
-												확인
-												</Button>
+													<Button
+													disabled={verButtonInactive}
+													fullWidth
+													color="primary"
+													required
+													size="large"
+													onClick={async () => {
+															const userDatas = await postSearchID(`${server.ip}/user/searchID`, userID);
+															if (userDatas.value === 'Success') {
+																	const emailDatas = await postEmailAuth(`${server.ip}/user/emailAuth`, userID);
+																	if (emailDatas.value === 'Email Sent') {
+																			setIdHelperText('이메일이 전송되었습니다.');
+																			setHiddenAuth(false);
+																			setEmailAuthData(emailDatas.number);
+																			setVerButtonInactive(true);
+																	}
+																	else if(emailDatas.value === 'Email Error') {
+																			setIdHelperText('이메일이 전송되지 못했습니다. 다시 시도해 주세요.');
+																			setIdError(true);
+																	}
+															}
+															else if (userDatas.value === 'Duplicate Email'){
+																	setIdHelperText('이미 가입된 계정입니다.');
+																	setIdError(true);
+															}
+															else if(userDatas.value === 'Wrong Email'){
+																	setIdHelperText('이메일 형식이 잘못되었습니다.');
+																	setIdError(true);
+															}
+													}}
+													>
+													인증
+													</Button>
 											</Grid>
-										</Grid>
-										<TextField
+									</Grid>
+									<Grid container spacing={2} alignItems="center">
+										<Grid item xs={10}>
+											<TextField
+											disabled={hiddenAuth}
 											variant="outlined"
-											margin="normal"
 											required
 											fullWidth
-											autoFocus
-											fullWidth
-											name="password"
-											label="비밀번호"
-											type="password"
-											id="password"
-											autoComplete="current-password"
-											helperText={pwHelperText}
-											error={pwError}
+											id="verification"
+											label="인증번호"
+											name="verification"
+											autoComplete="verification"
+											helperText={verHelperText}
+											error={verError}
 											onChange={(event) => {
-													setPassword(event.target.value);
-													if (event.target.value.length < 8) {
+													setVerification(event.target.value);
+													setVerHelperText('');
+													setVerError(false);
+											}}
+											/>
+										</Grid>
+										<Grid item xs={2}>
+											<Button
+											color="primary"
+											disabled={hiddenAuth}
+											fullWidth
+											size="large"
+											onClick={async () => {
+													if(verification == emailAuthData){
+															setVerHelperText('인증번호가 일치합니다.');
+															setEmailAuth(true);
+															setHiddenAuth(true);
+													}
+													else{
+															setVerHelperText('잘못된 인증번호입니다.');
+															setVerError(true);
+													}
+											}}
+											>
+											확인
+											</Button>
+										</Grid>
+									</Grid>
+									<TextField
+										variant="outlined"
+										margin="normal"
+										required
+										fullWidth
+										name="password"
+										label="비밀번호"
+										type="password"
+										id="password"
+										autoComplete="current-password"
+										helperText={pwHelperText}
+										error={pwError}
+										onChange={(event) => {
+												setPassword(event.target.value);
+												if (event.target.value.length < 8) {
+													setPwHelperText('비밀번호는 8자 이상 20자 이하로 입력해주세요');
+													setPwError(true);
+												}
+												else if (event.target.value.length > 20) {
 														setPwHelperText('비밀번호는 8자 이상 20자 이하로 입력해주세요');
 														setPwError(true);
-													}
-													else if (event.target.value.length > 20) {
-															setPwHelperText('비밀번호는 8자 이상 20자 이하로 입력해주세요');
-															setPwError(true);
-															event.target.value = event.target.value.slice(0, -1);
-													} else {
-														setPwHelperText('');
-														setPwError(false);
-													}
-											}}
-										/>
-										<TextField
-											variant="outlined"
-											margin="normal"
-											required
-											fullWidth
-											autoFocus
-											name="passwordcheck"
-											label="비밀번호확인"
-											type="password"
-											id="passwordcheck"
-											autoComplete="current-password-check"
-											helperText={pwCheckHelperText}
-											error={pwCheckError}
-											onChange={(event) => {
-													setPasswordCheck(event.target.value);
-													setPwCheckHelperText('');
-													setPwCheckError(false);
-											}}
-										/>
-										<Button
-											disabled={signUpInactive}
-											fullWidth
-											variant="contained"
-											size="large"
-											color="primary"
-											className={classes.submit}
-											onClick={async () => {
-												const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
-												
-												if(userDatas.value === 'Success'){
-														const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
-														setModalTitle('환영합니다.')
-														setModalMessage('회원가입이 완료되었습니다. 리프레시와 신선한 하루를 만드세요.');
-														setModalOpen(true);
+														event.target.value = event.target.value.slice(0, -1);
+												} else {
+													setPwHelperText('');
+													setPwError(false);
 												}
-												else {
-													setModalTitle('죄송합니다.')
-													setModalMessage('오류가 발생했습니다. 회원가입을 다시 시도해 주세요.');
-												}
-											}}
-										>
-											회원가입
-										</Button>
-										<Modal
-                      aria-labelledby="transition-modal-title"
-                      aria-describedby="transition-modal-description"
-                      className={classes.modal}
-                      open={modalOpen}
-                      onClose={modalClose}
-                      closeAfterTransition
-                      BackdropComponent={Backdrop}
-                      BackdropProps={{
-                        timeout: 500,
-                      }}
-                    >
-                      <Fade in={modalOpen}>
-                        <div className={classes.modalpaper}>
-                          <h2 id="transition-modal-title">{modalTitle}</h2>
-                          <p id="transition-modal-description">{modalMessage}</p>
-													<div className={classes.mdbutton}>
-														<Button
-														onClick={() => {
-															history.push("/");
-														}}
-														>확인</Button>
-													</div>
+										}}
+									/>
+									<TextField
+										variant="outlined"
+										margin="normal"
+										required
+										fullWidth
+										name="passwordcheck"
+										label="비밀번호확인"
+										type="password"
+										id="passwordcheck"
+										autoComplete="current-password-check"
+										helperText={pwCheckHelperText}
+										error={pwCheckError}
+										onChange={(event) => {
+												setPasswordCheck(event.target.value);
+												setPwCheckHelperText('');
+												setPwCheckError(false);
+										}}
+									/>
+									<Button
+										disabled={signUpInactive}
+										fullWidth
+										variant="contained"
+										size="large"
+										color="primary"
+										className={classes.submit}
+										onClick={async () => {
+											const userDatas = await postRegister(`${server.ip}/user/register`, userName, userID, password);
+
+											if(userDatas.value === 'Success'){
+													const userDatas = await postLogin(`${server.ip}/user/login`, userID, password);
+													setModalTitle('환영합니다.')
+													setModalMessage('회원가입이 완료되었습니다. 리프레시와 신선한 하루를 만드세요.');
+													setModalOpen(true);
+											}
+											else {
+												setModalTitle('죄송합니다.')
+												setModalMessage('오류가 발생했습니다. 회원가입을 다시 시도해 주세요.');
+											}
+										}}
+									>
+										회원가입
+									</Button>
+									<Modal
+										aria-labelledby="transition-modal-title"
+										aria-describedby="transition-modal-description"
+										className={classes.modal}
+										open={modalOpen}
+										onClose={modalClose}
+										disableBackdropClick
+									>
+										<Fade in={modalOpen}>
+											<div className={classes.modalpaper}>
+												<h2 id="transition-modal-title">{modalTitle}</h2>
+												<p id="transition-modal-description">{modalMessage}</p>
+												<div className={classes.mdbutton}>
+													<Button
+													onClick={() => {
+														history.push("/");
+													}}
+													>확인</Button>
 												</div>
-                      </Fade>
-                    </Modal>
-										<Grid container justifyContent="flex-end">
-											<Grid item>
-												<Link component={RouterLink} to="/signin" color="secondary" variant="body2">
-													이미 계정이 있으신가요? 로그인 하러 가기
-												</Link>
-											</Grid>
+											</div>
+										</Fade>
+									</Modal>
+									<Grid container justifyContent="flex-end">
+										<Grid item>
+											<Link component={RouterLink} to="/signin" color="secondary" variant="body2">
+												이미 계정이 있으신가요? 로그인 하러 가기
+											</Link>
 										</Grid>
-										<Box mt={5}>
-											<Copyright />
-										</Box>
-									</Container>
-								</form>
+									</Grid>
+									<Box mt={5}>
+										<Copyright />
+									</Box>
+								</Container>
+							</form>
 						</div>
 					</Grid>
 			</Grid>

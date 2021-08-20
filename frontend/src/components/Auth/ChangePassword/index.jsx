@@ -1,7 +1,6 @@
 // React, Router
 import React, { useEffect, useState } from 'react';
-// import { Route } from "react-router";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -72,9 +71,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <span color="inherit">
         Ref:reci
-      </Link>{' '}
+      </span>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -219,12 +218,12 @@ export default function ChangePassword({history}) {
             alignItems="center"
           >
               <div className={classes.paper}>
-                <Typography color="primary" variant="h2">
+                <Typography color="primary" variant="h2" style={{fontFamily:'Munhwajae', fontStyle:'normal', fontWeight:'normal'}}>
                   <b>Ref:Reci</b>
                 </Typography>
                 <br></br>
                 <Typography component="h1" variant="h5">
-                  비밀번호 변경
+                  <b>비밀번호 변경</b>
                 </Typography>
                 <form className={classes.form}>
                   <Container maxWidth="md">
@@ -268,7 +267,6 @@ export default function ChangePassword({history}) {
                                     setIdHelperText('이메일이 전송되었습니다.');
                                     setHiddenAuth(false);
                                     setEmailAuthData(emailDatas.number);
-                                    console.log(emailDatas.number);
                                     setVerButtonInactive(true);
                                   }
                                   else if (emailDatas.value === 'Email Error') {

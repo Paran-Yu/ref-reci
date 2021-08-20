@@ -1,8 +1,6 @@
-import { React, useState, useEffect } from "react";
-import { Grid, makeStyles, GridList, Paper } from "@material-ui/core";
-// import catDt from "./dump.json";
+import { react, useState } from "react";
+import { Grid, makeStyles, Paper } from "@material-ui/core";
 import IngItem from "../SmallItem";
-import { PropTypes } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,23 +15,34 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     margin: "auto",
     height: "100%",
+    width: "100%",
   },
   list: {
     height: "120%",
   },
 }));
 
-
 const SmallList = (props) => {
   const classes = useStyles();
   // const data = catDt;
   const datas = props.datas;
-  const [arr, setArr] = useState({
-    cnt: 0,
-    arr: [],
-  });
-  const showDt = (re) => {
-    props.addCnt(re);
+  let list = [];
+
+  const showDt = (productName, productID) => {
+    let check = false;
+    if (list.length == 0) list = props.selectIng;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].category == productID) {
+        check = true;
+        break;
+      }
+    }
+    if (!check) {
+      list = list.concat({ name: productName, category: productID });
+    } else {
+      list = list.filter((Ing) => Ing.name != productName);
+    }
+    props.addCnt(list);
   };
 
   return (
@@ -43,7 +52,12 @@ const SmallList = (props) => {
           {datas.map((dt, idx) => (
             <Grid item className={classes.MainGrid} key={idx} xs={4} lg={3}>
               <Paper className={classes.grid}>
-                <IngItem dt={dt} cnt={props.cnt} arr={arr} showDt={showDt.bind()} />
+                <IngItem
+                  selectIng={props.selectIng}
+                  dt={dt}
+                  cnt={props.cnt}
+                  showDt={showDt.bind()}
+                />
               </Paper>
             </Grid>
           ))}
