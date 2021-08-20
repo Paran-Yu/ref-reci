@@ -114,14 +114,9 @@ const Fridge = (props) => {
   const mainCheck = async (c1ID, classification1Name) => {
     catName = classification1Name;
     setMainCatName(classification1Name);
-    console.log(c1ID,classification1Name)
     if(c1ID === 0){
-      console.log('데이터 요청 시작')
       const allDatas = await getCl2Data(`${server.ip}/fridge/allUserProduct`)
-      console.log('데이터 요청 끝')
       setCustomAllList(<SmallList selectIng={selectIng} cnt={cnt} addCnt={addCnt.bind()} datas={allDatas} />)
-
-      console.log("props.location.state.isRef", props.location.state.isRef)
     }
     else{
       const datas = await getCl2Data(`${server.ip}/fridge/searchUserProduct?cl1ID=${c1ID}`);

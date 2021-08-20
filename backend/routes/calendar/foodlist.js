@@ -7,7 +7,8 @@ const { pool } = require(`../../mysql`)
 
 app.post('/changeCount', async (req, res) =>{
     console.log(req.body)
-    const uID = 1
+    // const uID = 1
+    const uID = req.session.uid;
     let  sql1, sql2;
     if (req.body.Type === 1){
         sql1 = `UPDATE refreci.UserProduct
@@ -43,7 +44,8 @@ app.post('/changeCount', async (req, res) =>{
 //dueday 음식 수량 photo
 //classification
 app.get('/get7days', async (req, res) => {
-    const uID = 1
+    // const uID = 1
+    const uID = req.session.uid;
     const sql = `SELECT a.Classification2Image as Img, DATEDIFF(productShelfLife, now()) as Dday, b.productName as Name, b.productCount as Count
     FROM refreci.UserProduct as b
     right join refreci.Classification2 as a
@@ -76,7 +78,8 @@ app.get('/get7days', async (req, res) => {
 })
 
 app.get('/getAllItem', async (req, res) => {
-    const uID = 1
+    // const uID = 1
+    const uID = req.session.uid;
     const sql = `SELECT a.Classification2Image as Img, DATEDIFF(productShelfLife, now()) as Dday, b.productName as Name, b.productCount as Count
     FROM refreci.UserProduct as b
     right join refreci.Classification2 as a
@@ -107,7 +110,8 @@ app.get('/getAllItem', async (req, res) => {
 })
 
 app.post("/getItems", async (req, res) =>{
-    const uID = 1
+    // const uID = 1
+    const uID = req.session.uid;
     let diffDay;
     console.log(req.body)
     let type
