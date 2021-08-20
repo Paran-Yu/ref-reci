@@ -16,34 +16,17 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, quantity) {
-  return { name, quantity };
-};
-
-const ingRows = [
-  createData('Frozen yoghurt', 159),
-  createData('Ice cream sandwich', 237),
-  createData('Eclair', 262),
-  createData('Cupcake', 305),
-  createData('Gingerbread', 356),
-];
-
-// [박지우 -> 이지훈] 여기에 재료를 위 rows의 형태로 담아주세요. 튜플말고 {name: 'Frozen yogurt', 'quantity: 159} 이렇게 하셔도 됩니다.
-// const ingRows = await getUserData(`${server.ip}/...`);
-
-
-const ingCells = ingRows.map((ing) => {
-  return (
-  <TableRow key={ing.name}>
-    <TableCell component="th" scope="row">{ing.name}</TableCell>
-    <TableCell align="right">{ing.quantity}</TableCell>
-  </TableRow>
-  )
-})
-
-
-export default function RecipeIng() {
+export default function RecipeIng(props) {
   const classes = useStyles();
+
+  const ingCells = props.datas.map((ing) => {
+    return (
+      <TableRow key={ing.name}>
+        <TableCell component="th" scope="row">{ing.ingredientName}</TableCell>
+        <TableCell align="right">{ing.ingredientAmount}</TableCell>
+      </TableRow>
+    )
+  })
 
   return (
     <Box p={5}>
@@ -51,7 +34,7 @@ export default function RecipeIng() {
         <Table className={classes.table} aria-label="ingredient table">
           <TableHead>
             <TableRow>
-              <TableCell>재료</TableCell>
+              <TableCell >재료</TableCell>
               <TableCell align="right">양</TableCell>
             </TableRow>
           </TableHead>

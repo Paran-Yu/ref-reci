@@ -10,17 +10,10 @@ const githubClientID = process.env.githubClientID2;
 const githubClientSecret = process.env.githubClientSecret2;
 const googleClientID = process.env.googleClientID2;
 const googleClientSecret = process.env.googleClientSecret2;
-const kakaoClientID = process.env.kakaoClientID2;
-const kakaoClientSecret = process.env.kakaoClientSecret2;
 const serverip = process.env.serverip2;
 
 app.get("/github", async (req, res) => {
     const requestToken = req.query.code;
-
-    // console.log(requestToken);
-    // console.log(githubClientID);
-    // console.log(githubClientSecret);
-    // console.log(requestToken);
 
     try {
         const access_token = await axios({
@@ -31,11 +24,6 @@ app.get("/github", async (req, res) => {
             },
         });
 
-        // console.log('response.data');
-        // console.log(access_token.data);
-        // console.log('access_token');
-        // console.log(access_token.data.access_token);
-
         const userResponse = await axios({
             method: 'get',
             url: 'https://api.github.com/user',
@@ -43,10 +31,6 @@ app.get("/github", async (req, res) => {
                 Authorization: `token ${access_token.data.access_token}`,
             },
         });
-
-        //console.log('social login result:', userResponse.data);
-        // console.log(`id: ${userResponse.data.id}`);
-        // console.log(`userName: ${userResponse.data.name}`);
 
         const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
             userResponse.data.id
@@ -69,7 +53,6 @@ app.get("/github", async (req, res) => {
 
 app.get("/google", async (req, res) => {
     const requestToken = req.query.code;
-    // console.log(requestToken);
     try {
 
         const access_token = await axios({
@@ -80,11 +63,6 @@ app.get("/google", async (req, res) => {
             },
         });
 
-        // console.log('response.data');
-        // console.log(access_token.data);
-        // console.log('access_token');
-        // console.log(access_token.data.access_token);
-
         const userResponse = await axios({
             method: 'get',
             url: `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token.data.access_token}`,
@@ -92,10 +70,6 @@ app.get("/google", async (req, res) => {
                 accept: 'application/json',
             },
         });
-
-        //console.log('social login result:', userResponse.data);
-        // console.log(`id: ${userResponse.data.id}`);
-        // console.log(`userName: ${userResponse.data.name}`);
 
         const [rows, fields] = await pool.query("SELECT * FROM User WHERE userID = ?", [
             userResponse.data.id

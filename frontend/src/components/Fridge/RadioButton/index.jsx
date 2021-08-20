@@ -6,6 +6,10 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
+  label : {
+    fontFamily:'KoPubWorld', 
+    fontStyle:'normal', 
+    fontWeight:'normal'}
 }));
 
 const RadioButton = (props) => {
@@ -14,10 +18,12 @@ const RadioButton = (props) => {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  const classes = useStyles();
 
   return (
+    
     <FormControl component="fieldset">
-      <RadioGroup row aria-label="radio-group" name="sorted" value={value} onChange={handleChange}>
+      <RadioGroup row aria-label="radio-group" className={classes.label} name="sorted" value={value} onChange={handleChange}>
         <FormControlLabel value="validate" control={<Radio />} label="유효기간 남은 순" />
         <FormControlLabel value="name" control={<Radio />} label="이름 순" />
         <FormControlLabel value="new" control={<Radio />} label="최신 순" />

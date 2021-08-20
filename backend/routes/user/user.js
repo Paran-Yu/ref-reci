@@ -206,21 +206,20 @@ app.post("/changePassword", async (req, res) => {
 
 app.get("/isLogin", async (req, res) => {
     if(req.session.uid){
-        console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
+        // console.log(`환영합니다 유저 넘버 ${req.session.uid}`);
     }
     else{
-        console.log('로그인이 되어있지 않습니다.')
+        // console.log('로그인이 되어있지 않습니다.')
     }
     
-    console.log(req.sessionID)
-    console.log(req.session);
+    // console.log("req.session.uid", req.session.uid);
+    // console.log(req.sessionID)
+    // console.log(req.session);
     res.send({value:req.session.uid});
 })
 
 app.get("/userInfo", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
-
+    const uID = req.session.uid;
     try {
         const [rows1, fields1] = await pool.query("SELECT userID, userName FROM User WHERE uID = ?", [
             uID
@@ -229,29 +228,23 @@ app.get("/userInfo", async (req, res) => {
         const userID = rows1[0].userID;
         const userName = rows1[0].userName;
 
-        console.log(userID);
-        console.log(userName);
-
         const [rows2, fields2] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ?", [
             uID
         ]);
 
         const foodCount = rows2[0].cnt;
-        console.log(foodCount);
         
         const [rows3, fields3] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 <= DATE(productShelfLife) - DATE(NOW()) AND DATE(productShelfLife) - DATE(NOW()) <= 3", [
             uID
         ]);
 
         const expire3FoodCount = rows3[0].cnt;
-        console.log(expire3FoodCount);
 
         const [rows4, fields4] = await pool.query("SELECT COUNT(productName) AS cnt FROM UserProduct WHERE uID = ? AND 0 > DATE(productShelfLife) - DATE(NOW())", [
             uID
         ]);
 
         const expiredFoodCount = rows4[0].cnt;
-        console.log(expiredFoodCount);
 
         res.send({
             userID: userID,
@@ -268,8 +261,7 @@ app.get("/userInfo", async (req, res) => {
 })
 
 app.post("/checkPassword", async(req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
     const inputPassword = req.body.password;
 
     try{
@@ -296,8 +288,7 @@ app.post("/checkPassword", async(req, res) => {
 })
 
 app.post("/changeUserName", async(req, res) => {
-    // const uID = req.session.uID;
-    const uID = 1;
+    const uID = req.session.uID;
     
     const userName = req.body.userName;
 
@@ -314,8 +305,7 @@ app.post("/changeUserName", async(req, res) => {
 })
 
 app.post("/changeUserID", async (req, res) => {
-    // const uID = req.session.uID;
-    const uID = 1;
+    const uID = req.session.uID;
     
     const userID = req.body.userID;
 
@@ -326,8 +316,7 @@ app.post("/changeUserID", async (req, res) => {
 })
 
 app.post("/changeUserPW", async (req, res) => {
-    // const uID = req.session.uID;
-    const uID = 1;
+    const uID = req.session.uID;
     
     const userPW = req.body.userPW;
 
@@ -345,8 +334,8 @@ app.post("/changeUserPW", async (req, res) => {
 })
 
 app.get("/deleteUser", async (req, res) => {
-    // const uID = req.session.uID;
-    const uID = 54;
+    const uID = req.session.uID;
+
     try{
         await pool.query("DELETE FROM User WHERE uID = ?", [
             uID,

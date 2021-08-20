@@ -8,7 +8,7 @@ import FavRecipe from "../../components/Recipe/FavRecipe";
 import Fab from "../../layout/FloatingActionButton";
 import TopBar from "../../layout/TopBar";
 import BottomBar from "../../layout/BottomBar";
-
+import MyProfile from '../../components/Auth/Profile/MyProfile';
 
 // Style
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,32 +37,13 @@ import axios from 'axios';
 import server from '../../server.json';
 
 
-const mytheme = createTheme({
-  palette: {
-      primary: {
-          light: '#f2da9e',
-          main: '#f9bc15',
-          dark: '#f19920',
-          contrastText: '#fff',
-      },
-      secondary: {
-          light: '#f2ede7',
-          main: '#a29d97',
-          dark: '#45423c',
-          contrastText: '#fff',
-      },
-      success: {
-          light: '#f2ede7',
-          main: '#fee500',
-          dark: '#45423c',
-          contrastText: '#191600',
-      },
-  },
-});
-
 const useStyles = makeStyles((theme) => ({
   root: {
-      height: '100vh',
+    height: '100vh',
+  },
+  gridItem: {
+    display: 'flex',
+    alignItems: 'stretch',
   },
   image: {
       backgroundImage: "url(" + process.env.PUBLIC_URL + '/images/main.png' + ")",
@@ -111,16 +92,22 @@ const getUserData = async (url) => {
   }
 }
 
-
-// const Pagination = () => {
-//   const classes = useStyles();
-//   return (
-//     <div className={classes.pg}>
-//       <Pagination count={10} color="primary" />
-//       <Pagination count={10} color="secondary" />
-//     </div>
-//   );
-// };
+const checkLogin = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
 
 export default function Profile({history}) {
   const classes = useStyles();
@@ -132,61 +119,72 @@ export default function Profile({history}) {
   const [expire3Num, setExpire3Num] = useState('');
   const [expiredNum, setExpiredNum] = useState('');
 
-  const [recipeDatas, setRecipeDatas ] = useState();
+
+  const [posts, setPosts]   = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(12);
 
   useEffect(async () => {
-    const loginData = await getUserData(`${server.ip}/user/isLogin`);
-    console.log(loginData);
-    setUID(1);
-    // if (loginData.value) {
-    //   setUID(loginData.value);
-    //필요한 데이터 가져오기
-      const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
-      setUserID(userInfoData.userID);
-      setUserName(userInfoData.userName);
-      setMyFridgeNum(userInfoData.foodCount);
-      setExpire3Num(userInfoData.expire3FoodCount);
-      setExpiredNum(userInfoData.expiredFoodCount);
+    const loginData = await checkLogin(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+    setUID(loginData.value);
+    const userInfoData = await getUserData(`${server.ip}/user/userInfo`);
+    setUserID(userInfoData.userID);
+    setUserName(userInfoData.userName);
+    setMyFridgeNum(userInfoData.foodCount);
+    setExpire3Num(userInfoData.expire3FoodCount);
+    setExpiredNum(userInfoData.expiredFoodCount);
 
-      const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
-
-      const recipeItems = favRecipeData.map((recipeData) => {
-        return (
-          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
-            <FavRecipe rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
-          </Grid>
-        )
-      })
-
-      setRecipeDatas(recipeItems);
-    // }
-    // else {
-    //   console.log(loginData.value);
-    //   history.replace('/signin');
-    // }
-
+    const favRecipeData = await getUserData(`${server.ip}/recipe/favorRecipe`);
+    setPosts(favRecipeData)
   }, [])
   
+  // 현재 페이지 가져오기
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (event, value) => setCurrentPage(value);
+
   return (
     <Container fixed >
       <TopBar />
-      <Typography
-      variant="h3"
-      >
-        마이페이지
-      </Typography>
-      <Divider variant="middle" />
+      <Box mt={5}>
+        <Typography
+        variant="h4"
+        color="primary"
+        style={{fontFamily:'Jeju', fontStyle:'normal', fontWeight:'bold', textDecoration: 'none'}}
+        component={RouterLink}
+        to="/profile"
+        >
+          마이페이지
+        </Typography>
+      </Box>
+      <Box my={2}>
+        <Divider variant="middle" />
+      </Box>
+      <MyProfile userID={userID} userName={userName}/>
       <Box m={3}>
         <Grid container>
           <Grid item xs={12} md={6}>
             <QRCode uid={uID}/>
           </Grid>
           <Grid item xs={12} md={6}>
-            <MyInfo userID={userID} userName={userName} myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
+            <MyInfo myFridgeNum={myFridgeNum} expire3Num={expire3Num} expiredNum={expiredNum} />
           </Grid>
         </Grid>
       </Box>
-      <h1>즐겨찾기한 레시피</h1>
+      <Box my={3}>
+        <Typography
+        variant="h5"
+        color="secondary"
+        style={{fontFamily:'KoPubWorld', fontStyle:'normal', fontWeight:'bold'}}
+        >
+          즐겨찾기한 레시피
+        </Typography>
+      </Box>
       <Box 
         display="flex"
         justifyContent="center"
@@ -194,7 +192,13 @@ export default function Profile({history}) {
         my={3}
       >
         <Grid container spacing={2}>
-          {recipeDatas}
+          {currentPosts.map((recipeData) => {
+        return (
+          <Grid item key={recipeData} xs={12} sm={6} md={4} lg={3}> 
+            <FavRecipe rID={recipeData.rID} rName={recipeData.rName} rIntroduce={recipeData.rIntroduce} url={`${server.ip}/img?id=${recipeData.rImage}`} />
+          </Grid>
+        )
+        })}
         </Grid>
       </Box>
       <div className={classes.pg}>
@@ -204,7 +208,9 @@ export default function Profile({history}) {
           alignItems='center'
           my={2}
         >
-          <Pagination count={10} color="primary" />
+        <Pagination onChange={paginate} page={currentPage} 
+        count={Math.ceil(posts.length/postPerPage)} 
+        color="primary" />
         </Box>
       </div>
       <Fab />

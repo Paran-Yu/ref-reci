@@ -12,16 +12,6 @@ code {
     monospace;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
 @font-face {
   font-family: 'KoPubWorld';
   font-style: normal;
@@ -40,7 +30,7 @@ code {
   font-family: 'KoPubWorld';
   font-style: normal;
   font-weight: Bold;
-  src: url(./styles/font/KoPubWorld-Dotum-Bold.ttf) /* format('truetype') */
+  src: url(./styles/font/KoPubWorld-Dotum-Bold.ttf) format('truetype')
 }
 
 @font-face {

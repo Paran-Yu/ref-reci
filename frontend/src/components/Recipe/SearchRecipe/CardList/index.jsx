@@ -6,7 +6,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import { useNowCols } from "../../../../common/MediaQueryHooks";
-import catDt from "./dump.json";
 import CardItem from "../CardItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,30 +27,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//삭제 예정
-const useGetdata = () => {
-  const [catItemDatas, setCatItemDatas] = useState([]);
-  const getDatas = async () => {
-    setCatItemDatas(catDt);
-  };
-  useEffect(() => {
-    getDatas();
-  }, []);
-  return catItemDatas;
-};
 
 const CardList = (props) => {
   const classes = useStyles();
-  // const data = useGetdata();
   const data = props.datas;
+  const data2 = props.datas2;
+
   return (
     <div className={classes.root}>
-      <Grid container>
+      <Grid container spacing={2}>
         {data.map((dt, idx) => (
-          <Grid item justifyContent="center" alignItems="center" key={idx} xs={6} sm={4} lg={3}>
-            <Paper className={classes.grid}>
-              <CardItem dt={dt} idx={idx} />
-            </Paper>
+          <Grid item justifyContent="center" alignItems="center" key={idx} xs={12} md={6} lg={4}>
+            <CardItem dt={dt} idx={idx} dt2={data2[idx]}/>
           </Grid>
         ))}
       </Grid>

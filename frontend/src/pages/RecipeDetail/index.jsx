@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Box, Typography, Paper, Grid, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -29,6 +29,24 @@ const getRecipe = async (url) => {
     const data = await axios({
       method: 'get',
       url: url,
+      withCredentials: true,
+      headers: {
+        accept: 'application/json',
+      },
+    });
+    return data.data;
+  }
+  catch (err) {
+    console.log(`ERROR: ${err}`);
+  }
+}
+
+const checkLogin = async (url) => {
+  try {
+    const data = await axios({
+      method: 'get',
+      url: url,
+      withCredentials: true,
       headers: {
         accept: 'application/json',
       },
@@ -42,19 +60,31 @@ const getRecipe = async (url) => {
 
 export default function RecipeDetail({match}) {
   const classes = useStyles();
+
+  const [customRecipeTitle, setCustomRecipeTitle] = useState();
+  const [customRecipeContent, setCustomRecipeContent] = useState();
   let rID;
 
 
-  useEffect(() => {
+  useEffect(async () => {
+    const loginData = await checkLogin(`${server.ip}/user/isLogin`);
+    if (loginData.value === undefined) {
+      window.location.replace("http://i5a203.p.ssafy.io/signin")
+    }
+    
     rID = match.params.rid;
-    const datas = getRecipe(`${server.ip}/recipe/`)
+    const datas = await getRecipe(`${server.ip}/recipe/detail?rID=${rID}`);
+    const isFavor = await getRecipe(`${server.ip}/recipe/checkFavorRecipe?rID=${rID}`);
+
+    setCustomRecipeTitle(<RecipeTitle datas={datas[0]} isStar={isFavor} rID={rID}/>)
+    setCustomRecipeContent(<RecipeContent datas1={datas[1]} datas2={datas[2]} />)
   }, [])
 
   return (
     <Container fixed>
       <TopBar />
-      <RecipeTitle />
-      <RecipeContent />
+      {customRecipeTitle}
+      {customRecipeContent}
       <BottomBar />
       <FloatingActionButton />
     </Container>

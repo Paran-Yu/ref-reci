@@ -23,8 +23,7 @@ function getCurrentDate()
 
 app.get("/read", async (req, res) =>{
     try {
-        const uID = 1;
-        // const uID = req.session.uID;
+        const uID = req.session.uid;
         
         const [rows, fields] = await pool.query('SELECT productName, productClassification2 FROM UserProduct WHERE uID = ?', [
             uID
@@ -53,7 +52,7 @@ app.get("/classification1", async (req, res) => {
         for(let i=0; i<len; i++){
             list.push(rows[i]);
         }
-        console.log(list);
+        // console.log(list);
         res.json(list);
     }
     catch (err) {
@@ -70,7 +69,7 @@ app.get("/classification2", async (req, res) => {
             cl1
         ])
         
-        console.log(rows);
+        // console.log(rows);
         res.json(rows);
     }
     catch (err) {
@@ -80,19 +79,77 @@ app.get("/classification2", async (req, res) => {
 })
 
 app.get("/searchUserProduct", async (req, res) => {
-    // const uID = req.session.uid;
-    const uID = 1;
+    const uID = req.session.uid;
     
-    const cl2 = req.query.cl2ID;
+    const cl1 = req.query.cl1ID;
 
     try {
-        const [rows, fields] = await pool.query('SELECT productName, productCount, productShelfLife, productImage FROM UserProduct WHERE uID = ? AND productClassification2 = ?', [
+        let list = [];
+        const [rows, fields] = await pool.query('SELECT upID, productClassification2, productName, productCount, productShelfLife, productImage FROM UserProduct WHERE uID = ? AND productClassification1 = ?', [
             uID,
-            cl2
+            cl1
+        ])
+        let len = rows.length;
+        for(let i=0; i<len; i++){
+            let tmp_obj = new Object();
+            tmp_obj.upID = rows[i].upID;
+            tmp_obj.productClassification2 = rows[i].productClassification2;
+            tmp_obj.productName = rows[i].productName;
+            tmp_obj.productCount = rows[i].productCount;
+            tmp_obj.productImage = rows[i].productImage;
+            if (rows[i].productShelfLife === null){
+                tmp_obj.productShelfLife = "0000-00-00"
+            }
+            else{
+                tmp_obj.productShelfLife = rows[i].productShelfLife;
+            }
+            list.push(tmp_obj)
+        }
+
+        res.json(list);
+    }
+    catch (err) {
+        console.log(err)
+        return new Error(err)
+    }
+})
+
+app.get("/allUserProduct", async (req, res) => {
+    const uID = req.session.uid;
+    const sql ='SELECT up.productName, up.productCount, up.productShelfLife, up.productImage, c1.classification1Name, c2.classification2Name, up.productClassification2 \
+                FROM UserProduct AS up \
+                JOIN Classification1 AS c1 \
+                ON up.productClassification1 = c1.c1ID \
+                JOIN Classification2 AS c2 \
+                ON up.productClassification2 = c2.c2ID \
+                WHERE up.uID = ?'
+
+    try {
+        let list = [];
+        const [rows, fields] = await pool.query(sql, [
+            uID,
         ])
 
-        console.log(rows);
-        res.json(rows);
+        let len = rows.length;
+        for (let i = 0; i < len; i++) {
+            let tmp_obj = new Object();
+            tmp_obj.productName = rows[i].productName;
+            tmp_obj.productCount = rows[i].productCount;
+            tmp_obj.productImage = rows[i].productImage;
+            tmp_obj.classification1Name = rows[i].classification1Name;
+            tmp_obj.classification2Name = rows[i].classification2Name;
+            tmp_obj.productClassification2 = rows[i].productClassification2;
+            if (rows[i].productShelfLife === null) {
+                tmp_obj.productShelfLife = "0000-00-00"
+            }
+            else {
+                tmp_obj.productShelfLife = rows[i].productShelfLife;
+            }
+            list.push(tmp_obj)
+        }
+
+        console.log("list", list)
+        res.json(list);
     }
     catch (err) {
         console.log(err)
