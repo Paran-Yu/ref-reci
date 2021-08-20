@@ -55,7 +55,6 @@ const checkLogin = async (url) => {
         accept: 'application/json',
       },
     });
-    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -106,7 +105,6 @@ const Fridge = (props) => {
 
   const addCnt = (re) => {
     setSelectIng(re);
-    console.log("re", re);
     setCl2List(re);
     //여기서 소분류 아이디와 유저 제품 이름을 하나씩 객체로 싸서 객체들의 모임으로 배열을 만들어서 보내야함
   };
@@ -136,7 +134,6 @@ const Fridge = (props) => {
     setMainCatName(re);
     getRefDt();
   };
-  console.log("props.location.state", props.location.state)
   return (
     <Container fixed>
       <TopBar />

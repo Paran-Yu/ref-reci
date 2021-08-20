@@ -43,7 +43,6 @@ const checkLogin = async (url) => {
         accept: 'application/json',
       },
     });
-    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -66,7 +65,6 @@ export default function CheckPassword({history, match}) {
   }
   
   const onClickPW = async() => {
-    console.log(password);
     const data = await postCheck(`${server.ip}/user/checkPassword`, password);
 
     if(data){

@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const showDday = (date) => {
-  console.log(date)
   if(date == null){
     return ('미정')
   }
@@ -100,17 +99,13 @@ export default function FoodList(props) {
   const dDay = showDday(props.foodDday);
   //- 버튼이 클릭됐을 때 동작하는 함수
   async function onMinusClick (){
-    // console.log('마이너스 클릭')
     const cnt = await postCount(`${server.ip}/foodlist/changeCount`, props.foodName, 1)
-    // console.log(cnt[0].Count)
     setCount(cnt[0].Count)
   }
   
   //+ 버튼이 클릭됐을 때 동작하는 함수
   async function onPlusClick (){
-    // console.log('플러스 클릭')
     const cnt = await postCount(`${server.ip}/foodlist/changeCount`, props.foodName, 2)
-    // console.log(cnt[0].Count)
     setCount(cnt[0].Count)
   }
 

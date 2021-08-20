@@ -267,7 +267,6 @@ export default function ChangePassword({history}) {
                                     setIdHelperText('이메일이 전송되었습니다.');
                                     setHiddenAuth(false);
                                     setEmailAuthData(emailDatas.number);
-                                    console.log(emailDatas.number);
                                     setVerButtonInactive(true);
                                   }
                                   else if (emailDatas.value === 'Email Error') {

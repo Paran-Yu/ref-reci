@@ -41,10 +41,8 @@ export default function SearchBar(props) {
   const [selectedOptions, setSelectedOptions] = useState([]);
   // const [defaultDatas, setDefaultDatas] = useState([]);
 
-  console.log(props);
   const handleChange = async (event, value) => {
     setSelectedOptions(value);
-    console.log("value", value);
 
     const len = value.length;
     let selectedSet = new Set();
@@ -56,7 +54,6 @@ export default function SearchBar(props) {
 
     //소분류로 레시피들을 찾아옴
     const recipes = await postDatas(`${server.ip}/recipe/search`, selectedArr);
-    console.log("selectedArr", selectedArr);
     //부모에서 내려준 함수로  레시피 아이디들, 선택된 재료의 소분류를 넘김
     props.onChildChange(recipes, selectedArr);
   };

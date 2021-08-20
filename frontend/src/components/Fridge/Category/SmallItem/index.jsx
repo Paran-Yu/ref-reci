@@ -114,17 +114,12 @@ const SmallItem = (props) => {
   // const editShelfLife = dt.productShelfLife;
 
   async function onMinusClick() {
-    // console.log(dt.productName, dt.productCount)
-    // console.log('마이너스 클릭')
     const cnt = await postCount(`${server.ip}/foodlist/changeCount`, dt.productName, 1)
-    // console.log(cnt[0].Count)
     setCount(cnt[0].Count)
   }
 
   async function onPlusClick() {
-    // console.log('플러스 클릭')
     const cnt = await postCount(`${server.ip}/foodlist/changeCount`, dt.productName, 2)
-    // console.log(cnt[0].Count)
     setCount(cnt[0].Count)
   }
 

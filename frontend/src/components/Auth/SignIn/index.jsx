@@ -114,7 +114,6 @@ const checkLogin = async (url) => {
         accept: 'application/json',
       },
     });
-    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -152,7 +151,6 @@ export default function SignInSide({history}) {
 
   useEffect(async () => {
     const data = await checkLogin(`${server.ip}/user/isLogin`);
-    console.log(data);
   }, [])
 
   return (
@@ -298,7 +296,6 @@ export default function SignInSide({history}) {
                             Kakao.API.request({
                               url: '/v2/user/me',
                               success: async function (response) {
-                                console.log(response)
                                 const data = await axios({
                                   method: 'post',
                                   url: `${server.ip}/callback/kakao`,
@@ -310,7 +307,6 @@ export default function SignInSide({history}) {
                                     accept: 'application/json',
                                   },
                                 });
-                                console.log(data);
                                 if (data.data.value === 'Success') history.push("/");
                                 else if (data.data.value === 'Error') alert('로그인 과정에서 예상치 못한 문제가 발생했습니다.');
                               },

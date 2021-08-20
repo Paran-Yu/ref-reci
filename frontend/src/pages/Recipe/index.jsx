@@ -109,7 +109,6 @@ const checkLogin = async (url) => {
         accept: 'application/json',
       },
     });
-    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -148,7 +147,6 @@ const Recipe = (props) => {
     const allFoodItems = await getDatas(`${server.ip}/fridge/read`);
     items = allFoodItems;
     setAllFoodItems(items);
-    console.log(items);
     setCustomSearchBar(
       <SearchBar datas={items} onChildChange={handleChildChange} defaultDatas={[]} />
     );
@@ -169,7 +167,6 @@ const Recipe = (props) => {
       }
 
       const recipes = await postDatas(`${server.ip}/recipe/search`, selectedArr);
-      console.log(recipes);
 
       if (recipes[1].length < 12) {
         setPostPerPage(recipes[1].length);

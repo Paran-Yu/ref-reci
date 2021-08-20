@@ -51,7 +51,6 @@ const checkLogin = async (url) => {
         accept: 'application/json',
       },
     });
-    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -76,7 +75,6 @@ export default function RecipeDetail({match}) {
     rID = match.params.rid;
     const datas = await getRecipe(`${server.ip}/recipe/detail?rID=${rID}`);
     const isFavor = await getRecipe(`${server.ip}/recipe/checkFavorRecipe?rID=${rID}`);
-    console.log("isFavor", isFavor);
 
     setCustomRecipeTitle(<RecipeTitle datas={datas[0]} isStar={isFavor} rID={rID}/>)
     setCustomRecipeContent(<RecipeContent datas1={datas[1]} datas2={datas[2]} />)

@@ -75,12 +75,7 @@ const DetailModal = (props) => {
   }
 
   const clickHandler = () => {
-    console.log(dateData)
-    // const finishDate = new Date(dateData);
-    // const nowDate = new Date();
-    // const diff = Math.floor((finishDate - nowDate) / 1000 / 60 / 60 / 24);
     const datas = postData(`${server.ip}/foodlist/updateDate`, dt.upID, dateData);
-    // setRenderDate(dateData)
     childClickHandler(dateData)
   }
 

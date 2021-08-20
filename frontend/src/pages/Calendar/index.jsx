@@ -88,7 +88,6 @@ const checkLogin = async (url) => {
         accept: 'application/json',
       },
     });
-    console.log(data.data.value);
     return data.data;
   }
   catch (err) {
@@ -105,12 +104,10 @@ export default function Calendar() {
 
   const get7Days = (async () => {
     const foodlist = await get7Items(`${server.ip}/foodlist/get7days`)
-    // console.log(foodlist)
     setPosts(foodlist);
   })
   const getAll = (async () => {
     const foodlist = await getAllItems(`${server.ip}/foodlist/getAllItem`)
-    // console.log(foodlist)
     setPosts(foodlist);
   })
   
@@ -127,13 +124,10 @@ export default function Calendar() {
   }, [])
 
   useEffect(async () => {
-    console.log("dates", dates)
     const foodlist = await getItems(`${server.ip}/foodlist/getItems`, `${dates}`);
-    console.log("foodlist", foodlist)
     //다른거에 담아서 여러개를 보내는?
     setPosts(foodlist);
     setFlagState(false)
-    console.log("foodlist.length",foodlist.length)
     if (foodlist.length === 0){
       setPosts([{ Name: "undefined", Dday: "", Count: "", Img: "" }])
       setFlagState(true)

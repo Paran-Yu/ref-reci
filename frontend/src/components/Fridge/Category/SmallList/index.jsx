@@ -43,7 +43,6 @@ const SmallList = (props) => {
       list = list.filter((Ing) => Ing.name != productName);
     }
     props.addCnt(list);
-    // console.log("list", list);//선택되어 있는 유저제품 아이디들, 이름들이 담겨 있음
   };
 
   return (
