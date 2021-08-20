@@ -60,7 +60,7 @@ app.get('/get7days', async (req, res) => {
         for (let i=0; i<data[0].length; i++) {
             let jsonObj		= new Object();
             jsonObj.Img = data[0][i].Img
-            jsonObj.Dday = data[0][i].Dday-1;
+            jsonObj.Dday = data[0][i].Dday;
             jsonObj.Name = data[0][i].Name;
             jsonObj.Count = data[0][i].Count;
             jsonObj = JSON.stringify(jsonObj);
@@ -92,7 +92,7 @@ app.get('/getAllItem', async (req, res) => {
         for (let i=0; i<data[0].length; i++) {
             let jsonObj		= new Object();
             jsonObj.Img = data[0][i].Img
-            jsonObj.Dday = data[0][i].Dday-1;
+            jsonObj.Dday = data[0][i].Dday;
             jsonObj.Name = data[0][i].Name;
             jsonObj.Count = data[0][i].Count;
             
