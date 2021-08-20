@@ -5,7 +5,8 @@ const { pool } = require(`../../mysql`)
 
 
 app.get("/getEvents", async (req, res) =>{
-    const uID = 1
+    // const uID = 1
+    const uID = req.session.uid;
     const sql = `SELECT DISTINCT(productShelfLife)
     FROM refreci.UserProduct 
     WHERE uID = ?`
