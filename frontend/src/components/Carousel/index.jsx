@@ -20,7 +20,7 @@ const items = [
   {
     imgurl: "/images/image1.jpg",
   },
-  {
+  { 
     imgurl: "/images/image2.jpg",
   },
   {
