@@ -25,10 +25,10 @@ const LargeList = (props) => {
   const data = props.datas;
   return (
     <Box px={3} className={classes.root}>
-      <Grid container>
+      <Grid container spacing={2}>
         {data.map((dt, idx) => {
           return (
-            <Grid item key={idx} dt={dt} xs={4} lg={3} className={classes.MainGrid}>
+            <Grid item key={idx} dt={dt} xs={12} sm={6} md={4} lg={3} className={classes.MainGrid}>
               <LargeItem dt={dt} idx={idx} data={data} className={classes.media} />
             </Grid>
           );

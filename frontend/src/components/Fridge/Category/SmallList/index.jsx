@@ -46,9 +46,9 @@ const SmallList = (props) => {
   return (
     <div className={classes.root}>
       <Grid xs={12}>
-        <Grid container>
+        <Grid container spacing={2}>
           {datas.map((dt, idx) => (
-            <Grid item className={classes.MainGrid} key={idx} xs={12} sm={6} md={4} lg={3} spacing={2}>
+            <Grid item className={classes.MainGrid} key={idx} xs={12} sm={6} md={4} lg={3}>
               <Paper className={classes.grid}>
                 <IngItem
                   selectIng={props.selectIng}

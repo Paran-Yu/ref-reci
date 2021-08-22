@@ -2,6 +2,7 @@ import React from "react";
 import { ButtonBase, makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
+// Theme -------------------------------------
 const useStyles = makeStyles((theme) => ({
   meida: {
     width: '100%',
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%'
   }
 }));
+// -------------------------------------------
 
 const RegLargeItem = (props) => {
   const { dt, idx, data } = props;
