@@ -31,10 +31,10 @@ const RefLargeList = (props) => {
   };
   return (
     <div className={classes.root}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {data.map((dt, idx) => {
           return (
-            <Grid item key={idx} dt={dt} xs={12} sm={6} md={4} lg={3} className={classes.MainGrid}>
+            <Grid item key={idx} dt={dt} xs={4} className={classes.MainGrid}>
               <RefLargeItem dt={dt} idx={idx} data={data} setMain={setMain.bind()} />
             </Grid>
           );
