@@ -10,9 +10,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   grid: {
-    border: "1px solid #dfdfdf",
     textAlign: "center",
-    borderRadius: "15px",
     margin: "auto",
     height: "100%",
     width: "100%",
