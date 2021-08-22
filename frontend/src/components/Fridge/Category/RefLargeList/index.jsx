@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   MainGrid: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
 }));
 // -------------------------------------------

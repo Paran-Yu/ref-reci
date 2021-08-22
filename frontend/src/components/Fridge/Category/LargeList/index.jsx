@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   MainGrid: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
   media: {
     width: '100%',

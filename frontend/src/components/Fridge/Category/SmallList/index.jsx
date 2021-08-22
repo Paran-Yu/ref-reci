@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   list: {
     height: "120%",
   },
+  MainGrid: {
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 const SmallList = (props) => {
