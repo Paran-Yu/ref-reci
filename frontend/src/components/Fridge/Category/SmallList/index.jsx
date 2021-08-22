@@ -1,6 +1,6 @@
 import { react, useState } from "react";
 import { Grid, makeStyles, Paper } from "@material-ui/core";
-import IngItem from "../SmallItem";
+import SmallItem from "../SmallItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +53,7 @@ const SmallList = (props) => {
           {datas.map((dt, idx) => (
             <Grid item className={classes.MainGrid} key={idx} xs={12} sm={6} md={4} lg={3}>
               <Paper className={classes.grid}>
-                <IngItem
+                <SmallItem
                   selectIng={props.selectIng}
                   dt={dt}
                   cnt={props.cnt}

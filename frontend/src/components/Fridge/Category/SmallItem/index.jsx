@@ -10,7 +10,6 @@ import {
   Typography,
   CardMedia,
   CardContent,
-  TextField,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import Divider from "@material-ui/core/Divider";
@@ -111,7 +110,6 @@ const SmallItem = (props) => {
     props.showDt(dt.productName, dt.productClassification2);
   };
   const editShelfLife = dt.productShelfLife.slice(0, 10);
-  // const editShelfLife = dt.productShelfLife;
 
   async function onMinusClick() {
     const cnt = await postCount(`${server.ip}/foodlist/changeCount`, dt.productName, 1)
@@ -130,8 +128,6 @@ const SmallItem = (props) => {
   return (
     <div className={classes.btn}>
       <Card onClick={handleOpen} elevation={0}>
-        {/* <CardActionArea className={classes.card}>{dt.productName}</CardActionArea> */}
-
         <CardActionArea>
           <CardMedia className={classes.media} image={`${server.ip}/img?id=${dt.productImage}`} />
           <CardContent>
